@@ -8,41 +8,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        body { margin: 0; font-family: 'Lato', sans-serif; background-color: #fdfafb; color: #333; }
-        .container { max-width: 1000px; margin: 100px auto 40px auto; padding: 20px; }
-        h1 { font-family: 'Playfair Display', serif; text-align: center; color: #444; margin-bottom: 40px; }
+    body { margin: 0; font-family: 'Lato', sans-serif; background-color: #fdfafb; color: #333; }
+    .container { max-width: 1000px; margin: 100px auto 40px auto; padding: 20px; }
+    h1 { font-family: 'Playfair Display', serif; text-align: center; color: #444; margin-bottom: 40px; }
 
-        /* Editable Summary Cards */
-        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid #d63384; }
-        .stat-card h3 { font-size: 0.8rem; text-transform: uppercase; color: #999; margin-bottom: 10px; }
-        .stat-card input { border: none; font-size: 1.8rem; font-weight: bold; color: #d63384; text-align: center; width: 100%; font-family: 'Lato'; outline: none; background: transparent; }
+    /* Editable Summary Cards */
+    .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid #d63384; }
+    .stat-card h3 { font-size: 0.7rem; text-transform: uppercase; color: #999; margin-bottom: 10px; }
+    .stat-card input { border: none; font-size: 1.5rem; font-weight: bold; color: #d63384; text-align: center; width: 100%; font-family: 'Lato'; outline: none; background: transparent; }
 
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        .card h2 { font-family: 'Playfair Display'; color: #d63384; margin-top: 0; }
+    .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; }
+    .card h2 { font-family: 'Playfair Display'; color: #d63384; margin-top: 0; }
+    
+    /* Table Responsive Wrapper */
+    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; } /* Ensures table doesn't squash */
+    
+    th { text-align: left; padding: 15px; background: #fdfafb; color: #d63384; font-family: 'Playfair Display'; border-bottom: 2px solid #fceef5; }
+    td { padding: 12px; border-bottom: 1px solid #f5f5f5; }
+    
+    /* Inputs */
+    .editable-name { border: 1px solid transparent; padding: 5px; font-weight: bold; width: 100%; font-size: 0.9rem; }
+    .editable-name:focus { border-color: #d63384; outline: none; }
+    .amount-input { width: 70px; padding: 8px; border: 1px solid #eee; border-radius: 4px; text-align: right; font-size: 0.9rem; }
+
+    .total-row { background: #fdfafb; font-weight: bold; font-size: 1.1rem; color: #d63384; }
+
+    /* Switch UI */
+    .switch { position: relative; display: inline-block; width: 34px; height: 18px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 20px; }
+    input:checked + .slider { background-color: #d63384; }
+    .slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider:before { transform: translateX(16px); }
+
+    .btn-add { background: none; border: 1px dashed #d63384; color: #d63384; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: bold; }
+
+    /* --- MOBILE REFINEMENTS --- */
+    @media (max-width: 768px) {
+        .container { margin-top: 80px; padding: 10px; }
+        h1 { font-size: 1.5rem; margin-bottom: 20px; }
         
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 15px; background: #fdfafb; color: #d63384; font-family: 'Playfair Display'; border-bottom: 2px solid #fceef5; }
-        td { padding: 12px; border-bottom: 1px solid #f5f5f5; }
+        /* Stack the 3 summary cards into 1 column */
+        .summary-grid { grid-template-columns: 1fr; gap: 10px; }
+        .stat-card { padding: 15px; }
+
+        /* Stack the Economy charts and data */
+        .economy-flex { grid-template-columns: 1fr !important; gap: 20px !important; }
+        .charts-container { justify-content: center; }
         
-        /* Inputs */
-        .editable-name { border: 1px solid transparent; padding: 5px; font-weight: bold; width: 100%; }
-        .editable-name:focus { border-color: #d63384; outline: none; }
-        .amount-input { width: 90px; padding: 8px; border: 1px solid #eee; border-radius: 4px; text-align: right; }
-
-        .total-row { background: #fdfafb; font-weight: bold; font-size: 1.1rem; color: #d63384; }
-
-        /* Switch UI */
-        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 20px; }
-        input:checked + .slider { background-color: #d63384; }
-        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        .btn-add { background: none; border: 1px dashed #d63384; color: #d63384; padding: 10px; width: 100%; border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        .btn-add:hover { background: #fceef5; }
-    </style>
+        .card { padding: 20px 15px; }
+        .card h2 { font-size: 1.2rem; }
+    }
+</style>
 </head>
 <body>
 
@@ -75,6 +94,7 @@
 
         <div class="card">
             <h2>Dépenses du Foyer</h2>
+            <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
@@ -94,12 +114,14 @@
                         <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
                     </tr>
                 </tbody>
+                </div>
             </table>
             <button class="btn-add" onclick="addRow('spendingBody', true)">+ AJOUTER UNE CATÉGORIE</button>
         </div>
 
         <div class="card">
             <h2>Liste de Courses</h2>
+            <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
@@ -129,11 +151,13 @@
                         <td><span id="finalShopTotal">8</span> €</td>
                     </tr>
                 </tfoot>
+                </div>
             </table>
             <button class="btn-add" onclick="addRow('shoppingBody', false)">+ AJOUTER UN ARTICLE</button>
         </div>
         <div class="card">
             <h2>Dettes & Règlements</h2>
+            <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
@@ -153,12 +177,13 @@
                         </td>
                     </tr>
                 </tbody>
+                </div>
             </table>
             <button class="btn-add" onclick="addRow('debtsBody', false, true)">+ AJOUTER UN MOIS</button>
         </div>
         <div class="card">
             <h2>Économies & Objectifs</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+            <div class="economy-flex" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
                 <table>
                     <tr>
                         <td><strong>Revenu du Foyer</strong></td>
