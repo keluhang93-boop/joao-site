@@ -47,13 +47,35 @@
         .btn-add:hover { background: #fceef5; }
 
         /* Mobile Refinements */
-        @media (max-width: 768px) {
-            .container { margin-top: 80px; padding: 15px; }
-            .summary-grid { grid-template-columns: 1fr; gap: 10px; }
-            .economy-flex { grid-template-columns: 1fr !important; gap: 20px !important; }
-            .charts-wrapper { flex-direction: column; align-items: center; }
-            .card { padding: 20px; }
-        }
+/* --- MOBILE REFINEMENTS --- */
+@media (max-width: 768px) {
+    .container { margin-top: 80px; padding: 15px; }
+    .summary-grid { grid-template-columns: 1fr; gap: 10px; }
+    
+    /* This part ensures the data table and charts stack and center */
+    .economy-flex { 
+        display: flex !important; 
+        flex-direction: column !important; 
+        gap: 30px !important; 
+        align-items: center; /* Centers the table and charts globally */
+    }
+
+    .charts-wrapper { 
+        display: flex !important;
+        flex-direction: row; /* Keep charts side-by-side on mobile if they fit */
+        justify-content: center; /* This keeps them centered */
+        width: 100%;
+        gap: 10px;
+    }
+
+    /* Prevents the charts from being too large or too small */
+    .charts-wrapper > div {
+        flex: 1;
+        max-width: 140px; 
+    }
+
+    .card { padding: 20px; }
+}
     </style>
 </head>
 <body>
