@@ -73,8 +73,20 @@
         flex: 1;
         max-width: 140px; 
     }
-
     .card { padding: 20px; }
+    .economy-flex table {
+        min-width: 100% !important; /* Forces it to fit the screen */
+        width: 100% !important;
+    }
+
+    .economy-flex td {
+        padding: 10px 5px; /* Tighter padding for mobile */
+        font-size: 0.85rem; /* Slightly smaller text to ensure it fits */
+    }
+
+    .economy-flex .amount-input {
+        width: 60px !important; /* Smaller inputs so they don't push text out */
+    }
 }
     </style>
 </head>
