@@ -43,5 +43,5 @@ nav {
 .nav-link:hover, 
 .nav-link.active {
     color: #d63384 !important; 
-    border-bottom: 2px solid #d63384;
+    border-bottom: 2px solid #f2c1da;
 }
