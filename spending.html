@@ -131,9 +131,32 @@
             </table>
             <button class="btn-add" onclick="addRow('shoppingBody', false)">+ AJOUTER UN ARTICLE</button>
         </div>
-
+        <div class="card">
+            <h2>Dettes & Règlements</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mois</th>
+                        <th>Jean doit Monique (€)</th>
+                        <th>Monique doit Jean (€)</th>
+                        <th>Règlement</th>
+                    </tr>
+                </thead>
+                <tbody id="debtsBody">
+                    <tr>
+                        <td><input type="text" class="editable-name" value="Janvier"></td>
+                        <td><input type="number" class="amount-input" value="0"></td>
+                        <td><input type="number" class="amount-input" value="20"></td>
+                        <td style="text-align: center;">
+                            <input type="checkbox" style="transform: scale(1.5); accent-color: #d63384;">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn-add" onclick="addRow('debtsBody', false, true)">+ AJOUTER UN MOIS</button>
+        </div>
     <script>
-        // Function to calculate Household totals (Jean + Monique)
+// Existing Function for Household totals
         function calcTotal(input) {
             const row = input.closest('tr');
             const amounts = row.querySelectorAll('.amount-input');
@@ -143,43 +166,51 @@
             totalCell.innerText = sum;
         }
 
-        // Function to calculate Shopping List (Qty * Price)
-       function calcShopping() {
-        let grandTotal = 0;
-        document.querySelectorAll('#shoppingBody tr').forEach(row => {
-            const qtyRaw = row.querySelectorAll('.amount-input')[0].value;
-            const price = parseFloat(row.querySelectorAll('.amount-input')[1].value || 0);
-            
-            // This 'match' finds the first number in the text (e.g., "1.5kg" -> 1.5)
-            const qtyNum = parseFloat(qtyRaw.match(/(\d+(?:\.\d+)?)/) || [0])[0];
-            
-            const rowTotal = qtyNum * price;
-            row.querySelector('.shop-total').innerText = rowTotal.toFixed(2);
-            grandTotal += rowTotal;
-        });
-        document.getElementById('finalShopTotal').innerText = grandTotal.toFixed(2);
-    }
-
-    function addRow(tableId, isSpending) {
-        const table = document.getElementById(tableId);
-        const newRow = table.insertRow();
-        if(isSpending) {
-            newRow.innerHTML = `
-                <td><input type="text" class="editable-name" placeholder="Nouvelle Dépense"></td>
-                <td><input type="number" class="amount-input" value="0" oninput="calcTotal(this)"></td>
-                <td><input type="number" class="amount-input" value="0" oninput="calcTotal(this)"></td>
-                <td><span class="row-total">0</span> €</td>
-                <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
-            `;
-        } else {
-            newRow.innerHTML = `
-                <td><input type="text" class="editable-name" placeholder="Nouvel Article"></td>
-                <td><input type="text" class="amount-input" value="1" oninput="calcShopping()"></td>
-                <td><input type="number" class="amount-input" value="0" oninput="calcShopping()"></td>
-                <td><span class="shop-total">0</span> €</td>
-            `;
+        // Existing Function for Shopping List
+        function calcShopping() {
+            let grandTotal = 0;
+            document.querySelectorAll('#shoppingBody tr').forEach(row => {
+                const qtyRaw = row.querySelectorAll('.amount-input')[0].value;
+                const price = parseFloat(row.querySelectorAll('.amount-input')[1].value || 0);
+                const qtyMatch = qtyRaw.match(/(\d+(?:\.\d+)?)/);
+                const qtyNum = qtyMatch ? parseFloat(qtyMatch[0]) : 0;
+                
+                const rowTotal = qtyNum * price;
+                row.querySelector('.shop-total').innerText = rowTotal.toFixed(2);
+                grandTotal += rowTotal;
+            });
+            document.getElementById('finalShopTotal').innerText = grandTotal.toFixed(2);
         }
-    }
+
+        // Updated addRow function to handle all three tables
+        function addRow(tableId, isSpending, isDebt = false) {
+            const table = document.getElementById(tableId);
+            const newRow = table.insertRow();
+            
+            if(isSpending) {
+                newRow.innerHTML = `
+                    <td><input type="text" class="editable-name" placeholder="Nouvelle Dépense"></td>
+                    <td><input type="number" class="amount-input" value="0" oninput="calcTotal(this)"></td>
+                    <td><input type="number" class="amount-input" value="0" oninput="calcTotal(this)"></td>
+                    <td><span class="row-total">0</span> €</td>
+                    <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
+                `;
+            } else if(isDebt) {
+                newRow.innerHTML = `
+                    <td><input type="text" class="editable-name" placeholder="Nouveau Mois"></td>
+                    <td><input type="number" class="amount-input" value="0"></td>
+                    <td><input type="number" class="amount-input" value="0"></td>
+                    <td style="text-align: center;"><input type="checkbox" style="transform: scale(1.5); accent-color: #d63384;"></td>
+                `;
+            } else {
+                newRow.innerHTML = `
+                    <td><input type="text" class="editable-name" placeholder="Nouvel Article"></td>
+                    <td><input type="text" class="amount-input" value="1" oninput="calcShopping()"></td>
+                    <td><input type="number" class="amount-input" value="0" oninput="calcShopping()"></td>
+                    <td><span class="shop-total">0</span> €</td>
+                `;
+            }
+        }
     </script>
 </body>
 </html>
