@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Spending | Gestion de Couple</title>
@@ -155,61 +156,104 @@
             </table>
             <button class="btn-add" onclick="addRow('debtsBody', false, true)">+ AJOUTER UN MOIS</button>
         </div>
+        <div class="card">
+            <h2>Économies & Objectifs</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <table>
+                    <tr>
+                        <td><strong>Revenu du Foyer</strong></td>
+                        <td><input type="number" id="revenuFoyer" class="amount-input" value="2000" oninput="updateDashboard()"> €</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Budget Mensuel Ciblé</strong></td>
+                        <td><input type="number" id="budgetCible" class="amount-input" value="1500" oninput="updateDashboard()"> €</td>
+                    </tr>
+                    <tr>
+                        <td>Dépenses Mensuelles</td>
+                        <td><span id="totalDepensesDisplay">0.00</span> € <small>(Auto)</small></td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Économie Réalisée</td>
+                        <td><span id="economieDisplay">0.00</span> €</td>
+                    </tr>
+                </table>
+
+                <div style="display: flex; gap: 20px;">
+                    <div style="width: 150px; text-align: center;">
+                        <canvas id="chartRevenu"></canvas>
+                        <p style="font-size: 0.8rem; margin-top: 10px;">Revenu vs Dépenses</p>
+                    </div>
+                    <div style="width: 150px; text-align: center;">
+                        <canvas id="chartBudget"></canvas>
+                        <p style="font-size: 0.8rem; margin-top: 10px;">Budget vs Dépenses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     <script>
-// Existing Function for Household totals
+let chart1, chart2;
+
+        function updateDashboard() {
+            // 1. Calculate Total from "Dépenses du Foyer" table
+            let totalDepenses = 0;
+            document.querySelectorAll('#spendingBody .row-total').forEach(span => {
+                totalDepenses += parseFloat(span.innerText || 0);
+            });
+            document.getElementById('totalDepensesDisplay').innerText = totalDepenses.toFixed(2);
+
+            // 2. Calculate Savings
+            const revenu = parseFloat(document.getElementById('revenuFoyer').value || 0);
+            const budget = parseFloat(document.getElementById('budgetCible').value || 0);
+            const economie = revenu - totalDepenses;
+            document.getElementById('economieDisplay').innerText = economie.toFixed(2);
+
+            // 3. Update Charts
+            updateCharts(revenu, budget, totalDepenses);
+        }
+
+        function updateCharts(revenu, budget, depenses) {
+            const ctx1 = document.getElementById('chartRevenu').getContext('2d');
+            const ctx2 = document.getElementById('chartBudget').getContext('2d');
+
+            if (chart1) chart1.destroy();
+            if (chart2) chart2.destroy();
+
+            const commonOptions = { 
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, display: false }, x: { grid: { display: false } } }
+            };
+
+            chart1 = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenu', 'Dépenses'],
+                    datasets: [{ data: [revenu, depenses], backgroundColor: ['#007bff', '#dc3545'] }]
+                },
+                options: commonOptions
+            });
+
+            chart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Budget', 'Dépenses'],
+                    datasets: [{ data: [budget, depenses], backgroundColor: ['#28a745', '#dc3545'] }]
+                },
+                options: commonOptions
+            });
+        }
+
+        // Call update on page load
+        window.onload = updateDashboard;
+
+        // Modify your existing calcTotal to trigger dashboard update
         function calcTotal(input) {
             const row = input.closest('tr');
             const amounts = row.querySelectorAll('.amount-input');
             const totalCell = row.querySelector('.row-total');
             let sum = 0;
             amounts.forEach(a => sum += parseFloat(a.value || 0));
-            totalCell.innerText = sum;
-        }
-
-        // Existing Function for Shopping List
-        function calcShopping() {
-            let grandTotal = 0;
-            document.querySelectorAll('#shoppingBody tr').forEach(row => {
-                const qtyRaw = row.querySelectorAll('.amount-input')[0].value;
-                const price = parseFloat(row.querySelectorAll('.amount-input')[1].value || 0);
-                const qtyMatch = qtyRaw.match(/(\d+(?:\.\d+)?)/);
-                const qtyNum = qtyMatch ? parseFloat(qtyMatch[0]) : 0;
-                
-                const rowTotal = qtyNum * price;
-                row.querySelector('.shop-total').innerText = rowTotal.toFixed(2);
-                grandTotal += rowTotal;
-            });
-            document.getElementById('finalShopTotal').innerText = grandTotal.toFixed(2);
-        }
-
-        // Updated addRow function to handle all three tables
-        function addRow(tableId, isSpending, isDebt = false) {
-            const table = document.getElementById(tableId);
-            const newRow = table.insertRow();
-            
-            if(isSpending) {
-                newRow.innerHTML = `
-                    <td><input type="text" class="editable-name" placeholder="Nouvelle Dépense"></td>
-                    <td><input type="number" class="amount-input" value="0" oninput="calcTotal(this)"></td>
-                    <td><input type="number" class="amount-input" value="0" oninput="calcTotal(this)"></td>
-                    <td><span class="row-total">0</span> €</td>
-                    <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
-                `;
-            } else if(isDebt) {
-                newRow.innerHTML = `
-                    <td><input type="text" class="editable-name" placeholder="Nouveau Mois"></td>
-                    <td><input type="number" class="amount-input" value="0"></td>
-                    <td><input type="number" class="amount-input" value="0"></td>
-                    <td style="text-align: center;"><input type="checkbox" style="transform: scale(1.5); accent-color: #d63384;"></td>
-                `;
-            } else {
-                newRow.innerHTML = `
-                    <td><input type="text" class="editable-name" placeholder="Nouvel Article"></td>
-                    <td><input type="text" class="amount-input" value="1" oninput="calcShopping()"></td>
-                    <td><input type="number" class="amount-input" value="0" oninput="calcShopping()"></td>
-                    <td><span class="shop-total">0</span> €</td>
-                `;
-            }
+            totalCell.innerText = sum.toFixed(2);
+            updateDashboard(); // Trigger update
         }
     </script>
 </body>
