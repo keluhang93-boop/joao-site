@@ -92,69 +92,53 @@
             </div>
         </div>
 
-        <div class="card">
-            <h2>Dépenses du Foyer</h2>
-            <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Catégorie</th>
-                        <th>Jean (€)</th>
-                        <th>Monique (€)</th>
-                        <th>Total</th>
-                        <th>Récurrent</th>
-                    </tr>
-                </thead>
-                <tbody id="spendingBody">
-                    <tr>
-                        <td><input type="text" class="editable-name" value="🏠 Loyer"></td>
-                        <td><input type="number" class="amount-input" value="450" oninput="calcTotal(this)"></td>
-                        <td><input type="number" class="amount-input" value="450" oninput="calcTotal(this)"></td>
-                        <td><span class="row-total">900</span> €</td>
-                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
-                    </tr>
-                </tbody>
-                </div>
-            </table>
-            <button class="btn-add" onclick="addRow('spendingBody', true)">+ AJOUTER UNE CATÉGORIE</button>
-        </div>
+       <div class="card">
+    <h2>Dépenses du Foyer</h2>
+    <div class="table-responsive"> <table>
+            <thead>
+                <tr>
+                    <th>Catégorie</th>
+                    <th>Jean (€)</th>
+                    <th>Monique (€)</th>
+                    <th>Total</th>
+                    <th>Récurrent</th>
+                </tr>
+            </thead>
+            <tbody id="spendingBody">
+                <tr>
+                    <td><input type="text" class="editable-name" value="🏠 Loyer"></td>
+                    <td><input type="number" class="amount-input" value="450" oninput="calcTotal(this)"></td>
+                    <td><input type="number" class="amount-input" value="450" oninput="calcTotal(this)"></td>
+                    <td><span class="row-total">900</span> €</td>
+                    <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                </tr>
+            </tbody>
+        </table>
+    </div> <button class="btn-add" onclick="addRow('spendingBody', true)">+ AJOUTER UNE CATÉGORIE</button>
+</div>
 
-        <div class="card">
-            <h2>Liste de Courses</h2>
-            <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Article</th>
-                        <th>Quantité (ex: 1kg, 2L)</th>
-                        <th>Prix Unitaire (€)</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody id="shoppingBody">
-                    <tr>
-                        <td><input type="text" class="editable-name" value="Riz"></td>
-                        <td><input type="text" class="amount-input" value="1kg" oninput="calcShopping()"></td>
-                        <td><input type="number" class="amount-input" value="3" oninput="calcShopping()"></td>
-                        <td><span class="shop-total">3</span> €</td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" class="editable-name" value="Coca-Cola"></td>
-                        <td><input type="text" class="amount-input" value="2L" oninput="calcShopping()"></td>
-                        <td><input type="number" class="amount-input" value="2.5" oninput="calcShopping()"></td>
-                        <td><span class="shop-total">5</span> €</td>
-                    </tr>
+<div class="card">
+    <h2>Liste de Courses</h2>
+    <div class="table-responsive"> <table>
+            <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Quantité</th>
+                    <th>Prix Unitaire (€)</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="shoppingBody">
                 </tbody>
-                <tfoot>
-                    <tr class="total-row">
-                        <td colspan="3" style="text-align: right; padding-right: 20px;">TOTAL LISTE :</td>
-                        <td><span id="finalShopTotal">8</span> €</td>
-                    </tr>
-                </tfoot>
-                </div>
-            </table>
-            <button class="btn-add" onclick="addRow('shoppingBody', false)">+ AJOUTER UN ARTICLE</button>
-        </div>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="3" style="text-align: right; padding-right: 20px;">TOTAL LISTE :</td>
+                    <td><span id="finalShopTotal">8</span> €</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div> <button class="btn-add" onclick="addRow('shoppingBody', false)">+ AJOUTER UN ARTICLE</button>
+</div>
         <div class="card">
             <h2>Dettes & Règlements</h2>
             <div class="table-responsive">
@@ -177,8 +161,8 @@
                         </td>
                     </tr>
                 </tbody>
-                </div>
             </table>
+            </div>
             <button class="btn-add" onclick="addRow('debtsBody', false, true)">+ AJOUTER UN MOIS</button>
         </div>
         <div class="card">
