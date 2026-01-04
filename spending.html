@@ -3,92 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Spending | Gestion de Budget</title>
+    <title>Smart Spending | Gestion de Couple</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
         body { margin: 0; font-family: 'Lato', sans-serif; background-color: #fdfafb; color: #333; }
-        header { padding: 20px 50px; background: white; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: bold; color: #d63384; text-decoration: none; }
-        .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+        .container { max-width: 1000px; margin: 100px auto 40px auto; padding: 20px; }
         h1 { font-family: 'Playfair Display', serif; text-align: center; color: #444; margin-bottom: 40px; }
+
+        /* Summary Cards */
+        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid #d63384; }
+        .stat-card h3 { font-size: 0.8rem; text-transform: uppercase; color: #999; margin: 0; }
+        .stat-card .value { font-size: 1.8rem; font-weight: bold; color: #d63384; margin-top: 10px; }
+
+        /* Main Table Style */
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; background: #fdfafb; color: #d63384; font-family: 'Playfair Display'; font-size: 1.1rem; border-bottom: 2px solid #fceef5; }
+        td { padding: 15px; border-bottom: 1px solid #f5f5f5; }
         
-        /* Grid Layout from your drawing */
-        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .cat-name { font-weight: bold; color: #444; display: flex; align-items: center; gap: 10px; }
+        .amount-input { width: 80px; padding: 5px; border: 1px solid #eee; border-radius: 4px; text-align: right; font-family: 'Lato'; }
         
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .card h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #d63384; margin-top: 0; border-bottom: 2px solid #fceef5; padding-bottom: 10px; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { text-align: left; font-size: 0.8rem; text-transform: uppercase; color: #999; padding-bottom: 10px; }
-        td { padding: 12px 0; border-bottom: 1px solid #f5f5f5; }
-        
-        .status-pill { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
-        .paid { background: #e6f9f0; color: #1e7e51; }
-        .pending { background: #fff5e6; color: #b37400; }
-        
-        .total-box { grid-column: span 2; background: #d63384; color: white; text-align: center; padding: 30px; border-radius: 12px; margin-top: 20px; }
-        .total-box h2 { color: white; border: none; margin: 0; }
-        .price { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
+        /* Toggle Switch (Récurrent) */
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 20px; }
+        input:checked + .slider { background-color: #d63384; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        .btn-add { background: none; border: 1px dashed #d63384; color: #d63384; padding: 10px; width: 100%; border-radius: 8px; margin-top: 20px; cursor: pointer; font-weight: bold; }
+        .btn-add:hover { background: #fceef5; }
     </style>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <a href="#" class="logo">Smart Couple</a>
+        <a href="index.html" class="logo">Smart Couple</a>
         <nav>
             <a href="index.html" class="nav-link">Accueil</a>
-            <a href="spending.html" class="nav-link">Smart Spending</a>
+            <a href="spending.html" class="nav-link active">Smart Spending</a>
             <a href="planning.html" class="nav-link">Smart Planning</a>
         </nav>
     </header>
 
     <div class="container">
-        <h1>Dépenses Intelligentes</h1>
+        <h1>Dépenses du Foyer</h1>
 
-        <div class="grid-container">
-            <div class="card">
-                <h2>Dépenses (Mariage)</h2>
-                <table>
-                    <tr><th>Article</th><th>Montant</th><th>Statut</th></tr>
-                    <tr><td>Acompte Château</td><td>2.500 €</td><td><span class="status-pill paid">Payé</span></td></tr>
-                    <tr><td>Photographe</td><td>1.200 €</td><td><span class="status-pill pending">Attente</span></td></tr>
-                    <tr><td>Fleurs</td><td>450 €</td><td><span class="status-pill paid">Payé</span></td></tr>
-                </table>
+        <div class="summary-grid">
+            <div class="stat-card">
+                <h3>Budget Ciblé</h3>
+                <div class="value">2.500 €</div>
             </div>
+            <div class="stat-card">
+                <h3>Partenaire 1 (Jean)</h3>
+                <div class="value">1.250 €</div>
+            </div>
+            <div class="stat-card">
+                <h3>Partenaire 2 (Monique)</h3>
+                <div class="value">1.250 €</div>
+            </div>
+        </div>
 
-            <div class="card">
-                <h2>Liste de Courses</h2>
-                <table>
-                    <tr><th>Produit</th><th>Quantité</th></tr>
-                    <tr><td>Champagne (Caisse)</td><td>12</td></tr>
-                    <tr><td>Macarons</td><td>100</td></tr>
-                    <tr><td>Décoration Table</td><td>24</td></tr>
-                </table>
-            </div>
-
-            <div class="card">
-                <h2>Dettes & Équilibre</h2>
-                <p style="font-size: 0.9rem; color: #666;">Répartition entre les partenaires :</p>
-                <div style="background: #f9f9f9; height: 20px; border-radius: 10px; margin: 20px 0;">
-                    <div style="background: #d63384; width: 60%; height: 100%; border-radius: 10px 0 0 10px;"></div>
-                </div>
-                <p style="font-size: 0.8rem;">Lui: 60% | Elle: 40%</p>
-            </div>
-
-            <div class="card">
-                <h2>Analyse Mensuelle</h2>
-                <p>Votre budget est <strong>15% inférieur</strong> aux prévisions initiales. Bravo !</p>
-                <button style="background: none; border: 1px solid #d63384; color: #d63384; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Voir le rapport complet</button>
-            </div>
-
-            <div class="total-box">
-                <h2>Budget Total Utilisé</h2>
-                <div class="price">4.150 €</div>
-                <p>Restant sur l'objectif : 15.850 €</p>
-            </div>
+        <div class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Catégorie</th>
+                        <th>Jean (€)</th>
+                        <th>Monique (€)</th>
+                        <th>Total</th>
+                        <th>Récurrent</th>
+                    </tr>
+                </thead>
+                <tbody id="spendingBody">
+                    <tr>
+                        <td class="cat-name">🏠 Loyer</td>
+                        <td><input type="number" class="amount-input" value="450"></td>
+                        <td><input type="number" class="amount-input" value="450"></td>
+                        <td><strong>900 €</strong></td>
+                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td class="cat-name">⚡ Électricité / Gaz</td>
+                        <td><input type="number" class="amount-input" value="60"></td>
+                        <td><input type="number" class="amount-input" value="60"></td>
+                        <td><strong>120 €</strong></td>
+                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td class="cat-name">🌐 Internet & Mobile</td>
+                        <td><input type="number" class="amount-input" value="25"></td>
+                        <td><input type="number" class="amount-input" value="25"></td>
+                        <td><strong>50 €</strong></td>
+                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td class="cat-name">🛒 Courses / Alimentation</td>
+                        <td><input type="number" class="amount-input" value="200"></td>
+                        <td><input type="number" class="amount-input" value="200"></td>
+                        <td><strong>400 €</strong></td>
+                        <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn-add" onclick="addRow()">+ AJOUTER UNE CATÉGORIE</button>
         </div>
     </div>
 
+    <script>
+        function addRow() {
+            const table = document.getElementById('spendingBody');
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td class="cat-name">✨ Nouvelle Dépense</td>
+                <td><input type="number" class="amount-input" value="0"></td>
+                <td><input type="number" class="amount-input" value="0"></td>
+                <td><strong>0 €</strong></td>
+                <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
+            `;
+        }
+    </script>
 </body>
 </html>
