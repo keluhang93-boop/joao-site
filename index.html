@@ -1,14 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>João's Page</title>
-  </head>
-  <body>
-    <h1>Hello World 👋</h1>
-    <p>This is João's page.</p>
-    <p>Testing</p>
-    <p>This website is a simple prototype hosted on Cloudflare Pages.</p>
-  </body>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Couple | Mariages de Rêve</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Lato', sans-serif; color: #333; line-height: 1.6; }
+        header { padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; position: absolute; width: 100%; box-sizing: border-box; z-index: 10; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
+        
+        .hero { 
+            height: 80vh; 
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=2070') no-repeat center center/cover;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white;
+        }
+        
+        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 10px; }
+        .hero-content p { font-size: 1.2rem; font-style: italic; opacity: 0.9; }
 
+        .btn { 
+            display: inline-block; padding: 15px 35px; background: #d63384; color: white; 
+            text-decoration: none; border-radius: 5px; margin-top: 25px; transition: 0.3s; 
+        }
+        .btn:hover { background: #b0266a; transform: translateY(-2px); }
+
+        .sections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 80px 50px; text-align: center; }
+        .card h3 { font-family: 'Playfair Display', serif; color: #d63384; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Smart Couple</a>
+        <nav>
+            <a href="spending.html" style="color: white; text-decoration: none; font-weight: bold;">Smart Spending</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Votre Mariage de Rêve, Simplifié</h1>
+            <p>Découvrez le lieu parfait pour votre union en France</p>
+            <a href="#contact" class="btn">Commencer l'aventure</a>
+        </div>
+    </div>
+
+    <div class="sections">
+        <div class="card">
+            <h3>Destinations</h3>
+            <p>Découvrez le lieu parfait pour votre union dans les plus beaux châteaux.</p>
+        </div>
+        <div class="card">
+            <h3>Amour Éternel</h3>
+            <p>Planifiez votre journée spéciale avec élégance et sérénité.</p>
+        </div>
+        <div class="card">
+            <h3>Notre Histoire</h3>
+            <p>Créez des souvenirs précieux qui dureront toute une vie.</p>
+        </div>
+    </div>
+
+</body>
 </html>
