@@ -44,5 +44,4 @@ nav {
 .nav-link.active {
     color: #d63384 !important; 
     border-bottom: 2px solid #d63384;
-    font-colour: #ffffff;
 }
