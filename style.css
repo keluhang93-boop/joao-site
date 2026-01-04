@@ -42,6 +42,6 @@ nav {
 /* Hover and Active states - turns Pink */
 .nav-link:hover, 
 .nav-link.active {
-    color: #d63384 !important; 
+    color: #f2c1da !important; 
     border-bottom: 2px solid #f2c1da;
 }
