@@ -25,4 +25,45 @@
         .task-item:last-child { border-bottom: none; }
         .checkbox { width: 20px; height: 20px; border: 2px solid #d63384; border-radius: 4px; margin-right: 15px; cursor: pointer; }
         .checked { background: #d63384; position: relative; }
-        .checked::after { content: '✓'; color: white; position
+        .checked::after { content: '✓'; color: white; position: absolute; left: 3px; top: -2px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">Smart Couple</a>
+        <nav><a href="index.html" style="color: #666; text-decoration: none;">Retour</a></nav>
+    </header>
+
+    <div class="container">
+        <h1>Calendrier Partagé</h1>
+
+        <div class="timeline">
+            <div class="event">
+                <div class="date">15 Janvier 2026</div>
+                <h3>Dégustation du Menu</h3>
+                <p>Rendez-vous au Château pour choisir les plats et les vins.</p>
+            </div>
+            <div class="event">
+                <div class="date">02 Février 2026</div>
+                <h3>Séance Photo Engagement</h3>
+                <p>Lieu : Jardins de Versailles à 14h00.</p>
+            </div>
+            <div class="event">
+                <div class="date">20 Mars 2026</div>
+                <h3>Envoi des Faire-part</h3>
+                <p>Vérifier la liste finale des adresses avant l'envoi.</p>
+            </div>
+        </div>
+
+        <div class="task-list">
+            <h2 style="font-family: 'Playfair Display', serif; margin-top: 0;">Liste de Tâches</h2>
+            <div class="task-item"><div class="checkbox checked"></div> <span>Réserver le DJ et le groupe de musique</span></div>
+            <div class="task-item"><div class="checkbox"></div> <span>Choisir les fleurs pour la cérémonie</span></div>
+            <div class="task-item"><div class="checkbox"></div> <span>Confirmer le nombre final d'invités</span></div>
+            <div class="task-item"><div class="checkbox"></div> <span>Acheter les alliances</span></div>
+        </div>
+    </div>
+
+</body>
+</html>
