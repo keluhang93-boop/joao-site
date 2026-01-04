@@ -1,7 +1,7 @@
-/* --- DARK HEADER & NAVIGATION --- */
+/* --- FIXED DARK HEADER --- */
 header {
-    background: #2c2c2c; /* Solid Dark Gray/Charcoal */
-    padding: 12px 5%;
+    background: #2c2c2c !important; /* Forces the solid dark gray */
+    padding: 15px 5%;
     position: fixed;
     top: 0;
     left: 0;
@@ -10,79 +10,54 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .logo {
     font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: bold;
-    color: #ffffff; /* White logo */
+    color: #ffffff !important; 
     text-decoration: none;
-    letter-spacing: 1px;
 }
 
 nav {
     display: flex;
-    gap: 20px;
+    gap: 25px;
 }
 
+/* 1. This controls how the text looks NORMALLY (Always visible) */
 .nav-link {
     text-decoration: none;
-    color: #bbbbbb; /* Light gray links */
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: 0.3s;
+    color: rgba(255, 255, 255, 0.8) !important; /* Slightly faded white so it's visible but not piercing */
+    font-size: 0.9rem;
+    font-weight: 600;
     text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent; /* Keeps things stable when the pink line appears */
 }
 
-.nav-link:hover, .nav-link.active {
-    color: #ffffff; /* Bright white on hover/active */
-}
-
+/* 2. This controls the PINK highlight when you HOVER or stay on the page */
+.nav-link:hover, 
 .nav-link.active {
-    border-bottom: 2px solid #d63384; /* Keep the pink accent for the active page */
-    padding-bottom: 5px;
+    color: #d63384 !important; /* Changes text to Pink */
+    border-bottom: 2px solid #d63384; /* Adds the pink underline */
 }
 
-/* --- MOBILE HEADER ADJUSTMENTS --- */
+/* --- MOBILE VERSION --- */
 @media (max-width: 768px) {
     header {
-        flex-direction: column; 
+        flex-direction: column;
         padding: 15px 10px;
-        gap: 12px;
+        background: #2c2c2c !important;
     }
-
     nav {
         width: 100%;
-        justify-content: space-evenly;
+        justify-content: space-around;
+        margin-top: 10px;
     }
-
     .container {
-        margin-top: 140px; /* Space for the stacked dark header */
+        margin-top: 150px; /* Adjusts so content doesn't hide under the menu */
     }
 }
-
-/* Sidebar / menu background */
-.sidebar {
-  background-color: rgba(0, 0, 0, 0.1); /* transparent gray */
-}
-
-/* Menu links */
-.sidebar a {
-  color: #ffffff;
-  text-decoration: none;
-  display: block;
-  padding: 10px 16px;
-}
-
-/* Hover effect */
-.sidebar a:hover {
-  background-color: rgba(0, 0, 0, 0.25);
-}
-
-/* Active page (optional but recommended) */
-.sidebar a.active {
-  background-color: rgba(0, 0, 0, 0.35);
-}
-
