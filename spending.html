@@ -88,6 +88,44 @@
         width: 60px !important; /* Smaller inputs so they don't push text out */
     }
 }
+        /* --- FORCED NAVIGATION STYLES --- */
+.main-header {
+    background: #ffffff !important;
+    display: flex !important;
+    position: fixed !important;
+    top: 0; left: 0; right: 0;
+    padding: 15px 5%;
+    z-index: 10000;
+    border-bottom: 2px solid #eee;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Base state: Black letters */
+.main-header .nav-link, 
+.main-header .logo {
+    color: #000000 !important; 
+    text-decoration: none !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    transition: all 0.3s ease !important;
+}
+
+/* Hover state: White letters on Pink background */
+/* OR you can just do color: #ffffff !important; if you want them white on the white bar */
+.main-header .nav-link:hover {
+    color: #ffffff !important; 
+    background-color: #d63384; /* Adding a pink background so white text is visible */
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+/* Active state: Always Pink */
+.main-header .nav-link.active {
+    color: #d63384 !important;
+    border-bottom: 2px solid #d63384;
+}
     </style>
 </head>
 <body>
