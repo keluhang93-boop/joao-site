@@ -36,3 +36,23 @@ header:hover .nav-link:hover {
 .home-page .nav-link {
     color: white;
 }
+
+/* Update this specific part in your <style> */
+@media (max-width: 768px) {
+    .economy-flex { 
+        display: flex !important; 
+        flex-direction: column !important; 
+        gap: 30px !important; 
+    }
+    
+    .charts-container { 
+        display: flex; 
+        flex-wrap: wrap; 
+        justify-content: center; 
+        gap: 15px; 
+    }
+
+    .amount-input {
+        width: 60px; /* Slightly smaller inputs for mobile fingers */
+    }
+}
