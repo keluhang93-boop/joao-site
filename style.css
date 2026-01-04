@@ -1,40 +1,68 @@
-/* THE MENU BUTTONS */
-nav { 
-    display: flex; 
-    gap: 10px; 
+/* --- HEADER & NAVIGATION --- */
+header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px); /* Modern frosted glass effect */
+    padding: 15px 5%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-/* This makes the navigation uniform across all pages */
-.nav-link {
-    color: white;
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #d63384;
     text-decoration: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Adds the rectangle to all */
-    transition: all 0.3s ease;
 }
 
-/* Specific Button Hover Effect */
-.nav-link:hover {
-    background-color: #d63384 !important; /* The pink background for THAT button */
-    color: #ffffff !important;           /* Forces text to stay white */
-    transform: translateY(-2px);         /* Optional: slight lift effect */
-    box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3); /* Adds a soft pink glow */
+nav {
+    display: flex;
+    gap: 20px;
 }
 
-/* Ensure links are visible when the header turns white on hover */
-header:hover .nav-link {
-    color: #444; 
+.nav-link {
+    text-decoration: none;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: 0.3s;
 }
 
-/* Keep the hovered button pink even when the header is white */
-header:hover .nav-link:hover {
-    color: #fff;
+.nav-link.active {
+    color: #d63384;
+    border-bottom: 2px solid #d63384;
 }
 
-/* If the link is on the dark Home Page, we make the text white */
-.home-page .nav-link {
-    color: white;
+/* --- MOBILE NAVIGATION UPDATES --- */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column; /* Stacks logo and menu */
+        padding: 10px;
+        gap: 10px;
+    }
+
+    nav {
+        width: 100%;
+        justify-content: space-around; /* Distributes links evenly */
+        background: #fff;
+        padding-top: 5px;
+    }
+
+    .nav-link {
+        font-size: 0.8rem; /* Smaller text for mobile */
+        padding: 5px 0;
+    }
+
+    .container {
+        margin-top: 130px; /* More space so header doesn't hide content */
+    }
 }
 
 /* Update this specific part in your <style> */
