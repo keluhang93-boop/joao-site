@@ -6,13 +6,12 @@ nav {
 
 /* This makes the navigation uniform across all pages */
 .nav-link {
-    color: #444; /* Dark grey text for white backgrounds */
+    color: white;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 10px 18px;
     border-radius: 6px;
-    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Adds the rectangle to all */
     transition: all 0.3s ease;
-    display: inline-block;
 }
 
 /* Specific Button Hover Effect */
