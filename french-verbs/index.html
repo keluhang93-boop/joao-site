@@ -3,135 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>French Verbs | Smart Couple</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css"> <style>
+    <title>FR French Verbs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Standalone Style - No connection to main site */
         body { 
             margin: 0; 
             font-family: 'Lato', sans-serif; 
-            background: #00d2ff; 
-            background: linear-gradient(to right, #3a7bd5, #00d2ff); 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Restoration of the Fixed Dark Header */
-        header {
-            background: #2c2c2c !important;
-            padding: 15px 5%;
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        header .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: #ffffff !important;
-            text-decoration: none;
-        }
-
-        header nav a {
-            color: #bbbbbb !important;
-            text-decoration: none;
-            margin-left: 20px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        header nav a:hover { color: #ffffff !important; }
-
-        /* Verb Card Styling */
-        .container { 
-            flex: 1;
+            background-color: #00d2ff; 
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 120px 20px 40px 20px; /* Pushes content below fixed header */
         }
 
-        .verb-card {
+        .card {
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            box-sizing: border-box;
         }
 
-        .verb-card h1 { font-family: 'Playfair Display'; margin-bottom: 25px; }
-        
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #000; /* Forced Black for visibility */
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
         select, input {
             width: 100%;
             padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
             border-radius: 8px;
             font-size: 1rem;
+            box-sizing: border-box;
         }
 
         .btn-check {
             width: 100%;
             padding: 15px;
-            background: #5dade2;
+            background-color: #63b3ed;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            transition: background 0.2s;
         }
 
-        .btn-check:hover { background: #3498db; }
+        .btn-check:hover {
+            background-color: #4299e1;
+        }
 
-        .history-section { margin-top: 30px; text-align: left; border-top: 1px solid #eee; padding-top: 20px; }
+        .history-title {
+            margin-top: 20px;
+            font-weight: bold;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
 
-        @media (max-width: 768px) {
-            header { flex-direction: column; gap: 10px; }
-            header nav { width: 100%; display: flex; justify-content: space-around; }
-            header nav a { margin: 0; }
-            .container { padding-top: 150px; }
+        /* Mobile Perfect Fit */
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+                width: 95%;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="../index.html" class="logo">Smart Couple</a>
-        <nav>
-            <a href="../index.html">Accueil</a>
-            <a href="../spending.html">Spending</a>
-            <a href="../planning.html">Planning</a>
-        </nav>
-    </header>
+    <div class="card">
+        <h1>FR French Verbs</h1>
+        
+        <label>Choose tense</label>
+        <select id="tense">
+            <option value="present">Présent</option>
+            <option value="passe-compose">Passé Composé</option>
+            <option value="imparfait">Imparfait</option>
+        </select>
 
-    <div class="container">
-        <div class="verb-card">
-            <h1>FR French Verbs</h1>
-            
-            <label><strong>Choose tense</strong></label>
-            <select id="tenseSelect">
-                <option>Présent</option>
-                <option>Passé Composé</option>
-                <option>Imparfait</option>
-            </select>
+        <input type="text" id="verbInput" placeholder="Type the verb...">
+        
+        <button class="btn-check">Check</button>
 
-            <input type="text" placeholder="Type the verb..." id="verbInput">
-            
-            <button class="btn-check">Check</button>
-
-            <div class="history-section">
-                <strong>History</strong>
-                <div id="historyList"></div>
-            </div>
-        </div>
+        <div class="history-title">History</div>
+        <div id="history"></div>
     </div>
 
 </body>
