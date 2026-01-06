@@ -1,4 +1,5 @@
 const subjects = ["Je", "Tu", "Il/Elle", "Nous", "Vous", "Ils/Elles"];
+const tenses = ["present", "passe", "imparfait", "futur", "proche"];
 
 const verbs = {
   aller: {
@@ -153,22 +154,41 @@ const verbs = {
 console.log("Total verbs loaded:", Object.keys(verbs).length);
 
 let verbQueue = []; // This will hold the "order" of verbs
+let current = {};
 let score = 0;
 let total = 0;
 
+// 2. State Variables
+let verbQueue = [];
+let current = {};
+let score = 0;
+let total = 0;
+
+// 3. Select DOM Elements
+const questionEl = document.getElementById("question");
+const answerEl = document.getElementById("answer");
+const feedbackEl = document.getElementById("feedback");
+const scoreEl = document.getElementById("score");
+const tenseEl = document.getElementById("tense"); // <--- CRITICAL LINE
+const checkBtn = document.getElementById("check");
 const historyListEl = document.getElementById("historyList");
 
+// 4. Event Listeners
+checkBtn.addEventListener("click", checkAnswer);
+answerEl.addEventListener("keypress", (e) => {
+  if (e.key === "Enter" && !checkBtn.disabled) checkAnswer();
+});
+
+// 5. Game Functions
 function newQuestion() {
-  // 1. If queue is empty, refill and shuffle it
+  // Refill queue if empty to ensure all verbs are seen
   if (verbQueue.length === 0) {
     verbQueue = Object.keys(verbs).sort(() => Math.random() - 0.5);
     console.log("Queue refilled with " + verbQueue.length + " verbs");
   }
 
-  // 2. Take the NEXT verb from the shuffled queue
   const verb = verbQueue.pop();
-  
-  const tense = tenseEl.value;
+  const tense = tenseEl.value; // Now this will work!
   const index = Math.floor(Math.random() * subjects.length);
 
   current = {
@@ -188,11 +208,11 @@ function newQuestion() {
 function checkAnswer() {
   const user = answerEl.value.trim().toLowerCase();
   const correct = current.answer.toLowerCase();
+  
   total++;
   checkBtn.disabled = true;
+  const isCorrect = (user === correct);
 
-  const isCorrect = user === correct;
-  
   if (isCorrect) {
     score++;
     feedbackEl.textContent = "✅ Correct!";
@@ -202,19 +222,20 @@ function checkAnswer() {
     feedbackEl.className = "feedback wrong";
   }
 
-  // Add to History List
   addToHistory(current.subject, current.verb, current.answer, isCorrect);
-
   scoreEl.textContent = `Score: ${score} / ${total}`;
   setTimeout(newQuestion, 2000);
 }
 
 function addToHistory(subject, verb, correctAns, isCorrect) {
+  if (!historyListEl) return;
   const li = document.createElement("li");
+  li.style.padding = "5px 0";
+  li.style.borderBottom = "1px solid #eee";
   li.innerHTML = `${isCorrect ? '✅' : '❌'} ${subject} <b>${verb}</b>: ${correctAns}`;
-  // Add new history to the top
   historyListEl.insertBefore(li, historyListEl.firstChild);
 }
+
 function tenseLabel(key) {
   return {
     present: "Présent",
@@ -225,11 +246,6 @@ function tenseLabel(key) {
   }[key];
 }
 
+// Start the game
+console.log("Total verbs loaded:", Object.keys(verbs).length);
 newQuestion();
-
-// Allow pressing "Enter" to check answer
-answerEl.addEventListener("keypress", (e) => {
-  if (e.key === "Enter" && !checkBtn.disabled) {
-    checkAnswer();
-  }
-});
