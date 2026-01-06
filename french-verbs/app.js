@@ -169,7 +169,14 @@ checkBtn.addEventListener("click", checkAnswer);
 function newQuestion() {
   const verbList = Object.keys(verbs);
   const verb = verbList[Math.floor(Math.random() * verbList.length)];
-  const tense = tenseEl.value;
+  
+  // Logic to handle "random" tense if you add it to the dropdown later
+  let tense = tenseEl.value;
+  if (tense === "random") {
+    const tenses = ["present", "passe", "imparfait", "futur", "proche"];
+    tense = tenses[Math.floor(Math.random() * tenses.length)];
+  }
+
   const index = Math.floor(Math.random() * subjects.length);
 
   current = {
@@ -180,6 +187,9 @@ function newQuestion() {
   answerEl.value = "";
   feedbackEl.textContent = "";
   checkBtn.disabled = false;
+  
+  // Focus the input automatically so you can keep typing
+  answerEl.focus(); 
 }
 
 function checkAnswer() {
