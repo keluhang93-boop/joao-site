@@ -78,3 +78,23 @@ button:active {
   margin-top: 0.5rem;
   font-size: 0.9rem;
 }
+
+.history-container {
+  margin-top: 1.5rem;
+  text-align: left;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#historyList {
+  list-style: none;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+#historyList li {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
