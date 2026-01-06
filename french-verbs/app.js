@@ -1,7 +1,6 @@
 const subjects = ["Je", "Tu", "Il/Elle", "Nous", "Vous", "Ils/Elles"];
 
 const verbs = {
-  // --- Your Existing Verbs ---
   aller: {
     present: ["vais", "vas", "va", "allons", "allez", "vont"],
     passe: ["suis allé(e)", "es allé(e)", "est allé(e)", "sommes allé(e)s", "êtes allé(e)(s)", "sont allé(e)s"],
@@ -37,8 +36,6 @@ const verbs = {
     futur: ["voudrai", "voudras", "voudra", "voudrons", "voudrez", "voudront"],
     proche: ["vais vouloir", "vas vouloir", "va vouloir", "allons vouloir", "allez vouloir", "vont vouloir"]
   },
-
-  // --- New Verbs ---
   souhaiter: {
     present: ["souhaite", "souhaites", "souhaite", "souhaitons", "souhaitez", "souhaitent"],
     passe: ["ai souhaité", "as souhaité", "a souhaité", "avons souhaité", "avez souhaité", "ont souhaité"],
@@ -144,7 +141,7 @@ const verbs = {
     futur: ["apparaîtrai", "apparaîtras", "apparaîtra", "apparaîtrons", "apparaîtrez", "apparaîtront"],
     proche: ["vais apparaître", "vas apparaître", "va apparaître", "allons apparaître", "allez apparaître", "vont apparaître"]
   },
-    venir: {
+  venir: {
     present: ["viens", "viens", "vient", "venons", "venez", "viennent"],
     passe: ["suis venu(e)", "es venu(e)", "est venu(e)", "sommes venu(e)s", "êtes venu(e)(s)", "sont venu(e)s"],
     imparfait: ["venais", "venais", "venait", "venions", "veniez", "venaient"],
