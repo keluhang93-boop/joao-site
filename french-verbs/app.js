@@ -151,44 +151,36 @@ const verbs = {
   }
 };
 
-console.log("Total verbs loaded:", Object.keys(verbs).length);
-
-let verbQueue = []; // This will hold the "order" of verbs
+// State Variables
+let verbQueue = []; 
 let current = {};
 let score = 0;
 let total = 0;
 
-// 2. State Variables
-let verbQueue = [];
-let current = {};
-let score = 0;
-let total = 0;
-
-// 3. Select DOM Elements
+// Select DOM Elements
 const questionEl = document.getElementById("question");
 const answerEl = document.getElementById("answer");
 const feedbackEl = document.getElementById("feedback");
 const scoreEl = document.getElementById("score");
-const tenseEl = document.getElementById("tenseEL"); // <--- CRITICAL LINE
+const tenseEl = document.getElementById("tense"); // Matched with HTML id="tense"
 const checkBtn = document.getElementById("check");
 const historyListEl = document.getElementById("historyList");
 
-// 4. Event Listeners
+// Event Listeners
 checkBtn.addEventListener("click", checkAnswer);
 answerEl.addEventListener("keypress", (e) => {
   if (e.key === "Enter" && !checkBtn.disabled) checkAnswer();
 });
 
-// 5. Game Functions
+// Game Functions
 function newQuestion() {
-  // Refill queue if empty to ensure all verbs are seen
   if (verbQueue.length === 0) {
     verbQueue = Object.keys(verbs).sort(() => Math.random() - 0.5);
     console.log("Queue refilled with " + verbQueue.length + " verbs");
   }
 
   const verb = verbQueue.pop();
-  const tense = tenseEl.value; // Now this will work!
+  const tense = tenseEl.value; 
   const index = Math.floor(Math.random() * subjects.length);
 
   current = {
@@ -232,6 +224,7 @@ function addToHistory(subject, verb, correctAns, isCorrect) {
   const li = document.createElement("li");
   li.style.padding = "5px 0";
   li.style.borderBottom = "1px solid #eee";
+  li.style.listStyle = "none";
   li.innerHTML = `${isCorrect ? '✅' : '❌'} ${subject} <b>${verb}</b>: ${correctAns}`;
   historyListEl.insertBefore(li, historyListEl.firstChild);
 }
