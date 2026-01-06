@@ -1,1 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>French Verb Trainer 🇫🇷</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #4facfe, #00f2fe);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 360px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .question {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background: #4facfe;
+      color: white;
+      margin-top: 0.5rem;
+    }
+
+    button:hover {
+      background: #3a9fe0;
+    }
+
+    .feedback {
+      margin-top: 0.8rem;
+      font-weight: bold;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .wrong {
+      color: red;
+    }
+
+    .score {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>French Verb Trainer 🇫🇷</h1>
+    <p>Type the correct verb form</p>
+
+    <div class="question" id="question"></div>
+
+    <input type="text" id="answer" placeholder="Your answer…" />
+    <button onclick="checkAnswer()">Check</button>
+
+    <div class="feedback" id="feedback"></div>
+    <div class="score" id="score"></div>
+  </div>
+
+  <script>
+    const verbs = {
+      manger: {
+        present: ["mange", "manges", "mange", "mangeons", "mangez", "mangent"],
+        passe: ["ai mangé", "as mangé", "a mangé", "avons mangé", "avez mangé", "ont mangé"],
+        imparfait: ["mangeais", "mangeais", "mangeait", "mangions", "mangiez", "mangeaient"],
+        futur: ["mangerai", "mangeras", "mangera", "mangerons", "mangerez", "mangeront"],
+        proche: ["vais manger", "vas manger", "va manger", "allons manger", "allez manger", "vont manger"]
+      },
+      aller: {
+        present: ["vais", "vas", "va", "allons", "allez", "vont"],
+        passe: ["suis allé(e)", "es allé(e)", "est allé(e)", "sommes allé(e)s", "êtes allé(e)(s)", "sont allé(e)s"],
+        imparfait: ["allais", "allais", "allait", "allions", "alliez", "allaient"],
+        futur: ["irai", "iras", "ira", "irons", "irez", "iront"],
+        proche: ["vais aller", "vas aller", "va aller", "allons aller", "allez aller", "vont aller"]
+      }
+    };
+
+    const subjects = ["Je", "Tu", "Il/Elle", "Nous", "Vous", "Ils/Elles"];
+    const tenses = {
+      present: "Présent",
+      passe: "Passé Composé",
+      imparfait: "Imparfait",
+      futur: "Futur simple",
+      proche: "Futur proche"
+    };
+
+    let current = {};
+    let score = 0;
+    let total = 0;
+
+    function newQuestion() {
+      const verb = Object.keys(verbs)[Math.floor(Math.random() * Object.keys(verbs).length)];
+      const tenseKey = Object.keys(tenses)[Math.floor(Math.random() * Object.keys(tenses).length)];
+      const index = Math.floor(Math.random() * subjects.length);
+
+      current = {
+        verb,
+        tenseKey,
+        index,
+        answer: verbs[verb][tenseKey][index]
+      };
+
+      document.getElementById("question").textContent =
+        `${subjects[index]} (${tenses[tenseKey]}) → ${verb}`;
+
+      document.getElementById("answer").value = "";
+      document.getElementById("feedback").textContent = "";
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById("answer").value.trim().toLowerCase();
+      total++;
+
+      if (input === current.answer.toLowerCase()) {
+        score++;
+        document.getElementById("feedback").textContent = "✅ Correct!";
+        document.getElementById("feedback").className = "feedback correct";
+      } else {
+        document.getElementById("feedback").textContent =
+          `❌ Wrong — correct answer: "${current.answer}"`;
+        document.getElementById("feedback").className = "feedback wrong";
+      }
+
+      document.getElementById("score").textContent =
+        `Score: ${score} / ${total}`;
+
+      setTimeout(newQuestion, 1500);
+    }
+
+    newQuestion();
+  </script>
+</body>
+</html>
 
