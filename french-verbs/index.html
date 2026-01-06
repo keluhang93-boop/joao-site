@@ -1,45 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>French Verb Trainer 🇫🇷</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Verbs | Smart Couple</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css"> <style>
+        body { 
+            margin: 0; 
+            font-family: 'Lato', sans-serif; 
+            background: #00d2ff; 
+            background: linear-gradient(to right, #3a7bd5, #00d2ff); 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Restoration of the Fixed Dark Header */
+        header {
+            background: #2c2c2c !important;
+            padding: 15px 5%;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #ffffff !important;
+            text-decoration: none;
+        }
+
+        header nav a {
+            color: #bbbbbb !important;
+            text-decoration: none;
+            margin-left: 20px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        header nav a:hover { color: #ffffff !important; }
+
+        /* Verb Card Styling */
+        .container { 
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 20px 40px 20px; /* Pushes content below fixed header */
+        }
+
+        .verb-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        .verb-card h1 { font-family: 'Playfair Display'; margin-bottom: 25px; }
+        
+        select, input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-check {
+            width: 100%;
+            padding: 15px;
+            background: #5dade2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-check:hover { background: #3498db; }
+
+        .history-section { margin-top: 30px; text-align: left; border-top: 1px solid #eee; padding-top: 20px; }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 10px; }
+            header nav { width: 100%; display: flex; justify-content: space-around; }
+            header nav a { margin: 0; }
+            .container { padding-top: 150px; }
+        }
+    </style>
 </head>
 <body>
 
-  <main class="app">
-    <h1>🇫🇷 French Verbs</h1>
+    <header>
+        <a href="../index.html" class="logo">Smart Couple</a>
+        <nav>
+            <a href="../index.html">Accueil</a>
+            <a href="../spending.html">Spending</a>
+            <a href="../planning.html">Planning</a>
+        </nav>
+    </header>
 
-    <label for="tense">Choose tense</label>
-    <select id="tense">
-      <option value="present">Présent</option>
-      <option value="passe">Passé Composé</option>
-      <option value="imparfait">Imparfait</option>
-      <option value="futur">Futur simple</option>
-      <option value="proche">Futur proche</option>
-    </select>
+    <div class="container">
+        <div class="verb-card">
+            <h1>FR French Verbs</h1>
+            
+            <label><strong>Choose tense</strong></label>
+            <select id="tenseSelect">
+                <option>Présent</option>
+                <option>Passé Composé</option>
+                <option>Imparfait</option>
+            </select>
 
-    <div class="question" id="question"></div>
+            <input type="text" placeholder="Type the verb..." id="verbInput">
+            
+            <button class="btn-check">Check</button>
 
-    <input
-      type="text"
-      id="answer"
-      placeholder="Type the verb..."
-      autocomplete="off"
-    />
-
-    <button id="check">Check</button>
-
-    <div class="feedback" id="feedback"></div>
-    <div class="score" id="score"></div>
-
-    <div class="history-container">
-      <h3>History</h3>
-      <ul id="historyList"></ul>
+            <div class="history-section">
+                <strong>History</strong>
+                <div id="historyList"></div>
+            </div>
+        </div>
     </div>
-  </main>
-  
-  <script src="app.js"></script>
+
 </body>
 </html>
