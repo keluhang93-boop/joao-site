@@ -89,12 +89,22 @@ button:active {
 }
 
 #historyList {
-  list-style: none;
-  padding: 0;
-  font-size: 0.85rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* Some browsers default to hidden overflow; let's force it to show */
+    display: block !important; 
 }
 
 #historyList li {
-  padding: 5px 0;
-  border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+    /* Animation helps verify it's working on all browsers */
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
