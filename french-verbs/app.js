@@ -150,6 +150,8 @@ const verbs = {
   }
 };
 
+console.log("Total verbs loaded:", Object.keys(verbs).length);
+
 let current = {};
 let score = 0;
 let total = 0;
@@ -228,5 +230,3 @@ answerEl.addEventListener("keypress", (e) => {
     checkAnswer();
   }
 });
-
-console.log("Total verbs loaded:", Object.keys(verbs).length);
