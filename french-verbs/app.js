@@ -169,7 +169,7 @@ const questionEl = document.getElementById("question");
 const answerEl = document.getElementById("answer");
 const feedbackEl = document.getElementById("feedback");
 const scoreEl = document.getElementById("score");
-const tenseEl = document.getElementById("tense"); // <--- CRITICAL LINE
+const tenseEl = document.getElementById("tenseEL"); // <--- CRITICAL LINE
 const checkBtn = document.getElementById("check");
 const historyListEl = document.getElementById("historyList");
 
