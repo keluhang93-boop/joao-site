@@ -189,13 +189,6 @@ function newQuestion() {
   answerEl.focus(); 
 }
 
-// Allow pressing "Enter" to check answer
-answerEl.addEventListener("keypress", (e) => {
-  if (e.key === "Enter" && !checkBtn.disabled) {
-    checkAnswer();
-  }
-});
-
 function checkAnswer() {
   const userAnswer = answerEl.value.trim().toLowerCase();
   const correct = current.answer.toLowerCase();
@@ -228,3 +221,12 @@ function tenseLabel(key) {
 }
 
 newQuestion();
+
+// Allow pressing "Enter" to check answer
+answerEl.addEventListener("keypress", (e) => {
+  if (e.key === "Enter" && !checkBtn.disabled) {
+    checkAnswer();
+  }
+});
+
+console.log("Total verbs loaded:", Object.keys(verbs).length);
