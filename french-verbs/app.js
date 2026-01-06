@@ -152,33 +152,29 @@ const verbs = {
 
 console.log("Total verbs loaded:", Object.keys(verbs).length);
 
-let current = {};
+let verbQueue = []; // This will hold the "order" of verbs
 let score = 0;
 let total = 0;
 
-const questionEl = document.getElementById("question");
-const answerEl = document.getElementById("answer");
-const feedbackEl = document.getElementById("feedback");
-const scoreEl = document.getElementById("score");
-const tenseEl = document.getElementById("tense");
-const checkBtn = document.getElementById("check");
-
-checkBtn.addEventListener("click", checkAnswer);
+const historyListEl = document.getElementById("historyList");
 
 function newQuestion() {
-  const verbList = Object.keys(verbs);
-  const verb = verbList[Math.floor(Math.random() * verbList.length)];
-  
-  // Logic to handle "random" tense if you add it to the dropdown later
-  let tense = tenseEl.value;
-  if (tense === "random") {
-    const tenses = ["present", "passe", "imparfait", "futur", "proche"];
-    tense = tenses[Math.floor(Math.random() * tenses.length)];
+  // 1. If queue is empty, refill and shuffle it
+  if (verbQueue.length === 0) {
+    verbQueue = Object.keys(verbs).sort(() => Math.random() - 0.5);
+    console.log("Queue refilled with " + verbQueue.length + " verbs");
   }
 
+  // 2. Take the NEXT verb from the shuffled queue
+  const verb = verbQueue.pop();
+  
+  const tense = tenseEl.value;
   const index = Math.floor(Math.random() * subjects.length);
 
   current = {
+    verb: verb,
+    subject: subjects[index],
+    tense: tense,
     answer: verbs[verb][tense][index]
   };
 
@@ -186,19 +182,18 @@ function newQuestion() {
   answerEl.value = "";
   feedbackEl.textContent = "";
   checkBtn.disabled = false;
-  
-  // Focus the input automatically so you can keep typing
-  answerEl.focus(); 
+  answerEl.focus();
 }
 
 function checkAnswer() {
-  const userAnswer = answerEl.value.trim().toLowerCase();
+  const user = answerEl.value.trim().toLowerCase();
   const correct = current.answer.toLowerCase();
-
   total++;
   checkBtn.disabled = true;
 
-  if (userAnswer === correct) {
+  const isCorrect = user === correct;
+  
+  if (isCorrect) {
     score++;
     feedbackEl.textContent = "✅ Correct!";
     feedbackEl.className = "feedback correct";
@@ -207,11 +202,19 @@ function checkAnswer() {
     feedbackEl.className = "feedback wrong";
   }
 
-  scoreEl.textContent = `Score: ${score} / ${total}`;
+  // Add to History List
+  addToHistory(current.subject, current.verb, current.answer, isCorrect);
 
+  scoreEl.textContent = `Score: ${score} / ${total}`;
   setTimeout(newQuestion, 2000);
 }
 
+function addToHistory(subject, verb, correctAns, isCorrect) {
+  const li = document.createElement("li");
+  li.innerHTML = `${isCorrect ? '✅' : '❌'} ${subject} <b>${verb}</b>: ${correctAns}`;
+  // Add new history to the top
+  historyListEl.insertBefore(li, historyListEl.firstChild);
+}
 function tenseLabel(key) {
   return {
     present: "Présent",
