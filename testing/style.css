@@ -333,77 +333,61 @@ body {
     transition: all 0.3s ease;
 }
 
-/* --- DESKTOP LAYOUT --- */
-.main-header {
-    background: #fff;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    z-index: 1000;
-}
-
+/* --- UNIVERSAL HEADER --- */
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 15px 20px;
+    padding: 15px 5%;
+    background: white;
+    border-bottom: 1px solid #eee;
 }
 
-.header-right-actions {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
+/* --- DESKTOP VIEW --- */
+.desktop-nav { display: flex; gap: 20px; }
+.desktop-nav a { text-decoration: none; color: black; font-weight: bold; border: 1px solid black; padding: 5px 10px; }
+.menu-toggle { display: none; } /* Hide hamburger on PC */
 
-.menu-toggle {
-    display: none; /* Hidden on desktop */
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.menu-toggle span {
-    width: 25px;
-    height: 3px;
-    background: #000;
-    transition: 0.3s;
-}
-
-/* --- MOBILE LAYOUT (Fixes the "Stuck" menu) --- */
+/* --- MOBILE VIEW --- */
 @media (max-width: 768px) {
+    .desktop-nav, .auth-buttons {
+        display: none !important; /* Force hide menu and buttons on mobile */
+    }
+
     .menu-toggle {
-        display: flex; /* Show hamburger */
-    }
-
-    .auth-buttons-desktop {
-        display: none; /* Hide buttons on bar to save space */
-    }
-
-    .sketch-nav {
-        display: none; /* HIDDEN BY DEFAULT */
+        display: flex; /* Show hamburger only on mobile */
         flex-direction: column;
-        position: absolute; /* FLOATS over the hero image */
-        top: 100%; /* Sits exactly under the white bar */
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .menu-toggle span { width: 25px; height: 3px; background: black; }
+
+    /* The Hidden Menu Overlay */
+    .mobile-overlay {
+        display: none; /* Starts hidden */
+        position: fixed;
+        top: 60px; /* Adjust to match header height */
         left: 0;
         width: 100%;
+        height: 100vh;
         background: white;
-        padding: 20px 0;
-        border-bottom: 2px solid #000;
-        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        z-index: 2000;
     }
 
-    /* THE MAGIC TRIGGER */
-    .sketch-nav.active {
-        display: flex !important;
+    .mobile-overlay.active {
+        display: block !important;
     }
 
-    .nav-box {
-        border: none;
-        width: 100%;
-        text-align: center;
-        padding: 15px 0;
+    .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px;
+        gap: 30px;
     }
+
+    .mobile-nav-links a { font-size: 1.5rem; text-decoration: none; color: black; }
 }
