@@ -128,13 +128,14 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const btn = document.getElementById('mobile-menu-btn');
-        const nav = document.getElementById('nav-menu');
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
 
-        if (btn && nav) {
-            btn.addEventListener('click', function() {
-                nav.classList.toggle('active');
-                btn.classList.toggle('open');
+        if (menuBtn && navMenu) {
+            menuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                // Optional: add a class to animate the button
+                menuBtn.classList.toggle('open');
             });
         }
     });
