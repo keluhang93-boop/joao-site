@@ -5,34 +5,33 @@ window.onload = () => {
     editor = document.getElementById('editor');
     wordCountDisplay = document.getElementById('wordCount');
 
+    // Word Counter
     editor.addEventListener('input', () => {
-        const text = editor.innerText || editor.textContent;
-        const cleanText = text.replace(/\s+/g, ' ').trim();
-        const words = cleanText === "" ? 0 : cleanText.split(' ').length;
+        const text = editor.innerText || "";
+        const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
         wordCountDisplay.innerText = words;
     });
 };
 
 function formatDoc(cmd, value = null) {
-    if (!cmd) return;
     document.execCommand(cmd, false, value);
     editor.focus();
 }
 
-/**
- * Custom function for Exact Font Size
- * This bypasses the 1-7 limitation of execCommand
- */
+// Fixed Exact Font Size function
 function changeFontSize(size) {
-    // Get what the user highlighted
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        const span = document.createElement('span');
-        span.style.fontSize = size + 'px';
-        
-        // Wrap the selected text in the span
-        range.surroundContents(span);
+    if (!size) return;
+    
+    // We use a temporary command to create a span we can target
+    document.execCommand("fontSize", false, "7"); // '7' is a dummy value
+    
+    // Find the font tag the browser just created and swap it for a styled span
+    const fontElements = editor.getElementsByTagName("font");
+    for (let i = 0; i < fontElements.length; i++) {
+        if (fontElements[i].size === "7") {
+            fontElements[i].removeAttribute("size");
+            fontElements[i].style.fontSize = size + "px";
+        }
     }
     editor.focus();
 }
