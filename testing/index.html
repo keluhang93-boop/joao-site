@@ -41,13 +41,13 @@
             <span class="bar"></span>
             <span class="bar"></span>
         </button>
-
-        <nav class="sketch-nav" id="nav-menu">
-            <a href="spending.html" class="nav-box">Smart Dépenses</a>
-            <a href="planning.html" class="nav-box">Smart Planning</a>
-            <a href="#" class="nav-box">Smart Union</a>
-        </nav>
     </div>
+
+    <nav class="sketch-nav" id="nav-menu">
+        <a href="spending.html" class="nav-box">Smart Dépenses</a>
+        <a href="planning.html" class="nav-box">Smart Planning</a>
+        <a href="#" class="nav-box">Smart Union</a>
+    </nav>
     
     <div class="header-right-group">
         <a href="#" class="btn-login">Login</a>
@@ -127,21 +127,15 @@
 </main>
 
 <script>
-    const btn = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('nav-menu');
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
 
-    btn.addEventListener('click', function() {
-        // Toggle the visible menu
-        menu.classList.toggle('active');
-        // Toggle the X animation on the button
-        btn.classList.toggle('open');
-    });
-
-    // Optional: Close menu if user clicks a link
-    document.querySelectorAll('.nav-box').forEach(n => n.addEventListener('click', () => {
-        menu.classList.remove('active');
-        btn.classList.remove('open');
-    }));
+    if (menuBtn) {
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuBtn.classList.toggle('open'); // For the X animation
+        });
+    }
 </script>
     
 </body>
