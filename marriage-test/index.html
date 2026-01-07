@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Mariage | Lieux d'Exception en France</title>
+    <title>Smart Couple</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="logo">LUMINA</div>
+        <div class="logo">SMART COUPLE</div>
         <div class="nav-links">
             <a href="#">Lieux</a>
-            <a href="#">Prestataires</a>
             <a href="#">Organisation</a>
             <button class="login-btn">Se Connecter</button>
         </div>
@@ -23,70 +22,52 @@
         <div class="hero-content">
             <h1>Votre Grand Jour, <br><span>Parfaitement Orchestré.</span></h1>
             
-            <div class="search-widget">
-                <div class="input-group">
-                    <label>Destination</label>
-                    <input type="text" id="searchInput" placeholder="Paris, Nice, Bretagne..." onkeyup="filterVenues()">
+            <div class="search-container">
+                <div class="search-widget">
+                    <div class="search-field">
+                        <label>Destination</label>
+                        <input type="text" id="searchInput" placeholder="Paris, Nice, Bretagne..." onkeyup="filterVenues()">
+                    </div>
+                    <div class="v-divider"></div>
+                    <div class="search-field">
+                        <label>Style</label>
+                        <select id="styleFilter" onchange="filterVenues()">
+                            <option value="all">Tous les styles</option>
+                            <option value="Château">Château</option>
+                            <option value="Bord de mer">Bord de mer</option>
+                        </select>
+                    </div>
+                    <button class="search-btn" onclick="filterVenues()">CHERCHER</button>
                 </div>
-                <div class="divider"></div>
-                <div class="input-group">
-                    <label>Style</label>
-                    <select id="styleFilter" onchange="filterVenues()">
-                        <option value="all">Tous les styles</option>
-                        <option value="Château">Château</option>
-                        <option value="Bord de mer">Bord de mer</option>
-                        <option value="Urbain Chic">Urbain Chic</option>
-                    </select>
-                </div>
-                <button class="search-btn">Chercher</button>
             </div>
         </div>
     </header>
 
-    <section class="container">
+    <section class="main-content">
         <h2 class="section-title">Destinations Exclusives en France</h2>
-        <div id="venueGrid" class="venue-showcase"></div>
+        <div id="venueGrid" class="venue-grid">
+            </div>
     </section>
 
     <section class="info-section">
-        <div class="info-container">
-            <div class="info-item">
-                <div class="icon">✨</div>
+        <div class="info-grid">
+            <div class="info-card">
+                <span class="info-icon">🛡️</span>
                 <h3>Grande Flexibilité</h3>
-                <p>Modifiez vos dates ou annulez sans stress jusqu'à 6 mois avant l'événement.</p>
+                <p>Annulation gratuite jusqu'à 6 mois avant votre événement pour une tranquillité totale.</p>
             </div>
-            <div class="info-item">
-                <div class="icon">🏰</div>
+            <div class="info-card">
+                <span class="info-icon">🏰</span>
                 <h3>Patrimoine Unique</h3>
-                <p>Plus de 500 lieux historiques, des châteaux de la Loire aux domaines provençaux.</p>
+                <p>Plus de 500 lieux historiques sélectionnés pour leur élégance et leur caractère unique.</p>
             </div>
-            <div class="info-item">
-                <div class="icon">💎</div>
-                <h3>Service Conciergerie</h3>
-                <p>Un accompagnement personnalisé pour chaque étape de votre réservation.</p>
+            <div class="info-card">
+                <span class="info-icon">📍</span>
+                <h3>Filtres Personnalisés</h3>
+                <p>Trouvez le lieu idéal selon vos critères : capacité, budget et style architectural.</p>
             </div>
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2026 Lumina Mariage. Luxe & Élégance à la française.</p>
-    </footer>
-
-    <div id="bookingModal" class="modal">
-        <div class="modal-card">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <div id="modalImage" class="modal-banner"></div>
-            <div class="modal-body">
-                <h2 id="modalTitle">Nom du Lieu</h2>
-                <p id="modalLocation">Lieu</p>
-                <div class="date-picker">
-                    <label>Choisir une date</label>
-                    <input type="date" id="bookingDate">
-                </div>
-                <button class="confirm-btn" onclick="confirmBooking()">Vérifier la disponibilité</button>
-            </div>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
