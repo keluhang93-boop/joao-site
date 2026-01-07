@@ -310,3 +310,53 @@ body {
         /* flex-wrap: wrap; justify-content: center; gap: 10px; */
     }
 }
+
+
+/* --- HAMBURGER MENU STYLES --- */
+.menu-toggle {
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #000;
+    transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex; /* Show button on mobile */
+    }
+
+    .sketch-nav {
+        display: none; /* Hide standard menu */
+        position: absolute;
+        top: 70px; /* Right below the header */
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        padding: 20px;
+        border-bottom: 2px solid #000;
+        box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+        gap: 15px;
+    }
+
+    /* When the menu has the 'active' class, show it */
+    .sketch-nav.active {
+        display: flex;
+    }
+
+    .nav-box {
+        width: 100%;
+        text-align: center;
+    }
+}
