@@ -139,15 +139,14 @@
 </main>
 
 <script>
-    // Wait for the whole page to load
-    window.addEventListener('DOMContentLoaded', (event) => {
+    document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('nav-menu');
+        const overlay = document.getElementById('mobile-menu-overlay');
 
-        if (btn && menu) {
+        if (btn && overlay) {
             btn.addEventListener('click', () => {
-                menu.classList.toggle('active');
-                console.log("Menu toggled!"); // Check your console to see this
+                overlay.classList.toggle('active');
+                console.log("Menu toggled!");
             });
         }
     });
