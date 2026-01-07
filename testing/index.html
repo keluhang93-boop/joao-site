@@ -3,69 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Couple | Professional Sketch</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Smart Couple | Mariages de Rêve</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Lato', sans-serif; color: #333; line-height: 1.6; }
+        header { padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; position: absolute; width: 100%; box-sizing: border-box; z-index: 10; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
+        
+        .hero { 
+            height: 80vh; 
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=2070') no-repeat center center/cover;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white;
+        }
+        
+        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 10px; }
+        .hero-content p { font-size: 1.2rem; font-style: italic; opacity: 0.9; }
+
+        .btn { 
+            display: inline-block; padding: 15px 35px; background: #d63384; color: white; 
+            text-decoration: none; border-radius: 5px; margin-top: 25px; transition: 0.3s; 
+        }
+        .btn:hover { background: #b0266a; transform: translateY(-2px); }
+
+        .sections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 80px 50px; text-align: center; }
+        .card h3 { font-family: 'Playfair Display', serif; color: #d63384; }
+    </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="main-header">
-    <div class="header-left">
-        <div class="logo-box">
+    <div class="header-left-group">
+        <div class="logo-wrapper">
             <a href="index.html" class="logo-text">SMART COUPLE</a>
             <div class="logo-icon">❤️</div>
         </div>
-        <nav class="main-nav">
+
+        <nav class="sketch-nav">
             <a href="spending.html" class="nav-box">Smart Dépenses</a>
             <a href="planning.html" class="nav-box">Smart Planning</a>
             <a href="#" class="nav-box">Smart Union</a>
         </nav>
     </div>
     
-    <div class="header-right">
-        <a href="#" class="auth-link">Login</a>
-        <a href="#" class="auth-btn">Sign Up</a>
+    <div class="header-right-group">
+        <a href="#" class="btn-login">Login</a>
+        <a href="#" class="btn-signup">Sign Up</a>
     </div>
 </header>
 
-<main class="content-wrapper">
-    <section class="fancy-hero">
-        <div class="hero-info">
-            <h1>Our goal is to help you lead a <span class="highlight">SMART</span> couple life!</h1>
-            <p class="intro-subtext">We help you to:</p>
-            <ul class="feature-list">
-                <li>Manage living expenses together. Maintain an organized and transparent financial record and saving goals.</li>
-                <li>Overcome relationship problems through emotional intelligence.</li>
-            </ul>
-            <a href="#details" class="btn-main">Commencer l'aventure</a>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Votre Mariage de Rêve, Simplifié</h1>
+            <p>Découvrez le lieu parfait pour votre union en France</p>
+            <a href="#contact" class="btn">Commencer l'aventure</a>
         </div>
-        <div class="hero-visual">
-            <div class="image-frame">
-                <img src="https://images.unsplash.com/photo-1516589174184-c6858607e34c?auto=format&fit=crop&q=80&w=800" alt="Couple">
-            </div>
-        </div>
-    </section>
+    </div>
 
-    <section id="details" class="explanation-grid">
-        <div class="explanation-text">
-            <span class="category-tag">Smart Planning</span>
-            <h3><span class="highlight-purple">SMART DÉPENSES</span> helps you to:</h3>
-            <ul class="blue-list">
-                <li>Plan monthly expenses vs variable for invariable expenses.</li>
-                <li>Have target financial goals for expenses.</li>
-                <li>Struggling with groceries? We help you target together based on what you need for the period!</li>
-                <li>To remember important "Partner-Time".</li>
-            </ul>
+    <div class="sections">
+        <div class="card">
+            <h3>Destinations</h3>
+            <p>Découvrez le lieu parfait pour votre union dans les plus beaux châteaux.</p>
         </div>
-        <div class="explanation-center">
-             <div class="icon-indicator">💡</div>
-             <img src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&q=80&w=400" alt="Calendar" class="calendar-img">
+        <div class="card">
+            <h3>Amour Éternel</h3>
+            <p>Planifiez votre journée spéciale avec élégance et sérénité.</p>
         </div>
-        <div class="explanation-image">
-            <img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?auto=format&fit=crop&q=80&w=500" alt="Couple Laughing" class="rounded-img">
+        <div class="card">
+            <h3>Notre Histoire</h3>
+            <p>Créez des souvenirs précieux qui dureront toute une vie.</p>
         </div>
-    </section>
-</main>
+    </div>
 
 </body>
 </html>
