@@ -8,33 +8,37 @@
 </head>
 <body>
 
-<div class="editor-container">
-    <div class="toolbar">
-        <button type="button" onclick="formatDoc('bold')"><b>B</b></button>
-        <button type="button" onclick="formatDoc('italic')"><i>I</i></button>
-        <button type="button" onclick="formatDoc('underline')"><u>U</u></button>
-        
-        <div class="separator"></div>
-        
-        <input type="color" id="colorPicker" oninput="formatDoc('foreColor', this.value)">
-        
-        <label>Size:</label>
-        <select id="fontSize" onchange="formatDoc('fontSize', this.value)">
-            <option value="1">1 (Tiny)</option>
-            <option value="2">2</option>
-            <option value="3" selected>3 (Normal)</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7 (Huge)</option>
-        </select>
-    </div>
+<div class="toolbar">
+    <button type="button" onclick="formatDoc('bold')"><b>B</b></button>
+    <button type="button" onclick="formatDoc('italic')"><i>I</i></button>
+    <button type="button" onclick="formatDoc('underline')"><u>U</u></button>
 
-    <div id="editor" contenteditable="true">Start typing...</div>
+    <div class="separator"></div>
 
-    <div class="status-bar">
-        Words: <span id="wordCount">0</span>
-    </div>
+    <select id="fontName" onchange="formatDoc('fontName', this.value)">
+        <option value="Arial">Arial</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Georgia">Georgia</option>
+    </select>
+
+    <label>Size:</label>
+    <input type="number" id="fontSizeInput" value="16" min="1" max="100" onchange="changeFontSize(this.value)">
+
+    <div class="separator"></div>
+
+    <label>Text:</label>
+    <input type="color" oninput="formatDoc('foreColor', this.value)" title="Text Color">
+
+    <label>Highlight:</label>
+    <input type="color" value="#ffff00" oninput="formatDoc('hiliteColor', this.value)" title="Highlight Color">
+</div>
+
+<div id="editor" contenteditable="true">Start writing...</div>
+
+<div class="status-bar">
+    Words: <span id="wordCount">0</span>
 </div>
 
     <script src="script.js"></script>
