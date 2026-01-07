@@ -16,16 +16,24 @@ body {
     flex-direction: column;
 }
 
+.size-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100px; /* Locks the width so it can't grow */
+}
+
+#fontSizeInput {
+    width: 50px;
+    flex-shrink: 0;
+}
+
+/* Ensure the toolbar doesn't jump around */
 .toolbar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 10px;
-    background: #ffffff;
-    border-bottom: 1px solid #ddd;
     align-items: center;
-    position: sticky;
-    top: 0;
+    flex-wrap: nowrap; 
+    overflow-x: auto;
 }
 
 #editor {
