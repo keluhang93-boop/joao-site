@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Spending | Gestion de Couple</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { margin: 0; font-family: 'Lato', sans-serif; background-color: #fdfafb; color: #333; }
+        .container { max-width: 1000px; margin: 100px auto 40px auto; padding: 20px; }
+        h1 { font-family: 'Playfair Display', serif; text-align: center; color: #444; margin-bottom: 40px; }
+
+        /* Summary Cards */
+        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid #d63384; }
+        .stat-card h3 { font-size: 0.7rem; text-transform: uppercase; color: #999; margin-bottom: 10px; }
+        .stat-card input { border: none; font-size: 1.5rem; font-weight: bold; color: #d63384; text-align: center; width: 100%; font-family: 'Lato'; outline: none; background: transparent; }
+
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .card h2 { font-family: 'Playfair Display'; color: #d63384; margin-top: 0; }
+        
+        /* Table Responsiveness */
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        
+        th { text-align: left; padding: 15px; background: #fdfafb; color: #d63384; font-family: 'Playfair Display'; border-bottom: 2px solid #fceef5; }
+        td { padding: 12px; border-bottom: 1px solid #f5f5f5; }
+        
+        /* Form Elements */
+        .editable-name { border: 1px solid transparent; padding: 5px; font-weight: bold; width: 100%; font-size: 0.9rem; }
+        .editable-name:focus { border-color: #d63384; outline: none; }
+        .amount-input { width: 75px; padding: 8px; border: 1px solid #eee; border-radius: 4px; text-align: right; font-size: 0.9rem; }
+
+        .total-row { background: #fdfafb; font-weight: bold; font-size: 1.1rem; color: #d63384; }
+
+        /* Switch Toggle */
+        .switch { position: relative; display: inline-block; width: 34px; height: 18px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 20px; }
+        input:checked + .slider { background-color: #d63384; }
+        .slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider:before { transform: translateX(16px); }
+
+        .btn-add { background: none; border: 1px dashed #d63384; color: #d63384; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-add:hover { background: #fceef5; }
+
+        /* Mobile Refinements */
+/* --- MOBILE REFINEMENTS --- */
+@media (max-width: 768px) {
+    .container { margin-top: 80px; padding: 15px; }
+    .summary-grid { grid-template-columns: 1fr; gap: 10px; }
+    
+    /* This part ensures the data table and charts stack and center */
+    .economy-flex { 
+        display: flex !important; 
+        flex-direction: column !important; 
+        gap: 30px !important; 
+        align-items: center; /* Centers the table and charts globally */
+    }
+
+    .charts-wrapper { 
+        display: flex !important;
+        flex-direction: row; /* Keep charts side-by-side on mobile if they fit */
+        justify-content: center; /* This keeps them centered */
+        width: 100%;
+        gap: 10px;
+    }
+
+    /* Prevents the charts from being too large or too small */
+    .charts-wrapper > div {
+        flex: 1;
+        max-width: 140px; 
+    }
+    .card { padding: 20px; }
+    .economy-flex table {
+        min-width: 100% !important; /* Forces it to fit the screen */
+        width: 100% !important;
+    }
+
+    .economy-flex td {
+        padding: 10px 5px; /* Tighter padding for mobile */
+        font-size: 0.85rem; /* Slightly smaller text to ensure it fits */
+    }
+
+    .economy-flex .amount-input {
+        width: 60px !important; /* Smaller inputs so they don't push text out */
+    }
+}
+    </style>
+</head>
+<body>
+
+<header style="background: #ffffff !important; display: flex !important; visibility: visible !important; opacity: 1 !important; position: fixed; top: 0; left: 0; right: 0; padding: 15px 5%; z-index: 10000; border-bottom: 2px solid #eee; justify-content: space-between; align-items: center;">
+    <a href="index.html" style="color: #000000 !important; font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: bold; text-decoration: none; display: block !important; opacity: 1 !important;">Smart Couple</a>
+    <nav style="display: flex !important; gap: 20px !important; visibility: visible !important;">
+        <a href="index.html" class="nav-link" style="color: #000000 !important; font-family: 'Playfair Display', serif; text-decoration: none; font-size: 1rem; opacity: 1 !important;">Accueil</a>
+        <a href="spending.html" class="nav-link" style="color: #000000 !important; font-family: 'Playfair Display', serif; text-decoration: none; font-size: 1rem; opacity: 1 !important;">Smart Spending</a>
+        <a href="planning.html" class="nav-link" style="color: #000000 !important; font-family: 'Playfair Display', serif; text-decoration: none; font-size: 1rem; opacity: 1 !important;">Smart Planning</a>
+    </nav>
+</header>
+
+    <div class="container">
+        <h1>Dépenses & Budgets</h1>
+
+        <div class="summary-grid">
+            <div class="stat-card">
+                <h3>Budget Ciblé (€)</h3>
+                <input type="number" id="mainBudgetTarget" value="2500" oninput="updateDashboard()">
+            </div>
+            <div class="stat-card">
+                <h3>Jean (€)</h3>
+                <input type="number" value="1250">
+            </div>
+            <div class="stat-card">
+                <h3>Monique (€)</h3>
+                <input type="number" value="1250">
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Dépenses du Foyer</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Catégorie</th>
+                            <th>Jean (€)</th>
+                            <th>Monique (€)</th>
+                            <th>Total</th>
+                            <th>Récurrent</th>
+                        </tr>
+                    </thead>
+                    <tbody id="spendingBody">
+                        <tr>
+                            <td><input type="text" class="editable-name" value="🏠 Loyer"></td>
+                            <td><input type="number" class="amount-input" value="450" oninput="calcTotal(this)"></td>
+                            <td><input type="number" class="amount-input" value="450" oninput="calcTotal(this)"></td>
+                            <td><span class="row-total">900</span> €</td>
+                            <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn-add" onclick="addRow('spendingBody', true)">+ AJOUTER UNE CATÉGORIE</button>
+        </div>
+
+        <div class="card">
+            <h2>Liste de Courses</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Article</th>
+                            <th>Quantité</th>
+                            <th>Prix Unitaire (€)</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="shoppingBody">
+                        <tr>
+                            <td><input type="text" class="editable-name" value="Riz"></td>
+                            <td><input type="text" class="amount-input" value="1kg" style="text-align:left"></td>
+                            <td><input type="number" class="amount-input" value="3" oninput="calcShopping()"></td>
+                            <td><span class="shop-total">3</span> €</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="3" style="text-align: right; padding-right: 20px;">TOTAL LISTE :</td>
+                            <td><span id="finalShopTotal">3</span> €</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <button class="btn-add" onclick="addRow('shoppingBody', false)">+ AJOUTER UN ARTICLE</button>
+        </div>
+
+        <div class="card">
+            <h2>Dettes & Règlements</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mois</th>
+                            <th>Jean doit Monique (€)</th>
+                            <th>Monique doit Jean (€)</th>
+                            <th>Règlement</th>
+                        </tr>
+                    </thead>
+                    <tbody id="debtsBody">
+                        <tr>
+                            <td><input type="text" class="editable-name" value="Janvier"></td>
+                            <td><input type="number" class="amount-input" value="0"></td>
+                            <td><input type="number" class="amount-input" value="20"></td>
+                            <td style="text-align: center;">
+                                <input type="checkbox" style="transform: scale(1.5); accent-color: #d63384;">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn-add" onclick="addRow('debtsBody', false, true)">+ AJOUTER UN MOIS</button>
+        </div>
+
+        <div class="card">
+            <h2>Économies & Objectifs</h2>
+            <div class="economy-flex" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <table>
+                    <tr>
+                        <td><strong>Revenu du Foyer</strong></td>
+                        <td><input type="number" id="revenuFoyer" class="amount-input" value="2000" oninput="updateDashboard()"> €</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Budget Ciblé</strong></td>
+                        <td><input type="number" id="budgetCible" class="amount-input" value="1500" oninput="updateDashboard()"> €</td>
+                    </tr>
+                    <tr>
+                        <td>Dépenses Mensuelles</td>
+                        <td><span id="totalDepensesDisplay">0.00</span> €</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Économie Réalisée</td>
+                        <td><span id="economieDisplay">0.00</span> €</td>
+                    </tr>
+                </table>
+
+                <div class="charts-wrapper" style="display: flex; gap: 20px;">
+                    <div style="width: 140px; text-align: center;">
+                        <canvas id="chartRevenu"></canvas>
+                        <p style="font-size: 0.7rem; margin-top: 5px;">Revenu vs Dépenses</p>
+                    </div>
+                    <div style="width: 140px; text-align: center;">
+                        <canvas id="chartBudget"></canvas>
+                        <p style="font-size: 0.7rem; margin-top: 5px;">Budget vs Dépenses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chart1, chart2;
+
+        function addRow(tableId, isSpending, isDebt = false) {
+            const tbody = document.getElementById(tableId);
+            const row = document.createElement('tr');
+            
+            if (isSpending) {
+                row.innerHTML = `
+                    <td><input type="text" class="editable-name" value="Nouvelle Catégorie"></td>
+                    <td><input type="number" class="amount-input" value="0" oninput="calcTotal(this)"></td>
+                    <td><input type="number" class="amount-input" value="0" oninput="calcTotal(this)"></td>
+                    <td><span class="row-total">0</span> €</td>
+                    <td><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
+                `;
+            } else if (isDebt) {
+                row.innerHTML = `
+                    <td><input type="text" class="editable-name" value="Mois"></td>
+                    <td><input type="number" class="amount-input" value="0"></td>
+                    <td><input type="number" class="amount-input" value="0"></td>
+                    <td style="text-align: center;"><input type="checkbox" style="transform: scale(1.5); accent-color: #d63384;"></td>
+                `;
+            } else {
+                row.innerHTML = `
+                    <td><input type="text" class="editable-name" value="Article"></td>
+                    <td><input type="text" class="amount-input" value="1" style="text-align:left"></td>
+                    <td><input type="number" class="amount-input" value="0" oninput="calcShopping()"></td>
+                    <td><span class="shop-total">0</span> €</td>
+                `;
+            }
+            tbody.appendChild(row);
+        }
+
+        function calcTotal(input) {
+            const row = input.closest('tr');
+            const amounts = row.querySelectorAll('input[type="number"]');
+            const totalCell = row.querySelector('.row-total');
+            let sum = 0;
+            amounts.forEach(a => sum += parseFloat(a.value || 0));
+            totalCell.innerText = sum.toFixed(2);
+            updateDashboard();
+        }
+
+        function calcShopping() {
+            let total = 0;
+            document.querySelectorAll('#shoppingBody tr').forEach(row => {
+                const price = parseFloat(row.querySelectorAll('.amount-input')[1].value || 0);
+                row.querySelector('.shop-total').innerText = price.toFixed(2);
+                total += price;
+            });
+            document.getElementById('finalShopTotal').innerText = total.toFixed(2);
+        }
+
+        function updateDashboard() {
+            let totalDepenses = 0;
+            document.querySelectorAll('#spendingBody .row-total').forEach(span => {
+                totalDepenses += parseFloat(span.innerText || 0);
+            });
+            document.getElementById('totalDepensesDisplay').innerText = totalDepenses.toFixed(2);
+
+            const revenu = parseFloat(document.getElementById('revenuFoyer').value || 0);
+            const budget = parseFloat(document.getElementById('budgetCible').value || 0);
+            const economie = revenu - totalDepenses;
+            document.getElementById('economieDisplay').innerText = economie.toFixed(2);
+
+            updateCharts(revenu, budget, totalDepenses);
+        }
+
+        function updateCharts(revenu, budget, depenses) {
+            const ctx1 = document.getElementById('chartRevenu').getContext('2d');
+            const ctx2 = document.getElementById('chartBudget').getContext('2d');
+            if (chart1) chart1.destroy();
+            if (chart2) chart2.destroy();
+
+            const options = { plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } };
+
+            chart1 = new Chart(ctx1, {
+                type: 'bar',
+                data: { labels: ['Revenu', 'Dép.'], datasets: [{ data: [revenu, depenses], backgroundColor: ['#007bff', '#dc3545'] }] },
+                options: options
+            });
+
+            chart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: { labels: ['Budget', 'Dép.'], datasets: [{ data: [budget, depenses], backgroundColor: ['#28a745', '#dc3545'] }] },
+                options: options
+            });
+        }
+
+        window.onload = updateDashboard;
+    </script>
+</body>
+</html>
