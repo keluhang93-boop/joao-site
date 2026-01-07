@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EverAfter Venues | Find Your Dream Spot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">EverAfter</div>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by city or style (e.g. Beach)..." onkeyup="filterVenues()">
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Find your perfect place to say "I Do"</h1>
+            <p>Explore the most romantic wedding venues in the world.</p>
+        </section>
+
+        <div id="venueGrid" class="venue-grid"></div>
+    </main>
+
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Book Venue</h2>
+            <p>Select your date to check availability:</p>
+            <input type="date" id="bookingDate">
+            <button class="confirm-btn" onclick="confirmBooking()">Check Availability</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
