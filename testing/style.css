@@ -46,11 +46,11 @@ nav {
     border-bottom: 2px solid #f2c1da;
 }
 
-/* --- UPDATED FANCY HEADER --- */
-.main-header {
+/* --- UPDATED FANCY SKETCH HEADER --- */
+header {
     background: #ffffff !important;
-    border-bottom: 2px solid #5d3fd3; /* Purple accent line */
-    padding: 10px 4%;
+    border-bottom: 2px solid #000000 !important; /* Replaced purple with black */
+    padding: 10px 5%;
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 10000;
@@ -63,67 +63,69 @@ nav {
 .header-left-group {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
 }
 
-/* The "Smart Couple" box on the left */
+/* SMART COUPLE Logo - Removed purple border and background */
 .logo-wrapper {
-    border: 2px solid #5d3fd3; /* Purple border from sketch */
-    padding: 5px 15px;
+    padding: 5px 10px;
     text-align: center;
+    text-decoration: none;
 }
 
 .logo-text {
     font-family: 'Playfair Display', serif;
     font-weight: bold;
-    color: #f1c40f !important; /* Yellow text for logo */
-    text-decoration: none;
-    font-size: 1.1rem;
-    display: block;
-    line-height: 1;
+    color: #000000 !important; /* Elegant Black */
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.logo-icon { font-size: 18px; margin-top: 2px; }
-
-/* The Yellow-Box Menu Links */
+/* The Menu Boxes - Changed from yellow to elegant black borders */
 .sketch-nav {
     display: flex;
-    gap: 12px;
+    gap: 15px;
 }
 
 .nav-box {
     text-decoration: none;
-    color: #5d3fd3 !important; /* Purple text */
-    border: 2px solid #f1c40f; /* Yellow border from sketch */
-    padding: 8px 18px;
+    color: #000000 !important; /* Black text */
+    border: 1.5px solid #000000; /* Black squares as requested */
+    padding: 8px 15px;
+    font-family: 'Lato', sans-serif;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    transition: 0.2s ease-in-out;
+    transition: all 0.3s ease;
 }
 
 .nav-box:hover {
-    background: #f1c40f;
-    color: #fff !important;
+    background: #000000;
+    color: #ffffff !important; /* Invert on hover for a modern feel */
 }
 
-/* Auth Buttons on the right */
+/* Auth Section on the right */
 .header-right-group {
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
 
-.btn-login, .btn-signup {
+.btn-auth {
     text-decoration: none;
-    padding: 8px 20px;
-    font-size: 0.85rem;
+    color: #000000;
+    font-family: 'Lato', sans-serif;
     font-weight: bold;
-    border: 1px solid #333;
-    color: #333;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border: 1px solid transparent;
     transition: 0.3s;
 }
 
-.btn-signup:hover, .btn-login:hover {
-    background: #333;
-    color: #fff;
+.btn-auth.outline {
+    border-color: #000000;
+}
+
+.btn-auth:hover {
+    opacity: 0.7;
 }
