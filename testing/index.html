@@ -127,15 +127,17 @@
 </main>
 
 <script>
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const navMenu = document.getElementById('nav-menu');
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('mobile-menu-btn');
+        const nav = document.getElementById('nav-menu');
 
-    if (menuBtn) {
-        menuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            menuBtn.classList.toggle('open'); // For the X animation
-        });
-    }
+        if (btn && nav) {
+            btn.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                btn.classList.toggle('open');
+            });
+        }
+    });
 </script>
     
 </body>
