@@ -1,59 +1,50 @@
 body {
-    background-color: #f0f2f5;
-    font-family: sans-serif;
-    margin: 0;
+    background-color: #e9ecef;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: sans-serif;
 }
 
 .editor-container {
-    width: 850px;
-    margin-top: 20px;
+    width: 800px;
     background: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.size-wrapper {
+.toolbar {
+    display: flex;
+    gap: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+    flex-wrap: wrap; /* Prevents items from overlapping */
+}
+
+.group {
     display: flex;
     align-items: center;
     gap: 5px;
-    width: 100px; /* Locks the width so it can't grow */
+    border-right: 1px solid #ddd;
+    padding-right: 10px;
 }
 
 #fontSizeInput {
     width: 50px;
-    flex-shrink: 0;
-}
-
-/* Ensure the toolbar doesn't jump around */
-.toolbar {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap; 
-    overflow-x: auto;
 }
 
 #editor {
-    padding: 50px;
-    min-height: 600px;
+    padding: 40px;
+    min-height: 500px;
     outline: none;
-    font-size: 16px; /* Default starting size */
+    line-height: 1.5;
 }
 
 .status-bar {
-    padding: 10px 20px;
+    padding: 5px 15px;
     background: #f8f9fa;
     border-top: 1px solid #ddd;
-    font-size: 14px;
+    font-size: 0.9rem;
 }
-
-.separator {
-    width: 1px;
-    height: 25px;
-    background: #ccc;
-}
-
-input[type="number"] { width: 50px; }
