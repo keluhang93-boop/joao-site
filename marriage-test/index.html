@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Weddings | Premium Venues</title>
+    <title>Lumina Mariage | Lieux d'Exception en France</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,56 +12,78 @@
     <nav class="navbar">
         <div class="logo">LUMINA</div>
         <div class="nav-links">
-            <a href="#">Venues</a>
-            <a href="#">Photographers</a>
-            <a href="#">Planning</a>
-            <button class="login-btn">Sign In</button>
+            <a href="#">Lieux</a>
+            <a href="#">Prestataires</a>
+            <a href="#">Organisation</a>
+            <button class="login-btn">Se Connecter</button>
         </div>
     </nav>
 
     <header class="hero">
         <div class="hero-content">
-            <h1>Your Forever, <br><span>Perfectly Placed.</span></h1>
+            <h1>Votre Grand Jour, <br><span>Parfaitement Orchestré.</span></h1>
             
             <div class="search-widget">
                 <div class="input-group">
-                    <label>Location</label>
-                    <input type="text" id="searchInput" placeholder="Where do you want to go?" onkeyup="filterVenues()">
+                    <label>Destination</label>
+                    <input type="text" id="searchInput" placeholder="Paris, Nice, Bretagne..." onkeyup="filterVenues()">
                 </div>
                 <div class="divider"></div>
                 <div class="input-group">
                     <label>Style</label>
                     <select id="styleFilter" onchange="filterVenues()">
-                        <option value="all">Any Style</option>
-                        <option value="Beach">Beach</option>
-                        <option value="Castle">Castle</option>
-                        <option value="Modern">Modern</option>
+                        <option value="all">Tous les styles</option>
+                        <option value="Château">Château</option>
+                        <option value="Bord de mer">Bord de mer</option>
+                        <option value="Urbain Chic">Urbain Chic</option>
                     </select>
                 </div>
-                <button class="search-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </button>
+                <button class="search-btn">Chercher</button>
             </div>
         </div>
     </header>
 
     <section class="container">
-        <h2 class="section-title">Exclusive Destinations</h2>
+        <h2 class="section-title">Destinations Exclusives en France</h2>
         <div id="venueGrid" class="venue-showcase"></div>
     </section>
+
+    <section class="info-section">
+        <div class="info-container">
+            <div class="info-item">
+                <div class="icon">✨</div>
+                <h3>Grande Flexibilité</h3>
+                <p>Modifiez vos dates ou annulez sans stress jusqu'à 6 mois avant l'événement.</p>
+            </div>
+            <div class="info-item">
+                <div class="icon">🏰</div>
+                <h3>Patrimoine Unique</h3>
+                <p>Plus de 500 lieux historiques, des châteaux de la Loire aux domaines provençaux.</p>
+            </div>
+            <div class="info-item">
+                <div class="icon">💎</div>
+                <h3>Service Conciergerie</h3>
+                <p>Un accompagnement personnalisé pour chaque étape de votre réservation.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Lumina Mariage. Luxe & Élégance à la française.</p>
+    </footer>
 
     <div id="bookingModal" class="modal">
         <div class="modal-card">
             <button class="close-modal" onclick="closeModal()">&times;</button>
             <div id="modalImage" class="modal-banner"></div>
             <div class="modal-body">
-                <h2 id="modalTitle">Venue Name</h2>
-                <p id="modalLocation">Location</p>
+                <h2 id="modalTitle">Nom du Lieu</h2>
+                <p id="modalLocation">Lieu</p>
                 <div class="date-picker">
-                    <label>Select Your Date</label>
+                    <label>Choisir une date</label>
                     <input type="date" id="bookingDate">
                 </div>
-                <button class="confirm-btn" onclick="confirmBooking()">Check Availability</button>
+                <button class="confirm-btn" onclick="confirmBooking()">Vérifier la disponibilité</button>
             </div>
         </div>
     </div>
