@@ -1,7 +1,7 @@
 const venues = [
-    { id: 1, name: "Château de Versailles", loc: "Paris / Versailles", type: "Château", img: "https://images.unsplash.com/photo-1585642910443-39d7fc214bc5?auto=format&fit=crop&w=800" },
+    { id: 1, name: "Château de Versailles", loc: "Paris / Versailles", type: "Château", img: "https://media.istockphoto.com/id/1804587990/fr/photo/la-cour-de-marbre-du-château-de-versailles-france.jpg?s=612x612&w=0&k=20&c=AJQKyvgygDlDX5Yke4prTJtmRNV7eES2ZZJJ8QBxtVI=" },
     { id: 2, name: "Le Palais de la Méditerranée", loc: "Nice", type: "Bord de mer", img: "https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&w=800" },
-    { id: 3, name: "Domaine des Vignes", loc: "Bordeaux", type: "Château", img: "https://images.unsplash.com/photo-1505944270255-bd2b89657434?auto=format&fit=crop&w=800" },
+    { id: 3, name: "Domaine des Vignes", loc: "Bordeaux", type: "Château", img: "https://media.istockphoto.com/id/157423617/fr/photo/vignoble-en-provence.jpg?s=612x612&w=0&k=20&c=DRUFwXzjbI-ugqFLCIPHRwwNAIKT8NbWnCfvLtLgxdI=" },
     { id: 4, name: "Manoir Breton", loc: "Bretagne", type: "Château", img: "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=800" }
 ];
 
