@@ -1,8 +1,8 @@
 const venueData = [
-    { id: 1, name: "Amalfi Serenity", loc: "Italy", style: "Beach", img: "https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?auto=format&fit=crop&w=800" },
-    { id: 2, name: "Royal Highland", loc: "Scotland", style: "Castle", img: "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=800" },
-    { id: 3, name: "The Glass Pavilion", loc: "New York", style: "Modern", img: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800" },
-    { id: 4, name: "Santorini Dreams", loc: "Greece", style: "Beach", img: "https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&w=800" }
+    { id: 1, name: "Château de Versailles", loc: "Paris / Versailles", style: "Château", img: "https://images.unsplash.com/photo-1585642910443-39d7fc214bc5?auto=format&fit=crop&w=800" },
+    { id: 2, name: "Le Palais de la Méditerranée", loc: "Nice", style: "Bord de mer", img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800" },
+    { id: 3, name: "Domaine des Vignes", loc: "Bordeaux", style: "Château", img: "https://images.unsplash.com/photo-1505944270255-bd2b89657434?auto=format&fit=crop&w=800" },
+    { id: 4, name: "Manoir Breton", loc: "Bretagne", style: "Urbain Chic", img: "https://images.unsplash.com/photo-1560124341-3b890832128b?auto=format&fit=crop&w=800" }
 ];
 
 const grid = document.getElementById('venueGrid');
@@ -45,10 +45,9 @@ function closeModal() {
 
 function confirmBooking() {
     const date = document.getElementById('bookingDate').value;
-    if(!date) return alert("Please select a wedding date.");
-    alert("Inquiry Sent. Lumina Concierge will contact you shortly.");
+    if(!date) return alert("Veuillez choisir une date pour votre mariage.");
+    alert("Demande envoyée ! Notre conciergerie vous contactera sous 24h.");
     closeModal();
 }
 
-// Initial Load
 render(venueData);
