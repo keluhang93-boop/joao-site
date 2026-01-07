@@ -8,29 +8,34 @@
 </head>
 <body>
 
-    <div class="editor-container">
-        <div class="toolbar">
-            <button onclick="formatDoc('bold')" title="Bold"><b>B</b></button>
-            <button onclick="formatDoc('italic')" title="Italic"><i>I</i></button>
-            <button onclick="formatDoc('underline')" title="Underline"><u>U</u></button>
-            <div class="separator"></div>
-            <button onclick="formatDoc('justifyLeft')">Left</button>
-            <button onclick="formatDoc('justifyCenter')">Center</button>
-            <button onclick="formatDoc('justifyRight')">Right</button>
-            <div class="separator"></div>
-            <input type="color" onchange="formatDoc('foreColor', this.value)" title="Text Color">
-            <div class="separator"></div>
-            <label for="fontSize">Size: </label>
-            <input type="number" id="fontSize" value="3" min="1" max="7" onchange="formatDoc('fontSize', this.value)">
-        </div>
-
-        <div id="editor" contenteditable="true">
-            Start typing your document here...
-        </div>
+<div class="editor-container">
+    <div class="toolbar">
+        <button type="button" onclick="formatDoc('bold')"><b>B</b></button>
+        <button type="button" onclick="formatDoc('italic')"><i>I</i></button>
+        <button type="button" onclick="formatDoc('underline')"><u>U</u></button>
+        
+        <div class="separator"></div>
+        
+        <input type="color" id="colorPicker" oninput="formatDoc('foreColor', this.value)">
+        
+        <label>Size:</label>
+        <select id="fontSize" onchange="formatDoc('fontSize', this.value)">
+            <option value="1">1 (Tiny)</option>
+            <option value="2">2</option>
+            <option value="3" selected>3 (Normal)</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7 (Huge)</option>
+        </select>
     </div>
+
+    <div id="editor" contenteditable="true">Start typing...</div>
+
     <div class="status-bar">
         Words: <span id="wordCount">0</span>
     </div>
+</div>
 
     <script src="script.js"></script>
 </body>
