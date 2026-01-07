@@ -20,15 +20,29 @@ function formatDoc(cmd, value = null) {
 
 function changeFontSize(size) {
     if (!size) return;
-    document.execCommand("styleWithCSS", false, true);
-    document.execCommand("fontSize", false, "7");
 
-    const fontTags = editor.querySelectorAll("font, span");
-    fontTags.forEach(tag => {
-        if (tag.getAttribute("size") === "7" || tag.style.fontSize === "xxx-large") {
-            tag.removeAttribute("size");
-            tag.style.fontSize = size + "px";
-        }
-    });
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        // 1. Tell browser to use CSS
+        document.execCommand("styleWithCSS", false, true);
+        
+        // 2. Apply a temporary unique size
+        document.execCommand("fontSize", false, "7");
+
+        // 3. Find the tags and clean them
+        const fontTags = editor.querySelectorAll("font, span");
+        fontTags.forEach(tag => {
+            if (tag.getAttribute("size") === "7" || tag.style.fontSize === "xxx-large") {
+                tag.removeAttribute("size");
+                
+                // Reset any nested font sizes to prevent the "jumping" bug
+                const nested = tag.querySelectorAll("span");
+                nested.forEach(n => n.style.fontSize = "inherit");
+                
+                // Apply exact size
+                tag.style.fontSize = size + "px";
+            }
+        });
+    }
     editor.focus();
 }
