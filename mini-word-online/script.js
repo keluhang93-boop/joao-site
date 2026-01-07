@@ -5,10 +5,9 @@ window.onload = () => {
     editor = document.getElementById('editor');
     wordCountDisplay = document.getElementById('wordCount');
 
-    // Word Count
     editor.addEventListener('input', () => {
-        const text = editor.innerText.trim();
-        const words = text ? text.split(/\s+/).length : 0;
+        const text = editor.innerText || "";
+        const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
         wordCountDisplay.innerText = words;
     });
 };
@@ -18,36 +17,25 @@ function formatDoc(cmd, value = null) {
     editor.focus();
 }
 
-/**
- * NEW EXACT SIZE LOGIC
- * This ignores the browser's built-in font command and 
- * manually styles the highlighted text.
- */
 function changeFontSize(size) {
     if (!size) return;
 
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        
-        // 1. Create a span element
-        const span = document.createElement("span");
-        
-        // 2. Apply the exact pixel size
-        span.style.fontSize = size + "px";
-        
-        // 3. Put the selected text inside the span
-        try {
-            // This 'extract' and 'insert' method is the most reliable way 
-            // to force the browser to accept new CSS styles.
-            span.appendChild(range.extractContents());
-            range.insertNode(span);
-        } catch (e) {
-            console.error("Size change failed: ", e);
-        }
-    }
+    // 1. Tell the browser we want to use CSS styles, not HTML tags
+    document.execCommand("styleWithCSS", false, true);
     
-    // Clear the selection so the user can see the result
-    selection.removeAllRanges();
+    // 2. Apply a temporary size that we can easily find
+    document.execCommand("fontSize", false, "7");
+
+    // 3. Find all elements that just got that size and swap it for our 'PX' value
+    const fontElements = editor.querySelectorAll("span, font");
+    
+    fontElements.forEach(el => {
+        // Look for the browser's default 'large' size markers
+        if (el.style.fontSize === "xxx-large" || el.getAttribute("size") === "7") {
+            el.removeAttribute("size");
+            el.style.fontSize = size + "px";
+        }
+    });
+
     editor.focus();
 }
