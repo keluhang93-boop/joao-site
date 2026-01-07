@@ -19,3 +19,33 @@ editor.addEventListener('keydown', (e) => {
         document.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;');
     }
 });
+
+const editor = document.getElementById('editor');
+const wordCountDisplay = document.getElementById('wordCount');
+
+/**
+ * Main function to apply formatting
+ */
+function formatDoc(cmd, value = null) {
+    document.execCommand(cmd, false, value);
+}
+
+/**
+ * Word Count Logic
+ */
+editor.addEventListener('input', () => {
+    const text = editor.innerText.trim();
+    // Split by spaces and filter out empty strings
+    const words = text ? text.split(/\s+/).length : 0;
+    wordCountDisplay.innerText = words;
+});
+
+/**
+ * Tab key support
+ */
+editor.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+        e.preventDefault();
+        document.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;');
+    }
+});
