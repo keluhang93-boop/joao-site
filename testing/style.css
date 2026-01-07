@@ -289,3 +289,11 @@ nav {
     margin-bottom: 25px;
     background-color: #fff;
 }
+
+.info-image img {
+    width: 100%;           /* Fills the container width */
+    height: 400px;         /* Forces a specific height for all images */
+    object-fit: cover;     /* Essential: Crops the image to fit without stretching */
+    object-position: center; /* Keeps the center of the photo visible */
+    border: 1px solid #000; 
+}
