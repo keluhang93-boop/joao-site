@@ -61,3 +61,18 @@ button, select {
     border-top: 1px solid #eee;
     font-size: 14px;
 }
+
+/* Fix for bullet point sizing */
+#editor ul, #editor ol {
+    padding-left: 40px;
+}
+
+#editor li {
+    /* This makes the bullet/number inherit the size of the text */
+    list-style-position: outside;
+}
+
+/* This targets the actual text inside the list to prevent double-scaling */
+#editor li span {
+    display: inline-block;
+}
