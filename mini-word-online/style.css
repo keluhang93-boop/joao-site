@@ -2,74 +2,62 @@ body {
     background-color: #f0f2f5;
     display: flex;
     justify-content: center;
-    padding: 40px;
-    font-family: 'Segoe UI', sans-serif;
+    padding: 20px;
+    font-family: sans-serif;
 }
 
 .editor-container {
-    width: 800px;
+    width: 900px;
     background: white;
-    border: 1px solid #ced4da;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    border-radius: 8px;
-    overflow: hidden;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 .toolbar {
-    display: flex;
-    gap: 10px;
-    padding: 10px;
-    background: #ffffff;
+    background: #fdfdfd;
     border-bottom: 1px solid #eee;
+    padding: 10px;
+}
+
+.toolbar-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 8px;
     align-items: center;
 }
+
+.toolbar-row:last-child { margin-bottom: 0; }
 
 .group {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 0 10px;
+    gap: 5px;
+    padding-right: 15px;
     border-right: 1px solid #eee;
 }
 
 .group:last-child { border-right: none; }
 
 button, select {
-    padding: 6px 10px;
-    border: 1px solid #ddd;
-    background: white;
-    border-radius: 4px;
+    padding: 5px 8px;
     cursor: pointer;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 3px;
 }
-
-button:hover { background: #f8f9fa; }
 
 #editor {
     padding: 50px;
-    min-height: 600px;
+    min-height: 500px;
     outline: none;
-    font-size: 16px;
+    overflow-y: auto;
 }
 
 .status-bar {
-    padding: 8px 20px;
+    padding: 10px 20px;
     background: #f8f9fa;
-    font-size: 13px;
-    color: #666;
-}
-
-/* Add this to your existing CSS */
-.toolbar button {
-    font-size: 12px;
-    font-weight: 500;
-    min-width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Ensure bullet points have some space in the editor */
-#editor ul, #editor ol {
-    padding-left: 40px;
-    margin: 10px 0;
+    border-top: 1px solid #eee;
+    font-size: 14px;
 }
