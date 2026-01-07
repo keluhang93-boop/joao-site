@@ -5,10 +5,11 @@ window.onload = () => {
     editor = document.getElementById('editor');
     wordCountDisplay = document.getElementById('wordCount');
 
+    // Word Counter
     editor.addEventListener('input', () => {
         const text = editor.innerText || "";
-        const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
-        wordCountDisplay.innerText = words;
+        const count = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+        wordCountDisplay.innerText = count;
     });
 };
 
@@ -17,23 +18,24 @@ function formatDoc(cmd, value = null) {
     editor.focus();
 }
 
+/**
+ * Modern Dropdown Font Size Logic
+ */
 function changeFontSize(size) {
     if (!size) return;
 
-    // 1. Tell the browser we want to use CSS styles, not HTML tags
+    // Standardize to use CSS for exact pixels
     document.execCommand("styleWithCSS", false, true);
     
-    // 2. Apply a temporary size that we can easily find
+    // We use a temporary command to find the correct spot in the HTML
     document.execCommand("fontSize", false, "7");
 
-    // 3. Find all elements that just got that size and swap it for our 'PX' value
-    const fontElements = editor.querySelectorAll("span, font");
-    
-    fontElements.forEach(el => {
-        // Look for the browser's default 'large' size markers
-        if (el.style.fontSize === "xxx-large" || el.getAttribute("size") === "7") {
-            el.removeAttribute("size");
-            el.style.fontSize = size + "px";
+    // Replace the browser's "Size 7" with your actual choice
+    const fontTags = editor.querySelectorAll("font, span");
+    fontTags.forEach(tag => {
+        if (tag.getAttribute("size") === "7" || tag.style.fontSize === "xxx-large") {
+            tag.removeAttribute("size");
+            tag.style.fontSize = size + "px";
         }
     });
 
