@@ -1,4 +1,3 @@
-// Global variables
 let editor;
 let wordCountDisplay;
 
@@ -6,7 +5,7 @@ window.onload = () => {
     editor = document.getElementById('editor');
     wordCountDisplay = document.getElementById('wordCount');
 
-    // Word Count Logic
+    // Word Count
     editor.addEventListener('input', () => {
         const text = editor.innerText.trim();
         const words = text ? text.split(/\s+/).length : 0;
@@ -14,28 +13,41 @@ window.onload = () => {
     });
 };
 
-// Basic formatting (Bold, Italic, Colors)
 function formatDoc(cmd, value = null) {
     document.execCommand(cmd, false, value);
     editor.focus();
 }
 
-// Exact Pixel Size Logic
+/**
+ * NEW EXACT SIZE LOGIC
+ * This ignores the browser's built-in font command and 
+ * manually styles the highlighted text.
+ */
 function changeFontSize(size) {
     if (!size) return;
-    
-    // Step 1: Tell the browser to use CSS styles instead of old HTML tags
-    document.execCommand("styleWithCSS", false, true);
-    
-    // Step 2: Use the standard command
-    document.execCommand("fontSize", false, "7"); 
-    
-    // Step 3: Find the elements the browser just changed and fix the PX size
-    const elements = editor.querySelectorAll("span, font");
-    elements.forEach(el => {
-        if (el.style.fontSize === "xxx-large" || el.getAttribute("size") === "7") {
-            el.removeAttribute("size");
-            el.style.fontSize = size + "px";
+
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        
+        // 1. Create a span element
+        const span = document.createElement("span");
+        
+        // 2. Apply the exact pixel size
+        span.style.fontSize = size + "px";
+        
+        // 3. Put the selected text inside the span
+        try {
+            // This 'extract' and 'insert' method is the most reliable way 
+            // to force the browser to accept new CSS styles.
+            span.appendChild(range.extractContents());
+            range.insertNode(span);
+        } catch (e) {
+            console.error("Size change failed: ", e);
         }
-    });
+    }
+    
+    // Clear the selection so the user can see the result
+    selection.removeAllRanges();
+    editor.focus();
 }
