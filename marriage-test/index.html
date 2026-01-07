@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Couple</title>
+    <title>Smart Couple | Mariages d'Exception</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,59 +12,65 @@
     <nav class="navbar">
         <div class="logo">SMART COUPLE</div>
         <div class="nav-links">
-            <a href="#">Lieux</a>
-            <a href="#">Organisation</a>
-            <button class="login-btn">Se Connecter</button>
+            <a href="#" class="nav-item">Lieux</a>
+            <a href="#" class="nav-item">Organisation</a>
+            <button class="btn-primary" id="loginBtn">SE CONNECTER</button>
         </div>
     </nav>
 
     <header class="hero">
         <div class="hero-content">
-            <h1>Votre Grand Jour, <br><span>Parfaitement Orchestré.</span></h1>
+            <h1 id="heroTitle">Votre Grand Jour, <br><span>Parfaitement Orchestré.</span></h1>
             
             <div class="search-container">
-                <div class="search-widget">
+                <div class="search-widget" id="mainSearch">
                     <div class="search-field">
                         <label>Destination</label>
-                        <input type="text" id="searchInput" placeholder="Paris, Nice, Bretagne..." onkeyup="filterVenues()">
+                        <input type="text" id="searchInput" placeholder="Paris, Nice, Bretagne..." autocomplete="off">
                     </div>
                     <div class="v-divider"></div>
                     <div class="search-field">
                         <label>Style</label>
-                        <select id="styleFilter" onchange="filterVenues()">
-                            <option value="all">Tous les styles</option>
-                            <option value="Château">Château</option>
-                            <option value="Bord de mer">Bord de mer</option>
-                        </select>
+                        <div class="select-wrapper">
+                            <select id="styleFilter">
+                                <option value="all">Tous les styles</option>
+                                <option value="Château">Château</option>
+                                <option value="Bord de mer">Bord de mer</option>
+                            </select>
+                        </div>
                     </div>
-                    <button class="search-btn" onclick="filterVenues()">CHERCHER</button>
+                    <button class="search-btn" id="searchBtn">CHERCHER</button>
                 </div>
             </div>
         </div>
     </header>
 
     <section class="main-content">
-        <h2 class="section-title">Destinations Exclusives en France</h2>
-        <div id="venueGrid" class="venue-grid">
+        <div class="header-flex">
+            <h2 class="section-title">Destinations Exclusives en France</h2>
+            <div class="view-options">
+                <span id="itemsCount">4 lieux trouvés</span>
             </div>
+        </div>
+        <div id="venueGrid" class="venue-grid"></div>
     </section>
 
     <section class="info-section">
         <div class="info-grid">
             <div class="info-card">
-                <span class="info-icon">🛡️</span>
+                <div class="info-icon">01</div>
                 <h3>Grande Flexibilité</h3>
-                <p>Annulation gratuite jusqu'à 6 mois avant votre événement pour une tranquillité totale.</p>
+                <p>Annulation sans frais jusqu'à 180 jours. La sérénité avant tout.</p>
             </div>
             <div class="info-card">
-                <span class="info-icon">🏰</span>
-                <h3>Patrimoine Unique</h3>
-                <p>Plus de 500 lieux historiques sélectionnés pour leur élégance et leur caractère unique.</p>
+                <div class="info-icon">02</div>
+                <h3>Selection "Elite"</h3>
+                <p>Seulement 1% des domaines français répondent à nos critères de luxe.</p>
             </div>
             <div class="info-card">
-                <span class="info-icon">📍</span>
-                <h3>Filtres Personnalisés</h3>
-                <p>Trouvez le lieu idéal selon vos critères : capacité, budget et style architectural.</p>
+                <div class="info-icon">03</div>
+                <h3>Filtres Avancés</h3>
+                <p>Utilisez notre algorithme pour trouver le lieu qui correspond à votre âme.</p>
             </div>
         </div>
     </section>
