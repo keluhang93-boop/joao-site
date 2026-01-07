@@ -333,39 +333,50 @@ body {
     transition: all 0.3s ease;
 }
 
-/* --- MOBILE VIEW (768px and below) --- */
-@media (max-width: 768px) {
-    .menu-toggle { display: flex; }
+/* --- UPDATED MOBILE MENU LOGIC --- */
 
+@media (max-width: 768px) {
+    /* 1. Hide the menu by default */
     .sketch-nav {
-        display: none; /* Hidden by default */
+        display: none !important; 
         position: fixed;
-        top: 70px; /* Adjust based on your header height */
+        top: 70px; /* Matches header height */
         left: 0;
         width: 100%;
-        height: auto;
         background: white;
         flex-direction: column;
-        padding: 40px 0;
+        padding: 20px 0;
         border-bottom: 2px solid #000;
-        gap: 20px;
-        z-index: 9999;
+        z-index: 999;
     }
 
-    /* THE MAGIC CLASS: JavaScript adds this when clicked */
+    /* 2. Show the menu ONLY when 'active' class is added */
     .sketch-nav.active {
-        display: flex !important; 
+        display: flex !important;
     }
 
-    .nav-box {
-        border: none; /* Cleaner look on mobile */
-        font-size: 1.2rem;
-        width: 100%;
-        text-align: center;
+    /* 3. Ensure the toggle button is visible */
+    .menu-toggle {
+        display: flex !important;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
     }
 
-    /* Animation: Turn 3 lines into an X */
-    .menu-toggle.open .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .menu-toggle.open .bar:nth-child(2) { opacity: 0; }
-    .menu-toggle.open .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .menu-toggle span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: #000;
+        transition: 0.3s;
+    }
+
+    /* 4. Hide Login/Signup on tiny screens to save space (Optional) */
+    .header-right-group {
+        display: none; 
+    }
 }
