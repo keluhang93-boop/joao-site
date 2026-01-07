@@ -165,18 +165,16 @@
 </script>
 
 <script>
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const navMenu = document.getElementById('nav-menu');
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('mobile-menu-btn');
+        const overlay = document.getElementById('mobile-menu-overlay');
 
-    menuBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-    });
-
-    // Close menu when a link is clicked
-    document.querySelectorAll('.nav-box').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-        });
+        if (btn && overlay) {
+            btn.addEventListener('click', () => {
+                overlay.classList.toggle('active');
+                console.log("Menu toggled!");
+            });
+        }
     });
 </script>
     
