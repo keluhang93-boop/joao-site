@@ -1,63 +1,59 @@
 body {
-    background-color: #e9ecef;
+    background-color: #f0f2f5;
     display: flex;
     justify-content: center;
-    padding: 20px;
-    font-family: sans-serif;
+    padding: 40px;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 .editor-container {
     width: 800px;
     background: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid #ced4da;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .toolbar {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     padding: 10px;
-    background: #f8f9fa;
-    border-bottom: 1px solid #ddd;
+    background: #ffffff;
+    border-bottom: 1px solid #eee;
     align-items: center;
-    flex-wrap: wrap; /* Prevents items from overlapping */
 }
 
 .group {
     display: flex;
     align-items: center;
-    gap: 5px;
-    border-right: 1px solid #ddd;
-    padding-right: 10px;
+    gap: 8px;
+    padding: 0 10px;
+    border-right: 1px solid #eee;
 }
 
-#fontSizeInput {
-    width: 50px;
+.group:last-child { border-right: none; }
+
+button, select {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
 }
+
+button:hover { background: #f8f9fa; }
 
 #editor {
-    padding: 40px;
-    min-height: 500px;
+    padding: 50px;
+    min-height: 600px;
     outline: none;
-    line-height: 1.5;
+    font-size: 16px;
 }
 
 .status-bar {
-    padding: 5px 15px;
+    padding: 8px 20px;
     background: #f8f9fa;
-    border-top: 1px solid #ddd;
-    font-size: 0.9rem;
-}
-
-.size-container {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    min-width: 100px; /* Lock the width */
-    max-width: 100px;
-}
-
-#fontSizeInput {
-    width: 50px;
-    flex-shrink: 0; /* Prevents the input from squishing or growing */
+    font-size: 13px;
+    color: #666;
 }
