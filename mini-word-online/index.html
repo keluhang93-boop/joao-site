@@ -2,45 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Word Online</title>
+    <title>Mini Word</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="editor-container">
     <div class="toolbar">
-        <button onclick="formatDoc('bold')">B</button>
-        <button onclick="formatDoc('italic')">I</button>
-        <button onclick="formatDoc('underline')">U</button>
-        <div class="separator"></div>
-        
-        <select onchange="formatDoc('fontName', this.value)">
-            <option value="Arial">Arial</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Courier New">Courier New</option>
-        </select>
+        <div class="group">
+            <button onclick="formatDoc('bold')">B</button>
+            <button onclick="formatDoc('italic')">I</button>
+            <button onclick="formatDoc('underline')">U</button>
+        </div>
 
-        <div class="size-wrapper">
-            <label>Size:</label>
+        <div class="group">
+            <select onchange="formatDoc('fontName', this.value)">
+                <option value="Arial">Arial</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Courier New">Courier New</option>
+            </select>
             <input type="number" id="fontSizeInput" value="16" onchange="changeFontSize(this.value)">
         </div>
 
-        <div class="separator"></div>
-        <label>Text:</label>
-        <input type="color" oninput="formatDoc('foreColor', this.value)">
-        
-        <label>Highlight:</label>
-        <input type="color" value="#ffff00" oninput="formatDoc('hiliteColor', this.value)">
+        <div class="group">
+            <span>Color:</span>
+            <input type="color" oninput="formatDoc('foreColor', this.value)">
+            <span>Highlight:</span>
+            <input type="color" value="#ffff00" oninput="formatDoc('hiliteColor', this.value)">
+        </div>
     </div>
 
-    <div id="editor" contenteditable="true">Start typing...</div>
+    <div id="editor" contenteditable="true">Start typing here...</div>
 
     <div class="status-bar">
         Words: <span id="wordCount">0</span>
     </div>
 </div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
