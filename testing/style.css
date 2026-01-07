@@ -46,11 +46,19 @@ nav {
     border-bottom: 2px solid #f2c1da;
 }
 
-/* --- CLEAN & FANCY HEADER --- */
+/* --- UNIVERSAL HEADER RESET --- */
+* { box-sizing: border-box; }
+
+body { 
+    margin: 0; 
+    padding: 0; 
+}
+
 .main-header {
     background: #ffffff !important;
     border-bottom: 1px solid #eeeeee;
-    padding: 15px 5%;
+    padding: 10px 5% !important; /* Forces 10px height everywhere */
+    height: 70px; /* Forces a fixed height so it never changes */
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 10000;
