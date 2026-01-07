@@ -130,15 +130,15 @@
 </main>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const navMenu = document.getElementById('nav-menu');
+    // Wait for the whole page to load
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('nav-menu');
 
-        if (menuBtn && navMenu) {
-            menuBtn.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-                // Optional: add a class to animate the button
-                menuBtn.classList.toggle('open');
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('active');
+                console.log("Menu toggled!"); // Check your console to see this
             });
         }
     });
