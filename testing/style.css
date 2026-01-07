@@ -333,60 +333,77 @@ body {
     transition: all 0.3s ease;
 }
 
-/* --- DESKTOP POSITIONING (Standard) --- */
+/* --- DESKTOP LAYOUT --- */
 .main-header {
-    display: flex;
-    justify-content: space-between; /* Logo/Nav on left, Login/Signup on right */
-    align-items: center;
-    padding: 0 5%;
-    height: 80px;
     background: #fff;
+    border-bottom: 1px solid #eee;
     position: relative;
     z-index: 1000;
 }
 
-.header-left-group {
+.header-container {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 30px; /* Adjust this to change space between Logo and Menu */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
+.header-right-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu-toggle {
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: #000;
+    transition: 0.3s;
+}
+
+/* --- MOBILE LAYOUT (Fixes the "Stuck" menu) --- */
 @media (max-width: 768px) {
-    /* Hide desktop auth buttons to prevent overlap */
-    .header-right-group {
-        display: none; 
+    .menu-toggle {
+        display: flex; /* Show hamburger */
     }
 
-    /* Force the menu to break out and become a dropdown */
+    .auth-buttons-desktop {
+        display: none; /* Hide buttons on bar to save space */
+    }
+
     .sketch-nav {
-        display: none; /* Hidden by default */
-        position: fixed;
-        top: 80px; /* Matches header height */
+        display: none; /* HIDDEN BY DEFAULT */
+        flex-direction: column;
+        position: absolute; /* FLOATS over the hero image */
+        top: 100%; /* Sits exactly under the white bar */
         left: 0;
         width: 100%;
         background: white;
-        flex-direction: column;
         padding: 20px 0;
         border-bottom: 2px solid #000;
-        z-index: 999;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
     }
 
-    /* Shown when toggled */
+    /* THE MAGIC TRIGGER */
     .sketch-nav.active {
         display: flex !important;
     }
 
     .nav-box {
+        border: none;
         width: 100%;
         text-align: center;
-        border: none;
         padding: 15px 0;
-    }
-
-    /* Ensure logo and hamburger stay left-aligned on mobile */
-    .header-left-group {
-        width: 100%;
-        justify-content: space-between;
     }
 }
