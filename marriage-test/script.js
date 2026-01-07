@@ -3,7 +3,8 @@ const venues = [
     { id: 2, name: "Le Palais de la Méditerranée", loc: "Nice", type: "Bord de mer", img: "https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&w=800" },
     { id: 3, name: "Domaine des Vignes", loc: "Bordeaux", type: "Château", img: "https://media.istockphoto.com/id/157423617/fr/photo/vignoble-en-provence.jpg?s=612x612&w=0&k=20&c=DRUFwXzjbI-ugqFLCIPHRwwNAIKT8NbWnCfvLtLgxdI=" },
     { id: 4, name: "Manoir Breton", loc: "Bretagne", type: "Château", img: "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=800" },
-    { id: 5, name: "Château de la Loire", loc: "Tours", type: "Château", img: "https://res.cloudinary.com/funbooker/images/w_1920,h_1080,c_scale/f_auto,q_auto/v1685345930/blog_wordpress/shutterstock_1407078329-1/shutterstock_1407078329-1.jpg?_i=AA" }
+    { id: 5, name: "Château de la Loire", loc: "Tours", type: "Château", img: "https://res.cloudinary.com/funbooker/images/w_1920,h_1080,c_scale/f_auto,q_auto/v1685345930/blog_wordpress/shutterstock_1407078329-1/shutterstock_1407078329-1.jpg?_i=AA" },
+    { id: 6, name: "Shangri-La", loc: "Paris", type: "Hôtel de luxe", img: "https://cdn0.mariages.net/vendor/3089/3_2/960/jpg/melissazach037_3_73089-162678814948545.jpeg" }
 ];
 
 const grid = document.getElementById('venueGrid');
