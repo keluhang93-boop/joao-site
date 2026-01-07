@@ -36,12 +36,17 @@
     <div class="header-container">
         <a href="index.html" class="logo-text">SMART COUPLE</a>
 
-        <div class="header-right-actions">
-            <div class="auth-buttons-desktop">
+        <nav class="desktop-nav">
+            <a href="spending.html">Smart Dépenses</a>
+            <a href="planning.html">Smart Planning</a>
+            <a href="#">Smart Union</a>
+        </nav>
+
+        <div class="header-right">
+            <div class="auth-buttons">
                 <a href="#" class="btn-login">Login</a>
                 <a href="#" class="btn-signup">Sign Up</a>
             </div>
-            
             <button class="menu-toggle" id="mobile-menu-btn">
                 <span></span>
                 <span></span>
@@ -50,12 +55,16 @@
         </div>
     </div>
 
-    <nav class="sketch-nav" id="nav-menu">
-        <a href="spending.html" class="nav-box">Smart Dépenses</a>
-        <a href="planning.html" class="nav-box">Smart Planning</a>
-        <a href="#" class="nav-box">Smart Union</a>
-        <a href="#" class="nav-mobile-only">Login</a>
-    </nav>
+    <div class="mobile-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-nav-links">
+            <a href="spending.html">Smart Dépenses</a>
+            <a href="planning.html">Smart Planning</a>
+            <a href="#">Smart Union</a>
+            <hr>
+            <a href="#">Login</a>
+            <a href="#">Sign Up</a>
+        </nav>
+    </div>
 </header>
 
 <div class="hero">
