@@ -8,49 +8,49 @@
 <body>
 
 <div class="editor-container">
-<div class="toolbar">
-    <div class="group">
-        <button type="button" onclick="formatDoc('bold')"><b>B</b></button>
-        <button type="button" onclick="formatDoc('italic')"><i>I</i></button>
-        <button type="button" onclick="formatDoc('underline')"><u>U</u></button>
-    </div>
+    <div class="toolbar">
+        <div class="toolbar-row">
+            <div class="group">
+                <button onclick="formatDoc('bold')"><b>B</b></button>
+                <button onclick="formatDoc('italic')"><i>I</i></button>
+                <button onclick="formatDoc('underline')"><u>U</u></button>
+            </div>
+            <div class="group">
+                <button onclick="formatDoc('justifyLeft')">Left</button>
+                <button onclick="formatDoc('justifyCenter')">Center</button>
+                <button onclick="formatDoc('justifyRight')">Right</button>
+                <button onclick="formatDoc('justifyFull')">Justify</button>
+            </div>
+            <div class="group">
+                <button onclick="formatDoc('insertUnorderedList')">• List</button>
+                <button onclick="formatDoc('insertOrderedList')">1. List</button>
+            </div>
+        </div>
 
-    <div class="group">
-        <button type="button" onclick="formatDoc('justifyLeft')" title="Align Left">Left</button>
-        <button type="button" onclick="formatDoc('justifyCenter')" title="Align Center">Center</button>
-        <button type="button" onclick="formatDoc('justifyRight')" title="Align Right">Right</button>
-        <button type="button" onclick="formatDoc('justifyFull')" title="Justify">Justify</button>
-    </div>
-
-    <div class="group">
-        <button type="button" onclick="formatDoc('insertUnorderedList')" title="Bullet Points">• List</button>
-        <button type="button" onclick="formatDoc('insertOrderedList')" title="Numbered List">1. List</button>
-    </div>
-
-    <div class="group">
-        <select onchange="formatDoc('fontName', this.value)">
-            <option value="Arial">Arial</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Courier New">Courier New</option>
-        </select>
-
-        <select id="fontSizeSelect" onchange="changeFontSize(this.value)">
-            <option value="" selected disabled>Size</option>
-            <option value="12">12</option>
-            <option value="16">16</option>
-            <option value="20">20</option>
-            <option value="24">24</option>
-            <option value="36">36</option>
-            <option value="72">72</option>
-        </select>
-    </div>
-</div>
-
-        <div class="group">
-            <label>Text:</label>
-            <input type="color" oninput="formatDoc('foreColor', this.value)">
-            <label>Highlight:</label>
-            <input type="color" value="#ffff00" oninput="formatDoc('hiliteColor', this.value)">
+        <div class="toolbar-row">
+            <div class="group">
+                <select onchange="formatDoc('fontName', this.value)">
+                    <option value="Arial">Arial</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+                <select id="fontSizeSelect" onchange="changeFontSize(this.value)">
+                    <option value="" selected disabled>Size</option>
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                    <option value="16">16</option>
+                    <option value="18">18</option>
+                    <option value="24">24</option>
+                    <option value="36">36</option>
+                    <option value="72">72</option>
+                </select>
+            </div>
+            <div class="group">
+                <span>Text:</span>
+                <input type="color" oninput="formatDoc('foreColor', this.value)">
+                <span>Highlight:</span>
+                <input type="color" value="#ffff00" oninput="formatDoc('hiliteColor', this.value)">
+            </div>
         </div>
     </div>
 
