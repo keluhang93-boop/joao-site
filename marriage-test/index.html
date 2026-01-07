@@ -2,36 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>EverAfter Venues | Find Your Dream Spot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Weddings | Premium Venues</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <nav>
-            <div class="logo">EverAfter</div>
-            <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Search by city or style (e.g. Beach)..." onkeyup="filterVenues()">
+    <nav class="navbar">
+        <div class="logo">LUMINA</div>
+        <div class="nav-links">
+            <a href="#">Venues</a>
+            <a href="#">Photographers</a>
+            <a href="#">Planning</a>
+            <button class="login-btn">Sign In</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Your Forever, <br><span>Perfectly Placed.</span></h1>
+            
+            <div class="search-widget">
+                <div class="input-group">
+                    <label>Location</label>
+                    <input type="text" id="searchInput" placeholder="Where do you want to go?" onkeyup="filterVenues()">
+                </div>
+                <div class="divider"></div>
+                <div class="input-group">
+                    <label>Style</label>
+                    <select id="styleFilter" onchange="filterVenues()">
+                        <option value="all">Any Style</option>
+                        <option value="Beach">Beach</option>
+                        <option value="Castle">Castle</option>
+                        <option value="Modern">Modern</option>
+                    </select>
+                </div>
+                <button class="search-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <main>
-        <section class="hero">
-            <h1>Find your perfect place to say "I Do"</h1>
-            <p>Explore the most romantic wedding venues in the world.</p>
-        </section>
-
-        <div id="venueGrid" class="venue-grid"></div>
-    </main>
+    <section class="container">
+        <h2 class="section-title">Exclusive Destinations</h2>
+        <div id="venueGrid" class="venue-showcase"></div>
+    </section>
 
     <div id="bookingModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle">Book Venue</h2>
-            <p>Select your date to check availability:</p>
-            <input type="date" id="bookingDate">
-            <button class="confirm-btn" onclick="confirmBooking()">Check Availability</button>
+        <div class="modal-card">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div id="modalImage" class="modal-banner"></div>
+            <div class="modal-body">
+                <h2 id="modalTitle">Venue Name</h2>
+                <p id="modalLocation">Location</p>
+                <div class="date-picker">
+                    <label>Select Your Date</label>
+                    <input type="date" id="bookingDate">
+                </div>
+                <button class="confirm-btn" onclick="confirmBooking()">Check Availability</button>
+            </div>
         </div>
     </div>
 
