@@ -57,3 +57,19 @@ button:hover { background: #f8f9fa; }
     font-size: 13px;
     color: #666;
 }
+
+/* Add this to your existing CSS */
+.toolbar button {
+    font-size: 12px;
+    font-weight: 500;
+    min-width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ensure bullet points have some space in the editor */
+#editor ul, #editor ol {
+    padding-left: 40px;
+    margin: 10px 0;
+}
