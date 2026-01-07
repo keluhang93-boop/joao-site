@@ -33,26 +33,29 @@
 <body>
 
 <header class="main-header">
-    <div class="header-left-group">
+    <div class="header-container">
         <a href="index.html" class="logo-text">SMART COUPLE</a>
-        
-        <button class="menu-toggle" id="mobile-menu-btn" aria-label="Menu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
 
-        <nav class="sketch-nav" id="nav-menu">
-            <a href="spending.html" class="nav-box">Smart Dépenses</a>
-            <a href="planning.html" class="nav-box">Smart Planning</a>
-            <a href="#" class="nav-box">Smart Union</a>
-        </nav>
+        <div class="header-right-actions">
+            <div class="auth-buttons-desktop">
+                <a href="#" class="btn-login">Login</a>
+                <a href="#" class="btn-signup">Sign Up</a>
+            </div>
+            
+            <button class="menu-toggle" id="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </div>
-    
-    <div class="header-right-group">
-        <a href="#" class="btn-login">Login</a>
-        <a href="#" class="btn-signup">Sign Up</a>
-    </div>
+
+    <nav class="sketch-nav" id="nav-menu">
+        <a href="spending.html" class="nav-box">Smart Dépenses</a>
+        <a href="planning.html" class="nav-box">Smart Planning</a>
+        <a href="#" class="nav-box">Smart Union</a>
+        <a href="#" class="nav-mobile-only">Login</a>
+    </nav>
 </header>
 
 <div class="hero">
