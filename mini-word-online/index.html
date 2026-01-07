@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mini Word</title>
+    <title>Ultimate Mini Word</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,9 +10,9 @@
 <div class="editor-container">
     <div class="toolbar">
         <div class="group">
-            <button onclick="formatDoc('bold')">B</button>
-            <button onclick="formatDoc('italic')">I</button>
-            <button onclick="formatDoc('underline')">U</button>
+            <button type="button" onclick="formatDoc('bold')"><b>B</b></button>
+            <button type="button" onclick="formatDoc('italic')"><i>I</i></button>
+            <button type="button" onclick="formatDoc('underline')"><u>U</u></button>
         </div>
 
         <div class="group">
@@ -21,16 +21,26 @@
                 <option value="Georgia">Georgia</option>
                 <option value="Courier New">Courier New</option>
             </select>
-            <div class="group size-container">
-                <label>Size:</label>
-                <input type="number" id="fontSizeInput" value="16" onchange="changeFontSize(this.value)">
-            </div>
+
+            <select id="fontSizeSelect" onchange="changeFontSize(this.value)">
+                <option value="" selected disabled>Size</option>
+                <option value="8">8</option>
+                <option value="10">10</option>
+                <option value="12">12</option>
+                <option value="14">14</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+                <option value="20">20</option>
+                <option value="24">24</option>
+                <option value="36">36</option>
+                <option value="72">72</option>
+            </select>
         </div>
 
         <div class="group">
-            <span>Color:</span>
+            <label>Text:</label>
             <input type="color" oninput="formatDoc('foreColor', this.value)">
-            <span>Highlight:</span>
+            <label>Highlight:</label>
             <input type="color" value="#ffff00" oninput="formatDoc('hiliteColor', this.value)">
         </div>
     </div>
