@@ -19,11 +19,17 @@
             <button onclick="formatDoc('justifyRight')">Right</button>
             <div class="separator"></div>
             <input type="color" onchange="formatDoc('foreColor', this.value)" title="Text Color">
+            <div class="separator"></div>
+            <label for="fontSize">Size: </label>
+            <input type="number" id="fontSize" value="3" min="1" max="7" onchange="formatDoc('fontSize', this.value)">
         </div>
 
         <div id="editor" contenteditable="true">
             Start typing your document here...
         </div>
+    </div>
+    <div class="status-bar">
+        Words: <span id="wordCount">0</span>
     </div>
 
     <script src="script.js"></script>
