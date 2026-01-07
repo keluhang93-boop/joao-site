@@ -5,6 +5,7 @@ window.onload = () => {
     editor = document.getElementById('editor');
     wordCountDisplay = document.getElementById('wordCount');
 
+    // Robust Word Counter
     editor.addEventListener('input', () => {
         const text = editor.innerText || "";
         const count = text.trim().split(/\s+/).filter(w => w.length > 0).length;
