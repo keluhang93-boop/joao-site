@@ -1,0 +1,52 @@
+body {
+    background-color: #f3f3f3;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.editor-container {
+    width: 800px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+.toolbar {
+    background-color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+}
+
+.separator {
+    width: 1px;
+    height: 20px;
+    background: #ddd;
+    margin: 0 10px;
+}
+
+#editor {
+    padding: 40px;
+    min-height: 500px;
+    outline: none; /* Removes the focus border */
+    line-height: 1.6;
+    font-size: 16px;
+}
