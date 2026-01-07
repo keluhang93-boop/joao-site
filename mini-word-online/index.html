@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Word Online</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="editor-container">
+        <div class="toolbar">
+            <button onclick="formatDoc('bold')" title="Bold"><b>B</b></button>
+            <button onclick="formatDoc('italic')" title="Italic"><i>I</i></button>
+            <button onclick="formatDoc('underline')" title="Underline"><u>U</u></button>
+            <div class="separator"></div>
+            <button onclick="formatDoc('justifyLeft')">Left</button>
+            <button onclick="formatDoc('justifyCenter')">Center</button>
+            <button onclick="formatDoc('justifyRight')">Right</button>
+            <div class="separator"></div>
+            <input type="color" onchange="formatDoc('foreColor', this.value)" title="Text Color">
+        </div>
+
+        <div id="editor" contenteditable="true">
+            Start typing your document here...
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
