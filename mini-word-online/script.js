@@ -23,29 +23,32 @@ editor.addEventListener('keydown', (e) => {
 const editor = document.getElementById('editor');
 const wordCountDisplay = document.getElementById('wordCount');
 
-/**
- * Main function to apply formatting
- */
 function formatDoc(cmd, value = null) {
+    if (!cmd) return;
+    // This command executes the formatting on the current selection
     document.execCommand(cmd, false, value);
+    // Refocus the editor so you can keep typing
+    document.getElementById('editor').focus();
 }
 
-/**
- * Word Count Logic
- */
-editor.addEventListener('input', () => {
-    const text = editor.innerText.trim();
-    // Split by spaces and filter out empty strings
-    const words = text ? text.split(/\s+/).length : 0;
-    wordCountDisplay.innerText = words;
-});
+// Wait for the window to load to make sure elements exist
+window.onload = () => {
+    const editor = document.getElementById('editor');
+    const wordCountDisplay = document.getElementById('wordCount');
 
-/**
- * Tab key support
- */
-editor.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-        e.preventDefault();
-        document.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;');
-    }
-});
+    // Word Count Logic
+    editor.addEventListener('input', () => {
+        // Use innerText to get only the visible text, not HTML tags
+        const text = editor.innerText.trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        wordCountDisplay.innerText = words;
+    });
+
+    // Fix for Tab key
+    editor.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            document.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;');
+        }
+    });
+};
