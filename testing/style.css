@@ -181,6 +181,20 @@ body {
     font-weight: bold;
 }
 
+.blue-list li {
+    color: #0070c0 !important;
+    font-weight: 500; /* Makes it slightly easier to read in color */
+}
+
+/* The bullet points (dashes) in Gold */
+.blue-list li::before {
+    content: "—";
+    color: #D4AF37 !important; /* Gold dash */
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
 .btn-hero-sketch {
     display: inline-block;
     padding: 15px 40px;
