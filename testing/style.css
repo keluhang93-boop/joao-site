@@ -348,6 +348,35 @@ body {
     }
 }
 
+/* Ensures every day cell is a container for the circle */
+        .day { 
+            position: relative;
+            padding: 10px; 
+            font-size: 0.9rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+        }
+
+        .day-name { font-weight: bold; color: #ccc; font-size: 0.7rem; text-transform: uppercase; }
+        
+        /* The Fixed Circle Fix */
+        .highlight { 
+            background-color: #4B0082 !important; 
+            color: white !important; 
+            font-weight: bold; 
+            
+            /* These 4 lines prevent the stretching */
+            width: 35px;           /* Fixed width */
+            height: 35px;          /* Fixed height same as width */
+            border-radius: 50% !important; 
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            margin: auto;          /* Centers it in the grid square */
+        }
+
 /* --- HAMBURGER BUTTON --- */
 .menu-toggle {
     display: none;
