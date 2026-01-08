@@ -186,6 +186,11 @@ body {
     font-weight: 500; /* Makes it slightly easier to read in color */
 }
 
+.blue-list p {
+    color: #0070c0 !important;
+    font-weight: 500; /* Makes it slightly easier to read in color */
+}
+
 /* The bullet points (dashes) in Gold */
 .blue-list li::before {
     content: "—";
