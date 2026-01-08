@@ -160,7 +160,7 @@ body {
     background: #4B0082; 
     color: #ffffff;      
     text-decoration: none;
-    border: 2px solid #ffffff; 
+    border: 2px solid #4B0082; 
     font-family: 'Lato', sans-serif;
     font-weight: 700;
     font-size: 1rem;
@@ -368,7 +368,7 @@ body {
         gap: 30px;
     }
 
-    .mobile-nav-links a { font-size: 1.5rem; text-decoration: none; color: black; font-weight: bold; }
+    .mobile-nav-links a { font-size: 1.5rem; text-decoration: none; color: #4B0082; font-weight: bold; }
 }
 
 /* --- FIX FOR THE DUPLICATE MENU ON DESKTOP --- */
