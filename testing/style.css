@@ -157,8 +157,8 @@ body {
 .btn-hero-sketch {
     display: inline-block;
     padding: 15px 40px;
-    background: #ffffff; 
-    color: #000000;      
+    background: #4B0082; 
+    color: #ffffff;      
     text-decoration: none;
     border: 2px solid #000000; 
     font-family: 'Lato', sans-serif;
@@ -170,8 +170,8 @@ body {
 }
 
 .btn-hero-sketch:hover {
-    background: #000000;
-    color: #ffffff;
+    background: #D4AF37;
+    color: #4B0082;
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
