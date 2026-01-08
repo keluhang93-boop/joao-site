@@ -28,7 +28,26 @@
         th { text-align: left; padding: 15px; background: #fdfafb; color: #4B0082; font-family: 'Playfair Display'; border-bottom: 2px solid #eee; }
         td { padding: 12px; border-bottom: 1px solid #f5f5f5; }
         
-        .editable-name:focus { border-color: #4B0082; outline: none; }
+        /* Restores the clean, unbordered look for category names */
+        .editable-name { 
+            border: none; 
+            background: transparent;
+            padding: 8px 5px; 
+            font-weight: bold; 
+            width: 100%; 
+            font-size: 0.95rem; 
+            font-family: 'Lato', sans-serif;
+            color: #333;
+            outline: none; /* Removes the ugly default blue/black box when clicking */
+            transition: 0.2s;
+        }
+
+        /* Adds a subtle underline only when you click to edit */
+        .editable-name:focus { 
+            border-bottom: 1px solid #4B0082; 
+            background: #fcfcfc;
+        }
+        
         .amount-input { width: 75px; padding: 8px; border: 1px solid #eee; border-radius: 4px; text-align: right; font-size: 0.9rem; }
 
         .total-row { background: #fdfafb; font-weight: bold; font-size: 1.1rem; color: #4B0082; border-top: 2px solid #D4AF37; } /* Gold Accent */
