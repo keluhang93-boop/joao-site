@@ -150,8 +150,26 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 3.5rem;
     margin-bottom: 30px;
-    color: #ffffff; 
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
+    color: #0070c0 !important; /* Blue color */
+    text-shadow: none; /* Removed shadow for a cleaner look */
+}
+
+/* The specific "SMART" word in Gold */
+.gold-text {
+    color: #D4AF37;
+    font-style: italic;
+    font-weight: bold;
+}
+
+/* The "Nous vous aidons à" title in Navy */
+.navy-title {
+    color: #1f4e79 !important;
+    font-family: 'Playfair Display', serif;
+}
+
+.navy-list li {
+    color: #1f4e79 !important;
+    font-weight: 500; /* Makes it slightly easier to read in color */
 }
 
 .btn-hero-sketch {
