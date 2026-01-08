@@ -191,10 +191,6 @@ body {
     font-weight: 500; /* Makes it slightly easier to read in color */
 }
 
-.blue-longlist p {
-    color: #0070c0; /* Testing blue colour */
-}
-
 /* The bullet points (dashes) in Gold */
 .blue-list li::before {
     content: "—";
@@ -287,6 +283,10 @@ body {
     position: absolute;
     left: 0;
     font-weight: bold;
+}
+
+.info-text p {
+  color: #0070c0 !important;
 }
 
 .inline-link {
