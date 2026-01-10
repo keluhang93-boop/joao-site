@@ -224,6 +224,36 @@ button[type="submit"]:hover {
     cursor: pointer;
 }
 
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+#export-csv-btn {
+    background: transparent;
+    color: #4f46e5;
+    border: 2px solid #e0e7ff;
+    width: auto !important; /* Overrides the full-width setting */
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+#export-csv-btn:hover {
+    background: #f5f3ff;
+    border-color: #4f46e5;
+}
+
+/* Ensure Clear All matches the width style */
+#clear-all-btn {
+    width: auto !important;
+    margin: 0 !important; /* Removes the bottom margin from before */
+}
+
 /* --- RESPONSIVE MOBILE LAYOUT --- */
 @media (max-width: 768px) {
     /* Stack the sidebar on top of the list */
