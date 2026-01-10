@@ -189,6 +189,48 @@ button {
     background: #64748b !important;
 }
 
+/* Statistics Dashboard */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.stat-label { font-size: 0.8rem; color: #64748b; display: block; }
+.stat-value { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+
+/* Priority Colors */
+.priority-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.p-low { background: #f1f5f9; color: #475569; }
+.p-medium { background: #fef9c3; color: #854d0e; }
+.p-high { background: #fee2e2; color: #991b1b; }
+
+/* Styling the select box */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
     main {
