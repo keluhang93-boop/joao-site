@@ -69,12 +69,39 @@ button[type="submit"] {
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* Card Header & Buttons FIX */
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Changed from flex-start to center */
-    margin-bottom: 8px;
+/* 1. Add transition to the base card so the movement is smooth */
+.contact-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid var(--primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    
+    /* NEW: This makes the hover effect smooth rather than a sudden jump */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    top: 0;
+}
+
+/* 2. The Hover Effect */
+.contact-card:hover {
+    background-color: #f1f5f9; /* Slight grayish-blue tint */
+    border-left-color: #6366f1; /* Brighten the border color */
+    
+    /* This "lifts" the card up slightly */
+    transform: translateY(-4px); 
+    
+    /* This makes the shadow deeper to simulate the card being higher up */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    cursor: pointer;
+}
+
+.contact-card:hover .edit-btn {
+    background: #cbd5e1;
+}
+.contact-card:hover .delete-btn {
+    background: #fecaca;
 }
 
 .card-header h3 {
