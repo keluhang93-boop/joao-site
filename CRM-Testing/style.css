@@ -323,6 +323,25 @@ button[type="submit"] {
     margin-bottom: 5px;
 }
 
+.card-header {
+    display: flex;
+    justify-content: space-between; /* This pushes name to left, buttons to right */
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0; /* Prevents buttons from squishing */
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     main { grid-template-columns: 1fr; }
