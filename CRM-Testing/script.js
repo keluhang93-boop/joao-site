@@ -58,19 +58,17 @@ function resetForm() {
     contactForm.reset();
     editId = null;
     
-    // Reset main button text and color
+    // 1. Reset the main button back to "Add" mode
     submitBtn.innerText = "Add to Pipeline";
     submitBtn.style.background = ""; 
     
-    // Hide the Cancel button
+    // 2. STOPS the button from appearing
     cancelBtn.style.display = "none";
     
-    // Optional: Close form after resetting
-    formContainer.classList.remove('show');
-    toggleBtn.classList.remove('rotate-btn');
+    // Note: I removed the lines that close the form 
+    // so the panel stays open for your next entry!
 }
 
-// --- PIPELINE ACTIONS ---
 function editContact(id) {
     const contact = contacts.find(c => c.id === id);
     if (contact) {
@@ -84,6 +82,8 @@ function editContact(id) {
 
         submitBtn.innerText = "Update Lead";
         submitBtn.style.background = "#059669"; 
+        
+        // 3. SHOWS the button only when editing
         cancelBtn.style.display = "block";
 
         formContainer.classList.add('show');
