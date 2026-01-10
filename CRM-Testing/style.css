@@ -259,15 +259,24 @@ button[type="submit"] {
     transition: all 0.2s ease;
 }
 
-/* Specific styling for the Cancel button to match your request */
+/* Styling for the Cancel button to make it look modern and dark red */
 #cancel-edit-btn {
-    background-color: #64748b; /* A nice slate gray */
+    background-color: #991b1b; /* Dark Red */
     color: white;
-    display: none; /* Hidden by default */
+    display: none; /* Hidden until Edit is clicked */
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
 #cancel-edit-btn:hover {
-    background-color: #475569;
+    background-color: #7f1d1d; /* Even darker red on hover */
 }
 
 /* Responsive */
