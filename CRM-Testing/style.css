@@ -110,3 +110,22 @@ button {
     background: #fca5a5;
     color: white;
 }
+
+/* Styling for completed tasks */
+.task-tag.completed {
+    background: #dcfce7; /* Light green */
+    color: #166534;       /* Dark green */
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+/* Make the task tag look clickable */
+.task-tag {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none; /* Prevents text highlighting on click */
+}
+
+.task-tag:hover {
+    filter: brightness(0.9);
+}
