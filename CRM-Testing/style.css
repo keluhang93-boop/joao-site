@@ -112,3 +112,8 @@ button[type="submit"]:hover {
 .stat-value { display: block; font-size: 1.2rem; font-weight: bold; color: var(--primary); }
 
 #search-bar { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; }
+.delete-btn:hover {
+    background: #dc2626 !important; /* Brighter red */
+    color: white !important;
+    transform: scale(1.1); /* Slightly grows the button */
+}
