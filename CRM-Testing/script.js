@@ -1,6 +1,6 @@
 let contacts = JSON.parse(localStorage.getItem('myCrmData')) || [];
 let searchTerm = "";
-let editId = null; // NEW: Track if we are editing an existing contact
+let editId = null;
 
 const contactForm = document.getElementById('contact-form');
 const contactList = document.getElementById('contact-list');
@@ -10,6 +10,7 @@ const formContainer = document.getElementById('form-container');
 const statTotal = document.getElementById('stat-total');
 const statDone = document.getElementById('stat-done');
 const submitBtn = contactForm.querySelector('button[type="submit"]');
+const cancelBtn = document.getElementById('cancel-edit-btn');
 
 renderContacts();
 
@@ -17,20 +18,16 @@ function saveToLocalStorage() {
     localStorage.setItem('myCrmData', JSON.stringify(contacts));
 }
 
+// --- FORM LOGIC ---
+
 toggleBtn.addEventListener('click', () => {
     formContainer.classList.toggle('show');
     toggleBtn.classList.toggle('rotate-btn');
-    if (!formContainer.classList.contains('show')) {
-        resetForm(); // Reset if user closes form
-    }
+    if (!formContainer.classList.contains('show')) resetForm();
 });
 
-searchBar.addEventListener('input', (e) => {
-    searchTerm = e.target.value.toLowerCase();
-    renderContacts();
-});
+cancelBtn.addEventListener('click', resetForm);
 
-// UPDATED: Handles both Create and Update
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -40,14 +37,8 @@ contactForm.addEventListener('submit', (e) => {
     const priority = document.getElementById('priority').value;
 
     if (editId) {
-        // --- REAL EDIT LOGIC ---
-        contacts = contacts.map(c => c.id === editId ? { 
-            ...c, name, email, task, priority 
-        } : c);
-        editId = null; // Exit edit mode
-        submitBtn.innerText = "Add to Pipeline";
+        contacts = contacts.map(c => c.id === editId ? { ...c, name, email, task, priority } : c);
     } else {
-        // --- CREATE LOGIC ---
         const newContact = {
             id: Date.now(),
             name, email, task, priority,
@@ -70,29 +61,32 @@ function resetForm() {
     contactForm.reset();
     editId = null;
     submitBtn.innerText = "Add to Pipeline";
+    submitBtn.style.background = ""; 
+    cancelBtn.style.display = "none";
+    renderContacts();
 }
 
 function editContact(id) {
     const contact = contacts.find(c => c.id === id);
     if (contact) {
-        editId = id; // Set the global edit ID
-        
-        // Fill form
+        editId = id;
         document.getElementById('name').value = contact.name;
         document.getElementById('email').value = contact.email;
         document.getElementById('task-desc').value = contact.task;
         document.getElementById('priority').value = contact.priority;
 
-        // Change button appearance
         submitBtn.innerText = "Update Lead";
-        submitBtn.style.background = "#059669"; // Green for update
+        submitBtn.style.background = "#059669"; 
+        cancelBtn.style.display = "block";
 
-        // Open form
         formContainer.classList.add('show');
         toggleBtn.classList.add('rotate-btn');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        renderContacts();
     }
 }
+
+// --- PIPELINE ACTIONS ---
 
 function toggleTask(id) {
     contacts = contacts.map(c => c.id === id ? {...c, completed: !c.completed} : c);
@@ -106,11 +100,50 @@ function deleteContact(id) {
     renderContacts();
 }
 
-function updateStats() {
-    if (statTotal && statDone) {
-        statTotal.innerText = contacts.length;
-        statDone.innerText = contacts.filter(c => c.completed).length;
+function clearAllContacts() {
+    if (confirm("Are you sure you want to delete ALL data?")) {
+        contacts = [];
+        saveToLocalStorage();
+        renderContacts();
     }
+}
+
+// --- CSV EXPORT FUNCTION ---
+
+function exportToCSV() {
+    if (contacts.length === 0) return alert("No data to export!");
+
+    // Create the header row
+    let csvContent = "Name,Email,Task,Priority,Status\n";
+
+    // Add data rows
+    contacts.forEach(c => {
+        let status = c.completed ? "Done" : "Pending";
+        csvContent += `${c.name},${c.email},${c.task},${c.priority},${status}\n`;
+    });
+
+    // Create a hidden link and "click" it to download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "my_crm_leads.csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// --- UI RENDERING ---
+
+searchBar.addEventListener('input', (e) => {
+    searchTerm = e.target.value.toLowerCase();
+    renderContacts();
+});
+
+function updateStats() {
+    statTotal.innerText = contacts.length;
+    statDone.innerText = contacts.filter(c => c.completed).length;
 }
 
 function renderContacts() {
@@ -125,7 +158,6 @@ function renderContacts() {
     filtered.forEach(person => {
         const card = document.createElement('div');
         card.className = 'contact-card';
-        // Highlight card if it's currently being edited
         if (person.id === editId) card.style.border = "2px solid #059669";
 
         const taskClass = person.completed ? 'task-tag completed' : 'task-tag';
