@@ -31,17 +31,24 @@ cancelBtn.addEventListener('click', resetForm);
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
+    // Make sure these IDs match the HTML exactly!
     const name = document.getElementById('name').value;
+    const job = document.getElementById('job-title').value; // Match ID
     const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;   // Match ID
     const task = document.getElementById('task-desc').value;
     const priority = document.getElementById('priority').value;
 
     if (editId) {
-        contacts = contacts.map(c => c.id === editId ? { ...c, name, email, task, priority } : c);
+        // Edit existing
+        contacts = contacts.map(c => c.id === editId ? { 
+            ...c, name, job, email, phone, task, priority 
+        } : c);
     } else {
+        // Create new
         const newContact = {
             id: Date.now(),
-            name, email, task, priority,
+            name, job, email, phone, task, priority,
             completed: false
         };
         contacts.push(newContact);
@@ -50,6 +57,7 @@ contactForm.addEventListener('submit', (e) => {
     saveToLocalStorage();
     renderContacts();
     resetForm();
+});
 
     if (window.innerWidth < 768) {
         formContainer.classList.remove('show');
