@@ -30,15 +30,21 @@ cancelBtn.addEventListener('click', resetForm);
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
-    const data = {
-        name: document.getElementById('name').value,
-        job: document.getElementById('job-title').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        task: document.getElementById('task-desc').value,
-        priority: document.getElementById('priority').value
-    };
-
+// Inside your Form Submit listener, change how you save the task:
+const data = {
+    name: document.getElementById('name').value,
+    job: document.getElementById('job-title').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    priority: document.getElementById('priority').value,
+    // Stage 1 & 2: Store as an array of objects
+    tasks: [{ 
+        id: Date.now(), 
+        text: document.getElementById('task-desc').value || "New Lead added", 
+        completed: false 
+    }]
+};
+    
     if (editId) {
         contacts = contacts.map(c => c.id === editId ? { ...c, ...data } : c);
     } else {
