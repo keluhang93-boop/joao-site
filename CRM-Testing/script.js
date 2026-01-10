@@ -61,8 +61,8 @@ function resetForm() {
     contactForm.reset();
     editId = null;
     submitBtn.innerText = "Add to Pipeline";
-    submitBtn.style.background = ""; // Returns to your CSS primary purple
-    cancelBtn.style.display = "none";
+    submitBtn.style.background = ""; // Returns to primary purple
+    cancelBtn.style.display = "none"; // Hides red cancel button
     renderContacts();
 }
 
@@ -77,8 +77,8 @@ function editContact(id) {
 
         // Visual Updates for Edit Mode
         submitBtn.innerText = "Update Lead";
-        submitBtn.style.background = "#991b1b"; // DARK RED color
-        cancelBtn.style.display = "block";      // Show the styled cancel button
+        submitBtn.style.background = "#059669"; // GREEN for saving/updating
+        cancelBtn.style.display = "block";      // SHOW the dark red cancel button
 
         formContainer.classList.add('show');
         toggleBtn.classList.add('rotate-btn');
