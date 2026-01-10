@@ -57,34 +57,24 @@ contactForm.addEventListener('submit', (e) => {
 function resetForm() {
     contactForm.reset();
     editId = null;
-    
-    // 1. Reset the main button back to "Add" mode
     submitBtn.innerText = "Add to Pipeline";
     submitBtn.style.background = ""; 
     
-    // 2. STOPS the button from appearing
-    cancelBtn.style.display = "none";
-    
-    // Note: I removed the lines that close the form 
-    // so the panel stays open for your next entry!
+    // Hide it again using setProperty
+    cancelBtn.style.setProperty('display', 'none', 'important');
 }
 
 function editContact(id) {
     const contact = contacts.find(c => c.id === id);
     if (contact) {
         editId = id;
-        document.getElementById('name').value = contact.name;
-        document.getElementById('job-title').value = contact.job || "";
-        document.getElementById('email').value = contact.email;
-        document.getElementById('phone').value = contact.phone || "";
-        document.getElementById('task-desc').value = contact.task;
-        document.getElementById('priority').value = contact.priority;
+        // ... (your existing code to fill the inputs) ...
 
         submitBtn.innerText = "Update Lead";
         submitBtn.style.background = "#059669"; 
         
-        // 3. SHOWS the button only when editing
-        cancelBtn.style.display = "block";
+        // Use setProperty to override the "!important" in CSS
+        cancelBtn.style.setProperty('display', 'block', 'important');
 
         formContainer.classList.add('show');
         toggleBtn.classList.add('rotate-btn');
