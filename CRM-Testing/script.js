@@ -162,11 +162,17 @@ function renderContacts() {
         const card = document.createElement('div');
         card.className = 'contact-card';
 
-        const tasksHTML = (person.tasks || []).map(t => `
-            <div class="task-item ${t.completed ? 'completed' : ''}" onclick="toggleSubTask(${person.id}, ${t.id})">
-                ${t.completed ? '✅' : '○'} ${t.text}
-            </div>
-        `).join('');
+const tasksHTML = (person.tasks || []).map(t => `
+    <div class="task-item">
+        <span class="task-text ${t.completed ? 'completed' : ''}" 
+              onclick="toggleSubTask(${person.id}, ${t.id})" 
+              ondblclick="renameSubTask(${person.id}, ${t.id})"
+              title="Click to check, Double-click to rename">
+            ${t.completed ? '✅' : '○'} ${t.text}
+        </span>
+        <span class="delete-task-btn" onclick="deleteSubTask(${person.id}, ${t.id})">×</span>
+    </div>
+`).join('');
         
         card.innerHTML = `
             <div class="card-header">
