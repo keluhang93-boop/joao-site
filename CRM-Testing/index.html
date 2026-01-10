@@ -15,13 +15,17 @@
 
         <main>
             <section class="input-panel">
-                <h2>Add New Lead</h2>
-                <form id="contact-form">
-                    <input type="text" id="name" placeholder="Contact Name" required>
-                    <input type="email" id="email" placeholder="Email Address" required>
-                    <input type="text" id="task-desc" placeholder="Initial Task (e.g. Follow up)">
-                    <button type="submit">Add to Pipeline</button>
-                </form>
+                <div class="panel-header">
+                    <h2>Add New Lead</h2>
+                    <button id="toggle-form-btn">+</button>
+                </div>
+                <div id="form-container" class="show"> <form id="contact-form">
+                        <input type="text" id="name" placeholder="Contact Name" required>
+                        <input type="email" id="email" placeholder="Email Address" required>
+                        <input type="text" id="task-desc" placeholder="Initial Task">
+                        <button type="submit">Add to Pipeline</button>
+                    </form>
+                </div>
             </section>
 
             <section class="display-panel">
