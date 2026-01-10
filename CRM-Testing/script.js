@@ -57,9 +57,17 @@ contactForm.addEventListener('submit', (e) => {
 function resetForm() {
     contactForm.reset();
     editId = null;
+    
+    // Reset main button text and color
     submitBtn.innerText = "Add to Pipeline";
     submitBtn.style.background = ""; 
+    
+    // Hide the Cancel button
     cancelBtn.style.display = "none";
+    
+    // Optional: Close form after resetting
+    formContainer.classList.remove('show');
+    toggleBtn.classList.remove('rotate-btn');
 }
 
 // --- PIPELINE ACTIONS ---
