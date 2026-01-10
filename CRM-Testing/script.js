@@ -100,9 +100,15 @@ function toggleTask(id) {
 }
 
 function deleteContact(id) {
-    contacts = contacts.filter(c => c.id !== id);
-    saveToLocalStorage();
-    renderContacts();
+    // This creates a popup with "OK" and "Cancel"
+    const confirmed = confirm("Are you sure you want to delete this lead? This action cannot be undone.");
+    
+    if (confirmed) {
+        // Only runs if the user clicks "OK"
+        contacts = contacts.filter(c => c.id !== id);
+        saveToLocalStorage();
+        renderContacts();
+    }
 }
 
 function clearAllContacts() {
