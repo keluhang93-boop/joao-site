@@ -12,7 +12,6 @@ const statDone = document.getElementById('stat-done');
 const submitBtn = contactForm.querySelector('button[type="submit"]');
 const cancelBtn = document.getElementById('cancel-edit-btn');
 
-// Initialize the app
 renderContacts();
 
 function saveToLocalStorage() {
@@ -20,7 +19,6 @@ function saveToLocalStorage() {
 }
 
 // --- FORM LOGIC ---
-
 toggleBtn.addEventListener('click', () => {
     formContainer.classList.toggle('show');
     toggleBtn.classList.toggle('rotate-btn');
@@ -31,7 +29,6 @@ cancelBtn.addEventListener('click', resetForm);
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
     const data = {
         name: document.getElementById('name').value,
         job: document.getElementById('job-title').value,
@@ -44,22 +41,12 @@ contactForm.addEventListener('submit', (e) => {
     if (editId) {
         contacts = contacts.map(c => c.id === editId ? { ...c, ...data } : c);
     } else {
-        contacts.push({ 
-            id: Date.now(), 
-            ...data, 
-            completed: false 
-        });
+        contacts.push({ id: Date.now(), ...data, completed: false });
     }
 
     saveToLocalStorage();
     renderContacts();
     resetForm();
-
-    // Close form on mobile after submission
-    if (window.innerWidth < 768) {
-        formContainer.classList.remove('show');
-        toggleBtn.classList.remove('rotate-btn');
-    }
 });
 
 function resetForm() {
@@ -83,8 +70,8 @@ function editContact(id) {
         document.getElementById('priority').value = contact.priority;
 
         submitBtn.innerText = "Update Lead";
-        submitBtn.style.background = "#059669"; // Green
-        cancelBtn.style.display = "block"; // Dark Red (styled in CSS)
+        submitBtn.style.background = "#059669"; 
+        cancelBtn.style.display = "block";
 
         formContainer.classList.add('show');
         toggleBtn.classList.add('rotate-btn');
@@ -94,7 +81,6 @@ function editContact(id) {
 }
 
 // --- PIPELINE ACTIONS ---
-
 function toggleTask(id) {
     contacts = contacts.map(c => c.id === id ? {...c, completed: !c.completed} : c);
     saveToLocalStorage();
@@ -108,56 +94,9 @@ function deleteContact(id) {
 }
 
 function clearAllContacts() {
-    if (confirm("Are you sure you want to delete ALL data?")) {
+    if (confirm("Are you sure?")) {
         contacts = [];
         saveToLocalStorage();
         renderContacts();
     }
 }
-
-// --- UI RENDERING ---
-
-searchBar.addEventListener('input', (e) => {
-    searchTerm = e.target.value.toLowerCase();
-    renderContacts();
-});
-
-function updateStats() {
-    if (statTotal && statDone) {
-        statTotal.innerText = contacts.length;
-        statDone.innerText = contacts.filter(c => c.completed).length;
-    }
-}
-
-filtered.forEach(person => {
-        const card = document.createElement('div');
-        card.className = 'contact-card';
-        if (person.id === editId) card.style.border = "2px solid #059669";
-
-        const taskClass = person.completed ? 'task-tag completed' : 'task-tag';
-        
-        card.innerHTML = `
-            <div class="card-header">
-                <div class="header-info">
-                    <h3 style="margin:0;">${person.name}</h3>
-                    <small style="color: #64748b; font-weight: 500;">${person.job || 'No Title'}</small>
-                </div>
-                <div class="card-actions">
-                    <button class="edit-btn" title="Edit" onclick="editContact(${person.id})">✎</button>
-                    <button class="delete-btn" title="Delete" onclick="deleteContact(${person.id})">×</button>
-                </div>
-            </div>
-            
-            <div class="contact-details">
-                <p>📧 ${person.email}</p>
-                <p>📞 ${person.phone || 'No Phone'}</p>
-            </div>
-
-            <span class="priority-tag p-${person.priority}">${person.priority}</span>
-
-            <div class="${taskClass}" onclick="toggleTask(${person.id})">
-                ${person.completed ? '✅' : '📝'} ${person.task || 'No active task'}
-            </div>
-        `;
-        contactList.appendChild(card);
-    });
