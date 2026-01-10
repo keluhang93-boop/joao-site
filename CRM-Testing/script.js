@@ -179,3 +179,66 @@ function renderContacts() {
         contactList.appendChild(card);
     });
 }
+
+// UPDATED: Submit Listener
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const data = {
+        name: document.getElementById('name').value,
+        job: document.getElementById('job-title').value, // NEW
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value, // NEW
+        task: document.getElementById('task-desc').value,
+        priority: document.getElementById('priority').value
+    };
+
+    if (editId) {
+        contacts = contacts.map(c => c.id === editId ? { ...c, ...data } : c);
+    } else {
+        contacts.push({ id: Date.now(), ...data, completed: false });
+    }
+
+    saveToLocalStorage();
+    renderContacts();
+    resetForm();
+});
+
+// UPDATED: editContact function
+function editContact(id) {
+    const contact = contacts.find(c => c.id === id);
+    if (contact) {
+        editId = id;
+        document.getElementById('name').value = contact.name;
+        document.getElementById('job-title').value = contact.job || ""; // NEW
+        document.getElementById('email').value = contact.email;
+        document.getElementById('phone').value = contact.phone || ""; // NEW
+        document.getElementById('task-desc').value = contact.task;
+        document.getElementById('priority').value = contact.priority;
+
+        submitBtn.innerText = "Update Lead";
+        submitBtn.style.background = "#059669";
+        cancelBtn.style.display = "block";
+        formContainer.classList.add('show');
+    }
+}
+
+// UPDATED: renderContacts HTML structure
+// Inside your filtered.forEach loop:
+card.innerHTML = `
+    <div class="card-header">
+        <h3>${person.name} <span class="priority-tag p-${person.priority}">${person.priority}</span></h3>
+        <div class="card-actions">
+            <button class="edit-btn" onclick="editContact(${person.id})">✎</button>
+            <button class="delete-btn" onclick="deleteContact(${person.id})">×</button>
+        </div>
+    </div>
+    <div class="contact-details">
+        <p><strong>${person.job || 'No Title'}</strong></p>
+        <p>📧 ${person.email}</p>
+        <p>📞 ${person.phone || 'No Phone'}</p>
+    </div>
+    <div class="${taskClass}" onclick="toggleTask(${person.id})">
+        ${person.completed ? '✅' : '📝'} ${person.task || 'No active task'}
+    </div>
+`;
