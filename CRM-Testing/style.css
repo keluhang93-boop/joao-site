@@ -279,6 +279,23 @@ button[type="submit"] {
     background-color: #7f1d1d; /* Even darker red on hover */
 }
 
+.contact-details {
+    margin: 10px 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.contact-details p {
+    margin: 4px 0;
+    color: #475569;
+}
+
+.contact-details strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 5px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     main { grid-template-columns: 1fr; }
