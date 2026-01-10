@@ -149,6 +149,46 @@ button {
     border-color: var(--primary);
 }
 
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#toggle-form-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    transition: transform 0.3s ease;
+}
+
+/* Logic for hiding the form container */
+#form-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s;
+    opacity: 0;
+}
+
+#form-container.show {
+    max-height: 500px; /* Large enough to hold the form */
+    opacity: 1;
+    margin-top: 10px;
+}
+
+/* Rotate the plus to an 'x' when open */
+.rotate-btn {
+    transform: rotate(45deg);
+    background: #64748b !important;
+}
+
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
     main {
