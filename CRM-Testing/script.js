@@ -13,6 +13,8 @@ const statDone = document.getElementById('stat-done');
 const submitBtn = contactForm.querySelector('button[type="submit"]'); 
 const cancelBtn = document.getElementById('cancel-edit-btn');
 
+document.getElementById('export-csv-btn').addEventListener('click', exportToCSV);
+
 // Carregamento Inicial
 renderContacts();
 
@@ -235,4 +237,42 @@ function deleteSubTask(contactId, taskId) {
         saveToLocalStorage();
         renderContacts();
     }
+}
+
+function exportToCSV() {
+    if (contacts.length === 0) {
+        alert("No data to export!");
+        return;
+    }
+
+    // Define Headers
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Name,Job Title,Email,Phone,Priority,Tasks\r\n";
+
+    // Loop through contacts
+    contacts.forEach(contact => {
+        // Flatten the tasks array into a single string separated by semicolons
+        const taskString = (contact.tasks || []).map(t => t.text).join(" ; ");
+        
+        const row = [
+            `"${contact.name}"`,
+            `"${contact.job || ''}"`,
+            `"${contact.email}"`,
+            `"${contact.phone || ''}"`,
+            `"${contact.priority}"`,
+            `"${taskString}"`
+        ].join(",");
+        
+        csvContent += row + "\r\n";
+    });
+
+    // Create Download Link
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "my_crm_leads.csv");
+    document.body.appendChild(link);
+    
+    link.click();
+    document.body.removeChild(link);
 }
