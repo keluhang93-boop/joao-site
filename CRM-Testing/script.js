@@ -61,7 +61,7 @@ function resetForm() {
     contactForm.reset();
     editId = null;
     submitBtn.innerText = "Add to Pipeline";
-    submitBtn.style.background = ""; 
+    submitBtn.style.background = ""; // Returns to your CSS primary purple
     cancelBtn.style.display = "none";
     renderContacts();
 }
@@ -75,9 +75,10 @@ function editContact(id) {
         document.getElementById('task-desc').value = contact.task;
         document.getElementById('priority').value = contact.priority;
 
+        // Visual Updates for Edit Mode
         submitBtn.innerText = "Update Lead";
-        submitBtn.style.background = "#059669"; 
-        cancelBtn.style.display = "block";
+        submitBtn.style.background = "#991b1b"; // DARK RED color
+        cancelBtn.style.display = "block";      // Show the styled cancel button
 
         formContainer.classList.add('show');
         toggleBtn.classList.add('rotate-btn');
