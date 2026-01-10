@@ -79,14 +79,15 @@ function editContact(id) {
     if (contact) {
         editId = id;
         document.getElementById('name').value = contact.name;
+        document.getElementById('job-title').value = contact.job || "";
         document.getElementById('email').value = contact.email;
+        document.getElementById('phone').value = contact.phone || "";
         document.getElementById('task-desc').value = contact.task;
         document.getElementById('priority').value = contact.priority;
 
-        // Visual Updates for Edit Mode
         submitBtn.innerText = "Update Lead";
-        submitBtn.style.background = "#059669"; // GREEN for saving/updating
-        cancelBtn.style.display = "block";      // SHOW the dark red cancel button
+        submitBtn.style.background = "#059669";
+        cancelBtn.style.display = "block";
 
         formContainer.classList.add('show');
         toggleBtn.classList.add('rotate-btn');
