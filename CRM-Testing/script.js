@@ -68,16 +68,27 @@ function editContact(id) {
     const contact = contacts.find(c => c.id === id);
     if (contact) {
         editId = id;
-        // ... (your existing code to fill the inputs) ...
+        
+        // --- DATA LOGIC: This fills the boxes with current data ---
+        document.getElementById('name').value = contact.name;
+        document.getElementById('job-title').value = contact.job || "";
+        document.getElementById('email').value = contact.email;
+        document.getElementById('phone').value = contact.phone || "";
+        document.getElementById('task-desc').value = contact.task || "";
+        document.getElementById('priority').value = contact.priority;
 
+        // --- UI LOGIC: Updates the buttons ---
         submitBtn.innerText = "Update Lead";
         submitBtn.style.background = "#059669"; 
         
-        // Use setProperty to override the "!important" in CSS
+        // This overrides the CSS to show the Cancel button
         cancelBtn.style.setProperty('display', 'block', 'important');
 
+        // Open the panel so the user sees the filled data
         formContainer.classList.add('show');
         toggleBtn.classList.add('rotate-btn');
+        
+        // Scroll to top so the user sees the form immediately
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
