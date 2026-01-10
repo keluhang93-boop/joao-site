@@ -129,3 +129,43 @@ button {
 .task-tag:hover {
     filter: brightness(0.9);
 }
+
+/* Search Bar Styling */
+.search-container {
+    margin-bottom: 20px;
+}
+
+#search-bar {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#search-bar:focus {
+    border-color: var(--primary);
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    main {
+        /* Stack the form and the list on top of each other */
+        grid-template-columns: 1fr;
+    }
+
+    .app-container {
+        padding: 10px;
+    }
+
+    .input-panel {
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+}
