@@ -204,3 +204,35 @@ const tasksHTML = (person.tasks || []).map(t => `
         contactList.appendChild(card);
     });
 }
+
+// Rename a task on double-click
+function renameSubTask(contactId, taskId) {
+    const contact = contacts.find(c => c.id === contactId);
+    const task = contact.tasks.find(t => t.id === taskId);
+    
+    const newText = prompt("Rename activity:", task.text);
+    if (newText && newText.trim() !== "") {
+        contacts = contacts.map(c => {
+            if (c.id === contactId) {
+                c.tasks = c.tasks.map(t => t.id === taskId ? {...t, text: newText} : t);
+            }
+            return c;
+        });
+        saveToLocalStorage();
+        renderContacts();
+    }
+}
+
+// Delete a single task from the log
+function deleteSubTask(contactId, taskId) {
+    if (confirm("Delete this activity note?")) {
+        contacts = contacts.map(c => {
+            if (c.id === contactId) {
+                c.tasks = c.tasks.filter(t => t.id !== taskId);
+            }
+            return c;
+        });
+        saveToLocalStorage();
+        renderContacts();
+    }
+}
