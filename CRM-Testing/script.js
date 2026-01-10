@@ -1,7 +1,9 @@
 let contacts = JSON.parse(localStorage.getItem('myCrmData')) || [];
+let searchTerm = ""; // New: Keep track of search
 
 const contactForm = document.getElementById('contact-form');
 const contactList = document.getElementById('contact-list');
+const searchBar = document.getElementById('search-bar');
 
 renderContacts();
 
@@ -9,44 +11,52 @@ function saveToLocalStorage() {
     localStorage.setItem('myCrmData', JSON.stringify(contacts));
 }
 
+// NEW: Listener for the search bar
+searchBar.addEventListener('input', (e) => {
+    searchTerm = e.target.value.toLowerCase();
+    renderContacts(); // Re-render every time the user types
+});
+
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-
     const newContact = {
         id: Date.now(),
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
         task: document.getElementById('task-desc').value,
-        completed: false // NEW: Track task status
+        completed: false
     };
-
     contacts.push(newContact);
     saveToLocalStorage();
     renderContacts();
     contactForm.reset();
 });
 
-// NEW: Function to flip the status of a task
 function toggleTask(id) {
-    contacts = contacts.map(contact => {
-        if (contact.id === id) {
-            return { ...contact, completed: !contact.completed };
-        }
-        return contact;
-    });
-    
+    contacts = contacts.map(c => c.id === id ? {...c, completed: !c.completed} : c);
     saveToLocalStorage();
     renderContacts();
 }
 
+function deleteContact(id) {
+    contacts = contacts.filter(c => c.id !== id);
+    saveToLocalStorage();
+    renderContacts();
+}
+
+// UPDATED: Now filters the list before drawing it
 function renderContacts() {
     contactList.innerHTML = ''; 
 
-    contacts.forEach(person => {
+    // Filter logic: Check if name or email includes the searchTerm
+    const filtered = contacts.filter(person => 
+        person.name.toLowerCase().includes(searchTerm) || 
+        person.email.toLowerCase().includes(searchTerm)
+    );
+
+    filtered.forEach(person => {
         const card = document.createElement('div');
         card.className = 'contact-card';
-        
-        // Dynamic class: Add 'completed' if person.completed is true
         const taskClass = person.completed ? 'task-tag completed' : 'task-tag';
         const taskIcon = person.completed ? '✅' : '📝';
 
@@ -57,16 +67,9 @@ function renderContacts() {
             </div>
             <p>${person.email}</p>
             <div class="${taskClass}" onclick="toggleTask(${person.id})">
-                ${taskIcon} Task: ${person.task || 'No tasks yet'}
+                ${taskIcon} ${person.task || 'No tasks'}
             </div>
         `;
-        
         contactList.appendChild(card);
     });
-}
-
-function deleteContact(id) {
-    contacts = contacts.filter(contact => contact.id !== id);
-    saveToLocalStorage();
-    renderContacts();
 }
