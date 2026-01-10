@@ -1,13 +1,10 @@
-// 1. LOAD DATA: Try to get data from storage; if empty, use an empty array
 let contacts = JSON.parse(localStorage.getItem('myCrmData')) || [];
 
 const contactForm = document.getElementById('contact-form');
 const contactList = document.getElementById('contact-list');
 
-// Initial render to show saved data immediately on page load
 renderContacts();
 
-// Function to save the current state to Local Storage
 function saveToLocalStorage() {
     localStorage.setItem('myCrmData', JSON.stringify(contacts));
 }
@@ -19,17 +16,28 @@ contactForm.addEventListener('submit', (e) => {
         id: Date.now(),
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
-        task: document.getElementById('task-desc').value
+        task: document.getElementById('task-desc').value,
+        completed: false // NEW: Track task status
     };
 
     contacts.push(newContact);
-    
-    // SAVE & RENDER
     saveToLocalStorage();
     renderContacts();
-    
     contactForm.reset();
 });
+
+// NEW: Function to flip the status of a task
+function toggleTask(id) {
+    contacts = contacts.map(contact => {
+        if (contact.id === id) {
+            return { ...contact, completed: !contact.completed };
+        }
+        return contact;
+    });
+    
+    saveToLocalStorage();
+    renderContacts();
+}
 
 function renderContacts() {
     contactList.innerHTML = ''; 
@@ -38,13 +46,19 @@ function renderContacts() {
         const card = document.createElement('div');
         card.className = 'contact-card';
         
+        // Dynamic class: Add 'completed' if person.completed is true
+        const taskClass = person.completed ? 'task-tag completed' : 'task-tag';
+        const taskIcon = person.completed ? '✅' : '📝';
+
         card.innerHTML = `
             <div class="card-header">
                 <h3>${person.name}</h3>
                 <button class="delete-btn" onclick="deleteContact(${person.id})">×</button>
             </div>
             <p>${person.email}</p>
-            <div class="task-tag">📝 Task: ${person.task || 'No tasks yet'}</div>
+            <div class="${taskClass}" onclick="toggleTask(${person.id})">
+                ${taskIcon} Task: ${person.task || 'No tasks yet'}
+            </div>
         `;
         
         contactList.appendChild(card);
@@ -53,8 +67,6 @@ function renderContacts() {
 
 function deleteContact(id) {
     contacts = contacts.filter(contact => contact.id !== id);
-    
-    // SAVE & RENDER
     saveToLocalStorage();
     renderContacts();
 }
