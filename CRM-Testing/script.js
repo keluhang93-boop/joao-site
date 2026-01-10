@@ -95,3 +95,60 @@ contactForm.addEventListener('submit', (e) => {
         toggleBtn.classList.remove('rotate-btn');
     }
 });
+
+
+// ... (previous variables)
+const statTotal = document.getElementById('stat-total');
+const statDone = document.getElementById('stat-done');
+
+// UPDATED: Submit Listener to include priority
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const newContact = {
+        id: Date.now(),
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        task: document.getElementById('task-desc').value,
+        priority: document.getElementById('priority').value, // NEW
+        completed: false
+    };
+    contacts.push(newContact);
+    saveToLocalStorage();
+    renderContacts();
+    contactForm.reset();
+});
+
+// NEW: Function to update stats
+function updateStats() {
+    statTotal.innerText = contacts.length;
+    statDone.innerText = contacts.filter(c => c.completed).length;
+}
+
+// UPDATED: renderContacts to include priority tags and call updateStats
+function renderContacts() {
+    contactList.innerHTML = ''; 
+    updateStats(); // Refresh numbers
+
+    const filtered = contacts.filter(person => 
+        person.name.toLowerCase().includes(searchTerm) || 
+        person.email.toLowerCase().includes(searchTerm)
+    );
+
+    filtered.forEach(person => {
+        const card = document.createElement('div');
+        card.className = 'contact-card';
+        const taskClass = person.completed ? 'task-tag completed' : 'task-tag';
+        
+        card.innerHTML = `
+            <div class="card-header">
+                <h3>${person.name} <span class="priority-tag p-${person.priority}">${person.priority}</span></h3>
+                <button class="delete-btn" onclick="deleteContact(${person.id})">×</button>
+            </div>
+            <p>${person.email}</p>
+            <div class="${taskClass}" onclick="toggleTask(${person.id})">
+                ${person.completed ? '✅' : '📝'} ${person.task || 'No tasks'}
+            </div>
+        `;
+        contactList.appendChild(card);
+    });
+}
