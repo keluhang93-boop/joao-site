@@ -163,15 +163,26 @@ function renderContacts() {
 
         const taskClass = person.completed ? 'task-tag completed' : 'task-tag';
         
+        // UPDATED: Added Job and Phone to the display
         card.innerHTML = `
             <div class="card-header">
-                <h3>${person.name} <span class="priority-tag p-${person.priority}">${person.priority}</span></h3>
+                <div>
+                    <h3 style="margin:0;">${person.name}</h3>
+                    <small style="color: #64748b;">${person.job || 'No Title'}</small>
+                </div>
                 <div class="card-actions">
                     <button class="edit-btn" onclick="editContact(${person.id})">✎</button>
                     <button class="delete-btn" onclick="deleteContact(${person.id})">×</button>
                 </div>
             </div>
-            <p>${person.email}</p>
+            
+            <div style="margin: 10px 0; font-size: 0.85rem; color: #475569;">
+                <p style="margin: 2px 0;">📧 ${person.email}</p>
+                <p style="margin: 2px 0;">📞 ${person.phone || 'No phone'}</p>
+            </div>
+
+            <span class="priority-tag p-${person.priority}">${person.priority}</span>
+
             <div class="${taskClass}" onclick="toggleTask(${person.id})">
                 ${person.completed ? '✅' : '📝'} ${person.task || 'No tasks'}
             </div>
