@@ -195,7 +195,14 @@ button {
         /* Stack the form and the list on top of each other */
         grid-template-columns: 1fr;
     }
-
+    
+    .input-panel {
+        position: sticky;
+        top: 10px;
+        z-index: 100;
+        margin-bottom: 20px;
+    }
+    
     .app-container {
         padding: 10px;
     }
