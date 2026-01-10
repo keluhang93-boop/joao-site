@@ -139,7 +139,7 @@ button[type="submit"]:hover {
 
     /* Make the input panel stay at the top when scrolling */
     .input-panel { 
-        position: sticky; 
+        position: static; 
         top: 10px; 
         z-index: 100; 
         margin-bottom: 20px; 
