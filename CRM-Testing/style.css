@@ -246,6 +246,30 @@ button[type="submit"] {
     transition: background 0.3s ease, transform 0.1s active;
 }
 
+/* Ensure all form buttons look the same */
+#contact-form button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Specific styling for the Cancel button to match your request */
+#cancel-edit-btn {
+    background-color: #64748b; /* A nice slate gray */
+    color: white;
+    display: none; /* Hidden by default */
+}
+
+#cancel-edit-btn:hover {
+    background-color: #475569;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     main { grid-template-columns: 1fr; }
