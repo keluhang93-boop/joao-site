@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini CRM & Task Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>My Practice CRM</h1>
+        </header>
+
+        <main>
+            <section class="input-panel">
+                <h2>Add New Lead</h2>
+                <form id="contact-form">
+                    <input type="text" id="name" placeholder="Contact Name" required>
+                    <input type="email" id="email" placeholder="Email Address" required>
+                    <input type="text" id="task-desc" placeholder="Initial Task (e.g. Follow up)">
+                    <button type="submit">Add to Pipeline</button>
+                </form>
+            </section>
+
+            <section class="display-panel">
+                <h2>Active Pipeline</h2>
+                <div id="contact-list" class="cards-grid">
+                    </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
