@@ -12,6 +12,7 @@ const statDone = document.getElementById('stat-done');
 const submitBtn = contactForm.querySelector('button[type="submit"]');
 const cancelBtn = document.getElementById('cancel-edit-btn');
 
+// Initial Load
 renderContacts();
 
 function saveToLocalStorage() {
@@ -22,13 +23,13 @@ function saveToLocalStorage() {
 toggleBtn.addEventListener('click', () => {
     formContainer.classList.toggle('show');
     toggleBtn.classList.toggle('rotate-btn');
-    if (!formContainer.classList.contains('show')) resetForm();
 });
 
 cancelBtn.addEventListener('click', resetForm);
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    
     const data = {
         name: document.getElementById('name').value,
         job: document.getElementById('job-title').value,
@@ -41,12 +42,16 @@ contactForm.addEventListener('submit', (e) => {
     if (editId) {
         contacts = contacts.map(c => c.id === editId ? { ...c, ...data } : c);
     } else {
-        contacts.push({ id: Date.now(), ...data, completed: false });
+        contacts.push({ 
+            id: Date.now(), 
+            ...data, 
+            completed: false 
+        });
     }
 
     saveToLocalStorage();
-    renderContacts();
     resetForm();
+    renderContacts();
 });
 
 function resetForm() {
@@ -55,9 +60,9 @@ function resetForm() {
     submitBtn.innerText = "Add to Pipeline";
     submitBtn.style.background = ""; 
     cancelBtn.style.display = "none";
-    renderContacts();
 }
 
+// --- PIPELINE ACTIONS ---
 function editContact(id) {
     const contact = contacts.find(c => c.id === id);
     if (contact) {
@@ -76,11 +81,9 @@ function editContact(id) {
         formContainer.classList.add('show');
         toggleBtn.classList.add('rotate-btn');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        renderContacts();
     }
 }
 
-// --- PIPELINE ACTIONS ---
 function toggleTask(id) {
     contacts = contacts.map(c => c.id === id ? {...c, completed: !c.completed} : c);
     saveToLocalStorage();
@@ -94,16 +97,25 @@ function deleteContact(id) {
 }
 
 function clearAllContacts() {
-    if (confirm("Are you sure?")) {
+    if (confirm("Delete all data?")) {
         contacts = [];
         saveToLocalStorage();
         renderContacts();
     }
 }
 
+searchBar.addEventListener('input', (e) => {
+    searchTerm = e.target.value.toLowerCase();
+    renderContacts();
+});
+
+// --- THE RENDER FUNCTION (The Core) ---
 function renderContacts() {
     contactList.innerHTML = ''; 
-    updateStats();
+    
+    // Update Stats
+    statTotal.innerText = contacts.length;
+    statDone.innerText = contacts.filter(c => c.completed).length;
 
     const filtered = contacts.filter(person => 
         person.name.toLowerCase().includes(searchTerm) || 
@@ -113,8 +125,6 @@ function renderContacts() {
     filtered.forEach(person => {
         const card = document.createElement('div');
         card.className = 'contact-card';
-        if (person.id === editId) card.style.borderColor = "#059669";
-
         const taskClass = person.completed ? 'task-tag completed' : 'task-tag';
         
         card.innerHTML = `
@@ -128,16 +138,13 @@ function renderContacts() {
                     <button class="delete-btn" onclick="deleteContact(${person.id})">×</button>
                 </div>
             </div>
-            
             <div class="contact-details">
                 <p>📧 ${person.email}</p>
                 <p>📞 ${person.phone || 'No Phone'}</p>
             </div>
-
             <span class="priority-tag p-${person.priority}">${person.priority}</span>
-
             <div class="${taskClass}" onclick="toggleTask(${person.id})">
-                ${person.completed ? '✅' : '📝'} ${person.task || 'No active task'}
+                ${person.completed ? '✅' : '📝'} ${person.task || 'No task'}
             </div>
         `;
         contactList.appendChild(card);
