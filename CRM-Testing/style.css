@@ -78,3 +78,35 @@ button {
     font-size: 0.8rem;
     margin-top: 10px;
 }
+
+/* Card Header layout for Name + Delete Button */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Style for the Delete Button */
+.delete-btn {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    line-height: 1;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.delete-btn:hover {
+    background: #fca5a5;
+    color: white;
+}
