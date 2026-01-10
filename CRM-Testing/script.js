@@ -129,16 +129,7 @@ function updateStats() {
     }
 }
 
-function renderContacts() {
-    contactList.innerHTML = ''; 
-    updateStats();
-
-    const filtered = contacts.filter(person => 
-        person.name.toLowerCase().includes(searchTerm) || 
-        person.email.toLowerCase().includes(searchTerm)
-    );
-
-    filtered.forEach(person => {
+filtered.forEach(person => {
         const card = document.createElement('div');
         card.className = 'contact-card';
         if (person.id === editId) card.style.border = "2px solid #059669";
@@ -147,21 +138,26 @@ function renderContacts() {
         
         card.innerHTML = `
             <div class="card-header">
-                <h3>${person.name} <span class="priority-tag p-${person.priority}">${person.priority}</span></h3>
+                <div class="header-info">
+                    <h3 style="margin:0;">${person.name}</h3>
+                    <small style="color: #64748b; font-weight: 500;">${person.job || 'No Title'}</small>
+                </div>
                 <div class="card-actions">
-                    <button class="edit-btn" onclick="editContact(${person.id})">✎</button>
-                    <button class="delete-btn" onclick="deleteContact(${person.id})">×</button>
+                    <button class="edit-btn" title="Edit" onclick="editContact(${person.id})">✎</button>
+                    <button class="delete-btn" title="Delete" onclick="deleteContact(${person.id})">×</button>
                 </div>
             </div>
+            
             <div class="contact-details">
-                <p><strong>${person.job || 'No Title'}</strong></p>
                 <p>📧 ${person.email}</p>
                 <p>📞 ${person.phone || 'No Phone'}</p>
             </div>
+
+            <span class="priority-tag p-${person.priority}">${person.priority}</span>
+
             <div class="${taskClass}" onclick="toggleTask(${person.id})">
                 ${person.completed ? '✅' : '📝'} ${person.task || 'No active task'}
             </div>
         `;
         contactList.appendChild(card);
     });
-}
