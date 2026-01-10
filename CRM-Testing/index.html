@@ -32,6 +32,21 @@
                 <div class="search-container">
                     <input type="text" id="search-bar" placeholder="🔍 Search by name or email...">
                 </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-label">Total Leads</span>
+                        <span id="stat-total" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Completed</span>
+                        <span id="stat-done" class="stat-value">0</span>
+                    </div>
+                </div>
+                <select id="priority">
+                    <option value="low">Low Priority</option>
+                    <option value="medium" selected>Medium Priority</option>
+                    <option value="high">High Priority</option>
+                </select>
                 <h2>Active Pipeline</h2>
                 <div id="contact-list" class="cards-grid">
                     </div>
