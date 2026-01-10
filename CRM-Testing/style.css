@@ -117,3 +117,15 @@ button[type="submit"]:hover {
     color: white !important;
     transform: scale(1.1); /* Slightly grows the button */
 }
+
+.edit-btn:hover {
+    background: #059669 !important; /* Professional green */
+    color: white !important;
+    transform: scale(1.1); /* Matches the delete button growth */
+    box-shadow: 0 4px 6px rgba(5, 150, 105, 0.2); /* Soft green glow */
+}
+
+/* Also add a smooth transition to the base buttons if you don't have it */
+.edit-btn, .delete-btn {
+    transition: all 0.2s ease-in-out;
+}
