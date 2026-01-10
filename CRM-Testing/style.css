@@ -178,6 +178,52 @@ button[type="submit"]:hover {
 
 .task-item:hover { color: var(--primary); }
 
+/* --- ACTIVITY LOG ENHANCEMENTS --- */
+
+/* Hover effect for the + button */
+.add-subtask-btn {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.add-subtask-btn:hover {
+    transform: rotate(90deg) scale(1.2);
+    background-color: #4338ca;
+}
+
+/* Container for each task item to hold the 'X' */
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 4px;
+    position: relative;
+    border-radius: 4px;
+}
+
+.task-item:hover {
+    background: rgba(79, 70, 229, 0.05);
+}
+
+/* The 'X' Delete button inside the task */
+.delete-task-btn {
+    opacity: 0; /* Hidden by default */
+    color: #ef4444;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 0 5px;
+    transition: opacity 0.2s ease;
+}
+
+.task-item:hover .delete-task-btn {
+    opacity: 1; /* Shows only on hover */
+}
+
+/* Visual cue for double-clicking */
+.task-text {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
 /* --- RESPONSIVE MOBILE LAYOUT --- */
 @media (max-width: 768px) {
     /* Stack the sidebar on top of the list */
