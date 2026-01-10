@@ -241,6 +241,11 @@ button[type="submit"] {
 
 .rotate-btn { transform: rotate(45deg); background: #64748b !important; }
 
+/* Add a transition to the submit button for the color change */
+button[type="submit"] {
+    transition: background 0.3s ease, transform 0.1s active;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     main { grid-template-columns: 1fr; }
