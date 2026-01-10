@@ -9,7 +9,8 @@ const toggleBtn = document.getElementById('toggle-form-btn');
 const formContainer = document.getElementById('form-container');
 const statTotal = document.getElementById('stat-total');
 const statDone = document.getElementById('stat-done');
-const submitBtn = contactForm.querySelector('button[type="submit"]);
+// FIXED: Added the missing closing quote below
+const submitBtn = contactForm.querySelector('button[type="submit"]'); 
 const cancelBtn = document.getElementById('cancel-edit-btn');
 
 // Initial Load
@@ -41,7 +42,6 @@ contactForm.addEventListener('submit', (e) => {
     };
 
     if (editId) {
-        // Update existing contact (keeping their existing tasks)
         contacts = contacts.map(c => {
             if (c.id === editId) {
                 return { ...c, ...data };
@@ -49,7 +49,6 @@ contactForm.addEventListener('submit', (e) => {
             return c;
         });
     } else {
-        // Create new contact with an initial task array
         contacts.push({ 
             id: Date.now(), 
             ...data, 
@@ -72,8 +71,7 @@ function resetForm() {
     submitBtn.innerText = "Add to Pipeline";
     submitBtn.style.background = ""; 
     cancelBtn.style.setProperty('display', 'none', 'important');
-    formContainer.classList.remove('show');
-    toggleBtn.classList.remove('rotate-btn');
+    // We don't automatically close the form here so you can add multiple leads
 }
 
 function editContact(id) {
@@ -84,7 +82,6 @@ function editContact(id) {
         document.getElementById('job-title').value = contact.job || "";
         document.getElementById('email').value = contact.email;
         document.getElementById('phone').value = contact.phone || "";
-        // We leave task-desc empty during edit since we add notes directly to the card now
         document.getElementById('task-desc').value = ""; 
         document.getElementById('priority').value = contact.priority;
 
@@ -98,7 +95,7 @@ function editContact(id) {
     }
 }
 
-// --- NEW ACTIVITY LOG LOGIC ---
+// --- ACTIVITY LOG LOGIC ---
 
 function toggleSubTask(contactId, taskId) {
     contacts = contacts.map(c => {
@@ -116,7 +113,6 @@ function addNewSubTask(contactId) {
     if (note) {
         contacts = contacts.map(c => {
             if (c.id === contactId) {
-                // Ensure tasks array exists
                 if(!c.tasks) c.tasks = [];
                 c.tasks.push({ id: Date.now(), text: note, completed: false });
             }
@@ -135,6 +131,14 @@ function deleteContact(id) {
     }
 }
 
+function clearAllContacts() {
+    if (confirm("Delete all data?")) {
+        contacts = [];
+        saveToLocalStorage();
+        renderContacts();
+    }
+}
+
 searchBar.addEventListener('input', (e) => {
     searchTerm = e.target.value.toLowerCase();
     renderContacts();
@@ -143,58 +147,4 @@ searchBar.addEventListener('input', (e) => {
 function renderContacts() {
     contactList.innerHTML = ''; 
     
-    // Update Stats
     statTotal.innerText = contacts.length;
-    // Count total completed sub-tasks across all contacts
-    let completedCount = 0;
-    contacts.forEach(c => {
-        if(c.tasks) completedCount += c.tasks.filter(t => t.completed).length;
-    });
-    statDone.innerText = completedCount;
-
-    const filtered = contacts.filter(person => 
-        person.name.toLowerCase().includes(searchTerm) || 
-        person.email.toLowerCase().includes(searchTerm)
-    );
-
-    filtered.forEach(person => {
-        const card = document.createElement('div');
-        card.className = 'contact-card';
-
-        // Stage 2: Generate the list of tasks
-        const tasksHTML = (person.tasks || []).map(t => `
-            <div class="task-item ${t.completed ? 'completed' : ''}" onclick="toggleSubTask(${person.id}, ${t.id})">
-                ${t.completed ? '✅' : '○'} ${t.text}
-            </div>
-        `).join('');
-        
-        card.innerHTML = `
-            <div class="card-header">
-                <div class="header-info">
-                    <h3>${person.name}</h3>
-                    <small>${person.job || 'No Title'}</small>
-                </div>
-                <div class="card-actions">
-                    <button class="edit-btn" onclick="editContact(${person.id})">✎</button>
-                    <button class="delete-btn" onclick="deleteContact(${person.id})">×</button>
-                </div>
-            </div>
-            
-            <div class="contact-details">
-                <p>📧 ${person.email}</p>
-                <p>📞 ${person.phone || 'No Phone'}</p>
-            </div>
-
-            <div class="tasks-container">
-                <div class="tasks-header">
-                    <strong>Activity Log</strong>
-                    <button class="add-subtask-btn" onclick="addNewSubTask(${person.id})">+</button>
-                </div>
-                ${tasksHTML}
-            </div>
-
-            <span class="priority-tag p-${person.priority}">${person.priority}</span>
-        `;
-        contactList.appendChild(card);
-    });
-}
