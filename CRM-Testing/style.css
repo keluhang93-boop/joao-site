@@ -129,3 +129,34 @@ button[type="submit"]:hover {
 .edit-btn, .delete-btn {
     transition: all 0.2s ease-in-out;
 }
+
+/* --- RESPONSIVE MOBILE LAYOUT --- */
+@media (max-width: 768px) {
+    /* Stack the sidebar on top of the list */
+    main { 
+        grid-template-columns: 1fr; 
+    }
+
+    /* Make the input panel stay at the top when scrolling */
+    .input-panel { 
+        position: sticky; 
+        top: 10px; 
+        z-index: 100; 
+        margin-bottom: 20px; 
+    }
+
+    /* Adjust the grid to show one card per row on very small screens */
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Make the app container take up more space on mobile */
+    .app-container { 
+        padding: 10px; 
+    }
+
+    /* Adjust stats to stack vertically if screen is tiny */
+    .stats-grid {
+        flex-direction: column;
+    }
+}
