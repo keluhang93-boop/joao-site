@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="app-container">
         <header>
             <h1>My Practice CRM</h1>
@@ -19,19 +18,22 @@
                     <h2>Add New Lead</h2>
                     <button id="toggle-form-btn">+</button>
                 </div>
-                <div id="form-container" class="show"> <form id="contact-form">
+                <div id="form-container" class="show"> 
+                    <form id="contact-form">
                         <input type="text" id="name" placeholder="Contact Name" required>
                         <input type="email" id="email" placeholder="Email Address" required>
                         <input type="text" id="task-desc" placeholder="Initial Task">
+                        <select id="priority">
+                            <option value="low">Low Priority</option>
+                            <option value="medium" selected>Medium Priority</option>
+                            <option value="high">High Priority</option>
+                        </select>
                         <button type="submit">Add to Pipeline</button>
                     </form>
                 </div>
             </section>
 
             <section class="display-panel">
-                <div class="search-container">
-                    <input type="text" id="search-bar" placeholder="🔍 Search by name or email...">
-                </div>
                 <div class="stats-grid">
                     <div class="stat-card">
                         <span class="stat-label">Total Leads</span>
@@ -42,18 +44,16 @@
                         <span id="stat-done" class="stat-value">0</span>
                     </div>
                 </div>
-                <select id="priority">
-                    <option value="low">Low Priority</option>
-                    <option value="medium" selected>Medium Priority</option>
-                    <option value="high">High Priority</option>
-                </select>
+                
+                <div class="search-container">
+                    <input type="text" id="search-bar" placeholder="🔍 Search by name or email...">
+                </div>
+
                 <h2>Active Pipeline</h2>
-                <div id="contact-list" class="cards-grid">
-                    </div>
+                <div id="contact-list" class="cards-grid"></div>
             </section>
         </main>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
