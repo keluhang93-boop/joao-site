@@ -231,6 +231,43 @@ select {
     border: 1px solid #ddd;
 }
 
+/* Card Actions (Edit + Delete alignment) */
+.card-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.edit-btn {
+    background: #e2e8f0;
+    color: #475569;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.edit-btn:hover {
+    background: #cbd5e1;
+}
+
+/* Clear All Button Styling */
+#clear-all-btn {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    width: auto; /* Don't take full width */
+    padding: 5px 15px;
+}
+
+#clear-all-btn:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+}
+
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
     main {
