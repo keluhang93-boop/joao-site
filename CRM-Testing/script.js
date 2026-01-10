@@ -43,3 +43,36 @@ function renderContacts() {
         contactList.appendChild(card);
     });
 }
+
+// ... (previous code above stays the same)
+
+// Function to draw the cards on the screen
+function renderContacts() {
+    contactList.innerHTML = ''; 
+
+    contacts.forEach(person => {
+        const card = document.createElement('div');
+        card.className = 'contact-card';
+        
+        // Notice the onclick calling our new deleteContact function
+        card.innerHTML = `
+            <div class="card-header">
+                <h3>${person.name}</h3>
+                <button class="delete-btn" onclick="deleteContact(${person.id})">×</button>
+            </div>
+            <p>${person.email}</p>
+            <div class="task-tag">📝 Task: ${person.task || 'No tasks yet'}</div>
+        `;
+        
+        contactList.appendChild(card);
+    });
+}
+
+// NEW: Function to delete a contact
+function deleteContact(id) {
+    // Filter the array: keep only contacts whose ID does NOT match the one clicked
+    contacts = contacts.filter(contact => contact.id !== id);
+    
+    // Redraw the UI
+    renderContacts();
+}
