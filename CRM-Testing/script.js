@@ -73,3 +73,25 @@ function renderContacts() {
         contactList.appendChild(card);
     });
 }
+
+const toggleBtn = document.getElementById('toggle-form-btn');
+const formContainer = document.getElementById('form-container');
+
+toggleBtn.addEventListener('click', () => {
+    // Toggle the 'show' class to slide the form
+    formContainer.classList.toggle('show');
+    
+    // Rotate the button for visual feedback
+    toggleBtn.classList.toggle('rotate-btn');
+});
+
+// Update the Form Submit listener to close the form after adding a lead (optional)
+contactForm.addEventListener('submit', (e) => {
+    // ... your existing code ...
+    
+    // If you want it to close automatically on mobile after adding:
+    if (window.innerWidth < 768) {
+        formContainer.classList.remove('show');
+        toggleBtn.classList.remove('rotate-btn');
+    }
+});
