@@ -168,32 +168,36 @@
             grid.innerHTML += `<div class="day-name">${d}</div>`;
         });
 
-        // 2. Generate 7 Days
-        for (let i = 0; i < 7; i++) {
-            let d = new Date(currentWeekDate);
-            d.setDate(currentWeekDate.getDate() + i);
-            
-            const dateStr = d.toISOString().split('T')[0];
-            const isHit = events.find(e => e.date === dateStr);
-            
-            // Fixed Circle Implementation
-            grid.innerHTML += `
-                <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <span class="${isHit ? 'highlight' : ''}" style="
-                        font-size: 1.4rem; 
-                        width: 40px; 
-                        height: 40px; 
-                        display: flex; 
-                        align-items: center; 
-                        justify-content: center; 
-                        flex-shrink: 0; 
-                        border-radius: 50% !important;
-                    ">
-                        ${d.getDate()}
-                    </span>
-                    <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
-                </div>`;
-        }
+// Inside the for loop of renderWeekly()
+for (let i = 0; i < 7; i++) {
+    let d = new Date(currentWeekDate);
+    d.setDate(currentWeekDate.getDate() + i);
+    
+    // FIX: Format date using local year-month-day to avoid timezone shifts
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    
+    const isHit = events.find(e => e.date === dateStr);
+    
+    grid.innerHTML += `
+        <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <span class="${isHit ? 'highlight' : ''}" style="
+                font-size: 1.4rem; 
+                width: 40px; 
+                height: 40px; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                flex-shrink: 0; 
+                border-radius: 50% !important;
+            ">
+                ${d.getDate()}
+            </span>
+            <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
+        </div>`;
+}
 
         // 3. Update Title
         let endOfWeek = new Date(currentWeekDate);
