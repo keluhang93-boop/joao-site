@@ -144,20 +144,22 @@
 </div>
 
 <script>
-function getCategoryColor(category) {
-    switch(category) {
-        case 'ENSEMBLE': return '#cc9900'; // Dark Yellow
-        case 'IMPORTANT': return '#dc3545'; // Red
-        case 'FAMILLE':   return '#90ee90'; // Light Green
-        default:          return '#4B0082'; // Default Purple
+<script>
+    // --- CATEGORY COLOR HELPER ---
+    function getCategoryColor(category) {
+        switch(category) {
+            case 'ENSEMBLE': return '#cc9900'; // Dark Yellow
+            case 'IMPORTANT': return '#dc3545'; // Red
+            case 'FAMILLE':   return '#90ee90'; // Light Green
+            default:          return '#4B0082'; // Default Purple
+        }
     }
-}
     
     // --- GLOBAL VARIABLES ---
     let currentViewDate = new Date(2026, 0, 1); 
     let currentWeekDate = new Date(2026, 0, 5); // Starting Monday
     let isMonthly = true;
-    let events = [{ date: "2026-01-15", title: "Dégustation du Menu", desc: "Test des vins au château" }];
+    let events = [{ date: "2026-01-15", title: "Dégustation du Menu", desc: "Test des vins au château", category: "ENSEMBLE" }];
     const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
     // --- TOGGLE LOGIC ---
@@ -199,29 +201,28 @@ function getCategoryColor(category) {
             const day = String(d.getDate()).padStart(2, '0');
             const dateStr = `${year}-${month}-${day}`;
             
-            const isHit = events.find(e => e.date === dateStr);
-            
-const foundEvent = events.find(e => e.date === dateStr);
-const bgColor = foundEvent ? getCategoryColor(foundEvent.category) : 'transparent';
+            const foundEvent = events.find(e => e.date === dateStr);
+            const bgColor = foundEvent ? getCategoryColor(foundEvent.category) : 'transparent';
+            const textColor = foundEvent ? 'white' : 'black';
 
-grid.innerHTML += `
-    <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <span style="
-            font-size: 1.4rem; 
-            width: 40px; 
-            height: 40px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            flex-shrink: 0; 
-            border-radius: 50%;
-            background-color: ${bgColor};
-            color: ${foundEvent ? 'white' : 'black'};
-        ">
-            ${d.getDate()}
-        </span>
-        <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
-    </div>`;
+            grid.innerHTML += `
+                <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <span style="
+                        font-size: 1.4rem; 
+                        width: 40px; 
+                        height: 40px; 
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: center; 
+                        flex-shrink: 0; 
+                        border-radius: 50%;
+                        background-color: ${bgColor};
+                        color: ${textColor};
+                    ">
+                        ${d.getDate()}
+                    </span>
+                    <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
+                </div>`;
         }
 
         let endOfWeek = new Date(currentWeekDate);
@@ -234,7 +235,7 @@ grid.innerHTML += `
         renderWeekly();
     }
 
-    // --- MONTHLY VIEW RENDER (With "X" button) ---
+    // --- MONTHLY VIEW RENDER ---
     function render() {
         const grid = document.getElementById('calendarGrid');
         const monthTitle = document.getElementById('monthTitle');
@@ -255,39 +256,27 @@ grid.innerHTML += `
 
         for(let i=0; i < offset; i++) grid.innerHTML += `<div></div>`;
 
-for(let d=1; d <= daysInMonth; d++) {
-    const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-    const foundEvent = events.find(e => e.date === dateStr);
-    
-    // If event found, get its specific category color
-    const bgColor = foundEvent ? getCategoryColor(foundEvent.category) : 'transparent';
-    const textColor = foundEvent ? 'white' : 'inherit';
+        for(let d=1; d <= daysInMonth; d++) {
+            const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            const foundEvent = events.find(e => e.date === dateStr);
+            
+            const bgColor = foundEvent ? getCategoryColor(foundEvent.category) : 'transparent';
+            const textColor = foundEvent ? 'white' : 'inherit';
 
-    grid.innerHTML += `<div class="day" style="display:flex; align-items:center; justify-content:center;">
-        <span style="background-color: ${bgColor}; color: ${textColor}; width: 30px; height: 30px; display: flex; align-items:center; justify-content:center; border-radius: 50%;">
-            ${d}
-        </span>
-    </div>`;
-}
+            grid.innerHTML += `<div class="day" style="display:flex; align-items:center; justify-content:center;">
+                <span style="background-color: ${bgColor}; color: ${textColor}; width: 30px; height: 30px; display: flex; align-items:center; justify-content:center; border-radius: 50%;">
+                    ${d}
+                </span>
+            </div>`;
+        }
 
-// Update the Timeline List part inside render()
-events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, index) => {
-    const d = new Date(e.date);
-    const catColor = getCategoryColor(e.category);
-    timeline.innerHTML += `
-        <div class="event" style="position: relative; border-left: 6px solid ${catColor}; background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-            <strong>${d.toLocaleDateString('fr-FR')}</strong> - <span style="color:${catColor}; font-weight:bold;">${e.category || ''}</span><br>
-            <strong>${e.title}</strong>
-            <button onclick="confirmDelete(${index})" style="position: absolute; right: 15px; top: 15px; background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem; font-weight: bold;">&times;</button>
-            <br><small style="color: #666;">${e.desc}</small>
-        </div>`;
-});
-
-        // List with Delete "X"
+        // CORRECTED TIMELINE: Only one loop, with category colors
         events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, index) => {
             const d = new Date(e.date);
+            const catColor = getCategoryColor(e.category);
             timeline.innerHTML += `
-                <div class="event" style="position: relative; border-left: 4px solid #4B0082; background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <div class="event" style="position: relative; border-left: 6px solid ${catColor}; background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <div style="font-size: 0.8rem; color: ${catColor}; font-weight: bold; margin-bottom: 5px;">${e.category || 'ÉVÉNEMENT'}</div>
                     <strong>${d.toLocaleDateString('fr-FR')}</strong>: ${e.title}
                     <button onclick="confirmDelete(${index})" style="position: absolute; right: 15px; top: 15px; background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem; font-weight: bold;">&times;</button>
                     <br><small style="color: #666;">${e.desc}</small>
@@ -295,35 +284,34 @@ events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, index) => 
         });
     }
 
-    // --- UPDATED SAVE FUNCTION ---
-function saveEvent() {
-    const dateInput = document.getElementById('eventFullDate').value;
-    const titleInput = document.getElementById('eventTitle').value;
-    const descInput = document.getElementById('eventDesc').value;
-    const categoryInput = document.getElementById('eventCategory').value; // Get the selection
+    // --- SAVE FUNCTION ---
+    function saveEvent() {
+        const dateInput = document.getElementById('eventFullDate').value;
+        const titleInput = document.getElementById('eventTitle').value;
+        const descInput = document.getElementById('eventDesc').value;
+        const categoryInput = document.getElementById('eventCategory').value;
 
-    if (dateInput.length === 10 && titleInput) {
-        const parts = dateInput.split('/');
-        const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        if (dateInput.length === 10 && titleInput) {
+            const parts = dateInput.split('/');
+            const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
-        events.push({ 
-            date: formattedDate, 
-            title: titleInput, 
-            desc: descInput,
-            category: categoryInput // Save category here
-        });
+            events.push({ 
+                date: formattedDate, 
+                title: titleInput, 
+                desc: descInput,
+                category: categoryInput 
+            });
 
-        // Clear, render, and close
-        document.getElementById('eventFullDate').value = "";
-        document.getElementById('eventTitle').value = "";
-        document.getElementById('eventDesc').value = "";
-        render();
-        if (!isMonthly) renderWeekly();
-        closeModal();
-    } else {
-        alert("Veuillez entrer une date et un titre.");
+            document.getElementById('eventFullDate').value = "";
+            document.getElementById('eventTitle').value = "";
+            document.getElementById('eventDesc').value = "";
+            render();
+            if (!isMonthly) renderWeekly();
+            closeModal();
+        } else {
+            alert("Veuillez entrer une date valide (JJ/MM/AAAA) et un titre.");
+        }
     }
-}
 
     function confirmDelete(index) {
         if (confirm(`Supprimer l'événement : "${events[index].title}" ?`)) {
@@ -332,6 +320,27 @@ function saveEvent() {
             if (!isMonthly) renderWeekly();
         }
     }
+
+    // --- DATE MASK LOGIC ---
+    document.getElementById('eventFullDate').addEventListener('input', function (e) {
+        let input = e.target.value.replace(/\D/g, ''); 
+        if (input.length > 8) input = input.substring(0, 8);
+
+        let day = input.substring(0, 2);
+        let month = input.substring(2, 4);
+        let year = input.substring(4, 8);
+
+        if (day && parseInt(day) > 31) day = "31";
+        if (month && parseInt(month) > 12) month = "12";
+        if (day && day.length === 2 && day === "00") day = "01";
+        if (month && month.length === 2 && month === "00") month = "01";
+
+        let formatted = day;
+        if (input.length > 2) formatted += '/' + month;
+        if (input.length > 4) formatted += '/' + year;
+        
+        e.target.value = formatted;
+    });
 
     // --- UTILS ---
     function changeMonth(step) { currentViewDate.setMonth(currentViewDate.getMonth() + step); render(); }
@@ -347,28 +356,6 @@ function saveEvent() {
         }
     });
 
-document.getElementById('eventFullDate').addEventListener('input', function (e) {
-    let input = e.target.value.replace(/\D/g, ''); // Remove all non-numeric characters
-    if (input.length > 8) input = input.substring(0, 8); // Force max 8 digits (DDMMYYYY)
-
-    let day = input.substring(0, 2);
-    let month = input.substring(2, 4);
-    let year = input.substring(4, 8);
-
-    // Logic to cap days and months
-    if (day && parseInt(day) > 31) day = "31";
-    if (month && parseInt(month) > 12) month = "12";
-    if (day && day.length === 2 && day === "00") day = "01";
-    if (month && month.length === 2 && month === "00") month = "01";
-
-    // Reconstruct string with slashes
-    let formatted = day;
-    if (input.length > 2) formatted += '/' + month;
-    if (input.length > 4) formatted += '/' + year;
-    
-    e.target.value = formatted;
-});
-    
     render(); 
 </script>
     
