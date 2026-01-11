@@ -22,14 +22,32 @@
         .btn-save-event { width:100%; background:#28a745; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer; font-weight: bold; }
         /* Hover effect for events in the list */
         .event {
-            transition: all 0.3s ease; /* Smooth transition */
-            cursor: default;
+            position: relative;
+            background: white;
+            padding: 15px 15px 15px 25px; /* Extra padding on the left for the bar */
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border-left: none !important; /* Remove the old solid border */
+        }
+        
+        /* The colorful "bar" effect with spacing */
+        .event::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10%;      /* Creates space at the top */
+            height: 80%;   /* Bar is shorter than the box */
+            width: 6px;
+            background-color: var(--cat-color); /* We will set this via JS */
+            border-radius: 0 4px 4px 0;
         }
         
         .event:hover {
-            transform: translateX(10px); /* Moves it slightly to the right */
-            background-color: #f8f9fa !important; /* Changes background to light grey */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important; /* Makes shadow deeper */
+            transform: translateX(10px);
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -138,15 +156,31 @@
             grid.innerHTML += `<div class="day" style="display:flex; justify-content:center;"><span style="background:${color}; color:${ev?'white':'black'}; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center;">${d}</span></div>`;
         }
 
+        // Inside your render() function, replace the events.sort().forEach block:
         events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, idx) => {
             const c = getCategoryColor(e.category);
-            timeline.innerHTML += `<div class="event" style="border-left: 6px solid ${c}; position:relative; background:white; padding:15px; margin-bottom:10px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
-                <small style="color:${c}; font-weight:bold;">${e.category || 'INFO'}</small><br>
-                <strong>${e.date.split('-').reverse().join('/')}</strong>: ${e.title}
-                <button onclick="confirmDelete(${idx})" style="position:absolute; right:15px; top:15px; border:none; background:none; color:red; cursor:pointer; font-weight:bold; font-size:1.2rem;">&times;</button>
-            </div>`;
+            const d = new Date(e.date);
+            
+            timeline.innerHTML += `
+                <div class="event" style="--cat-color: ${c};">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <small style="color:${c}; font-weight:bold; text-transform: uppercase; letter-spacing: 1px;">
+                                ${e.category || 'Événement'}
+                            </small>
+                            <h4 style="margin: 5px 0; color: #333;">${e.title}</h4>
+                            <p style="margin: 0; font-size: 0.85rem; color: #666; font-style: italic;">
+                                ${d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                            </p>
+                        </div>
+                        <button onclick="confirmDelete(${idx})" style="border:none; background:none; color:#ccc; cursor:pointer; font-size:1.4rem;">&times;</button>
+                    </div>
+                    
+                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; color: #444; font-size: 0.9rem; line-height: 1.4;">
+                        ${e.desc ? e.desc : '<span style="color:#ccc;">Aucune description fournie.</span>'}
+                    </div>
+                </div>`;
         });
-    }
 
     function renderWeekly() {
         const grid = document.getElementById('weeklyGrid');
