@@ -1,12 +1,14 @@
-/* --- RESET & BASE --- */
+/* --- [REPLACE YOUR ENTIRE CSS WITH THIS] --- */
+
 * { box-sizing: border-box; }
 
 body { 
     margin: 0; 
-    padding-top: 85px; /* Matches new header height */
+    padding-top: 85px; 
+    font-family: 'Lato', sans-serif;
 }
 
-/* --- THE CLEAN HEADER --- */
+/* --- HEADER BASE --- */
 .main-header {
     background: #ffffff !important;
     border-bottom: 1px solid #eeeeee;
@@ -19,23 +21,20 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-    overflow: visible !important;
 }
 
 .header-left-group {
     display: flex;
-    flex-direction: row;
     align-items: center;
     gap: 40px;
 }
 
-/* --- COMPACT LOGO STYLING --- */
+/* --- LOGO --- */
 .logo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    min-width: 140px;
 }
 
 .logo-text {
@@ -43,56 +42,32 @@ body {
     font-size: 1.2rem;
     font-weight: bold;
     color: #D4AF37 !important;
-    letter-spacing: 0.5px;
     line-height: 0.9;
     text-align: center;
 }
 
-.logo-icon {
-    width: 28px;
-    height: auto;
-    margin-top: 3px;
-}
+.logo-icon { width: 28px; height: auto; margin-top: 3px; }
 
-/* --- DESKTOP MENU --- */
-.sketch-nav {
-    display: flex;
-    gap: 20px;
-}
+/* --- DESKTOP NAV --- */
+.sketch-nav { display: flex; gap: 20px; }
 
 .nav-box {
     text-decoration: none;
     color: #4B0082 !important;
     border: 1px solid #D4AF37; 
     padding: 10px 20px;
-    font-family: 'Lato', sans-serif;
     font-weight: 700;
     font-size: 16px;
     text-transform: uppercase;
-    letter-spacing: 1px;
     transition: 0.3s;
-    white-space: nowrap;
 }
 
-.nav-box:hover {
-    background: #D4AF37;
-    color: white !important;
-}
+.nav-box:hover { background: #D4AF37; color: white !important; }
 
-/* --- RIGHT SIDE AUTH --- */
-.header-right-group {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
+/* --- AUTH BUTTONS --- */
+.header-right-group { display: flex; align-items: center; gap: 20px; }
 
-.btn-login {
-    text-decoration: none;
-    color: #4B0082;
-    font-weight: 700;
-    font-size: 0.9rem;
-    font-family: 'Lato', sans-serif;
-}
+.btn-login { text-decoration: none; color: #4B0082; font-weight: 700; }
 
 .btn-signup {
     text-decoration: none;
@@ -100,15 +75,12 @@ body {
     color: #ffffff !important;
     padding: 12px 25px;
     font-weight: 700;
-    font-size: 0.85rem;
-    font-family: 'Lato', sans-serif;
     text-transform: uppercase;
-    transition: 0.3s;
 }
 
-/* --- HAMBURGER BUTTON --- */
+/* --- HAMBURGER (HIDDEN ON PC) --- */
 .menu-toggle {
-    display: none; /* Hidden on desktop */
+    display: none;
     flex-direction: column;
     justify-content: space-around;
     width: 30px;
@@ -116,60 +88,38 @@ body {
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 0;
     z-index: 10001;
 }
 
-.bar {
-    width: 100%;
-    height: 3px;
-    background-color: #4B0082;
-    transition: 0.3s;
+.bar { width: 100%; height: 3px; background-color: #4B0082; }
+
+/* --- MOBILE OVERLAY (HIDDEN ON PC) --- */
+.mobile-overlay {
+    display: none !important; /* CRITICAL: This hides it on PC */
 }
 
-/* --- HERO & CONTENT (Your original styles) --- */
-.hero-content h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
-    margin-bottom: 30px;
-    color: #0070c0 !important;
-}
-
+/* --- HERO & CONTENT --- */
+.hero-content h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: #0070c0 !important; }
 .gold-text { color: #D4AF37; font-style: italic; font-weight: bold; }
-.navy-title { color: #1f4e79 !important; font-family: 'Playfair Display', serif; }
-.navy-list li { color: #1f4e79 !important; font-weight: 500; position: relative; padding-left: 25px; list-style: none; }
-.navy-list li::before { content: "—"; color: #D4AF37 !important; position: absolute; left: 0; font-weight: bold; }
-
 .info-row { display: flex; align-items: center; padding: 80px 10%; gap: 60px; border-bottom: 1px solid #eee; }
-.info-row:nth-child(even) { flex-direction: row-reverse; }
-.info-text { flex: 1; }
-.info-image { flex: 1; }
-.info-image img { width: 100%; height: 400px; object-fit: cover; border: 1px solid #000; box-shadow: 15px 15px 0px rgba(0,0,0,0.05); }
-
-.category-box { display: inline-block; color: #4B0082 !important; border: 1px solid #D4AF37; padding: 10px 20px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 15px; }
-.blue-list li { color: #0070c0 !important; margin-bottom: 15px; padding-left: 25px; position: relative; list-style: none; }
-.blue-list li::before { content: "—"; color: #D4AF37 !important; position: absolute; left: 0; font-weight: bold; }
+.info-image img { width: 100%; height: 400px; object-fit: cover; border: 1px solid #000; }
 
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
-    .main-header { height: 85px !important; }
-    
     .sketch-nav, .btn-login, .btn-signup { display: none !important; }
     
     .menu-toggle { display: flex !important; }
 
     .mobile-overlay {
-        display: none; 
+        display: none !important; /* Start hidden */
         position: fixed;
-        top: 85px; 
-        left: 0;
-        width: 100%;
-        height: calc(100vh - 85px);
-        background-color: #ffffff !important;
-        z-index: 99999 !important;
+        top: 85px; left: 0; width: 100%; height: calc(100vh - 85px);
+        background-color: white !important;
+        z-index: 99999;
         overflow-y: auto;
     }
 
+    /* When active, override the 'none' */
     .mobile-overlay.active {
         display: flex !important;
         flex-direction: column;
@@ -177,23 +127,6 @@ body {
         padding-top: 50px;
     }
 
-    .mobile-nav-links {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        text-align: center;
-    }
-
-    .mobile-nav-links a {
-        font-size: 1.5rem;
-        color: #4B0082 !important;
-        text-decoration: none;
-        font-weight: bold;
-        font-family: 'Playfair Display', serif;
-    }
-
-    /* Content adjustments */
-    .hero-content h1 { font-size: 2rem !important; }
-    .info-row { flex-direction: column !important; padding: 40px 20px !important; text-align: center; }
-    .info-image img { height: 300px; }
+    .mobile-nav-links { display: flex; flex-direction: column; gap: 30px; text-align: center; }
+    .mobile-nav-links a { font-size: 1.5rem; color: #4B0082 !important; text-decoration: none; font-weight: bold; }
 }
