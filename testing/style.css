@@ -406,6 +406,14 @@ body {
     }
 }
 
+/* Add this to your style.css */
+.mobile-overlay.active {
+    display: flex !important; /* Force it to show */
+    flex-direction: column;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
 /* --- FIX FOR THE DUPLICATE MENU ON DESKTOP --- */
 @media (min-width: 769px) {
     .mobile-overlay {
