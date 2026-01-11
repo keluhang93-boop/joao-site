@@ -399,65 +399,6 @@ body {
     background: white;
 }
 
-let isMonthly = true;
-let currentWeekDate = new Date(2026, 0, 5); // Start at first Monday of Jan 2026
-
-function toggleView() {
-    isMonthly = !isMonthly;
-    const monthCard = document.getElementById('monthlyViewCard');
-    const weekCard = document.getElementById('weeklyViewCard');
-    const btn = document.getElementById('viewToggle');
-
-    if (isMonthly) {
-        monthCard.style.display = "block";
-        weekCard.style.display = "none";
-        btn.innerText = "Voir par Semaine";
-        render(); // Re-render monthly
-    } else {
-        monthCard.style.display = "none";
-        weekCard.style.display = "block";
-        btn.innerText = "Voir par Mois";
-        renderWeekly();
-    }
-}
-
-function changeWeek(step) {
-    currentWeekDate.setDate(currentWeekDate.getDate() + (step * 7));
-    renderWeekly();
-}
-
-function renderWeekly() {
-    const grid = document.getElementById('weeklyGrid');
-    const title = document.getElementById('weekTitle');
-    grid.innerHTML = "";
-
-    // Day Headers
-    ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].forEach(d => {
-        grid.innerHTML += `<div class="day-name">${d}</div>`;
-    });
-
-    // Create 7 days starting from currentWeekDate
-    for (let i = 0; i < 7; i++) {
-        let d = new Date(currentWeekDate);
-        d.setDate(currentWeekDate.getDate() + i);
-        
-        const dateStr = d.toISOString().split('T')[0];
-        const isHit = events.find(e => e.date === dateStr);
-        
-        // Styled to look more like your image (Larger boxes)
-        grid.innerHTML += `
-            <div class="day ${isHit ? 'highlight' : ''}" style="height: 100px; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: center;">
-                <span style="font-size: 1.4rem; font-weight: bold;">${d.getDate()}</span>
-                <span style="font-size: 0.7rem;">${monthNames[d.getMonth()]}</span>
-            </div>`;
-    }
-
-    // Set title (e.g., "5 Janvier - 11 Janvier")
-    let endOfWeek = new Date(currentWeekDate);
-    endOfWeek.setDate(currentWeekDate.getDate() + 6);
-    title.innerText = `${currentWeekDate.getDate()} ${monthNames[currentWeekStart.getMonth()]} - ${endOfWeek.getDate()} ${monthNames[endOfWeek.getMonth()]}`;
-}
-
 /* --- DESKTOP VIEW --- */
 .desktop-nav { display: flex; gap: 20px; }
 .desktop-nav a { text-decoration: none; color: black; font-weight: bold; border: 1px solid black; padding: 5px 10px; }
