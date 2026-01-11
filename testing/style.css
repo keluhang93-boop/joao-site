@@ -28,28 +28,29 @@ body {
     gap: 40px; /* Wide space between logo and menu */
 }
 
-/* --- LOGO STYLING --- */
+/* --- COMPACT LOGO STYLING --- */
 .logo-container {
     display: flex;
-    flex-direction: column; /* Text on top, Icon below */
+    flex-direction: column; /* Keeps text on top, Icon below */
     align-items: center;
     text-decoration: none;
-    min-width: 180px;
+    min-width: 140px; /* Reduced width */
 }
 
 .logo-text {
     font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
+    font-size: 1.2rem; /* Reduced from 1.6rem to make it shorter */
     font-weight: bold;
     color: #D4AF37 !important;
-    letter-spacing: -0.5px;
-    line-height: 1;
+    letter-spacing: 0.5px; /* Shorter spacing between letters */
+    line-height: 0.9; /* Tightens the vertical space */
+    text-align: center;
 }
 
 .logo-icon {
-    width: 35px; /* Slightly bigger for visibility */
+    width: 28px; /* Slightly smaller to match the new text size */
     height: auto;
-    margin-top: 5px;
+    margin-top: 3px; /* Brings icon closer to text */
 }
 
 /* --- MENU STYLING --- */
