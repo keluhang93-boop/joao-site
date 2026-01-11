@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Union | Blog & Articles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        body { margin: 0; font-family: 'Lato', sans-serif; background-color: #fdfafb; color: #333; }
+        .container { max-width: 1000px; margin: 120px auto 60px auto; padding: 20px; }
+        
+        .union-header { text-align: center; margin-bottom: 50px; }
+        .union-header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: #1f4e79; margin-bottom: 10px; }
+        .union-header p { font-size: 1.1rem; color: #666; max-width: 600px; margin: 0 auto; }
+
+        /* Article Grid */
+        .article-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 30px; 
+        }
+
+        .article-card { 
+            background: white; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+        }
+
+        .article-img { 
+            width: 100%; 
+            height: 200px; 
+            background-size: cover; 
+            background-position: center; 
+        }
+
+        .article-content { padding: 20px; flex-grow: 1; }
+        .category-tag { 
+            font-size: 0.7rem; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            color: #D4AF37; /* Gold */
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .article-card h3 { 
+            font-family: 'Playfair Display', serif; 
+            margin: 10px 0; 
+            font-size: 1.4rem; 
+            color: #1f4e79; 
+        }
+
+        .article-card p { font-size: 0.9rem; color: #555; line-height: 1.5; }
+
+        .read-more { 
+            display: inline-block; 
+            margin-top: 15px; 
+            text-decoration: none; 
+            color: #4B0082; 
+            font-weight: bold; 
+            font-size: 0.85rem; 
+        }
+
+        /* Category Filter Bar */
+        .filter-bar { 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            margin-bottom: 40px; 
+            flex-wrap: wrap;
+        }
+        .filter-btn { 
+            padding: 8px 18px; 
+            border-radius: 20px; 
+            border: 1px solid #ddd; 
+            background: white; 
+            cursor: pointer; 
+            font-size: 0.8rem; 
+            transition: 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active { 
+            background: #1f4e79; 
+            color: white; 
+            border-color: #1f4e79; 
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-left-group">
+        <a href="index.html" class="logo-text">SMART COUPLE</a>
+        <nav class="sketch-nav">
+            <a href="spending.html" class="nav-box">Smart Dépenses</a>
+            <a href="planning.html" class="nav-box">Smart Planning</a>
+            <a href="union.html" class="nav-box active">Smart Union</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="union-header">
+        <h1>Smart Union</h1>
+        <p>Conseils, réflexions et ressources pour cultiver une relation épanouie et durable.</p>
+    </div>
+
+    <div class="filter-bar">
+        <button class="filter-btn active">Tous</button>
+        <button class="filter-btn">Communication</button>
+        <button class="filter-btn">Psychologie</button>
+        <button class="filter-btn">Vie Quotidienne</button>
+        <button class="filter-btn">Finances</button>
+    </div>
+
+    <div class="article-grid">
+        <div class="article-card">
+            <div class="article-img" style="background-image: url('https://images.unsplash.com/photo-1516589174184-c685266d4af4?auto=format&fit=crop&q=80&w=800');"></div>
+            <div class="article-content">
+                <span class="category-tag">Communication</span>
+                <h3>L'art de l'écoute active</h3>
+                <p>Découvrez comment transformer vos désaccords en moments de connexion grâce à des techniques d'écoute bienveillante.</p>
+                <a href="#" class="read-more">Lire la suite →</a>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <div class="article-img" style="background-image: url('https://images.unsplash.com/photo-1520852703565-366367766b80?auto=format&fit=crop&q=80&w=800');"></div>
+            <div class="article-content">
+                <span class="category-tag">Psychologie</span>
+                <h3>Les 5 langages de l'amour</h3>
+                <p>Comprendre comment votre partenaire exprime et reçoit de l'affection est la clé d'une harmonie durable.</p>
+                <a href="#" class="read-more">Lire la suite →</a>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <div class="article-img" style="background-image: url('https://images.unsplash.com/photo-1450101496173-eb4151c9c7b4?auto=format&fit=crop&q=80&w=800');"></div>
+            <div class="article-content">
+                <span class="category-tag">Vie Quotidienne</span>
+                <h3>Rituels de couple : Pourquoi c'est vital ?</h3>
+                <p>Du café du matin aux balades du dimanche, apprenez à instaurer des rituels qui renforcent votre complicité.</p>
+                <a href="#" class="read-more">Lire la suite →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
