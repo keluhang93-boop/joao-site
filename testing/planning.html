@@ -20,7 +20,18 @@
         .day-name { font-weight: bold; color: #ccc; font-size: 0.7rem; text-transform: uppercase; }
         
         /* Changed Highlight to PURPLE (or GOLD if you prefer events to stand out) */
-        .highlight { background-color: #4B0082 !important; color: white !important; font-weight: bold; border-radius: 50%; }
+        .highlight { 
+                        background-color: #4B0082 !important; 
+                        color: white !important; 
+                        font-weight: bold; 
+                        width: 35px;           /* Consistent size */
+                        height: 35px;          
+                        border-radius: 50% !important; 
+                        display: flex !important;
+                        align-items: center;
+                        justify-content: center;
+                        margin: auto;          
+                    }
         
         .actions { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
         .btn-action { width: 45px; height: 45px; border-radius: 50%; border: none; color: white; cursor: pointer; font-size: 20px; transition: 0.3s; }
