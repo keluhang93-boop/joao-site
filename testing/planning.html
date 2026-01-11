@@ -102,11 +102,21 @@
 <div id="modal">
     <div class="modal-content">
         <h3>Nouvel Événement</h3>
+        
+        <label style="display:block; margin-bottom:5px; font-size:0.8rem;">Catégorie :</label>
+        <select id="eventCategory" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #eee;">
+            <option value="DEFAULT">Par défaut (Violet)</option>
+            <option value="ENSEMBLE">MOMENTS ENSEMBLE (Jaune Foncé)</option>
+            <option value="IMPORTANT">IMPORTANT (Rouge)</option>
+            <option value="FAMILLE">FAMILLE (Vert Clair)</option>
+        </select>
+
         <label style="display:block; margin-bottom:5px; font-size:0.8rem;">Date (JJ/MM/AAAA) :</label>
         <input type="text" id="eventFullDate" placeholder="31/12/2026" maxlength="10">
         
         <input type="text" id="eventTitle" placeholder="Nom de l'activité">
         <textarea id="eventDesc" placeholder="Détails..."></textarea>
+        
         <button onclick="saveEvent()" class="btn-save-event">Enregistrer l'événement</button>
         <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color: #666;">Annuler</button>
     </div>
@@ -134,6 +144,15 @@
 </div>
 
 <script>
+function getCategoryColor(category) {
+    switch(category) {
+        case 'ENSEMBLE': return '#cc9900'; // Dark Yellow
+        case 'IMPORTANT': return '#dc3545'; // Red
+        case 'FAMILLE':   return '#90ee90'; // Light Green
+        default:          return '#4B0082'; // Default Purple
+    }
+}
+    
     // --- GLOBAL VARIABLES ---
     let currentViewDate = new Date(2026, 0, 1); 
     let currentWeekDate = new Date(2026, 0, 5); // Starting Monday
@@ -182,22 +201,27 @@
             
             const isHit = events.find(e => e.date === dateStr);
             
-            grid.innerHTML += `
-                <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <span class="${isHit ? 'highlight' : ''}" style="
-                        font-size: 1.4rem; 
-                        width: 40px; 
-                        height: 40px; 
-                        display: flex; 
-                        align-items: center; 
-                        justify-content: center; 
-                        flex-shrink: 0; 
-                        border-radius: 50% !important;
-                    ">
-                        ${d.getDate()}
-                    </span>
-                    <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
-                </div>`;
+const foundEvent = events.find(e => e.date === dateStr);
+const bgColor = foundEvent ? getCategoryColor(foundEvent.category) : 'transparent';
+
+grid.innerHTML += `
+    <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <span style="
+            font-size: 1.4rem; 
+            width: 40px; 
+            height: 40px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            flex-shrink: 0; 
+            border-radius: 50%;
+            background-color: ${bgColor};
+            color: ${foundEvent ? 'white' : 'black'};
+        ">
+            ${d.getDate()}
+        </span>
+        <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
+    </div>`;
         }
 
         let endOfWeek = new Date(currentWeekDate);
@@ -231,11 +255,33 @@
 
         for(let i=0; i < offset; i++) grid.innerHTML += `<div></div>`;
 
-        for(let d=1; d <= daysInMonth; d++) {
-            const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-            const isHit = events.find(e => e.date === dateStr);
-            grid.innerHTML += `<div class="day ${isHit ? 'highlight' : ''}">${d}</div>`;
-        }
+for(let d=1; d <= daysInMonth; d++) {
+    const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const foundEvent = events.find(e => e.date === dateStr);
+    
+    // If event found, get its specific category color
+    const bgColor = foundEvent ? getCategoryColor(foundEvent.category) : 'transparent';
+    const textColor = foundEvent ? 'white' : 'inherit';
+
+    grid.innerHTML += `<div class="day" style="display:flex; align-items:center; justify-content:center;">
+        <span style="background-color: ${bgColor}; color: ${textColor}; width: 30px; height: 30px; display: flex; align-items:center; justify-content:center; border-radius: 50%;">
+            ${d}
+        </span>
+    </div>`;
+}
+
+// Update the Timeline List part inside render()
+events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, index) => {
+    const d = new Date(e.date);
+    const catColor = getCategoryColor(e.category);
+    timeline.innerHTML += `
+        <div class="event" style="position: relative; border-left: 6px solid ${catColor}; background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            <strong>${d.toLocaleDateString('fr-FR')}</strong> - <span style="color:${catColor}; font-weight:bold;">${e.category || ''}</span><br>
+            <strong>${e.title}</strong>
+            <button onclick="confirmDelete(${index})" style="position: absolute; right: 15px; top: 15px; background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem; font-weight: bold;">&times;</button>
+            <br><small style="color: #666;">${e.desc}</small>
+        </div>`;
+});
 
         // List with Delete "X"
         events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, index) => {
@@ -251,22 +297,23 @@
 
     // --- UPDATED SAVE FUNCTION ---
 function saveEvent() {
-    const dateInput = document.getElementById('eventFullDate').value; // Expected: DD/MM/YYYY
+    const dateInput = document.getElementById('eventFullDate').value;
     const titleInput = document.getElementById('eventTitle').value;
     const descInput = document.getElementById('eventDesc').value;
+    const categoryInput = document.getElementById('eventCategory').value; // Get the selection
 
     if (dateInput.length === 10 && titleInput) {
-        // Convert DD/MM/YYYY to YYYY-MM-DD
         const parts = dateInput.split('/');
         const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
         events.push({ 
             date: formattedDate, 
             title: titleInput, 
-            desc: descInput 
+            desc: descInput,
+            category: categoryInput // Save category here
         });
 
-        // Clear and close
+        // Clear, render, and close
         document.getElementById('eventFullDate').value = "";
         document.getElementById('eventTitle').value = "";
         document.getElementById('eventDesc').value = "";
@@ -274,7 +321,7 @@ function saveEvent() {
         if (!isMonthly) renderWeekly();
         closeModal();
     } else {
-        alert("Veuillez entrer une date valide (JJ/MM/AAAA) et un titre.");
+        alert("Veuillez entrer une date et un titre.");
     }
 }
 
