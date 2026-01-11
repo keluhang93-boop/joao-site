@@ -377,42 +377,33 @@ body {
 
 /* --- MOBILE VIEW --- */
 @media (max-width: 768px) {
-    .header-right-group .btn-login, 
-    .header-right-group .btn-signup {
-        display: none !important; 
+    /* Adjust header height for mobile */
+    .main-header {
+        height: 85px !important; 
     }
 
-    .menu-toggle {
-        display: flex !important; 
-        margin-left: 30px; 
-    }
-
-    .menu-toggle span { width: 25px; height: 3px; background: #4B0082 !important; } /* PURPLE BARS */
-
+    /* Fix the overlay position to match the header */
     .mobile-overlay {
         display: none; 
         position: fixed;
-        top: 70px; 
+        top: 85px; /* Matches the header height */
         left: 0;
         width: 100%;
-        height: 100vh;
+        height: calc(100vh - 85px);
         background: white;
-        z-index: 2000;
+        z-index: 9999;
     }
 
-    .mobile-overlay.active {
-        display: block !important;
+    /* Ensure the hamburger button is visible */
+    .menu-toggle {
+        display: flex !important;
+        margin-left: 15px;
     }
 
-    .mobile-nav-links {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 50px;
-        gap: 30px;
+    /* Make the bars purple so they are visible on white background */
+    .bar {
+        background-color: #4B0082 !important;
     }
-
-    .mobile-nav-links a { font-size: 1.5rem; text-decoration: none; color: #4B0082; font-weight: bold; }
 }
 
 /* --- FIX FOR THE DUPLICATE MENU ON DESKTOP --- */
