@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=1.1">
     <title>Smart Schedule 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css"> 
@@ -11,45 +10,16 @@
         body { margin: 0; font-family: 'Lato', sans-serif; background-color: #fdfafb; }
         .container { max-width: 900px; margin: 120px auto; padding: 20px; } 
         .calendar-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        
-        /* Changed from Pink to PURPLE */
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #4B0082; font-family: 'Playfair Display'; }
-        
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
         .day { padding: 10px; border-radius: 5px; font-size: 0.9rem; border: 1px solid #fcfcfc; }
         .day-name { font-weight: bold; color: #ccc; font-size: 0.7rem; text-transform: uppercase; }
-        
-        /* Changed Highlight to PURPLE (or GOLD if you prefer events to stand out) */
-        .highlight { 
-                        background-color: #4B0082 !important; 
-                        color: white !important; 
-                        font-weight: bold; 
-                        width: 35px;           /* Consistent size */
-                        height: 35px;          
-                        border-radius: 50% !important; 
-                        display: flex !important;
-                        align-items: center;
-                        justify-content: center;
-                        margin: auto;          
-                    }
-        
         .actions { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
-        .btn-action { width: 45px; height: 45px; border-radius: 50%; border: none; color: white; cursor: pointer; font-size: 20px; transition: 0.3s; }
-        .btn-add { background: #28a745; } 
-        .btn-delete { background: #dc3545; }
-        .btn-action:hover { transform: scale(1.1); }
-    
-        /* Changed border from light pink to light PURPLE or GOLD */
         .timeline { margin-top: 30px; border-left: 2px solid #D4AF37; padding-left: 20px; }
-        .event { background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 4px solid #4B0082; }
-        
         #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; }
         .modal-content { background:white; width:350px; margin:15% auto; padding:25px; border-radius:12px; }
-        input, textarea { width: 100%; margin: 10px 0; padding: 8px; box-sizing: border-box; border: 1px solid #eee; border-radius: 4px; }
-        
-        /* Modal Add Button to PURPLE */
-        .btn-save-event { width:100%; background:#4B0082; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer; font-weight: bold; }
-        .btn-save-event:hover { background:#D4AF37; color:#4B0082; }
+        input, textarea, select { width: 100%; margin: 10px 0; padding: 8px; box-sizing: border-box; border: 1px solid #eee; border-radius: 4px; }
+        .btn-save-event { width:100%; background:#28a745; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -63,301 +33,156 @@
             <a href="#" class="nav-box">Smart Union</a>
         </nav>
     </div>
-    
-    <div class="header-right-group">
-        <a href="#" class="btn-login">Login</a>
-        <a href="#" class="btn-signup">Sign Up</a>
-        <button class="menu-toggle" id="mobile-menu-btn">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
-    </div>
-
-    <div class="mobile-overlay" id="mobile-menu-overlay">
-        <nav class="mobile-nav-links">
-            <a href="spending.html">Smart Dépenses</a>
-            <a href="planning.html">Smart Planning</a>
-            <a href="#">Smart Union</a>
-            <hr style="width: 50%; border: 0.5px solid #eee;">
-            <a href="#">Login</a>
-            <a href="#">Sign Up</a>
-        </nav>
-    </div>
 </header>
 
 <div class="container">
     <h1 style="text-align:center; font-family:'Playfair Display'; color: #1f4e79;">Calendrier 2026</h1>
 
-<div class="actions">
-    <button class="btn-action" onclick="openModal()" style="background: #28a745; width: auto; padding: 0 20px; border-radius: 8px; font-size: 0.9rem; font-weight: bold; display: flex; align-items: center; gap: 8px;">
-        <span>+</span> Ajouter un nouvel événement
-    </button>
-    
-    <button id="viewToggle" onclick="toggleView()" style="margin-left: 10px; padding: 10px 20px; border-radius: 8px; border: 1px solid #4B0082; background: white; color: #4B0082; cursor: pointer; font-weight: bold;">
-        Voir par Semaine
-    </button>
-</div>
-
-<div id="modal">
-    <div class="modal-content">
-        <h3>Nouvel Événement</h3>
-        
-        <label style="display:block; margin-bottom:5px; font-size:0.8rem;">Catégorie :</label>
-        <select id="eventCategory" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #eee;">
-            <option value="DEFAULT">Par défaut (Violet)</option>
-            <option value="ENSEMBLE">MOMENTS ENSEMBLE (Jaune Foncé)</option>
-            <option value="IMPORTANT">IMPORTANT (Rouge)</option>
-            <option value="FAMILLE">FAMILLE (Vert Clair)</option>
-        </select>
-
-        <label style="display:block; margin-bottom:5px; font-size:0.8rem;">Date (JJ/MM/AAAA) :</label>
-        <input type="text" id="eventFullDate" placeholder="31/12/2026" maxlength="10">
-        
-        <input type="text" id="eventTitle" placeholder="Nom de l'activité">
-        <textarea id="eventDesc" placeholder="Détails..."></textarea>
-        
-        <button onclick="saveEvent()" class="btn-save-event">Enregistrer l'événement</button>
-        <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color: #666;">Annuler</button>
+    <div class="actions">
+        <button onclick="openModal()" style="background: #28a745; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            + Ajouter un nouvel événement
+        </button>
+        <button id="viewToggle" onclick="toggleView()" style="padding: 12px 20px; border-radius: 8px; border: 1px solid #4B0082; background: white; color: #4B0082; cursor: pointer; font-weight: bold;">
+            Voir par Semaine
+        </button>
     </div>
-</div>
 
-<div class="calendar-card" id="monthlyViewCard">
-    <div class="calendar-header">
-        <button onclick="changeMonth(-1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❮</button>
-        <h2 id="monthTitle">Janvier 2026</h2>
-        <button onclick="changeMonth(1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❯</button>
+    <div id="modal">
+        <div class="modal-content">
+            <h3>Nouvel Événement</h3>
+            <label style="font-size: 0.8rem;">Catégorie :</label>
+            <select id="eventCategory">
+                <option value="DEFAULT">Par défaut (Violet)</option>
+                <option value="ENSEMBLE">MOMENTS ENSEMBLE (Jaune)</option>
+                <option value="IMPORTANT">IMPORTANT (Rouge)</option>
+                <option value="FAMILLE">FAMILLE (Vert)</option>
+            </select>
+            <label style="font-size: 0.8rem;">Date (JJ/MM/AAAA) :</label>
+            <input type="text" id="eventFullDate" placeholder="31/12/2026" maxlength="10">
+            <input type="text" id="eventTitle" placeholder="Titre">
+            <textarea id="eventDesc" placeholder="Description"></textarea>
+            <button onclick="saveEvent()" class="btn-save-event">Enregistrer</button>
+            <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; color: #666; cursor:pointer;">Annuler</button>
+        </div>
     </div>
-    <div class="calendar-grid" id="calendarGrid"></div>
-</div>
 
-<div class="calendar-card" id="weeklyViewCard" style="display: none;">
-    <div class="calendar-header">
-        <button onclick="changeWeek(-1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❮</button>
-        <h2 id="weekTitle">Semaine</h2>
-        <button onclick="changeWeek(1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❯</button>
+    <div class="calendar-card" id="monthlyViewCard">
+        <div class="calendar-header">
+            <button onclick="changeMonth(-1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❮</button>
+            <h2 id="monthTitle">Janvier 2026</h2>
+            <button onclick="changeMonth(1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❯</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
     </div>
-    <div class="calendar-grid" id="weeklyGrid"></div>
-</div>
+
+    <div class="calendar-card" id="weeklyViewCard" style="display: none;">
+        <div class="calendar-header">
+            <button onclick="changeWeek(-1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❮</button>
+            <h2 id="weekTitle">Semaine</h2>
+            <button onclick="changeWeek(1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❯</button>
+        </div>
+        <div class="calendar-grid" id="weeklyGrid"></div>
+    </div>
 
     <div class="timeline" id="timelineList"></div>
 </div>
 
 <script>
-<script>
-    // --- CATEGORY COLOR HELPER ---
-    function getCategoryColor(category) {
-        switch(category) {
-            case 'ENSEMBLE': return '#cc9900'; // Dark Yellow
-            case 'IMPORTANT': return '#dc3545'; // Red
-            case 'FAMILLE':   return '#90ee90'; // Light Green
-            default:          return '#4B0082'; // Default Purple
-        }
-    }
-    
-    // --- GLOBAL VARIABLES ---
-    let currentViewDate = new Date(2026, 0, 1); 
-    let currentWeekDate = new Date(2026, 0, 5); // Starting Monday
+    // --- SETTINGS & DATA ---
+    let currentViewDate = new Date(2026, 0, 1);
+    let currentWeekDate = new Date(2026, 0, 5);
     let isMonthly = true;
-    let events = [{ date: "2026-01-15", title: "Dégustation du Menu", desc: "Test des vins au château", category: "ENSEMBLE" }];
+    let events = [{ date: "2026-01-15", title: "Dégustation", desc: "Test vins", category: "ENSEMBLE" }];
     const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
-    // --- TOGGLE LOGIC ---
-    function toggleView() {
-        isMonthly = !isMonthly;
-        const monthCard = document.getElementById('monthlyViewCard');
-        const weekCard = document.getElementById('weeklyViewCard');
-        const btn = document.getElementById('viewToggle');
-
-        if (isMonthly) {
-            monthCard.style.display = "block";
-            weekCard.style.display = "none";
-            btn.innerText = "Voir par Semaine";
-            render(); 
-        } else {
-            monthCard.style.display = "none";
-            weekCard.style.display = "block";
-            btn.innerText = "Voir par Mois";
-            renderWeekly();
-        }
+    function getCategoryColor(cat) {
+        if (cat === 'ENSEMBLE') return '#cc9900';
+        if (cat === 'IMPORTANT') return '#dc3545';
+        if (cat === 'FAMILLE') return '#90ee90';
+        return '#4B0082';
     }
 
-    // --- WEEKLY VIEW RENDER ---
-    function renderWeekly() {
-        const grid = document.getElementById('weeklyGrid');
-        const title = document.getElementById('weekTitle');
-        grid.innerHTML = ""; 
-
-        ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].forEach(d => {
-            grid.innerHTML += `<div class="day-name">${d}</div>`;
-        });
-
-        for (let i = 0; i < 7; i++) {
-            let d = new Date(currentWeekDate);
-            d.setDate(currentWeekDate.getDate() + i);
-            
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            const dateStr = `${year}-${month}-${day}`;
-            
-            const foundEvent = events.find(e => e.date === dateStr);
-            const bgColor = foundEvent ? getCategoryColor(foundEvent.category) : 'transparent';
-            const textColor = foundEvent ? 'white' : 'black';
-
-            grid.innerHTML += `
-                <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <span style="
-                        font-size: 1.4rem; 
-                        width: 40px; 
-                        height: 40px; 
-                        display: flex; 
-                        align-items: center; 
-                        justify-content: center; 
-                        flex-shrink: 0; 
-                        border-radius: 50%;
-                        background-color: ${bgColor};
-                        color: ${textColor};
-                    ">
-                        ${d.getDate()}
-                    </span>
-                    <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
-                </div>`;
-        }
-
-        let endOfWeek = new Date(currentWeekDate);
-        endOfWeek.setDate(currentWeekDate.getDate() + 6);
-        title.innerText = `${currentWeekDate.getDate()} ${monthNames[currentWeekDate.getMonth()]} - ${endOfWeek.getDate()} ${monthNames[endOfWeek.getMonth()]} 2026`;
-    }
-
-    function changeWeek(step) {
-        currentWeekDate.setDate(currentWeekDate.getDate() + (step * 7));
-        renderWeekly();
-    }
-
-    // --- MONTHLY VIEW RENDER ---
+    // --- RENDER FUNCTIONS ---
     function render() {
         const grid = document.getElementById('calendarGrid');
-        const monthTitle = document.getElementById('monthTitle');
         const timeline = document.getElementById('timelineList');
-        
-        grid.innerHTML = "";
-        timeline.innerHTML = "";
+        grid.innerHTML = ""; timeline.innerHTML = "";
         
         const year = currentViewDate.getFullYear();
         const month = currentViewDate.getMonth();
-        monthTitle.innerText = `${monthNames[month]} ${year}`;
+        document.getElementById('monthTitle').innerText = `${monthNames[month]} ${year}`;
 
         ["L", "M", "M", "J", "V", "S", "D"].forEach(d => grid.innerHTML += `<div class="day-name">${d}</div>`);
-
         const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
         const offset = (firstDay === 0) ? 6 : firstDay - 1;
+        for(let i=0; i<offset; i++) grid.innerHTML += `<div></div>`;
 
-        for(let i=0; i < offset; i++) grid.innerHTML += `<div></div>`;
-
-        for(let d=1; d <= daysInMonth; d++) {
+        for(let d=1; d <= new Date(year, month + 1, 0).getDate(); d++) {
             const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-            const foundEvent = events.find(e => e.date === dateStr);
-            
-            const bgColor = foundEvent ? getCategoryColor(foundEvent.category) : 'transparent';
-            const textColor = foundEvent ? 'white' : 'inherit';
-
-            grid.innerHTML += `<div class="day" style="display:flex; align-items:center; justify-content:center;">
-                <span style="background-color: ${bgColor}; color: ${textColor}; width: 30px; height: 30px; display: flex; align-items:center; justify-content:center; border-radius: 50%;">
-                    ${d}
-                </span>
-            </div>`;
+            const ev = events.find(e => e.date === dateStr);
+            const color = ev ? getCategoryColor(ev.category) : 'transparent';
+            grid.innerHTML += `<div class="day" style="display:flex; justify-content:center;"><span style="background:${color}; color:${ev?'white':'black'}; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center;">${d}</span></div>`;
         }
 
-        // CORRECTED TIMELINE: Only one loop, with category colors
-        events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, index) => {
-            const d = new Date(e.date);
-            const catColor = getCategoryColor(e.category);
-            timeline.innerHTML += `
-                <div class="event" style="position: relative; border-left: 6px solid ${catColor}; background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                    <div style="font-size: 0.8rem; color: ${catColor}; font-weight: bold; margin-bottom: 5px;">${e.category || 'ÉVÉNEMENT'}</div>
-                    <strong>${d.toLocaleDateString('fr-FR')}</strong>: ${e.title}
-                    <button onclick="confirmDelete(${index})" style="position: absolute; right: 15px; top: 15px; background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem; font-weight: bold;">&times;</button>
-                    <br><small style="color: #666;">${e.desc}</small>
-                </div>`;
+        events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, idx) => {
+            const c = getCategoryColor(e.category);
+            timeline.innerHTML += `<div class="event" style="border-left: 6px solid ${c}; position:relative; background:white; padding:15px; margin-bottom:10px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+                <small style="color:${c}; font-weight:bold;">${e.category || 'INFO'}</small><br>
+                <strong>${e.date.split('-').reverse().join('/')}</strong>: ${e.title}
+                <button onclick="confirmDelete(${idx})" style="position:absolute; right:15px; top:15px; border:none; background:none; color:red; cursor:pointer; font-weight:bold; font-size:1.2rem;">&times;</button>
+            </div>`;
         });
     }
 
-    // --- SAVE FUNCTION ---
+    function renderWeekly() {
+        const grid = document.getElementById('weeklyGrid');
+        grid.innerHTML = "";
+        ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].forEach(d => grid.innerHTML += `<div class="day-name">${d}</div>`);
+
+        for (let i = 0; i < 7; i++) {
+            let d = new Date(currentWeekDate); d.setDate(currentWeekDate.getDate() + i);
+            const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+            const ev = events.find(e => e.date === dateStr);
+            const color = ev ? getCategoryColor(ev.category) : 'transparent';
+            grid.innerHTML += `<div class="day" style="height:80px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <span style="background:${color}; color:${ev?'white':'black'}; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">${d.getDate()}</span>
+                <small style="color:#999">${monthNames[d.getMonth()]}</small>
+            </div>`;
+        }
+        let end = new Date(currentWeekDate); end.setDate(currentWeekDate.getDate() + 6);
+        document.getElementById('weekTitle').innerText = `${currentWeekDate.getDate()} ${monthNames[currentWeekDate.getMonth()]} - ${end.getDate()} ${monthNames[end.getMonth()]} 2026`;
+    }
+
+    // --- LOGIC ---
     function saveEvent() {
-        const dateInput = document.getElementById('eventFullDate').value;
-        const titleInput = document.getElementById('eventTitle').value;
-        const descInput = document.getElementById('eventDesc').value;
-        const categoryInput = document.getElementById('eventCategory').value;
-
-        if (dateInput.length === 10 && titleInput) {
-            const parts = dateInput.split('/');
-            const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-
-            events.push({ 
-                date: formattedDate, 
-                title: titleInput, 
-                desc: descInput,
-                category: categoryInput 
-            });
-
-            document.getElementById('eventFullDate').value = "";
-            document.getElementById('eventTitle').value = "";
-            document.getElementById('eventDesc').value = "";
-            render();
-            if (!isMonthly) renderWeekly();
+        const dVal = document.getElementById('eventFullDate').value;
+        const tVal = document.getElementById('eventTitle').value;
+        if (dVal.length === 10 && tVal) {
+            const p = dVal.split('/');
+            events.push({ date: `${p[2]}-${p[1]}-${p[0]}`, title: tVal, desc: document.getElementById('eventDesc').value, category: document.getElementById('eventCategory').value });
+            render(); if(!isMonthly) renderWeekly();
             closeModal();
-        } else {
-            alert("Veuillez entrer une date valide (JJ/MM/AAAA) et un titre.");
-        }
+            document.getElementById('eventFullDate').value = ""; document.getElementById('eventTitle').value = "";
+        } else { alert("Données invalides"); }
     }
 
-    function confirmDelete(index) {
-        if (confirm(`Supprimer l'événement : "${events[index].title}" ?`)) {
-            events.splice(index, 1);
-            render();
-            if (!isMonthly) renderWeekly();
-        }
-    }
-
-    // --- DATE MASK LOGIC ---
-    document.getElementById('eventFullDate').addEventListener('input', function (e) {
-        let input = e.target.value.replace(/\D/g, ''); 
-        if (input.length > 8) input = input.substring(0, 8);
-
-        let day = input.substring(0, 2);
-        let month = input.substring(2, 4);
-        let year = input.substring(4, 8);
-
-        if (day && parseInt(day) > 31) day = "31";
-        if (month && parseInt(month) > 12) month = "12";
-        if (day && day.length === 2 && day === "00") day = "01";
-        if (month && month.length === 2 && month === "00") month = "01";
-
-        let formatted = day;
-        if (input.length > 2) formatted += '/' + month;
-        if (input.length > 4) formatted += '/' + year;
-        
-        e.target.value = formatted;
-    });
-
-    // --- UTILS ---
-    function changeMonth(step) { currentViewDate.setMonth(currentViewDate.getMonth() + step); render(); }
+    function confirmDelete(idx) { if(confirm("Supprimer ?")) { events.splice(idx, 1); render(); if(!isMonthly) renderWeekly(); } }
+    function toggleView() { isMonthly = !isMonthly; document.getElementById('monthlyViewCard').style.display = isMonthly ? "block" : "none"; document.getElementById('weeklyViewCard').style.display = isMonthly ? "none" : "block"; document.getElementById('viewToggle').innerText = isMonthly ? "Voir par Semaine" : "Voir par Mois"; if(isMonthly) render(); else renderWeekly(); }
+    function changeMonth(s) { currentViewDate.setMonth(currentViewDate.getMonth() + s); render(); }
+    function changeWeek(s) { currentWeekDate.setDate(currentWeekDate.getDate() + (s * 7)); renderWeekly(); }
     function openModal() { document.getElementById('modal').style.display = 'block'; }
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-    // Mobile Menu
-    document.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('mobile-menu-btn');
-        const overlay = document.getElementById('mobile-menu-overlay');
-        if (btn && overlay) {
-            btn.addEventListener('click', () => { overlay.classList.toggle('active'); });
-        }
+    // Mask for DD/MM/YYYY
+    document.getElementById('eventFullDate').addEventListener('input', function (e) {
+        let v = e.target.value.replace(/\D/g, '').substring(0, 8);
+        let d = v.substring(0, 2); let m = v.substring(2, 4); let y = v.substring(4, 8);
+        if (d && parseInt(d) > 31) d = "31"; if (m && parseInt(m) > 12) m = "12";
+        let res = d; if (v.length > 2) res += '/' + m; if (v.length > 4) res += '/' + y;
+        e.target.value = res;
     });
 
-    render(); 
+    render();
 </script>
-    
 </body>
 </html>
