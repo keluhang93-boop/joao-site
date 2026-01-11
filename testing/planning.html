@@ -211,72 +211,78 @@ for (let i = 0; i < 7; i++) {
     }
 
     // --- MONTHLY VIEW RENDER (Original) ---
-    function render() {
-        const grid = document.getElementById('calendarGrid');
-        const monthTitle = document.getElementById('monthTitle');
-        const timeline = document.getElementById('timelineList');
-        
-        grid.innerHTML = "";
-        timeline.innerHTML = "";
-        
-        const year = currentViewDate.getFullYear();
-        const month = currentViewDate.getMonth();
-        monthTitle.innerText = `${monthNames[month]} ${year}`;
+// 1. Updated Render Function to include the "X" button
+function render() {
+    const grid = document.getElementById('calendarGrid');
+    const monthTitle = document.getElementById('monthTitle');
+    const timeline = document.getElementById('timelineList');
+    
+    grid.innerHTML = "";
+    timeline.innerHTML = "";
+    
+    const year = currentViewDate.getFullYear();
+    const month = currentViewDate.getMonth();
+    monthTitle.innerText = `${monthNames[month]} ${year}`;
 
-        ["L", "M", "M", "J", "V", "S", "D"].forEach(d => grid.innerHTML += `<div class="day-name">${d}</div>`);
+    ["L", "M", "M", "J", "V", "S", "D"].forEach(d => grid.innerHTML += `<div class="day-name">${d}</div>`);
 
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const offset = (firstDay === 0) ? 6 : firstDay - 1;
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const offset = (firstDay === 0) ? 6 : firstDay - 1;
 
-        for(let i=0; i < offset; i++) grid.innerHTML += `<div></div>`;
+    for(let i=0; i < offset; i++) grid.innerHTML += `<div></div>`;
 
-        for(let d=1; d <= daysInMonth; d++) {
-            const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-            const isHit = events.find(e => e.date === dateStr);
-            grid.innerHTML += `<div class="day ${isHit ? 'highlight' : ''}">${d}</div>`;
-        }
-
-        events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach(e => {
-            const d = new Date(e.date);
-            timeline.innerHTML += `<div class="event"><strong>${d.toLocaleDateString('fr-FR')}</strong>: ${e.title}<br><small>${e.desc}</small></div>`;
-        });
+    for(let d=1; d <= daysInMonth; d++) {
+        const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const isHit = events.find(e => e.date === dateStr);
+        grid.innerHTML += `<div class="day ${isHit ? 'highlight' : ''}">${d}</div>`;
     }
 
-    // --- OTHER HELPERS ---
-    function changeMonth(step) { currentViewDate.setMonth(currentViewDate.getMonth() + step); render(); }
-    function openModal() { document.getElementById('modal').style.display = 'block'; }
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-    function saveEvent() {
-        const date = document.getElementById('eventFullDate').value;
-        const title = document.getElementById('eventTitle').value;
-        const desc = document.getElementById('eventDesc').value;
-        if(date && title) {
-            events.push({ date, title, desc });
-            render();
-            if(!isMonthly) renderWeekly();
-            closeModal();
-        }
-    }
-
-    function deleteEvent() {
-        const dateToDel = prompt("Entrez la date à supprimer (YYYY-MM-DD) :");
-        if(dateToDel) {
-            events = events.filter(e => e.date !== dateToDel);
-            render();
-            if(!isMonthly) renderWeekly();
-        }
-    }
-
-    // Mobile Menu
-    document.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('mobile-menu-btn');
-        const overlay = document.getElementById('mobile-menu-overlay');
-        if (btn && overlay) {
-            btn.addEventListener('click', () => { overlay.classList.toggle('active'); });
-        }
+    // Sort and add the Delete "X"
+    events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, index) => {
+        const d = new Date(e.date);
+        timeline.innerHTML += `
+            <div class="event" style="position: relative;">
+                <strong>${d.toLocaleDateString('fr-FR')}</strong>: ${e.title}
+                <button onclick="confirmDelete(${index})" style="position: absolute; right: 10px; top: 10px; background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem; font-weight: bold;">&times;</button>
+                <br><small>${e.desc}</small>
+            </div>`;
     });
+}
+
+// 2. New Delete Confirmation Logic
+function confirmDelete(index) {
+    const event = events[index];
+    const check = confirm(`Êtes-vous sûr de vouloir supprimer l'événement : "${event.title}" ?`);
+    if (check) {
+        events.splice(index, 1); // Removes exactly that specific event
+        render();
+        if(!isMonthly) renderWeekly();
+    }
+}
+
+// 3. Updated Manual Delete (Supporting DD/MM/YYYY)
+function deleteEvent() {
+    const input = prompt("Entrez la date à supprimer (JJ/MM/AAAA) :");
+    if(!input) return;
+
+    // Convert DD/MM/YYYY to YYYY-MM-DD
+    const parts = input.split('/');
+    if(parts.length === 3) {
+        const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        const countBefore = events.length;
+        events = events.filter(e => e.date !== formattedDate);
+        
+        if(events.length < countBefore) {
+            render();
+            if(!isMonthly) renderWeekly();
+        } else {
+            alert("Aucun événement trouvé à cette date.");
+        }
+    } else {
+        alert("Format invalide. Utilisez JJ/MM/AAAA");
+    }
+}
 
     render(); // Initial Load
 </script>
