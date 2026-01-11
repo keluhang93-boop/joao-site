@@ -16,34 +16,35 @@
         .day-name { font-weight: bold; color: #ccc; font-size: 0.7rem; text-transform: uppercase; }
         .actions { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
         .timeline { margin-top: 30px; border-left: 2px solid #D4AF37; padding-left: 20px; }
+        
         #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; }
         .modal-content { background:white; width:350px; margin:15% auto; padding:25px; border-radius:12px; }
         input, textarea, select { width: 100%; margin: 10px 0; padding: 8px; box-sizing: border-box; border: 1px solid #eee; border-radius: 4px; }
         .btn-save-event { width:100%; background:#28a745; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer; font-weight: bold; }
-        /* Hover effect for events in the list */
+
+        /* --- MODERN TIMELINE EVENT STYLING --- */
         .event {
             position: relative;
             background: white;
-            padding: 15px 15px 15px 25px; /* Extra padding on the left for the bar */
+            padding: 15px 15px 15px 25px; 
             margin-bottom: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
-            border-left: none !important; /* Remove the old solid border */
         }
-        
-        /* The colorful "bar" effect with spacing */
+
+        /* The spaced-out colorful bar on the left */
         .event::before {
             content: "";
             position: absolute;
             left: 0;
-            top: 10%;      /* Creates space at the top */
-            height: 80%;   /* Bar is shorter than the box */
+            top: 10%;      /* Creates the top space you wanted */
+            height: 80%;   /* Creates the bottom space you wanted */
             width: 6px;
-            background-color: var(--cat-color); /* We will set this via JS */
+            background-color: var(--cat-color);
             border-radius: 0 4px 4px 0;
         }
-        
+
         .event:hover {
             transform: translateX(10px);
             background-color: #f8f9fa;
@@ -121,10 +122,12 @@
     let currentViewDate = new Date(2026, 0, 1);
     let currentWeekDate = new Date(2026, 0, 5);
     let isMonthly = true;
-    // Check if events exist in memory, otherwise use the default one
+    
+    // Persistent Storage
     let events = JSON.parse(localStorage.getItem('smartEvents')) || [
-        { date: "2026-01-15", title: "Dégustation", desc: "Test vins", category: "ENSEMBLE" }
+        { date: "2026-01-15", title: "Dégustation", desc: "Test des vins au château", category: "ENSEMBLE" }
     ];
+    
     const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
     function getCategoryColor(cat) {
@@ -138,13 +141,17 @@
     function render() {
         const grid = document.getElementById('calendarGrid');
         const timeline = document.getElementById('timelineList');
-        grid.innerHTML = ""; timeline.innerHTML = "";
+        if(!grid || !timeline) return;
+
+        grid.innerHTML = ""; 
+        timeline.innerHTML = "";
         
         const year = currentViewDate.getFullYear();
         const month = currentViewDate.getMonth();
         document.getElementById('monthTitle').innerText = `${monthNames[month]} ${year}`;
 
         ["L", "M", "M", "J", "V", "S", "D"].forEach(d => grid.innerHTML += `<div class="day-name">${d}</div>`);
+        
         const firstDay = new Date(year, month, 1).getDay();
         const offset = (firstDay === 0) ? 6 : firstDay - 1;
         for(let i=0; i<offset; i++) grid.innerHTML += `<div></div>`;
@@ -156,7 +163,7 @@
             grid.innerHTML += `<div class="day" style="display:flex; justify-content:center;"><span style="background:${color}; color:${ev?'white':'black'}; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center;">${d}</span></div>`;
         }
 
-        // Inside your render() function, replace the events.sort().forEach block:
+        // Timeline with Descriptions and Spaced Bars
         events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, idx) => {
             const c = getCategoryColor(e.category);
             const d = new Date(e.date);
@@ -175,15 +182,16 @@
                         </div>
                         <button onclick="confirmDelete(${idx})" style="border:none; background:none; color:#ccc; cursor:pointer; font-size:1.4rem;">&times;</button>
                     </div>
-                    
                     <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; color: #444; font-size: 0.9rem; line-height: 1.4;">
                         ${e.desc ? e.desc : '<span style="color:#ccc;">Aucune description fournie.</span>'}
                     </div>
                 </div>`;
         });
+    }
 
     function renderWeekly() {
         const grid = document.getElementById('weeklyGrid');
+        if(!grid) return;
         grid.innerHTML = "";
         ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].forEach(d => grid.innerHTML += `<div class="day-name">${d}</div>`);
 
@@ -201,48 +209,51 @@
         document.getElementById('weekTitle').innerText = `${currentWeekDate.getDate()} ${monthNames[currentWeekDate.getMonth()]} - ${end.getDate()} ${monthNames[end.getMonth()]} 2026`;
     }
 
-// --- UPDATED SAVE FUNCTION ---
-function saveEvent() {
-    const dVal = document.getElementById('eventFullDate').value;
-    const tVal = document.getElementById('eventTitle').value;
-    
-    if (dVal.length === 10 && tVal) {
-        const p = dVal.split('/');
-        events.push({ 
-            date: `${p[2]}-${p[1]}-${p[0]}`, 
-            title: tVal, 
-            desc: document.getElementById('eventDesc').value, 
-            category: document.getElementById('eventCategory').value 
-        });
+    function saveEvent() {
+        const dVal = document.getElementById('eventFullDate').value;
+        const tVal = document.getElementById('eventTitle').value;
+        const descVal = document.getElementById('eventDesc').value;
+        const catVal = document.getElementById('eventCategory').value;
 
-        // SAVE TO LOCAL STORAGE
-        localStorage.setItem('smartEvents', JSON.stringify(events));
+        if (dVal.length === 10 && tVal) {
+            const p = dVal.split('/');
+            events.push({ 
+                date: `${p[2]}-${p[1]}-${p[0]}`, 
+                title: tVal, 
+                desc: descVal, 
+                category: catVal 
+            });
 
-        render(); 
-        if(!isMonthly) renderWeekly();
-        closeModal();
-        
-        document.getElementById('eventFullDate').value = ""; 
-        document.getElementById('eventTitle').value = "";
-        document.getElementById('eventDesc').value = "";
-    } else { 
-        alert("Données invalides"); 
+            localStorage.setItem('smartEvents', JSON.stringify(events));
+            render(); 
+            if(!isMonthly) renderWeekly();
+            closeModal();
+            
+            document.getElementById('eventFullDate').value = ""; 
+            document.getElementById('eventTitle').value = "";
+            document.getElementById('eventDesc').value = "";
+        } else { 
+            alert("Veuillez entrer une date valide et un titre."); 
+        }
     }
-}
 
-// --- UPDATED DELETE FUNCTION ---
-function confirmDelete(idx) { 
-    if(confirm("Supprimer cet événement ?")) { 
-        events.splice(idx, 1); 
-        
-        // UPDATE LOCAL STORAGE
-        localStorage.setItem('smartEvents', JSON.stringify(events));
-        
-        render(); 
-        if(!isMonthly) renderWeekly(); 
-    } 
-}
-    function toggleView() { isMonthly = !isMonthly; document.getElementById('monthlyViewCard').style.display = isMonthly ? "block" : "none"; document.getElementById('weeklyViewCard').style.display = isMonthly ? "none" : "block"; document.getElementById('viewToggle').innerText = isMonthly ? "Voir par Semaine" : "Voir par Mois"; if(isMonthly) render(); else renderWeekly(); }
+    function confirmDelete(idx) { 
+        if(confirm("Supprimer cet événement ?")) { 
+            events.splice(idx, 1); 
+            localStorage.setItem('smartEvents', JSON.stringify(events));
+            render(); 
+            if(!isMonthly) renderWeekly(); 
+        } 
+    }
+
+    function toggleView() { 
+        isMonthly = !isMonthly; 
+        document.getElementById('monthlyViewCard').style.display = isMonthly ? "block" : "none"; 
+        document.getElementById('weeklyViewCard').style.display = isMonthly ? "none" : "block"; 
+        document.getElementById('viewToggle').innerText = isMonthly ? "Voir par Semaine" : "Voir par Mois"; 
+        if(isMonthly) render(); else renderWeekly(); 
+    }
+
     function changeMonth(s) { currentViewDate.setMonth(currentViewDate.getMonth() + s); render(); }
     function changeWeek(s) { currentWeekDate.setDate(currentWeekDate.getDate() + (s * 7)); renderWeekly(); }
     function openModal() { document.getElementById('modal').style.display = 'block'; }
