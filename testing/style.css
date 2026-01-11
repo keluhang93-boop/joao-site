@@ -67,10 +67,18 @@ body {
     box-shadow: 0 2px 15px rgba(0,0,0,0.05);
 }
 
+/* --- UPDATED HEADER & LOGO --- */
 .header-left-group {
     display: flex;
+    flex-direction: column; /* Stacks Logo and Nav vertically */
+    align-items: flex-start;
+    gap: 10px; /* Space between logo group and navigation */
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 40px; 
 }
 
 .logo-text {
@@ -80,22 +88,31 @@ body {
     color: #D4AF37 !important;
     text-decoration: none;
     letter-spacing: -0.5px;
+    line-height: 1;
 }
 
-/* --- MENU BOXES (FANCY STYLE) --- */
+/* Logo Image below the text */
+.logo-icon {
+    width: 30px; /* Adjust size as needed */
+    height: auto;
+    margin-top: 5px;
+}
+
+/* --- ENHANCED MENU SPACING & SIZE --- */
 .sketch-nav {
     display: flex;
-    gap: 15px;
+    gap: 25px; /* Increased from 15px to 25px for more breathing room */
+    margin-top: 5px;
 }
 
 .nav-box {
     text-decoration: none;
     color: #4B0082 !important;
     border: 1px solid #D4AF37; 
-    padding: 10px 20px;
+    padding: 12px 24px; /* Increased padding for a larger "box" feel */
     font-family: 'Lato', sans-serif;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 1rem; /* Updated to roughly 16px */
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: 0.3s;
