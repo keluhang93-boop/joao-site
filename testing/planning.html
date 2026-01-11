@@ -90,11 +90,25 @@
     <h1 style="text-align:center; font-family:'Playfair Display'; color: #1f4e79;">Calendrier 2026</h1>
 
 <div class="actions">
-    <button class="btn-action btn-add" onclick="openModal()">+</button>
-    <button class="btn-action btn-delete" onclick="deleteEvent()">-</button>
+    <button class="btn-action" onclick="openModal()" style="background: #28a745; width: auto; padding: 0 20px; border-radius: 8px; font-size: 0.9rem; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+        <span>+</span> Ajouter un nouvel événement
+    </button>
+    
     <button id="viewToggle" onclick="toggleView()" style="margin-left: 10px; padding: 10px 20px; border-radius: 8px; border: 1px solid #4B0082; background: white; color: #4B0082; cursor: pointer; font-weight: bold;">
         Voir par Semaine
     </button>
+</div>
+
+<div id="modal">
+    <div class="modal-content">
+        <h3>Nouvel Événement</h3>
+        <label style="display:block; margin-bottom:5px; font-size:0.8rem;">Date de l'événement :</label>
+        <input type="date" id="eventFullDate">
+        <input type="text" id="eventTitle" placeholder="Nom de l'activité (ex: Restaurant)">
+        <textarea id="eventDesc" placeholder="Détails supplémentaires..."></textarea>
+        <button onclick="saveEvent()" class="btn-save-event">Enregistrer l'événement</button>
+        <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color: #666;">Annuler</button>
+    </div>
 </div>
 
 <div class="calendar-card" id="monthlyViewCard">
@@ -116,17 +130,6 @@
 </div>
 
     <div class="timeline" id="timelineList"></div>
-</div>
-
-<div id="modal">
-    <div class="modal-content">
-        <h3>Nouvel Événement</h3>
-        <label style="font-size: 0.8rem; color: #666;">Date (Jour/Mois/Année)</label>
-        <input type="date" id="eventFullDate"> <input type="text" id="eventTitle" placeholder="Titre de l'événement">
-        <textarea id="eventDesc" placeholder="Description ou détails..."></textarea>
-        <button onclick="saveEvent()" class="btn-save-event">Ajouter au calendrier</button>
-        <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color: #666;">Annuler</button>
-    </div>
 </div>
 
 <script>
@@ -161,45 +164,41 @@
     function renderWeekly() {
         const grid = document.getElementById('weeklyGrid');
         const title = document.getElementById('weekTitle');
-        grid.innerHTML = ""; // Clear grid
+        grid.innerHTML = ""; 
 
-        // 1. Add Headers (Lun, Mar...)
         ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].forEach(d => {
             grid.innerHTML += `<div class="day-name">${d}</div>`;
         });
 
-// Inside the for loop of renderWeekly()
-for (let i = 0; i < 7; i++) {
-    let d = new Date(currentWeekDate);
-    d.setDate(currentWeekDate.getDate() + i);
-    
-    // FIX: Format date using local year-month-day to avoid timezone shifts
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    const dateStr = `${year}-${month}-${day}`;
-    
-    const isHit = events.find(e => e.date === dateStr);
-    
-    grid.innerHTML += `
-        <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <span class="${isHit ? 'highlight' : ''}" style="
-                font-size: 1.4rem; 
-                width: 40px; 
-                height: 40px; 
-                display: flex; 
-                align-items: center; 
-                justify-content: center; 
-                flex-shrink: 0; 
-                border-radius: 50% !important;
-            ">
-                ${d.getDate()}
-            </span>
-            <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
-        </div>`;
-}
+        for (let i = 0; i < 7; i++) {
+            let d = new Date(currentWeekDate);
+            d.setDate(currentWeekDate.getDate() + i);
+            
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+            
+            const isHit = events.find(e => e.date === dateStr);
+            
+            grid.innerHTML += `
+                <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <span class="${isHit ? 'highlight' : ''}" style="
+                        font-size: 1.4rem; 
+                        width: 40px; 
+                        height: 40px; 
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: center; 
+                        flex-shrink: 0; 
+                        border-radius: 50% !important;
+                    ">
+                        ${d.getDate()}
+                    </span>
+                    <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
+                </div>`;
+        }
 
-        // 3. Update Title
         let endOfWeek = new Date(currentWeekDate);
         endOfWeek.setDate(currentWeekDate.getDate() + 6);
         title.innerText = `${currentWeekDate.getDate()} ${monthNames[currentWeekDate.getMonth()]} - ${endOfWeek.getDate()} ${monthNames[endOfWeek.getMonth()]} 2026`;
@@ -210,81 +209,90 @@ for (let i = 0; i < 7; i++) {
         renderWeekly();
     }
 
-    // --- MONTHLY VIEW RENDER (Original) ---
-// 1. Updated Render Function to include the "X" button
-function render() {
-    const grid = document.getElementById('calendarGrid');
-    const monthTitle = document.getElementById('monthTitle');
-    const timeline = document.getElementById('timelineList');
-    
-    grid.innerHTML = "";
-    timeline.innerHTML = "";
-    
-    const year = currentViewDate.getFullYear();
-    const month = currentViewDate.getMonth();
-    monthTitle.innerText = `${monthNames[month]} ${year}`;
-
-    ["L", "M", "M", "J", "V", "S", "D"].forEach(d => grid.innerHTML += `<div class="day-name">${d}</div>`);
-
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const offset = (firstDay === 0) ? 6 : firstDay - 1;
-
-    for(let i=0; i < offset; i++) grid.innerHTML += `<div></div>`;
-
-    for(let d=1; d <= daysInMonth; d++) {
-        const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        const isHit = events.find(e => e.date === dateStr);
-        grid.innerHTML += `<div class="day ${isHit ? 'highlight' : ''}">${d}</div>`;
-    }
-
-    // Sort and add the Delete "X"
-    events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, index) => {
-        const d = new Date(e.date);
-        timeline.innerHTML += `
-            <div class="event" style="position: relative;">
-                <strong>${d.toLocaleDateString('fr-FR')}</strong>: ${e.title}
-                <button onclick="confirmDelete(${index})" style="position: absolute; right: 10px; top: 10px; background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem; font-weight: bold;">&times;</button>
-                <br><small>${e.desc}</small>
-            </div>`;
-    });
-}
-
-// 2. New Delete Confirmation Logic
-function confirmDelete(index) {
-    const event = events[index];
-    const check = confirm(`Êtes-vous sûr de vouloir supprimer l'événement : "${event.title}" ?`);
-    if (check) {
-        events.splice(index, 1); // Removes exactly that specific event
-        render();
-        if(!isMonthly) renderWeekly();
-    }
-}
-
-// 3. Updated Manual Delete (Supporting DD/MM/YYYY)
-function deleteEvent() {
-    const input = prompt("Entrez la date à supprimer (JJ/MM/AAAA) :");
-    if(!input) return;
-
-    // Convert DD/MM/YYYY to YYYY-MM-DD
-    const parts = input.split('/');
-    if(parts.length === 3) {
-        const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-        const countBefore = events.length;
-        events = events.filter(e => e.date !== formattedDate);
+    // --- MONTHLY VIEW RENDER (With "X" button) ---
+    function render() {
+        const grid = document.getElementById('calendarGrid');
+        const monthTitle = document.getElementById('monthTitle');
+        const timeline = document.getElementById('timelineList');
         
-        if(events.length < countBefore) {
-            render();
-            if(!isMonthly) renderWeekly();
-        } else {
-            alert("Aucun événement trouvé à cette date.");
-        }
-    } else {
-        alert("Format invalide. Utilisez JJ/MM/AAAA");
-    }
-}
+        grid.innerHTML = "";
+        timeline.innerHTML = "";
+        
+        const year = currentViewDate.getFullYear();
+        const month = currentViewDate.getMonth();
+        monthTitle.innerText = `${monthNames[month]} ${year}`;
 
-    render(); // Initial Load
+        ["L", "M", "M", "J", "V", "S", "D"].forEach(d => grid.innerHTML += `<div class="day-name">${d}</div>`);
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const offset = (firstDay === 0) ? 6 : firstDay - 1;
+
+        for(let i=0; i < offset; i++) grid.innerHTML += `<div></div>`;
+
+        for(let d=1; d <= daysInMonth; d++) {
+            const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            const isHit = events.find(e => e.date === dateStr);
+            grid.innerHTML += `<div class="day ${isHit ? 'highlight' : ''}">${d}</div>`;
+        }
+
+        // List with Delete "X"
+        events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach((e, index) => {
+            const d = new Date(e.date);
+            timeline.innerHTML += `
+                <div class="event" style="position: relative; border-left: 4px solid #4B0082; background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <strong>${d.toLocaleDateString('fr-FR')}</strong>: ${e.title}
+                    <button onclick="confirmDelete(${index})" style="position: absolute; right: 15px; top: 15px; background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem; font-weight: bold;">&times;</button>
+                    <br><small style="color: #666;">${e.desc}</small>
+                </div>`;
+        });
+    }
+
+    // --- UPDATED SAVE FUNCTION ---
+    function saveEvent() {
+        const dateInput = document.getElementById('eventFullDate').value;
+        const titleInput = document.getElementById('eventTitle').value;
+        const descInput = document.getElementById('eventDesc').value;
+
+        if (dateInput && titleInput) {
+            events.push({ date: dateInput, title: titleInput, desc: descInput });
+            
+            // Clear inputs
+            document.getElementById('eventFullDate').value = "";
+            document.getElementById('eventTitle').value = "";
+            document.getElementById('eventDesc').value = "";
+
+            render();
+            if (!isMonthly) renderWeekly();
+            closeModal();
+        } else {
+            alert("Veuillez remplir la date et le titre.");
+        }
+    }
+
+    function confirmDelete(index) {
+        if (confirm(`Supprimer l'événement : "${events[index].title}" ?`)) {
+            events.splice(index, 1);
+            render();
+            if (!isMonthly) renderWeekly();
+        }
+    }
+
+    // --- UTILS ---
+    function changeMonth(step) { currentViewDate.setMonth(currentViewDate.getMonth() + step); render(); }
+    function openModal() { document.getElementById('modal').style.display = 'block'; }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+    // Mobile Menu
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('mobile-menu-btn');
+        const overlay = document.getElementById('mobile-menu-overlay');
+        if (btn && overlay) {
+            btn.addEventListener('click', () => { overlay.classList.toggle('active'); });
+        }
+    });
+
+    render(); 
 </script>
     
 </body>
