@@ -157,10 +157,13 @@
         const overlay = document.getElementById('mobile-menu-overlay');
 
         if (btn && overlay) {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevents any weird jumping
                 overlay.classList.toggle('active');
-                console.log("Menu toggled!");
+                console.log("Menu button clicked! Overlay status:", overlay.classList.contains('active'));
             });
+        } else {
+            console.error("Menu elements not found! Check your IDs.");
         }
     });
 </script>
