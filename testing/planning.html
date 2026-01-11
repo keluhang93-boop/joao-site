@@ -130,11 +130,83 @@
 </div>
 
 <script>
-    let currentViewDate = new Date(2026, 0, 1); // Starts Jan 2026
+    // --- GLOBAL VARIABLES ---
+    let currentViewDate = new Date(2026, 0, 1); 
+    let currentWeekDate = new Date(2026, 0, 5); // Starting Monday
+    let isMonthly = true;
     let events = [{ date: "2026-01-15", title: "Dégustation du Menu", desc: "Test des vins au château" }];
-
     const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
+    // --- TOGGLE LOGIC ---
+    function toggleView() {
+        isMonthly = !isMonthly;
+        const monthCard = document.getElementById('monthlyViewCard');
+        const weekCard = document.getElementById('weeklyViewCard');
+        const btn = document.getElementById('viewToggle');
+
+        if (isMonthly) {
+            monthCard.style.display = "block";
+            weekCard.style.display = "none";
+            btn.innerText = "Voir par Semaine";
+            render(); 
+        } else {
+            monthCard.style.display = "none";
+            weekCard.style.display = "block";
+            btn.innerText = "Voir par Mois";
+            renderWeekly();
+        }
+    }
+
+    // --- WEEKLY VIEW RENDER ---
+    function renderWeekly() {
+        const grid = document.getElementById('weeklyGrid');
+        const title = document.getElementById('weekTitle');
+        grid.innerHTML = ""; // Clear grid
+
+        // 1. Add Headers (Lun, Mar...)
+        ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].forEach(d => {
+            grid.innerHTML += `<div class="day-name">${d}</div>`;
+        });
+
+        // 2. Generate 7 Days
+        for (let i = 0; i < 7; i++) {
+            let d = new Date(currentWeekDate);
+            d.setDate(currentWeekDate.getDate() + i);
+            
+            const dateStr = d.toISOString().split('T')[0];
+            const isHit = events.find(e => e.date === dateStr);
+            
+            // Fixed Circle Implementation
+            grid.innerHTML += `
+                <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <span class="${isHit ? 'highlight' : ''}" style="
+                        font-size: 1.4rem; 
+                        width: 40px; 
+                        height: 40px; 
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: center; 
+                        flex-shrink: 0; 
+                        border-radius: 50% !important;
+                    ">
+                        ${d.getDate()}
+                    </span>
+                    <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
+                </div>`;
+        }
+
+        // 3. Update Title
+        let endOfWeek = new Date(currentWeekDate);
+        endOfWeek.setDate(currentWeekDate.getDate() + 6);
+        title.innerText = `${currentWeekDate.getDate()} ${monthNames[currentWeekDate.getMonth()]} - ${endOfWeek.getDate()} ${monthNames[endOfWeek.getMonth()]} 2026`;
+    }
+
+    function changeWeek(step) {
+        currentWeekDate.setDate(currentWeekDate.getDate() + (step * 7));
+        renderWeekly();
+    }
+
+    // --- MONTHLY VIEW RENDER (Original) ---
     function render() {
         const grid = document.getElementById('calendarGrid');
         const monthTitle = document.getElementById('monthTitle');
@@ -147,35 +219,28 @@
         const month = currentViewDate.getMonth();
         monthTitle.innerText = `${monthNames[month]} ${year}`;
 
-        // Fill weekday headers
         ["L", "M", "M", "J", "V", "S", "D"].forEach(d => grid.innerHTML += `<div class="day-name">${d}</div>`);
 
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const offset = firstDay === 0 ? 6 : firstDay - 1;
+        const offset = (firstDay === 0) ? 6 : firstDay - 1;
 
-        // Empty spaces for previous month
         for(let i=0; i < offset; i++) grid.innerHTML += `<div></div>`;
 
-        // Days of the month
         for(let d=1; d <= daysInMonth; d++) {
             const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             const isHit = events.find(e => e.date === dateStr);
             grid.innerHTML += `<div class="day ${isHit ? 'highlight' : ''}">${d}</div>`;
         }
 
-        // Update Timeline (show all events for 2026)
         events.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach(e => {
             const d = new Date(e.date);
             timeline.innerHTML += `<div class="event"><strong>${d.toLocaleDateString('fr-FR')}</strong>: ${e.title}<br><small>${e.desc}</small></div>`;
         });
     }
 
-    function changeMonth(step) {
-        currentViewDate.setMonth(currentViewDate.getMonth() + step);
-        render();
-    }
-
+    // --- OTHER HELPERS ---
+    function changeMonth(step) { currentViewDate.setMonth(currentViewDate.getMonth() + step); render(); }
     function openModal() { document.getElementById('modal').style.display = 'block'; }
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
@@ -183,112 +248,33 @@
         const date = document.getElementById('eventFullDate').value;
         const title = document.getElementById('eventTitle').value;
         const desc = document.getElementById('eventDesc').value;
-
         if(date && title) {
             events.push({ date, title, desc });
-            currentViewDate = new Date(date); // Jump to the month of the event
             render();
+            if(!isMonthly) renderWeekly();
             closeModal();
         }
     }
 
     function deleteEvent() {
         const dateToDel = prompt("Entrez la date à supprimer (YYYY-MM-DD) :");
-        events = events.filter(e => e.date !== dateToDel);
-        render();
+        if(dateToDel) {
+            events = events.filter(e => e.date !== dateToDel);
+            render();
+            if(!isMonthly) renderWeekly();
+        }
     }
 
-    render();
-</script>
-
-<script>
+    // Mobile Menu
     document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById('mobile-menu-btn');
         const overlay = document.getElementById('mobile-menu-overlay');
-
         if (btn && overlay) {
-            btn.addEventListener('click', () => {
-                overlay.classList.toggle('active');
-                console.log("Menu toggled!");
-            });
+            btn.addEventListener('click', () => { overlay.classList.toggle('active'); });
         }
     });
 
-let isMonthly = true;
-let currentWeekDate = new Date(2026, 0, 5); // Start at first Monday of Jan 2026
-
-function toggleView() {
-    isMonthly = !isMonthly;
-    const monthCard = document.getElementById('monthlyViewCard');
-    const weekCard = document.getElementById('weeklyViewCard');
-    const btn = document.getElementById('viewToggle');
-
-    if (isMonthly) {
-        monthCard.style.display = "block";
-        weekCard.style.display = "none";
-        btn.innerText = "Voir par Semaine";
-        render(); // Re-render monthly
-    } else {
-        monthCard.style.display = "none";
-        weekCard.style.display = "block";
-        btn.innerText = "Voir par Mois";
-        renderWeekly();
-    }
-}
-
-function changeWeek(step) {
-    currentWeekDate.setDate(currentWeekDate.getDate() + (step * 7));
-    renderWeekly();
-}
-
-function renderWeekly() {
-    const grid = document.getElementById('weeklyGrid');
-    const title = document.getElementById('weekTitle');
-    // Updated inside the loop for renderWeekly()
-    grid.innerHTML += `
-    <div class="day" style="height: 100px; border: 1px solid #fcfcfc; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <span class="${isHit ? 'highlight' : ''}" style="
-            font-size: 1.4rem; 
-            width: 40px; 
-            height: 40px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            flex-shrink: 0; /* Prevents the circle from squishing */
-            border-radius: 50% !important;
-        ">
-            ${d.getDate()}
-        </span>
-        <span style="font-size: 0.7rem; color: #999; margin-top: 5px;">${monthNames[d.getMonth()]}</span>
-    </div>`;
-
-    // Day Headers
-    ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].forEach(d => {
-        grid.innerHTML += `<div class="day-name">${d}</div>`;
-    });
-
-    // Create 7 days starting from currentWeekDate
-    for (let i = 0; i < 7; i++) {
-        let d = new Date(currentWeekDate);
-        d.setDate(currentWeekDate.getDate() + i);
-        
-        const dateStr = d.toISOString().split('T')[0];
-        const isHit = events.find(e => e.date === dateStr);
-        
-        // Styled to look more like your image (Larger boxes)
-        grid.innerHTML += `
-            <div class="day ${isHit ? 'highlight' : ''}" style="height: 100px; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: center;">
-                <span style="font-size: 1.4rem; font-weight: bold;">${d.getDate()}</span>
-                <span style="font-size: 0.7rem;">${monthNames[d.getMonth()]}</span>
-            </div>`;
-    }
-
-    // Set title (e.g., "5 Janvier - 11 Janvier")
-    let endOfWeek = new Date(currentWeekDate);
-    endOfWeek.setDate(currentWeekDate.getDate() + 6);
-    title.innerText = `${currentWeekDate.getDate()} ${monthNames[currentWeekStart.getMonth()]} - ${endOfWeek.getDate()} ${monthNames[endOfWeek.getMonth()]}`;
-}
-    
+    render(); // Initial Load
 </script>
     
 </body>
