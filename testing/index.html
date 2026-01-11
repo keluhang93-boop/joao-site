@@ -12,12 +12,22 @@
         .logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
         
         .hero { 
-            height: 80vh; 
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), no-repeat center center/cover;
-            display: flex; align-items: center; justify-content: center; text-align: center; color: white;
+            height: 40vh; /* Reduced from 80vh to 40vh */
+            background: #ffffff; /* Changed from gradient/image to plain white */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            color: #333; /* Changed text to dark since background is now white */
+            padding-top: 70px; /* Adds space for the fixed header */
         }
         
-        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 10px; }
+        .hero-content h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.5rem; /* Reduced from 3.5rem for a smaller look */
+            margin-bottom: 10px; 
+            color: #1f4e79; /* Navy blue to match your other titles */
+        }
         .hero-content p { font-size: 1.2rem; font-style: italic; opacity: 0.9; }
 
         .btn { 
