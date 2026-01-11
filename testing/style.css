@@ -376,42 +376,44 @@ body {
 .desktop-nav a { text-decoration: none; color: black; font-weight: bold; border: 1px solid black; padding: 5px 10px; }
 
 /* --- MOBILE VIEW --- */
+/* --- FORCE MOBILE MENU VISIBILITY --- */
 @media (max-width: 768px) {
-    /* Adjust header height for mobile */
-    .main-header {
-        height: 85px !important; 
-    }
-
-    /* Fix the overlay position to match the header */
     .mobile-overlay {
-        display: none; 
+        display: none; /* Hidden by default */
         position: fixed;
-        top: 85px; /* Matches the header height */
+        top: 85px; 
         left: 0;
         width: 100%;
-        height: calc(100vh - 85px);
-        background: white;
-        z-index: 9999;
+        height: 100vh;
+        background-color: #ffffff !important; /* Pure white background */
+        z-index: 99999 !important; /* Must be higher than header and hero */
+        overflow-y: auto;
     }
 
-    /* Ensure the hamburger button is visible */
-    .menu-toggle {
-        display: flex !important;
-        margin-left: 15px;
+    /* This class is what the JavaScript toggles */
+    .mobile-overlay.active {
+        display: flex !important; /* Force flex to show items */
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px;
     }
 
-    /* Make the bars purple so they are visible on white background */
-    .bar {
-        background-color: #4B0082 !important;
+    /* Ensure the links inside are big and clickable */
+    .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+        width: 100%;
     }
-}
 
-/* Add this to your style.css */
-.mobile-overlay.active {
-    display: flex !important; /* Force it to show */
-    flex-direction: column;
-    visibility: visible !important;
-    opacity: 1 !important;
+    .mobile-nav-links a {
+        font-size: 1.5rem;
+        color: #4B0082 !important;
+        text-decoration: none;
+        font-weight: bold;
+        font-family: 'Playfair Display', serif;
+    }
 }
 
 /* --- FIX FOR THE DUPLICATE MENU ON DESKTOP --- */
