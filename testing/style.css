@@ -3,7 +3,7 @@
 
 body { 
     margin: 0; 
-    padding-top: 100px; /* Space for the fixed header */
+    padding-top: 85px; /* Matches new header height */
 }
 
 /* --- THE CLEAN HEADER --- */
@@ -11,7 +11,7 @@ body {
     background: #ffffff !important;
     border-bottom: 1px solid #eeeeee;
     padding: 10px 5% !important; 
-    height: 100px; /* Increased height to fit the logo + icon */
+    height: 85px; 
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 10000;
@@ -24,54 +24,54 @@ body {
 
 .header-left-group {
     display: flex;
-    flex-direction: row; /* Horizontal alignment */
+    flex-direction: row;
     align-items: center;
-    gap: 40px; /* Wide space between logo and menu */
+    gap: 40px;
 }
 
 /* --- COMPACT LOGO STYLING --- */
 .logo-container {
     display: flex;
-    flex-direction: column; /* Keeps text on top, Icon below */
+    flex-direction: column;
     align-items: center;
     text-decoration: none;
-    min-width: 140px; /* Reduced width */
+    min-width: 140px;
 }
 
 .logo-text {
     font-family: 'Playfair Display', serif;
-    font-size: 1.2rem; /* Reduced from 1.6rem to make it shorter */
+    font-size: 1.2rem;
     font-weight: bold;
     color: #D4AF37 !important;
-    letter-spacing: 0.5px; /* Shorter spacing between letters */
-    line-height: 0.9; /* Tightens the vertical space */
+    letter-spacing: 0.5px;
+    line-height: 0.9;
     text-align: center;
 }
 
 .logo-icon {
-    width: 28px; /* Slightly smaller to match the new text size */
+    width: 28px;
     height: auto;
-    margin-top: 3px; /* Brings icon closer to text */
+    margin-top: 3px;
 }
 
-/* --- MENU STYLING --- */
+/* --- DESKTOP MENU --- */
 .sketch-nav {
     display: flex;
-    gap: 20px; /* Space between the buttons */
+    gap: 20px;
 }
 
 .nav-box {
     text-decoration: none;
     color: #4B0082 !important;
     border: 1px solid #D4AF37; 
-    padding: 10px 20px; /* Balanced padding */
+    padding: 10px 20px;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
-    font-size: 16px; /* Exactly 16px as requested */
+    font-size: 16px;
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: 0.3s;
-    white-space: nowrap; /* Keeps text on one line */
+    white-space: nowrap;
 }
 
 .nav-box:hover {
@@ -92,11 +92,6 @@ body {
     font-weight: 700;
     font-size: 0.9rem;
     font-family: 'Lato', sans-serif;
-    transition: 0.3s;
-}
-
-.btn-login:hover {
-    opacity: 0.6;
 }
 
 .btn-signup {
@@ -107,248 +102,17 @@ body {
     font-weight: 700;
     font-size: 0.85rem;
     font-family: 'Lato', sans-serif;
-    border-radius: 2px; 
+    text-transform: uppercase;
     transition: 0.3s;
-    text-transform: uppercase;
 }
-
-.btn-signup:hover {
-    background: #D4AF37; /* GOLD ON HOVER */
-    color: #4B0082 !important; /* PURPLE TEXT ON HOVER */
-    transform: translateY(-1px);
-}
-
-/* --- UPDATED HERO CONTENT --- */
-.hero-content h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
-    margin-bottom: 30px;
-    color: #0070c0 !important; /* Blue color */
-    text-shadow: none; /* Removed shadow for a cleaner look */
-}
-
-/* The specific "SMART" word in Gold */
-.gold-text {
-    color: #D4AF37;
-    font-style: italic;
-    font-weight: bold;
-}
-
-/* The "Nous vous aidons à" title in Navy */
-.navy-title {
-    color: #1f4e79 !important;
-    font-family: 'Playfair Display', serif;
-}
-
-.navy-list li {
-    color: #1f4e79 !important;
-    font-weight: 500; /* Makes it slightly easier to read in color */
-}
-
-/* The bullet points (dashes) in Gold */
-.navy-list li::before {
-    content: "—";
-    color: #D4AF37 !important; /* Gold dash */
-    position: absolute;
-    left: 0;
-    font-weight: bold;
-}
-
-.blue-list li {
-    color: #0070c0 !important;
-    font-weight: 500; /* Makes it slightly easier to read in color */
-}
-
-.blue-list p {
-    color: #0070c0 !important;
-    font-weight: 500; /* Makes it slightly easier to read in color */
-}
-
-/* The bullet points (dashes) in Gold */
-.blue-list li::before {
-    content: "—";
-    color: #D4AF37 !important; /* Gold dash */
-    position: absolute;
-    left: 0;
-    font-weight: bold;
-}
-
-.btn-hero-sketch {
-    display: inline-block;
-    padding: 15px 40px;
-    background: #4B0082; 
-    color: #ffffff;      
-    text-decoration: none;
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: 0.3s ease;
-}
-
-.btn-hero-sketch:hover {
-    background: #D4AF37;
-    color: #4B0082;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-/* --- NEW CONTENT ROWS --- */
-.info-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 80px 10%;
-    gap: 60px;
-    border-bottom: 1px solid #eee;
-}
-
-.info-row:nth-child(even) {
-    flex-direction: row-reverse;
-}
-
-.info-text {
-    flex: 1;
-}
-
-.info-text h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    margin-bottom: 20px;
-}
-
-.category-box {
-    display: inline-block;
-    color: #4B0082 !important;
-    border: 1px solid #D4AF37; 
-    padding: 10px 20px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.info-text ul {
-    list-style: none;
-    padding: 0;
-}
-
-.info-text ul li {
-    margin-bottom: 15px;
-    padding-left: 25px;
-    position: relative;
-    font-size: 1.05rem;
-    line-height: 1.6;
-}
-
-.info-text ul li::before {
-    content: "—";
-    position: absolute;
-    left: 0;
-    font-weight: bold;
-}
-
-.info-text p {
-  color: #0070c0 !important;
-}
-
-.inline-link {
-    color: #4B0082;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    font-size: 0.9rem;
-}
-
-.info-image {
-    flex: 1;
-}
-
-.info-image img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border: 1px solid #000; 
-    box-shadow: 15px 15px 0px rgba(0,0,0,0.05); 
-}
-
-/* --- MOBILE RESPONSIVENESS FOR INDEX --- */
-@media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 2rem !important; 
-        padding: 0 20px;
-    }
-
-    .info-row, .info-row:nth-child(even) {
-        flex-direction: column !important; 
-        padding: 40px 20px !important;
-        gap: 30px;
-        text-align: center; 
-    }
-
-    .info-image {
-        width: 100%;
-        order: 2; 
-    }
-
-    .info-text {
-        width: 100%;
-        order: 1; 
-    }
-
-    .info-image img {
-        height: 300px; 
-        width: 100%;
-    }
-
-    .info-text ul li {
-        text-align: left; 
-        font-size: 0.95rem;
-    }
-
-    .sketch-nav {
-        display: none !important; 
-    }
-}
-
-/* Ensures every day cell is a container for the circle */
-        .day { 
-            position: relative;
-            padding: 10px; 
-            font-size: 0.9rem; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: default;
-        }
-
-        .day-name { font-weight: bold; color: #ccc; font-size: 0.7rem; text-transform: uppercase; }
-        
-        /* The Fixed Circle Fix */
-        .highlight { 
-            background-color: #4B0082 !important; 
-            color: white !important; 
-            font-weight: bold; 
-            
-            /* These 4 lines prevent the stretching */
-            width: 35px;           /* Fixed width */
-            height: 35px;          /* Fixed height same as width */
-            border-radius: 50% !important; 
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            margin: auto;          /* Centers it in the grid square */
-        }
 
 /* --- HAMBURGER BUTTON --- */
 .menu-toggle {
-    display: none;
+    display: none; /* Hidden on desktop */
     flex-direction: column;
     justify-content: space-around;
     width: 30px;
-    height: 25px;
+    height: 22px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -360,52 +124,64 @@ body {
     width: 100%;
     height: 3px;
     background-color: #4B0082;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
-/* --- UNIVERSAL HEADER --- */
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0; 
-    background: white;
+/* --- HERO & CONTENT (Your original styles) --- */
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    margin-bottom: 30px;
+    color: #0070c0 !important;
 }
 
-/* --- DESKTOP VIEW --- */
-.desktop-nav { display: flex; gap: 20px; }
-.desktop-nav a { text-decoration: none; color: black; font-weight: bold; border: 1px solid black; padding: 5px 10px; }
+.gold-text { color: #D4AF37; font-style: italic; font-weight: bold; }
+.navy-title { color: #1f4e79 !important; font-family: 'Playfair Display', serif; }
+.navy-list li { color: #1f4e79 !important; font-weight: 500; position: relative; padding-left: 25px; list-style: none; }
+.navy-list li::before { content: "—"; color: #D4AF37 !important; position: absolute; left: 0; font-weight: bold; }
 
-/* --- MOBILE VIEW --- */
-/* --- FORCE MOBILE MENU VISIBILITY --- */
+.info-row { display: flex; align-items: center; padding: 80px 10%; gap: 60px; border-bottom: 1px solid #eee; }
+.info-row:nth-child(even) { flex-direction: row-reverse; }
+.info-text { flex: 1; }
+.info-image { flex: 1; }
+.info-image img { width: 100%; height: 400px; object-fit: cover; border: 1px solid #000; box-shadow: 15px 15px 0px rgba(0,0,0,0.05); }
+
+.category-box { display: inline-block; color: #4B0082 !important; border: 1px solid #D4AF37; padding: 10px 20px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 15px; }
+.blue-list li { color: #0070c0 !important; margin-bottom: 15px; padding-left: 25px; position: relative; list-style: none; }
+.blue-list li::before { content: "—"; color: #D4AF37 !important; position: absolute; left: 0; font-weight: bold; }
+
+/* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
+    .main-header { height: 85px !important; }
+    
+    .sketch-nav, .btn-login, .btn-signup { display: none !important; }
+    
+    .menu-toggle { display: flex !important; }
+
     .mobile-overlay {
-        display: none; /* Hidden by default */
+        display: none; 
         position: fixed;
         top: 85px; 
         left: 0;
         width: 100%;
-        height: 100vh;
-        background-color: #ffffff !important; /* Pure white background */
-        z-index: 99999 !important; /* Must be higher than header and hero */
+        height: calc(100vh - 85px);
+        background-color: #ffffff !important;
+        z-index: 99999 !important;
         overflow-y: auto;
     }
 
-    /* This class is what the JavaScript toggles */
     .mobile-overlay.active {
-        display: flex !important; /* Force flex to show items */
+        display: flex !important;
         flex-direction: column;
         align-items: center;
         padding-top: 50px;
     }
 
-    /* Ensure the links inside are big and clickable */
     .mobile-nav-links {
         display: flex;
         flex-direction: column;
         gap: 30px;
         text-align: center;
-        width: 100%;
     }
 
     .mobile-nav-links a {
@@ -415,11 +191,9 @@ body {
         font-weight: bold;
         font-family: 'Playfair Display', serif;
     }
-}
 
-/* --- FIX FOR THE DUPLICATE MENU ON DESKTOP --- */
-@media (min-width: 769px) {
-    .mobile-overlay {
-        display: none !important;
-    }
+    /* Content adjustments */
+    .hero-content h1 { font-size: 2rem !important; }
+    .info-row { flex-direction: column !important; padding: 40px 20px !important; text-align: center; }
+    .info-image img { height: 300px; }
 }
