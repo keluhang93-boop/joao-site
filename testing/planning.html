@@ -102,10 +102,11 @@
 <div id="modal">
     <div class="modal-content">
         <h3>Nouvel Événement</h3>
-        <label style="display:block; margin-bottom:5px; font-size:0.8rem;">Date de l'événement :</label>
-        <input type="date" id="eventFullDate">
-        <input type="text" id="eventTitle" placeholder="Nom de l'activité (ex: Restaurant)">
-        <textarea id="eventDesc" placeholder="Détails supplémentaires..."></textarea>
+        <label style="display:block; margin-bottom:5px; font-size:0.8rem;">Date (JJ/MM/AAAA) :</label>
+        <input type="text" id="eventFullDate" placeholder="31/12/2026" maxlength="10">
+        
+        <input type="text" id="eventTitle" placeholder="Nom de l'activité">
+        <textarea id="eventDesc" placeholder="Détails..."></textarea>
         <button onclick="saveEvent()" class="btn-save-event">Enregistrer l'événement</button>
         <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color: #666;">Annuler</button>
     </div>
@@ -249,26 +250,33 @@
     }
 
     // --- UPDATED SAVE FUNCTION ---
-    function saveEvent() {
-        const dateInput = document.getElementById('eventFullDate').value;
-        const titleInput = document.getElementById('eventTitle').value;
-        const descInput = document.getElementById('eventDesc').value;
+function saveEvent() {
+    const dateInput = document.getElementById('eventFullDate').value; // Expected: DD/MM/YYYY
+    const titleInput = document.getElementById('eventTitle').value;
+    const descInput = document.getElementById('eventDesc').value;
 
-        if (dateInput && titleInput) {
-            events.push({ date: dateInput, title: titleInput, desc: descInput });
-            
-            // Clear inputs
-            document.getElementById('eventFullDate').value = "";
-            document.getElementById('eventTitle').value = "";
-            document.getElementById('eventDesc').value = "";
+    if (dateInput.length === 10 && titleInput) {
+        // Convert DD/MM/YYYY to YYYY-MM-DD
+        const parts = dateInput.split('/');
+        const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
-            render();
-            if (!isMonthly) renderWeekly();
-            closeModal();
-        } else {
-            alert("Veuillez remplir la date et le titre.");
-        }
+        events.push({ 
+            date: formattedDate, 
+            title: titleInput, 
+            desc: descInput 
+        });
+
+        // Clear and close
+        document.getElementById('eventFullDate').value = "";
+        document.getElementById('eventTitle').value = "";
+        document.getElementById('eventDesc').value = "";
+        render();
+        if (!isMonthly) renderWeekly();
+        closeModal();
+    } else {
+        alert("Veuillez entrer une date valide (JJ/MM/AAAA) et un titre.");
     }
+}
 
     function confirmDelete(index) {
         if (confirm(`Supprimer l'événement : "${events[index].title}" ?`)) {
@@ -292,6 +300,28 @@
         }
     });
 
+document.getElementById('eventFullDate').addEventListener('input', function (e) {
+    let input = e.target.value.replace(/\D/g, ''); // Remove all non-numeric characters
+    if (input.length > 8) input = input.substring(0, 8); // Force max 8 digits (DDMMYYYY)
+
+    let day = input.substring(0, 2);
+    let month = input.substring(2, 4);
+    let year = input.substring(4, 8);
+
+    // Logic to cap days and months
+    if (day && parseInt(day) > 31) day = "31";
+    if (month && parseInt(month) > 12) month = "12";
+    if (day && day.length === 2 && day === "00") day = "01";
+    if (month && month.length === 2 && month === "00") month = "01";
+
+    // Reconstruct string with slashes
+    let formatted = day;
+    if (input.length > 2) formatted += '/' + month;
+    if (input.length > 4) formatted += '/' + year;
+    
+    e.target.value = formatted;
+});
+    
     render(); 
 </script>
     
