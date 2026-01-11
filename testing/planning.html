@@ -78,19 +78,31 @@
 <div class="container">
     <h1 style="text-align:center; font-family:'Playfair Display'; color: #1f4e79;">Calendrier 2026</h1>
 
-    <div class="actions">
-        <button class="btn-action btn-add" onclick="openModal()">+</button>
-        <button class="btn-action btn-delete" onclick="deleteEvent()">-</button>
-    </div>
+<div class="actions">
+    <button class="btn-action btn-add" onclick="openModal()">+</button>
+    <button class="btn-action btn-delete" onclick="deleteEvent()">-</button>
+    <button id="viewToggle" onclick="toggleView()" style="margin-left: 10px; padding: 10px 20px; border-radius: 8px; border: 1px solid #4B0082; background: white; color: #4B0082; cursor: pointer; font-weight: bold;">
+        Voir par Semaine
+    </button>
+</div>
 
-    <div class="calendar-card">
-        <div class="calendar-header">
-            <button onclick="changeMonth(-1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❮</button>
-            <h2 id="monthTitle">Janvier 2026</h2>
-            <button onclick="changeMonth(1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❯</button>
-        </div>
-        <div class="calendar-grid" id="calendarGrid"></div>
+<div class="calendar-card" id="monthlyViewCard">
+    <div class="calendar-header">
+        <button onclick="changeMonth(-1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❮</button>
+        <h2 id="monthTitle">Janvier 2026</h2>
+        <button onclick="changeMonth(1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❯</button>
     </div>
+    <div class="calendar-grid" id="calendarGrid"></div>
+</div>
+
+<div class="calendar-card" id="weeklyViewCard" style="display: none;">
+    <div class="calendar-header">
+        <button onclick="changeWeek(-1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❮</button>
+        <h2 id="weekTitle">Semaine</h2>
+        <button onclick="changeWeek(1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❯</button>
+    </div>
+    <div class="calendar-grid" id="weeklyGrid"></div>
+</div>
 
     <div class="timeline" id="timelineList"></div>
 </div>
