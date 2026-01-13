@@ -24,18 +24,22 @@ function renderSpending() {
             <span>Monique (€)</span>
             <span>Total</span>
             <span>Règlement</span>
+            <span>Récur.</span>
             <span></span>
         </div>
     `;
 
     html += categories.map(cat => `
-        <div class="expense-row ${cat.settled ? 'row-settled' : ''}">
+        <div class="expense-row ${cat.settled ? 'row-settled' : ''} ${cat.recurring ? 'row-recurring' : ''}">
             <input type="text" value="${cat.name}" onchange="updateCat(${cat.id}, 'name', this.value)">
             <input type="number" value="${cat.jean}" oninput="updateCat(${cat.id}, 'jean', this.value)">
             <input type="number" value="${cat.monique}" oninput="updateCat(${cat.id}, 'monique', this.value)">
             <span class="total-cell">${(parseFloat(cat.jean||0) + parseFloat(cat.monique||0)).toFixed(2)} €</span>
             <div class="settle-col">
                 <input type="checkbox" ${cat.settled ? 'checked' : ''} onchange="updateCat(${cat.id}, 'settled', this.checked)">
+            </div>
+            <div class="recur-col">
+                <input type="checkbox" ${cat.recurring ? 'checked' : ''} onchange="updateCat(${cat.id}, 'recurring', this.checked)">
             </div>
             <button class="btn-delete-hover" onclick="deleteCat(${cat.id})">×</button>
         </div>
@@ -48,14 +52,18 @@ function renderSpending() {
 function updateCat(id, field, value) {
     const cat = categories.find(c => c.id === id);
     if (cat) {
-        // Logic for checkboxes vs numbers
         cat[field] = (field === 'name' || field === 'settled' || field === 'recurring') ? value : parseFloat(value || 0);
         
-        // RE-RENDER is required here to apply the .row-recurring or .row-settled CSS classes
         if(field === 'settled' || field === 'recurring') {
             renderSpending(); 
         } else {
-            // Just update the totals without full re-render for speed
+            // Update total cell for this specific row instantly
+            const rows = document.querySelectorAll('#spendingGrid .expense-row');
+            const index = categories.findIndex(c => c.id === id);
+            if (index !== -1 && rows[index]) {
+                const totalCell = rows[index].querySelector('.total-cell');
+                if(totalCell) totalCell.innerText = (parseFloat(cat.jean||0) + parseFloat(cat.monique||0)).toFixed(2) + " €";
+            }
             calculateTotals();
         }
     }
