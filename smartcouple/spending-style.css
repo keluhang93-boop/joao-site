@@ -61,3 +61,35 @@
     margin-bottom: 15px;
     border-radius: 0 !important;
 }
+
+/* spending-style.css - Overrides for Modern Inputs */
+
+.item-card input {
+    border: none !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    border-radius: 0 !important;
+    padding: 8px 0 !important;
+    background: transparent !important;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.item-card input:focus {
+    border-bottom: 2px solid #D4AF37 !important;
+    box-shadow: none !important;
+}
+
+.input-group label {
+    font-size: 0.7rem;
+    color: #999;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Fix for the charts not appearing: make sure wrapper has size */
+.chart-wrapper {
+    position: relative;
+    height: 250px;
+    width: 250px;
+}
