@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Schedule 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-left-group">
+        <a href="index.html" class="logo-container">
+            <span class="logo-text">SMART COUPLE</span>
+            <img src="https://cdnai.iconscout.com/ai-image/premium/thumb/ai-heart-lightbulb-3d-icon-png-download-jpg-13221459.png" alt="Logo" class="logo-icon">
+        </a>
+        <nav class="sketch-nav">
+            <a href="spending.html" class="nav-box">Smart Dépenses</a>
+            <a href="planning.html" class="nav-box">Smart Planning</a>
+            <a href="union.html" class="nav-box">Smart Union</a>
+        </nav>
+    </div>
+    
+    <div class="header-right-group">
+        <a href="#" class="btn-login">Login</a>
+        <a href="#" class="btn-signup">Sign Up</a>
+        <button class="menu-toggle" id="mobile-menu-btn">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </div>
+
+    <div class="mobile-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-nav-links">
+            <a href="spending.html">Smart Dépenses</a>
+            <a href="planning.html">Smart Planning</a>
+            <a href="union.html">Smart Union</a>
+            <hr style="width: 50%; margin: 10px auto; border: 0.5px solid #D4AF37;">
+            <a href="#">Login</a>
+            <a href="#" style="color: #D4AF37;">Sign Up</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container calendar-page-container">
+    <h1 class="navy-title" style="text-align:center;">Calendrier 2026</h1>
+
+    <div class="actions">
+        <button onclick="openModal()" class="btn-add-event">
+            + Ajouter un nouvel événement
+        </button>
+        <button id="viewToggle" onclick="toggleView()" class="btn-toggle-view">
+            Voir par Semaine
+        </button>
+    </div>
+
+    <div id="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Nouvel Événement</h3>
+            <input type="hidden" id="editIndex" value="-1">
+            <label style="font-size: 0.8rem;">Catégorie :</label>
+            <select id="eventCategory">
+                <option value="DEFAULT">Par défaut (Violet)</option>
+                <option value="ENSEMBLE">MOMENTS ENSEMBLE (Jaune)</option>
+                <option value="IMPORTANT">IMPORTANT (Rouge)</option>
+                <option value="FAMILLE">FAMILLE (Vert)</option>
+            </select>
+            <label style="font-size: 0.8rem;">Date (JJ/MM/AAAA) :</label>
+            <input type="text" id="eventFullDate" placeholder="31/12/2026" maxlength="10">
+            <input type="text" id="eventTitle" placeholder="Titre">
+            <textarea id="eventDesc" placeholder="Description"></textarea>
+            <button onclick="saveEvent()" class="btn-save-event">Enregistrer</button>
+            <button onclick="closeModal()" class="btn-cancel">Annuler</button>
+        </div>
+    </div>
+
+    <div class="calendar-card" id="monthlyViewCard">
+        <div class="calendar-header">
+            <button onclick="changeMonth(-1)" class="nav-arrow">❮</button>
+            <h2 id="monthTitle">Janvier 2026</h2>
+            <button onclick="changeMonth(1)" class="nav-arrow">❯</button>
+        </div>
+        <div class="calendar-overflow-wrapper">
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+    </div>
+
+    <div class="calendar-card" id="weeklyViewCard" style="display: none;">
+        <div class="calendar-header">
+            <button onclick="changeWeek(-1)" class="nav-arrow">❮</button>
+            <h2 id="weekTitle">Semaine</h2>
+            <button onclick="changeWeek(1)" class="nav-arrow">❯</button>
+        </div>
+        <div class="calendar-overflow-wrapper">
+            <div class="calendar-grid" id="weeklyGrid"></div>
+        </div>
+    </div>
+
+    <div class="timeline" id="timelineList"></div>
+</div>
+
+<script src="main.js"></script>
+<script src="planning.js"></script>
+</body>
+</html>
