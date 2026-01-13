@@ -1,12 +1,32 @@
-/* --- GLOBAL LAYOUT FIX --- */
+/* --- GLOBAL RESET & FONTS --- */
+* {
+    box-sizing: border-box;
+}
+
+body.spending-body {
+    font-family: 'Lato', sans-serif;
+    background-color: #f4f7f9;
+    color: #1e293b;
+    margin: 0;
+}
+
+h1, h2, .modern-title, .logo-text {
+    font-family: 'Playfair Display', serif;
+}
+
+input, button, span, div {
+    font-family: 'Lato', sans-serif;
+}
+
+/* --- CONTAINER FIX --- */
 .spending-container {
     max-width: 1100px !important;
-    margin: 120px auto 50px !important; /* Centered with top margin for header */
-    padding: 20px;
+    margin: 100px auto 50px !important; /* Adjusted for header */
+    padding: 0 20px;
     display: block;
 }
 
-/* --- DASHBOARD TOP CARDS (Budget & Totals) --- */
+/* --- DASHBOARD TOP CARDS --- */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -27,44 +47,26 @@
 .glass-card.yellow { border-top-color: #D4AF37; }
 .glass-card.main-budget { border-top-color: #4B0082; }
 
-.glass-card label {
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: #64748b;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.glass-card input {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #1e293b;
-    width: 100%;
-    text-align: center;
-    border: none !important;
-    background: transparent !important;
-}
-
-/* --- EXCEL-STYLE LIST (Dépenses du Foyer) --- */
+/* --- THE EXCEL LIST (Dépenses & Dettes) --- */
 .expense-list-header {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr;
+    /* 6 columns: Cat, Jean, Mon, Tot, Reg, X */
+    grid-template-columns: 2.5fr 1.2fr 1.2fr 1.2fr 1fr 0.4fr;
     padding: 15px 25px;
     font-weight: bold;
     color: #94a3b8;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
 }
 
 .expense-row {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr;
+    grid-template-columns: 2.5fr 1.2fr 1.2fr 1.2fr 1fr 0.4fr;
     align-items: center;
     background: white;
-    margin-bottom: 10px;
-    padding: 15px 25px;
-    border-radius: 15px;
+    margin-bottom: 12px;
+    padding: 12px 20px;
+    border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.02);
     border: 1px solid #f1f5f9;
 }
@@ -73,22 +75,33 @@
     border: none !important;
     background: transparent !important;
     font-size: 1rem;
-    color: #1e293b;
+    width: 100%;
 }
-
-.expense-row input[type="number"] { font-weight: 600; }
 
 .total-cell {
     font-weight: bold;
     color: #1f4e79;
-    text-align: right;
-    padding-right: 20px;
 }
+
+/* --- SETTLED & HOVER --- */
+.row-settled { opacity: 0.5; background: #f8fafc !important; }
+.row-settled input { text-decoration: line-through; }
+
+.btn-delete-hover {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 1.4rem;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+.expense-row:hover .btn-delete-hover { visibility: visible; }
 
 /* --- PERFORMANCE SECTION (SIDE-BY-SIDE) --- */
 .performance-container {
     display: flex !important;
-    flex-direction: row !important;
+    flex-wrap: wrap; /* Important for mobile */
     justify-content: space-between;
     align-items: center;
     background: white;
@@ -98,58 +111,48 @@
     box-shadow: 0 15px 35px rgba(0,0,0,0.05);
 }
 
-.stats-side { flex: 1.2; }
-
-.stat-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid #f1f5f9;
-}
-
-.graph-side {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.stats-side { flex: 1; min-width: 300px; }
+.graph-side { 
+    flex: 1; 
+    min-width: 300px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
 }
 
 .chart-wrapper {
-    width: 220px !important;
-    height: 220px !important;
+    width: 250px !important;
+    height: 250px !important;
 }
 
-/* --- BUTTONS & ICONS --- */
-.btn-modern-add {
-    background: #4B0082 !important;
-    color: white !important;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
+/* --- MOBILE VIEW FIXES --- */
+@media (max-width: 850px) {
+    .main-header { position: fixed; top: 0; width: 100%; z-index: 1000; }
+    
+    .expense-list-header { display: none; } /* Hide labels on mobile */
 
-.btn-modern-add:hover {
-    background: #D4AF37 !important;
-    transform: translateY(-2px);
-}
+    .expense-row {
+        grid-template-columns: 1fr 1fr !important; /* Stack into 2 columns */
+        gap: 10px;
+        padding: 15px;
+    }
 
-.btn-delete-icon {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    opacity: 0.3;
-    transition: 0.2s;
-}
+    /* Make Category Name full width on mobile */
+    .expense-row input:first-child {
+        grid-column: span 2;
+        font-weight: bold;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #eee !important;
+        padding-bottom: 5px;
+    }
 
-.btn-delete-icon:hover { opacity: 1; color: #ef4444; }
+    .performance-container {
+        padding: 20px;
+        flex-direction: column !important; /* Text on top, graph on bottom */
+    }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .performance-container { flex-direction: column !important; }
-    .expense-list-header { display: none; }
-    .expense-row { grid-template-columns: 1fr; gap: 10px; }
+    .stats-side, .graph-side {
+        width: 100%;
+        text-align: center;
+    }
 }
