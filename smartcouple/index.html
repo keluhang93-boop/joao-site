@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Couple</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,7 +26,9 @@
         <a href="#" class="btn-login">Login</a>
         <a href="#" class="btn-signup">Sign Up</a>
         <button class="menu-toggle" id="mobile-menu-btn">
-            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
         </button>
     </div>
 
@@ -35,6 +37,9 @@
             <a href="spending.html">Smart Dépenses</a>
             <a href="planning.html">Smart Planning</a>
             <a href="union.html">Smart Union</a>
+            <hr class="mobile-divider">
+            <a href="#">Login</a>
+            <a href="#" class="mobile-signup">Sign Up</a>
         </nav>
     </div>
 </header>
@@ -45,29 +50,69 @@
     </div>
 </div>
 
-<main>
+<main id="details">
     <section class="info-row">
         <div class="info-text">
             <h2 class="navy-title">Nous vous aidons à :</h2>
-            <p>Gérer vos dépenses, organiser vos dates clés et renforcer votre intelligence émotionnelle.</p>
+            <ul class="navy-list">
+                <li>Gérer vos dépenses communes. Maintenir un registre financier organisé et transparent de vos dépenses et de votre épargne.</li>
+                <li>Se souvenir des jours et dates importants de votre vie de couple.</li>
+                <li>Surmonter les problèmes relationnels grâce à l'intelligence émotionnelle.</li>
+            </ul>
         </div>
         <div class="info-image">
-            <img src="https://st.depositphotos.com/2234518/2954/i/450/depositphotos_29540781-stock-photo-smiling-couple-with-thumbs-up.jpg" alt="Couple">
+            <img src="https://st.depositphotos.com/2234518/2954/i/450/depositphotos_29540781-stock-photo-smiling-couple-with-thumbs-up.jpg" alt="Couple heureux">
         </div>
     </section>
 
     <section class="info-row">
         <div class="info-text">
             <span class="category-box">SMART DÉPENSES</span>
-            <p>Planifiez vos budgets et suivez vos économies ensemble.</p>
+            <p><strong>vous aide à :</strong></p>
+            <ul class="blue-list">
+                <li>Planifier vos dépenses mensuelles ensemble.</li>
+                <li>Fixer un budget cible commun pour vos frais.</li>
+                <li>Garder une trace de toutes vos dépenses variables et fixes.</li>
+                <li>Planifier des objectifs financiers communs et réaliser vos projets !</li>
+            </ul>
+            <p><strong>Et pour les courses ?</strong> Fini le stress des listes papier ou des oublis.</p>
             <a href="spending.html" class="inline-link">Découvrir l'outil →</a>
         </div>
         <div class="info-image">
-            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800" alt="Spending">
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800" alt="Gestion budget">
+        </div>
+    </section>
+
+    <section class="info-row">
+        <div class="info-text">
+            <span class="category-box">SMART PLANNING</span>
+            <p><strong>vous aide à :</strong></p>
+            <ul class="blue-list">
+                <li>Se souvenir des jours et dates importants de votre vie de couple.</li>
+                <li>Réserver des moments clés pour votre partenaire : le "Partner-Time".</li>
+            </ul>
+            <a href="planning.html" class="inline-link">Voir le calendrier →</a>
+        </div>
+        <div class="info-image">
+            <img src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&q=80&w=800" alt="Calendrier couple">
+        </div>
+    </section>
+
+    <section class="info-row">
+        <div class="info-text">
+            <span class="category-box">SMART UNION</span>
+            <ul class="blue-list">
+                <p>Les êtres humains sont des êtres émotionnels. En améliorant la patience et la tolérance, nous pouvons maîtriser les émotions négatives.</p>
+                <a href="union.html" class="inline-link">Lire les articles →</a>
+            </ul>
+        </div>
+        <div class="info-image">
+            <img src="https://images.unsplash.com/photo-1518101645466-7795885ff8f8?auto=format&fit=crop&q=80&w=800" alt="Intelligence émotionnelle couple">
         </div>
     </section>
 </main>
 
 <script src="main.js"></script>
+
 </body>
 </html>
