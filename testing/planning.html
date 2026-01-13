@@ -11,7 +11,23 @@
         .container { max-width: 900px; margin: 120px auto; padding: 20px; } 
         .calendar-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #4B0082; font-family: 'Playfair Display'; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+                /* Update your existing .calendar-grid or add this below it */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+            /* This ensures columns have enough space to not crush the text */
+            min-width: 600px; 
+        }
+        
+        /* Add this new rule to handle the overflow */
+        .calendar-overflow-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iPhone */
+            margin-bottom: 10px;
+        }
         .day { padding: 10px; border-radius: 5px; font-size: 0.9rem; border: 1px solid #fcfcfc; cursor: pointer; transition: 0.2s; }
         .day:hover { background: #f0f0f0; }
         .day-name { font-weight: bold; color: #ccc; font-size: 0.7rem; text-transform: uppercase; }
@@ -125,13 +141,15 @@
         </div>
     </div>
 
-    <div class="calendar-card" id="monthlyViewCard">
+<div class="calendar-card" id="monthlyViewCard">
         <div class="calendar-header">
             <button onclick="changeMonth(-1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❮</button>
             <h2 id="monthTitle">Janvier 2026</h2>
             <button onclick="changeMonth(1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❯</button>
         </div>
-        <div class="calendar-grid" id="calendarGrid"></div>
+        <div class="calendar-overflow-wrapper">
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
     </div>
 
     <div class="calendar-card" id="weeklyViewCard" style="display: none;">
@@ -140,7 +158,9 @@
             <h2 id="weekTitle">Semaine</h2>
             <button onclick="changeWeek(1)" style="border:none; background:none; cursor:pointer; font-size:20px;">❯</button>
         </div>
-        <div class="calendar-grid" id="weeklyGrid"></div>
+        <div class="calendar-overflow-wrapper">
+            <div class="calendar-grid" id="weeklyGrid"></div>
+        </div>
     </div>
 
     <div class="timeline" id="timelineList"></div>
