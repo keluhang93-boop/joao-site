@@ -155,37 +155,39 @@ function calculateTotals() {
 
 function updateDashboard() { calculateTotals(); }
 
-function updateCharts(revenu, depenses) {
+function updateCharts(revenu, totalDepenses) {
     const canvas = document.getElementById('chartRevenu');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     
     if (chart1) chart1.destroy();
 
+    const epargne = Math.max(0, revenu - totalDepenses);
+
     chart1 = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Dépenses', 'Épargne'], // Labels for the legend
+            labels: ['Dépenses', 'Épargne'],
             datasets: [{
-                data: [depenses, Math.max(0, revenu - depenses)],
+                data: [totalDepenses, epargne],
                 backgroundColor: ['#D4AF37', '#1f4e79'],
+                hoverOffset: 4,
                 borderWidth: 0
             }]
         },
-        options: { 
-            cutout: '80%', 
-            maintainAspectRatio: false, 
-            plugins: { 
-                legend: { 
-                    display: true, 
-                    position: 'bottom', // Keeps labels neatly centered under the doughnut
-                    labels: {
-                        usePointStyle: true,
-                        padding: 20,
-                        font: { family: 'Lato', size: 14, weight: 'bold' }
+        options: {
+            cutout: '80%',
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false // <--- THIS FIXES THE DOUBLE LABELS
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (item) => ` ${item.label}: ${item.raw.toFixed(2)} €`
                     }
-                } 
-            } 
+                }
+            }
         }
     });
 }
