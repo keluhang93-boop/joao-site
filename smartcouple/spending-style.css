@@ -224,7 +224,7 @@ input, button, span, div {
     transform: translateY(-2px);
 }
 
-/* --- UNIFIED DASHBOARD INPUTS (Target, Jean, Monique, & Performance) --- */
+/* --- PERFECTLY CENTERED DASHBOARD INPUTS --- */
 .glass-card input, 
 .modern-stat-input input, 
 #jeanTotalDisplay, 
@@ -233,15 +233,30 @@ input, button, span, div {
     border: none !important;
     background: #f8fafc !important;
     border-radius: 12px !important;
-    padding: 10px !important;
+    
+    /* These three lines handle the perfect centering */
+    text-align: center !important; 
+    padding: 0 !important; 
+    line-height: 50px !important; 
+
     font-size: 1.3rem !important;
     font-weight: 700 !important;
     color: #1f4e79 !important;
-    text-align: center !important; /* Centers the value in the middle */
-    width: 160px !important;      /* Unified width */
-    height: 50px !important;     /* Unified height */
+    width: 160px !important;      
+    height: 50px !important;     
     transition: 0.3s ease;
     display: inline-block;
+    vertical-align: middle;
+}
+
+/* Remove default browser styling that pushes text up */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .glass-card input:focus, 
