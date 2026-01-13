@@ -2,7 +2,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; font-family: 'Lato', sans-serif; color: #333; line-height: 1.6; padding-top: 100px; background-color: #ffffff; }
 
-/* --- HEADER (Fixed) --- */
+/* --- HEADER FIX --- */
 .main-header {
     background: #ffffff !important;
     border-bottom: 1px solid #eeeeee;
@@ -14,57 +14,72 @@ body { margin: 0; font-family: 'Lato', sans-serif; color: #333; line-height: 1.6
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
 }
-.header-left-group { display: flex; align-items: center; gap: 40px; }
-.logo-container { display: flex; flex-direction: column; align-items: center; text-decoration: none; }
-.logo-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: bold; color: #D4AF37 !important; }
-.logo-icon { width: 40px; height: 40px; object-fit: contain; }
 
-/* Navigation */
-.sketch-nav { display: flex; gap: 15px; }
-.nav-box { padding: 8px 15px; border: 1px solid #4B0082; border-radius: 5px; text-decoration: none; color: #4B0082; font-size: 0.85rem; font-weight: bold; transition: 0.3s; }
-.nav-box:hover { background: #4B0082; color: white; }
+/* DESKTOP NAV: Hidden by default on small screens */
+.sketch-nav, .header-right-group .btn-login, .header-right-group .btn-signup {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
 
-/* Buttons */
-.header-right-group { display: flex; align-items: center; gap: 15px; }
-.btn-login { text-decoration: none; color: #4B0082; font-weight: bold; }
-.btn-signup { text-decoration: none; background: #4B0082; color: white; padding: 10px 20px; border-radius: 25px; font-weight: bold; }
-
-/* --- INDEX HERO SECTION --- */
+/* --- HERO AREA (SHRUNK) --- */
 .hero { 
-    height: 40vh; 
-    display: flex; align-items: center; justify-content: center; 
-    text-align: center; padding-top: 20px;
+    height: 25vh; /* Reduced from 40vh to make it tighter */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    padding: 0 20px;
+    background: #fff;
 }
-.hero-content h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #1f4e79; }
-.gold-text { color: #D4AF37; }
+.hero-content h1 { 
+    font-family: 'Playfair Display', serif; 
+    font-size: 2.2rem; 
+    color: #1f4e79; 
+    margin: 0;
+}
+.gold-text { color: #D4AF37; font-weight: bold; }
 
-/* --- INFO ROWS --- */
-.info-row { display: flex; align-items: center; padding: 60px 10%; gap: 50px; }
+/* --- INFO ROWS (The missing content layout) --- */
+.info-row { 
+    display: flex; 
+    align-items: center; 
+    padding: 40px 10%; 
+    gap: 40px; 
+}
 .info-row:nth-child(even) { flex-direction: row-reverse; background-color: #fdfafb; }
-.info-text { flex: 1; }
-.info-image { flex: 1; }
-.info-image img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-.navy-title { font-family: 'Playfair Display', serif; color: #1f4e79; font-size: 2rem; }
-.category-box { background: #4B0082; color: white; padding: 5px 15px; border-radius: 5px; font-weight: bold; font-size: 0.8rem; }
+.info-text { flex: 1.2; }
+.info-image { flex: 0.8; }
+.info-image img { width: 100%; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+
+.navy-title { font-family: 'Playfair Display', serif; color: #1f4e79; font-size: 1.8rem; margin-top: 0; }
+.category-box { background: #4B0082; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; display: inline-block; margin-bottom: 10px; }
 .inline-link { color: #4B0082; font-weight: bold; text-decoration: underline; }
 
-/* --- MOBILE MENU --- */
-.menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
-.bar { width: 25px; height: 3px; background: #4B0082; border-radius: 2px; }
-
+/* --- MOBILE RESPONSIVENESS FIX --- */
 @media (max-width: 768px) {
-    .sketch-nav, .btn-login, .btn-signup { display: none; }
-    .menu-toggle { display: flex; }
-    .info-row { flex-direction: column !important; padding: 40px 5%; }
-    .hero-content h1 { font-size: 1.8rem; }
+    /* HIDE DESKTOP ELEMENTS */
+    .sketch-nav, .btn-login, .btn-signup { display: none !important; }
+    
+    .menu-toggle { display: flex !important; }
+    
+    .hero { height: 20vh; }
+    .hero-content h1 { font-size: 1.6rem; }
+
+    .info-row { flex-direction: column !important; padding: 30px 5%; text-align: center; }
     
     .mobile-overlay {
-        display: none; position: fixed; top: 100px; left: 0; width: 100%; height: 100%;
-        background: white; z-index: 9999; flex-direction: column; align-items: center; padding-top: 50px;
+        display: none; 
+        position: fixed; 
+        top: 100px; left: 0; width: 100%; height: 100%;
+        background: white; 
+        z-index: 9999; 
+        flex-direction: column; 
+        align-items: center; 
+        padding-top: 40px;
     }
     .mobile-overlay.active { display: flex; }
-    .mobile-nav-links { display: flex; flex-direction: column; gap: 20px; font-size: 1.2rem; text-align: center; }
-    .mobile-nav-links a { text-decoration: none; color: #4B0082; font-weight: bold; }
+    .mobile-nav-links { display: flex; flex-direction: column; gap: 20px; }
+    .mobile-nav-links a { text-decoration: none; color: #4B0082; font-size: 1.3rem; font-weight: bold; }
 }
