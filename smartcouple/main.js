@@ -1,11 +1,22 @@
 /* --- GLOBAL NAVIGATION --- */
 document.addEventListener('DOMContentLoaded', () => {
     const menuBtn = document.getElementById('mobile-menu-btn');
-    const navMenu = document.querySelector('.sketch-nav');
+    const overlay = document.getElementById('mobile-menu-overlay');
 
-    if (menuBtn && navMenu) {
-        menuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
+    if (menuBtn && overlay) {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents the click from immediately closing
+            overlay.classList.toggle('active');
+            
+            // Optional: Toggle a class on the button for animation
+            menuBtn.classList.toggle('open');
+        });
+
+        // Close menu if clicking outside the links
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('active');
+            }
         });
     }
 });
