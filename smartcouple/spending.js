@@ -1,6 +1,5 @@
 let chart1;
 
-// 1. Updated Examples List
 const defaultExamples = [
     { id: 1, name: "🏠 Loyer", jean: 450, monique: 450, settled: false, recurring: true },
     { id: 2, name: "⚡ Électricité", jean: 40, monique: 40, settled: false, recurring: true },
@@ -10,13 +9,11 @@ const defaultExamples = [
     { id: 6, name: "🚗 Assurance Auto", jean: 45, monique: 45, settled: false, recurring: true }
 ];
 
-// 2. Load History
 let allMonthsData = JSON.parse(localStorage.getItem('smartSpending_history')) || {};
 let currentMonth = localStorage.getItem('smartSpending_currentView') || new Date().toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
 
-// 3. Force initialize if history is empty OR doesn't have the new examples
 if (Object.keys(allMonthsData).length === 0) {
-    allMonthsData[currentMonth] = defaultExamples;
+    allMonthsData[currentMonth] = [...defaultExamples];
 }
 
 let categories = allMonthsData[currentMonth];
@@ -26,33 +23,48 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSpending();
 });
 
-// --- AUTOMATIC MONTH LOGIC (No more typing!) ---
+// --- RESET TO DEFAULTS ---
+function resetToDefaults() {
+    if(confirm("Voulez-vous réinitialiser ce mois avec les exemples par défaut ? (Cela effacera vos données actuelles)")) {
+        categories = JSON.parse(JSON.stringify(defaultExamples)); // Deep copy
+        saveData();
+        renderSpending();
+    }
+}
+
+// --- DELETE CURRENT MONTH ---
+function deleteCurrentMonth() {
+    const months = Object.keys(allMonthsData);
+    if (months.length <= 1) {
+        alert("Vous ne pouvez pas supprimer le seul mois restant.");
+        return;
+    }
+    if (confirm(`Supprimer définitivement le mois de ${currentMonth} ?`)) {
+        delete allMonthsData[currentMonth];
+        currentMonth = Object.keys(allMonthsData)[0];
+        categories = allMonthsData[currentMonth];
+        localStorage.setItem('smartSpending_currentView', currentMonth);
+        saveData();
+        initMonthSelector();
+        renderSpending();
+    }
+}
+
+// --- FULLY AUTOMATIC NEXT MONTH ---
 function startNewMonth() {
-    // Get the keys (months) and find the most recent one
     const monthNames = Object.keys(allMonthsData);
+    const lastMonthString = monthNames[monthNames.length - 1];
     
-    // We create a date object based on the LAST month in your list
-    // This allows us to jump to the "Next" month mathematically
-    const lastMonthAdded = monthNames[monthNames.length - 1];
-    
-    // We'll use a hidden trick to parse the French date string "janvier 2026"
     const monthsFr = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-    let [name, year] = lastMonthAdded.split(' ');
+    let [name, year] = lastMonthString.split(' ');
     let monthIdx = monthsFr.indexOf(name.toLowerCase());
     
-    // Create a date for the 1st of that month, then add 1 month
-    let date = new Date(year, monthIdx, 1);
+    let date = new Date(parseInt(year), monthIdx, 1);
     date.setMonth(date.getMonth() + 1);
     
     const nextMonthName = date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
 
-    if (allMonthsData[nextMonthName]) {
-        alert(`Le mois de ${nextMonthName} existe déjà dans votre historique.`);
-        return;
-    }
-
-    if (confirm(`Voulez-vous créer le budget pour ${nextMonthName.toUpperCase()} ?`)) {
-        // Carry over recurring items
+    if (confirm(`Créer automatiquement le budget pour ${nextMonthName.toUpperCase()} ?`)) {
         const newMonthCats = categories
             .filter(cat => cat.recurring)
             .map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
@@ -67,12 +79,10 @@ function startNewMonth() {
     }
 }
 
-// --- CORE UTILITIES ---
+// --- REUSE PREVIOUS RENDER/UPDATE FUNCTIONS ---
 function initMonthSelector() {
     const selector = document.getElementById('monthSelector');
     if (!selector) return;
-    
-    // Sort months so they appear in order
     selector.innerHTML = Object.keys(allMonthsData).map(m => 
         `<option value="${m}" ${m === currentMonth ? 'selected' : ''}>${m}</option>`
     ).join('');
@@ -93,11 +103,7 @@ function saveData() {
 function renderSpending() {
     const container = document.getElementById('spendingGrid');
     if (!container) return;
-
-    let html = `<div class="expense-list-header">
-        <span>Catégorie</span><span>Jean (€)</span><span>Monique (€)</span><span>Total</span><span>Payé</span><span>Récur.</span><span></span>
-    </div>`;
-
+    let html = `<div class="expense-list-header"><span>Catégorie</span><span>Jean (€)</span><span>Monique (€)</span><span>Total</span><span>Payé</span><span>Récur.</span><span></span></div>`;
     html += categories.map(cat => `
         <div class="expense-row ${cat.settled ? 'row-settled' : ''} ${cat.recurring ? 'row-recurring' : ''}">
             <input type="text" value="${cat.name}" onchange="updateCat(${cat.id}, 'name', this.value)">
@@ -109,7 +115,6 @@ function renderSpending() {
             <button class="btn-delete-hover" onclick="deleteCat(${cat.id})">×</button>
         </div>
     `).join('');
-
     container.innerHTML = html;
     calculateTotals();
 }
@@ -117,13 +122,12 @@ function renderSpending() {
 function updateCat(id, field, value) {
     const cat = categories.find(c => c.id === id);
     if (!cat) return;
-
     if (field === 'settled' || field === 'recurring') {
         cat[field] = value;
         saveData();
         renderSpending();
     } else {
-        cat[field] = field === 'name' ? value : parseFloat(value || 0);
+        cat[field] = (field === 'name') ? value : parseFloat(value || 0);
         saveData();
         calculateTotals();
         const rows = document.querySelectorAll('#spendingGrid .expense-row');
@@ -149,13 +153,10 @@ function deleteCat(id) {
 function calculateTotals() {
     let valJean = categories.reduce((sum, c) => sum + parseFloat(c.jean || 0), 0);
     let valMonique = categories.reduce((sum, c) => sum + parseFloat(c.monique || 0), 0);
-    
     if(document.getElementById('jeanTotalDisplay')) document.getElementById('jeanTotalDisplay').value = valJean.toFixed(2);
     if(document.getElementById('moniqueTotalDisplay')) document.getElementById('moniqueTotalDisplay').value = valMonique.toFixed(2);
-    
     const totalGlobal = valJean + valMonique;
     if(document.getElementById('totalDepensesDisplay')) document.getElementById('totalDepensesDisplay').innerText = totalGlobal.toFixed(2) + " €";
-
     const revInput = document.getElementById('revenuFoyer');
     if(revInput) {
         const revenu = parseFloat(revInput.value || 0);
