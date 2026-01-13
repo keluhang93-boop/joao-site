@@ -153,43 +153,57 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 }
 
 /* --- MOBILE BUTTONS & HEADER FIX --- */
-/* --- MOBILE BUTTONS FIX --- */
-@media (max-width: 600px) {
-    /* Stack the Title and the Button area */
+/* --- MOBILE REPAIR (850px) --- */
+@media (max-width: 850px) {
+    /* 1. Stack header elements vertically */
     .section-header {
+        display: flex !important;
         flex-direction: column !important;
-        align-items: center !important;
+        align-items: flex-start !important; /* Align to left like your drawing */
         gap: 15px !important;
     }
 
-    /* Fix the Title & Selector alignment */
+    /* 2. Title and Selector Group */
     .section-header > div:first-child {
-        flex-direction: column !important;
+        display: flex !important;
+        flex-direction: row !important; /* Keep icon/title/select horizontal */
+        flex-wrap: wrap;
         gap: 10px !important;
+        width: 100%;
     }
 
-    /* This is your "Blue Area": 3 buttons side-by-side */
+    /* 3. The "Blue Area" Buttons Group */
     .section-header > div:last-child {
         display: flex !important;
-        flex-direction: row !important; /* Force horizontal */
-        justify-content: center;
-        width: 100%;
-        gap: 5px !important; /* Very small gap to fit all 3 */
+        flex-direction: row !important; /* Force side-by-side */
+        width: 100% !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
+        overflow-x: visible; /* Prevent scrolling */
     }
 
-    /* Make buttons smaller to fit the screen width */
+    /* 4. Make buttons smaller to fit the row */
     .btn-modern-add {
-        padding: 8px 5px !important;
-        font-size: 10px !important; /* Smaller text */
-        flex: 1; /* Make them equal size */
-        min-width: 0; /* Allow them to shrink */
+        padding: 6px 10px !important;
+        font-size: 11px !important;
+        flex: 1; /* Grow to fill the width */
+        max-width: 120px;
         white-space: nowrap;
+        text-align: center;
     }
 
-    /* Fix the delete link so it doesn't overlap */
+    /* 5. Handle the Select and Delete link */
+    #monthSelector {
+        max-width: 140px;
+        font-size: 13px;
+    }
+
     button[onclick="deleteCurrentMonth()"] {
-        display: block;
-        margin-top: 5px;
-        font-size: 12px;
+        font-size: 11px;
+        color: #ef4444;
+        background: none;
+        border: none;
+        padding: 0;
+        text-decoration: underline;
     }
 }
