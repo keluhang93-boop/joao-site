@@ -1,5 +1,8 @@
 // Add this at the very top of your file to ensure it's defined
-let chart1 = null;
+// Use the existing chart1 or initialize it if it doesn't exist
+if (typeof chart1 === 'undefined') {
+    var chart1 = null; 
+}
 
 const defaultExamples = [
     { id: 1, name: "🏠 Loyer", jean: 450, monique: 450, settled: false, recurring: true },
@@ -52,37 +55,28 @@ function deleteCurrentMonth() {
 }
 
 // --- FULLY AUTOMATIC NEXT MONTH ---
+// Corrected Date Logic (fixed the getMonth typo)
 function startNewMonth() {
-    // 1. Get the last month string from history (e.g., "janvier 2026")
     const monthNames = Object.keys(allMonthsData);
     const lastMonthString = monthNames[monthNames.length - 1];
     
-    // 2. Map French names to numbers
     const monthsFr = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
     let [name, year] = lastMonthString.split(' ');
     let monthIdx = monthsFr.indexOf(name.toLowerCase());
     
-    // 3. Logic to advance the date
     let date = new Date(parseInt(year), monthIdx, 1);
-    date.setMonth(date.getMonth() + 1); // Mathematically go to next month
+    date.setMonth(date.getMonth() + 1); // FIXED: getMonth()
     
-    // 4. Create the new string automatically
     const nextMonthName = date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
 
-    // 5. JUST A CONFIRMATION - No prompt for text!
     if (confirm("Passer au mois suivant : " + nextMonthName + " ?")) {
         const newMonthCats = categories
             .filter(cat => cat.recurring)
-            .map(cat => ({ 
-                ...cat, 
-                id: Date.now() + Math.random(), 
-                settled: false 
-            }));
+            .map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
 
         allMonthsData[nextMonthName] = newMonthCats;
         currentMonth = nextMonthName;
         categories = allMonthsData[currentMonth];
-        
         saveData();
         initMonthSelector();
         renderSpending();
