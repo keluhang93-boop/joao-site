@@ -124,6 +124,27 @@ body { margin: 0; font-family: 'Lato', sans-serif; color: #333; line-height: 1.6
 
 .nav-arrow { border:none; background:none; cursor:pointer; font-size:20px; color: #4B0082; }
 
+/* --- EVENT HIGHLIGHT ANIMATION --- */
+.highlight-flash {
+    animation: flash-animation 1.5s ease-out;
+    border: 2px solid #D4AF37 !important; /* Temporarily add a gold border */
+}
+
+@keyframes flash-animation {
+    0% { 
+        background-color: #fff9c4; /* Soft yellow */
+        transform: scale(1.02);
+    }
+    50% { 
+        background-color: #fffde7; 
+        transform: scale(1.01);
+    }
+    100% { 
+        background-color: #ffffff; 
+        transform: scale(1);
+    }
+}
+
 /* --- MOBILE SPECIFIC CALENDAR FIXES --- */
 @media (max-width: 768px) {
     .calendar-page-container { margin-top: 100px; padding: 10px; }
