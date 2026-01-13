@@ -79,20 +79,21 @@
 
 <section class="section-wrapper">
     <div class="section-header">
-    <div style="display: flex; align-items: center; gap: 20px;">
-        <h2 style="margin:0;">🏠 Dépenses du Foyer</h2>
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <select id="monthSelector" onchange="changeMonth(this.value)"></select>
-            <button onclick="deleteCurrentMonth()" class="btn-delete-link">Supprimer</button>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <h2 style="margin:0;">🏠 Dépenses du Foyer</h2>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <select id="monthSelector" onchange="changeMonth(this.value)"></select>
+                <button onclick="deleteCurrentMonth()" class="btn-delete-link" style="color:red; background:none; border:none; cursor:pointer; text-decoration:underline; font-size:0.8rem;">Supprimer</button>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-modern-add" onclick="addNewCategory()">+ AJOUTER</button>
+            <button class="btn-modern-add" onclick="startNewMonth()" style="background: #1f4e79 !important;">+ MOIS</button>
+            <button class="btn-modern-add" onclick="resetToDefaults()" style="background: #95a5a6 !important;">RESET</button>
         </div>
     </div>
-
-    <div style="display: flex; gap: 10px;">
-        <button class="btn-modern-add" onclick="addNewCategory()">+ AJOUTER</button>
-        <button class="btn-modern-add" onclick="startNewMonth()" style="background: #1f4e79 !important;">+ MOIS</button>
-        <button class="btn-modern-add" onclick="resetToDefaults()" style="background: #95a5a6 !important;">RESET</button>
-    </div>
-</div>
+    
     <div id="spendingGrid"></div> 
 </section>
 
