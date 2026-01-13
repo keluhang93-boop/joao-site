@@ -8,7 +8,9 @@ let categories = [
 ];
 
 let debts = [];
+let manualTotals = { jean: null, monique: null };
 
+// --- RENDERING SPENDING LIST ---
 function renderSpending() {
     const container = document.getElementById('spendingGrid');
     if (!container) return;
@@ -42,29 +44,81 @@ function updateCat(id, field, value) {
     if (cat) {
         cat[field] = (field === 'name') ? value : parseFloat(value || 0);
     }
-    // We don't re-render everything while typing (to keep cursor focus), 
-    // just update the values in the background and the dashboard.
-    calculateTotals();
     
-    // Update the specific row's total cell without re-rendering the whole list
+    // Update the row total visually immediately
     const rows = document.querySelectorAll('.expense-row');
     const index = categories.findIndex(c => c.id === id);
     if (index !== -1 && rows[index]) {
         const totalCell = rows[index].querySelector('.total-cell');
         totalCell.innerText = (parseFloat(cat.jean||0) + parseFloat(cat.monique||0)).toFixed(2) + " €";
     }
+    
+    // Trigger dashboard update
+    calculateTotals();
+}
+
+function addNewCategory() {
+    categories.push({ id: Date.now(), name: "Nouvelle ligne", jean: 0, monique: 0 });
+    renderSpending();
+}
+
+function deleteCat(id) {
+    categories = categories.filter(c => c.id !== id);
+    renderSpending();
+}
+
+// --- DEBT LOGIC ---
+function renderDebts() {
+    const container = document.getElementById('debtGrid');
+    if (!container) return;
+    
+    container.innerHTML = debts.map(d => `
+        <div class="expense-row" style="border-left: 4px solid #D4AF37">
+            <input type="text" value="${d.month}" onchange="updateDebt(${d.id}, 'month', this.value)">
+            <input type="number" placeholder="Jean doit" value="${d.jeanOwes}" oninput="updateDebt(${d.id}, 'jeanOwes', this.value)">
+            <input type="number" placeholder="Monique doit" value="${d.moniqueOwes}" oninput="updateDebt(${d.id}, 'moniqueOwes', this.value)">
+            <span></span>
+            <button class="btn-delete-icon" onclick="deleteDebt(${d.id})">🗑️</button>
+        </div>
+    `).join('');
+}
+
+function addNewDebtMonth() {
+    debts.push({ id: Date.now(), month: "Mois", jeanOwes: 0, moniqueOwes: 0 });
+    renderDebts();
+}
+
+function updateDebt(id, field, value) {
+    const d = debts.find(x => x.id === id);
+    if (d) d[field] = (field === 'month') ? value : parseFloat(value || 0);
+}
+
+function deleteDebt(id) {
+    debts = debts.filter(d => d.id !== id);
+    renderDebts();
+}
+
+// --- CALCULATIONS & DASHBOARD ---
+function setManualTotal(user, val) {
+    manualTotals[user] = val === "" ? null : parseFloat(val);
+    calculateTotals();
 }
 
 function calculateTotals() {
-    const totalJean = categories.reduce((sum, c) => sum + parseFloat(c.jean || 0), 0);
-    const totalMonique = categories.reduce((sum, c) => sum + parseFloat(c.monique || 0), 0);
-    const totalGlobal = totalJean + totalMonique;
+    // 1. Calculate base from list
+    let calcJean = categories.reduce((sum, c) => sum + parseFloat(c.jean || 0), 0);
+    let calcMonique = categories.reduce((sum, c) => sum + parseFloat(c.monique || 0), 0);
 
-    // Update Top Cards
-    document.getElementById('jeanTotalDisplay').value = totalJean.toFixed(2);
-    document.getElementById('moniqueTotalDisplay').value = totalMonique.toFixed(2);
+    // 2. Override if manual input exists in Top Cards
+    const valJean = manualTotals.jean !== null ? manualTotals.jean : calcJean;
+    const valMonique = manualTotals.monique !== null ? manualTotals.monique : calcMonique;
+
+    // 3. Update the Top Card UI
+    document.getElementById('jeanTotalDisplay').value = valJean.toFixed(2);
+    document.getElementById('moniqueTotalDisplay').value = valMonique.toFixed(2);
     
-    // Update Performance Section
+    // 4. Update Performance Section
+    const totalGlobal = valJean + valMonique;
     document.getElementById('totalDepensesDisplay').innerText = totalGlobal.toFixed(2) + " €";
     
     const revenu = parseFloat(document.getElementById('revenuFoyer').value || 0);
@@ -73,44 +127,19 @@ function calculateTotals() {
     updateCharts(revenu, totalGlobal);
 }
 
-function addNewCategory() {
-    categories.push({ id: Date.now(), name: "Nouvelle ligne", jean: 0, monique: 0 });
-    renderSpending(); // Re-render to show the new row
+// Re-link to manual input events
+function updateDashboard() {
+    calculateTotals();
 }
 
-function deleteCat(id) {
-    categories = categories.filter(c => c.id !== id);
-    renderSpending();
-}
-
-// Ensure the Nouveau Mois logic works
-function addNewDebtMonth() {
-    debts.push({ id: Date.now(), month: "Mois", jeanOwes: 0, moniqueOwes: 0 });
-    renderDebts();
-}
-
-function renderDebts() {
-    const container = document.getElementById('debtGrid');
-    if (!container) return;
-    container.innerHTML = debts.map(d => `
-        <div class="expense-row" style="border-left: 4px solid #D4AF37">
-            <input type="text" value="${d.month}" oninput="d.month = this.value">
-            <input type="number" placeholder="Jean doit" oninput="d.jeanOwes = this.value">
-            <input type="number" placeholder="Monique doit" oninput="d.moniqueOwes = this.value">
-            <span></span>
-            <button class="btn-delete-icon" onclick="deleteDebt(${d.id})">🗑️</button>
-        </div>
-    `).join('');
-}
-
-function deleteDebt(id) {
-    debts = debts.filter(d => d.id !== id);
-    renderDebts();
-}
-
+// --- CHARTING ---
 function updateCharts(revenu, depenses) {
-    const ctx = document.getElementById('chartRevenu').getContext('2d');
+    const canvas = document.getElementById('chartRevenu');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
     if (chart1) chart1.destroy();
+
     chart1 = new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -120,10 +149,15 @@ function updateCharts(revenu, depenses) {
                 borderWidth: 0
             }]
         },
-        options: { cutout: '80%', maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        options: { 
+            cutout: '80%', 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } } 
+        }
     });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     renderSpending();
+    renderDebts();
 });
