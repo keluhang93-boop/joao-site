@@ -32,7 +32,8 @@
     </div>
 </header>
 
-<div class="container spending-container">
+<main class="container spending-container">
+    
     <div class="spending-hero">
         <h1 class="modern-title">Finances Partagées</h1>
         <p>Gérez votre budget avec style.</p>
@@ -56,53 +57,53 @@
         </div>
     </div>
 
-   <section class="section-wrapper">
-    <div class="section-header">
-        <h2 class="navy-title">🏠 Dépenses du Foyer</h2>
-        <button class="btn-modern-add" onclick="addNewCategory()">+ AJOUTER</button>
-    </div>
-    <div id="spendingGrid" class="spending-cards-container">
+    <section class="section-wrapper">
+        <div class="section-header">
+            <h2 class="navy-title">🏠 Dépenses du Foyer</h2>
+            <button class="btn-modern-add" onclick="addNewCategory()">+ AJOUTER</button>
         </div>
-</section>
+        <div id="spendingGrid" class="spending-cards-container">
+            </div>
+    </section>
 
-<section class="section-wrapper">
-    <div class="section-header">
-        <h2 class="navy-title">🤝 Dettes & Règlements</h2>
-        <button class="btn-modern-add" onclick="addNewDebtMonth()">+ Nouveau Mois</button>
-    </div>
-    <div id="debtGrid" class="debt-cards-container">
+    <section class="section-wrapper">
+        <div class="section-header">
+            <h2 class="navy-title">🤝 Dettes & Règlements</h2>
+            <button class="btn-modern-add" onclick="addNewDebtMonth()">+ Nouveau Mois</button>
         </div>
-</section>
+        <div id="debtGrid" class="debt-cards-container">
+            </div>
+    </section>
 
-<section class="performance-container">
-    <div class="stats-side">
-        <h2 class="navy-title">Performance du Mois</h2>
-        <div class="stat-item">
-            <span>Revenu Total</span>
-            <input type="number" id="revenuFoyer" value="4000" oninput="updateDashboard()">
+    <section class="performance-container">
+        <div class="stats-side">
+            <h2 class="navy-title">Performance du Mois</h2>
+            <div class="stat-item">
+                <span>Revenu Total</span>
+                <input type="number" id="revenuFoyer" value="4000" oninput="updateDashboard()">
+            </div>
+            <div class="stat-item highlight">
+                <span>Dépenses Actuelles</span>
+                <strong id="totalDepensesDisplay">0.00 €</strong>
+            </div>
+            <div class="stat-item">
+                <span>Économies</span>
+                <strong id="economieDisplay" style="color: #27ae60;">0.00 €</strong>
+            </div>
         </div>
-        <div class="stat-item highlight">
-            <span>Dépenses Actuelles</span>
-            <strong id="totalDepensesDisplay">0.00 €</strong>
-        </div>
-        <div class="stat-item">
-            <span>Économies</span>
-            <strong id="economieDisplay" style="color: #27ae60;">0.00 €</strong>
-        </div>
-    </div>
 
-    <div class="graph-side">
-        <div class="chart-wrapper">
-            <canvas id="chartRevenu"></canvas>
+        <div class="graph-side">
+            <div class="chart-wrapper">
+                <canvas id="chartRevenu"></canvas>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item"><span class="dot-gold"></span> Dépenses</div>
+                <div class="legend-item"><span class="dot-navy"></span> Épargne</div>
+            </div>
         </div>
-        <div class="chart-legend">
-            <div class="legend-item"><span class="dot-gold"></span> Dépenses</div>
-            <div class="legend-item"><span class="dot-navy"></span> Épargne</div>
-        </div>
-    </div>
-</section>
+    </section>
 
-<script src="main.js"></script>
+</main> <script src="main.js"></script>
 <script src="spending.js"></script>
 </body>
 </html>
