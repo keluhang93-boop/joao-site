@@ -50,14 +50,18 @@ function updateCat(id, field, value) {
     if (cat) {
         cat[field] = (field === 'name' || field === 'settled') ? value : parseFloat(value || 0);
     }
-    // Update the row total visually without full refresh to save cursor position
+    
+    // Only update the total cell and dashboard to keep the keyboard open on mobile
     const rows = document.querySelectorAll('#spendingGrid .expense-row');
     const index = categories.findIndex(c => c.id === id);
     if (index !== -1 && rows[index]) {
         const totalCell = rows[index].querySelector('.total-cell');
         if(totalCell) totalCell.innerText = (parseFloat(cat.jean||0) + parseFloat(cat.monique||0)).toFixed(2) + " €";
-        if(field === 'settled') renderSpending(); // Full re-render only for settlement
     }
+    
+    // If we toggle "Settled", we re-render to apply the CSS gray-out effect
+    if(field === 'settled') renderSpending();
+    
     calculateTotals();
 }
 
