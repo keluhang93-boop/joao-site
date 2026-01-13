@@ -151,3 +151,38 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     .performance-container { flex-direction: column !important; }
     .btn-delete-hover { visibility: visible !important; }
 }
+
+/* --- MOBILE BUTTONS & HEADER FIX --- */
+@media (max-width: 600px) {
+    .section-header {
+        flex-direction: column !important; /* Stack title and buttons vertically */
+        gap: 15px;
+        text-align: center;
+    }
+
+    /* Group for Selector and Delete link */
+    .section-header > div:first-child {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    /* The blue area you drew: Horizontal row of smaller buttons */
+    .section-header div[style*="display: flex"] {
+        justify-content: center;
+        width: 100%;
+        gap: 8px !important; /* Tighten space between buttons */
+    }
+
+    .btn-modern-add {
+        padding: 8px 12px !important; /* Smaller padding */
+        font-size: 0.75rem !important; /* Smaller text */
+        white-space: nowrap; /* Prevent text from wrapping */
+        flex: 1; /* Make buttons equal width */
+        max-width: 110px; /* Ensure they don't get too big */
+    }
+
+    #monthSelector {
+        width: 100%; /* Month selector takes full width for easier tapping */
+        max-width: 250px;
+    }
+}
