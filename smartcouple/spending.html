@@ -53,23 +53,29 @@
     <p style="color: #64748b; font-size: 1.2rem;">Gérez votre budget avec style.</p>
 </div>
 
-    <div class="dashboard-grid">
-        <div class="glass-card main-budget">
-            <label>BUDGET MENSUEL CIBLE</label>
-            <div class="input-with-symbol">
-                <input type="number" id="mainBudgetTarget" value="2500" oninput="updateDashboard()">
-                <span>€</span>
-            </div>
-        </div>
-        <div class="glass-card user-stat blue">
-            <label>TOTAL JEAN</label>
-            <p><input type="number" id="jeanTotalDisplay" oninput="setManualTotal('jean', this.value)"> €</p>
-        </div>
-        <div class="glass-card user-stat yellow">
-            <label>TOTAL MONIQUE</label>
-            <p><input type="number" id="moniqueTotalDisplay" oninput="setManualTotal('monique', this.value)"> €</p>
+<div class="dashboard-grid">
+    <div class="glass-card main-budget">
+        <label>BUDGET MENSUEL CIBLE</label>
+        <div class="input-with-symbol">
+            <input type="number" id="mainBudgetTarget" value="2500" oninput="updateDashboard()">
+            <span>€</span>
         </div>
     </div>
+    <div class="glass-card user-stat blue">
+        <label>TOTAL JEAN</label>
+        <div class="input-with-symbol">
+            <input type="number" id="jeanTotalDisplay" oninput="setManualTotal('jean', this.value)"> 
+            <span>€</span>
+        </div>
+    </div>
+    <div class="glass-card user-stat yellow">
+        <label>TOTAL MONIQUE</label>
+        <div class="input-with-symbol">
+            <input type="number" id="moniqueTotalDisplay" oninput="setManualTotal('monique', this.value)"> 
+            <span>€</span>
+        </div>
+    </div>
+</div>
 
     <section class="section-wrapper">
         <div class="section-header">
