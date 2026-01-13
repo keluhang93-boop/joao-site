@@ -1,76 +1,103 @@
-/* --- PREMIUM FINTECH DASHBOARD --- */
+/* --- FINTECH MODERN DASHBOARD --- */
 :root {
     --navy: #1f4e79;
     --yellow: #D4AF37;
-    --bg-light: #fdfdfd;
-    --border: #eef2f6;
+    --bg-light: #f8fafc;
+    --white: #ffffff;
+    --border: #e2e8f0;
 }
 
-/* Modern Input Styling - No more Windows 98 */
+.spending-body { background-color: var(--bg-light); padding-top: 120px; }
+
+/* Modern Input Boxes */
 input[type="number"], input[type="text"] {
-    border: 2px solid var(--border);
-    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
     padding: 10px 15px;
-    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
     color: var(--navy);
-    background: white;
+    background: #fff;
     transition: 0.3s;
+    width: 100%;
 }
 
 input:focus {
-    border-color: var(--yellow);
     outline: none;
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
-/* The Dashboard "Performance" Section (Stats Left, Graph Right) */
+/* Dashboard Top Stats */
+.dashboard-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 20px; 
+    margin-bottom: 40px; 
+}
+
+.glass-card {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+}
+
+.user-stat.blue { border-top: 5px solid var(--navy); }
+.user-stat.yellow { border-top: 5px solid var(--yellow); }
+
+/* Performance Section Layout (Side-by-Side) */
 .performance-container {
     display: flex;
-    background: white;
+    background: var(--white);
     border-radius: 24px;
     padding: 40px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
-    gap: 50px;
+    gap: 60px;
     align-items: center;
-    margin-top: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    margin-top: 50px;
 }
 
-.stats-side { flex: 1; }
+.stats-side { flex: 1.2; }
 .graph-side { 
     flex: 1; 
     display: flex; 
-    justify-content: center; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.stat-item input { width: 120px; text-align: right; }
+
+/* Chart Sizing */
+.chart-wrapper {
+    width: 280px;
+    height: 280px;
     position: relative;
 }
 
-.chart-wrapper {
-    width: 250px;
-    height: 250px;
-}
-
-/* Custom Legend for Graphs */
+/* Legend */
 .chart-legend {
-    margin-top: 20px;
     display: flex;
-    gap: 15px;
-    font-size: 0.8rem;
+    gap: 20px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--navy);
     font-weight: bold;
 }
-.legend-item { display: flex; align-items: center; gap: 5px; }
-.dot-navy { width: 10px; height: 10px; background: var(--navy); border-radius: 50%; }
-.dot-gold { width: 10px; height: 10px; background: var(--yellow); border-radius: 50%; }
 
-/* The Modern Add Button */
-.btn-modern-pill {
-    background: var(--navy);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: 0.3s;
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.dot-gold { width: 12px; height: 12px; background: var(--yellow); border-radius: 50%; }
+.dot-navy { width: 12px; height: 12px; background: var(--navy); border-radius: 50%; }
+
+@media (max-width: 900px) {
+    .performance-container { flex-direction: column; padding: 20px; }
+    .chart-wrapper { width: 220px; height: 220px; }
 }
-.btn-modern-pill:hover { background: var(--yellow); transform: scale(1.05); }
