@@ -103,8 +103,29 @@ function updateCharts(revenu, budget, depenses) {
     });
 }
 
-// Bug Fix: Initialization
+// Ensure this runs IMMEDIATELY when the page loads
 document.addEventListener('DOMContentLoaded', () => {
+    // Add a default month if list is empty
+    if (debts.length === 0) {
+        addNewDebtMonth(); 
+    } else {
+        renderDebts();
+    }
     renderSpending();
-    renderDebts();
 });
+
+function addNewDebtMonth() {
+    const newId = Date.now();
+    const currentMonth = new Date().toLocaleString('fr-FR', { month: 'long' });
+    
+    // Push FIRST, then render
+    debts.push({ 
+        id: newId, 
+        month: currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1), 
+        jeanOwes: 0, 
+        moniqueOwes: 0, 
+        settled: false 
+    });
+    
+    renderDebts();
+}
