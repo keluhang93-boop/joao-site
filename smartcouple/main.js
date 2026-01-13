@@ -1,13 +1,11 @@
 /* --- GLOBAL NAVIGATION --- */
 document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('mobile-menu-btn');
-    const overlay = document.getElementById('mobile-menu-overlay');
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.querySelector('.sketch-nav');
 
-    if (btn && overlay) {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            overlay.classList.toggle('active');
-            console.log("Menu Toggle Active:", overlay.classList.contains('active'));
+    if (menuBtn && navMenu) {
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
         });
     }
 });
