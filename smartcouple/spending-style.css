@@ -1,95 +1,94 @@
-/* --- GLOBAL CENTERING --- */
-.spending-container {
-    max-width: 1100px;
-    margin: 0 auto; /* This centers the whole website */
-    padding: 0 20px 50px;
-}
+/* spending-style.css */
 
-/* --- MODERN BUTTONS (Like Image 1) --- */
-.btn-modern-add {
-    background: #4B0082; /* Deep Purple */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 50px; /* Pill shape */
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    box-shadow: 0 4px 10px rgba(75, 0, 130, 0.2);
-}
-
-.btn-modern-add:hover {
-    background: #D4AF37; /* Gold */
-    transform: translateY(-2px);
-}
-
-.delete-btn {
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.75rem;
-    margin-top: 10px;
-}
-
-/* --- CARD GRID --- */
-.spending-cards-container, .debt-cards-container {
+/* --- TOP CARDS (Budget & Totals) --- */
+.dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-    margin-top: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
 }
 
-/* --- INPUT POLISH --- */
-.item-card {
+.glass-card {
     background: white;
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    border: 1px solid #f0f0f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    text-align: center;
+    border-top: 4px solid transparent;
 }
 
-.card-name {
-    font-weight: bold;
-    font-size: 1.1rem;
-    border: none !important;
-    border-bottom: 2px solid #eee !important;
-    margin-bottom: 15px;
-    border-radius: 0 !important;
-}
+.glass-card.main-budget { border-color: #4B0082; }
+.glass-card.blue { border-color: #1f4e79; }
+.glass-card.yellow { border-color: #D4AF37; }
 
-/* spending-style.css - Overrides for Modern Inputs */
-
-.item-card input {
-    border: none !important;
-    border-bottom: 2px solid #e2e8f0 !important;
-    border-radius: 0 !important;
-    padding: 8px 0 !important;
-    background: transparent !important;
-    font-size: 1rem;
+.glass-card label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #64748b;
+    display: block;
     margin-bottom: 10px;
 }
 
-.item-card input:focus {
-    border-bottom: 2px solid #D4AF37 !important;
-    box-shadow: none !important;
-}
-
-.input-group label {
-    font-size: 0.7rem;
-    color: #999;
+.glass-card input {
+    font-size: 1.5rem;
     font-weight: bold;
-    display: block;
-    margin-top: 10px;
+    color: #1e293b;
+    width: 80%;
+    text-align: center;
+    border: none !important;
+    background: transparent !important;
 }
 
-/* Fix for the charts not appearing: make sure wrapper has size */
-.chart-wrapper {
-    position: relative;
-    height: 250px;
-    width: 250px;
+/* --- THE EXCEL-CARD LIST (Dépenses du Foyer) --- */
+.expense-list-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr;
+    padding: 10px 20px;
+    font-weight: bold;
+    color: #64748b;
+    font-size: 0.85rem;
+    text-transform: uppercase;
 }
+
+.expense-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    background: white;
+    margin-bottom: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    transition: 0.2s;
+}
+
+.expense-row:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transform: scale(1.01);
+}
+
+.expense-row input {
+    border: none !important;
+    background: transparent !important;
+    font-family: 'Lato', sans-serif;
+    color: #1e293b;
+    width: 90%;
+}
+
+.expense-row .total-cell {
+    font-weight: bold;
+    color: #1f4e79;
+}
+
+/* Delete Button as an Icon */
+.btn-delete-icon {
+    background: none;
+    border: none;
+    color: #cbd5e1;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.2s;
+}
+
+.btn-delete-icon:hover { color: #ef4444; }
