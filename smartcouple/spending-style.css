@@ -58,6 +58,35 @@ input, button, span, div {
     text-transform: uppercase;
 }
 
+/* --- CLEAN MODERN DASHBOARD INPUTS --- */
+.glass-card input {
+    border: none;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f4e79;
+    text-align: center;
+    width: 100%;
+    max-width: 150px;
+    font-family: 'Lato', sans-serif;
+    transition: 0.3s;
+}
+
+.glass-card input:focus {
+    outline: 2px solid #D4AF37;
+    background: white;
+}
+
+/* Fix for the Euro symbol alignment */
+.input-with-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 /* --- THE EXCEL LIST (Dépenses & Dettes) --- */
 .section-header {
     display: flex;
@@ -187,31 +216,26 @@ input, button, span, div {
     transform: translateY(-2px);
 }
 
-/* --- MOBILE VIEW FIXES --- */
+/* --- MOBILE LIST FIX --- */
 @media (max-width: 850px) {
-    .expense-list-header { display: none; } 
-
     .expense-row {
-        grid-template-columns: 1fr 1fr !important; 
-        gap: 10px;
-        padding: 15px;
+        grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr !important; /* Keep everything on one line */
+        gap: 5px;
+        padding: 10px 5px;
+        font-size: 0.8rem;
     }
 
-    .expense-row input:first-child {
-        grid-column: span 2;
-        font-weight: bold;
-        font-size: 1.1rem;
-        border-bottom: 1px solid #eee !important;
-        padding-bottom: 5px;
+    .expense-row input {
+        font-size: 0.85rem;
     }
 
-    .performance-container {
-        padding: 20px;
-        flex-direction: column !important; 
+    .total-cell {
+        font-size: 0.8rem;
+        white-space: nowrap; /* Prevent Euro symbol from jumping */
     }
 
-    .stats-side, .graph-side {
-        width: 100%;
-        text-align: center;
+    /* Make the title smaller so the button fits next to it */
+    .navy-title {
+        font-size: 1.2rem !important;
     }
 }
