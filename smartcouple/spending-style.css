@@ -104,6 +104,43 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 
 .chart-wrapper { width: 250px !important; height: 250px !important; }
 
+/* --- SECTION SPACING --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;    /* Adds space ABOVE the title */
+    margin-bottom: 25px; /* Adds space BETWEEN title/button and the list */
+}
+
+/* --- CUSTOM GRAPH LEGEND --- */
+/* This styling ensures the dots and text align perfectly */
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1f4e79;
+}
+
+/* Colors matching your graph */
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dot-depenses { background-color: #D4AF37; } /* Gold */
+.dot-epargne { background-color: #1f4e79; }  /* Navy Blue */
+
 /* --- MOBILE FIX --- */
 @media (max-width: 850px) {
     #spendingGrid, #debtGrid { overflow-x: auto; display: block; padding-bottom: 15px; }
