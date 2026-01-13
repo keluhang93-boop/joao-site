@@ -1,0 +1,32 @@
+/* --- INDEX PAGE SPECIFIC STYLES --- */
+.hero { 
+    height: 40vh; 
+    background: #ffffff; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    color: #333; 
+    padding-top: 70px; 
+}
+
+.hero-content h1 { 
+    font-family: 'Playfair Display', serif; 
+    font-size: 2.5rem; 
+    margin-bottom: 10px; 
+    color: #1f4e79; 
+}
+
+.hero-content p { font-size: 1.2rem; font-style: italic; opacity: 0.9; }
+
+.btn { 
+    display: inline-block; padding: 15px 35px; background: #d63384; color: white; 
+    text-decoration: none; border-radius: 5px; margin-top: 25px; transition: 0.3s; 
+}
+.btn:hover { background: #b0266a; transform: translateY(-2px); }
+
+.sections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 80px 50px; text-align: center; }
+.card h3 { font-family: 'Playfair Display', serif; color: #d63384; }
+
+/* Fixing the Gold Text in Hero */
+.gold-text { color: #D4AF37; font-weight: bold; }
