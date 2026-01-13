@@ -57,15 +57,30 @@ function renderSpending() {
 function updateCat(id, field, value) {
     const cat = categories.find(c => c.id === id);
     if (cat) {
+        // 1. Update the data
         if (field === 'settled' || field === 'recurring') {
             cat[field] = value;
+            // Re-render only for checkboxes to show the visual "gray out" effect
             renderSpending(); 
         } else if (field === 'name') {
             cat[field] = value;
+            // No render needed here, just updating the data
         } else {
             cat[field] = parseFloat(value || 0);
-            // This line ensures the "Total" column updates live as you type
-            renderSpending(); 
+            
+            // 2. Update the UI "Live" without re-rendering the whole grid
+            // This keeps your cursor inside the box!
+            const rows = document.querySelectorAll('#spendingGrid .expense-row');
+            const index = categories.findIndex(c => c.id === id);
+            if (rows[index]) {
+                const totalCell = rows[index].querySelector('.total-cell');
+                if (totalCell) {
+                    const rowTotal = (parseFloat(cat.jean || 0) + parseFloat(cat.monique || 0)).toFixed(2);
+                    totalCell.innerText = rowTotal + " €";
+                }
+            }
+            // Update the top dashboard and chart
+            calculateTotals();
         }
     }
 }
