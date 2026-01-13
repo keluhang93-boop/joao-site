@@ -52,9 +52,31 @@ function renderSpending() {
 function updateCat(id, field, value) {
     const cat = categories.find(c => c.id === id);
     if (cat) {
-        cat[field] = (field === 'settled' || field === 'recurring') ? value : (field === 'name' ? value : parseFloat(value || 0));
-        if(field === 'settled' || field === 'recurring') renderSpending();
-        else calculateTotals();
+        // Handle values correctly based on type
+        if (field === 'settled' || field === 'recurring') {
+            cat[field] = value;
+            renderSpending(); // Re-render to show visual changes (gray/strike)
+        } else if (field === 'name') {
+            cat[field] = value;
+        } else {
+            cat[field] = parseFloat(value || 0);
+            
+            // Update the specific row's total cell immediately for UX
+            renderRowTotal(id);
+            calculateTotals();
+        }
+    }
+}
+
+function renderRowTotal(id) {
+    const cat = categories.find(c => c.id === id);
+    const index = categories.findIndex(c => c.id === id);
+    const rows = document.querySelectorAll('#spendingGrid .expense-row');
+    if (rows[index]) {
+        const totalCell = rows[index].querySelector('.total-cell');
+        if (totalCell) {
+            totalCell.innerText = (parseFloat(cat.jean||0) + parseFloat(cat.monique||0)).toFixed(2) + " €";
+        }
     }
 }
 
@@ -116,13 +138,13 @@ function calculateTotals() {
     let valJean = categories.reduce((sum, c) => sum + parseFloat(c.jean || 0), 0);
     let valMonique = categories.reduce((sum, c) => sum + parseFloat(c.monique || 0), 0);
 
-    // Update Top Display Boxes
+    // Dashboard boxes
     const jeanDisp = document.getElementById('jeanTotalDisplay');
     const moniqueDisp = document.getElementById('moniqueTotalDisplay');
     if(jeanDisp) jeanDisp.value = valJean.toFixed(2);
     if(moniqueDisp) moniqueDisp.value = valMonique.toFixed(2);
 
-    // Update Performance Section
+    // Performance Section
     const totalGlobal = valJean + valMonique;
     const depDisplay = document.getElementById('totalDepensesDisplay');
     if(depDisplay) depDisplay.innerText = totalGlobal.toFixed(2) + " €";
@@ -141,9 +163,11 @@ function updateCharts(revenu, totalDepenses) {
     const canvas = document.getElementById('chartRevenu');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    
     if (chart1) chart1.destroy();
 
     const epargne = Math.max(0, revenu - totalDepenses);
+    
     chart1 = new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -151,9 +175,16 @@ function updateCharts(revenu, totalDepenses) {
             datasets: [{
                 data: [totalDepenses, epargne],
                 backgroundColor: ['#D4AF37', '#1f4e79'],
+                hoverOffset: 4,
                 borderWidth: 0
             }]
         },
-        options: { cutout: '80%', maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        options: {
+            cutout: '80%',
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            }
+        }
     });
 }
