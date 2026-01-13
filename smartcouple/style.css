@@ -238,6 +238,38 @@ body { margin: 0; font-family: 'Lato', sans-serif; color: #333; line-height: 1.6
 
 .stat-item strong { font-size: 1.4rem; color: var(--navy); }
 
+/* Constraint for the charts so they don't explode in size */
+.charts-box { 
+    display: flex !important; 
+    gap: 20px; 
+    justify-content: center;
+    flex: 1;
+}
+
+.chart-item { 
+    width: 150px !important;  /* Fixed width */
+    height: 150px !important; /* Fixed height */
+    position: relative;
+}
+
+/* Debt Grid Layout */
+.debt-cards-container {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    gap: 20px !important;
+    margin-top: 20px;
+}
+
+/* Ensure the economy section stays side-by-side on desktop */
+.economy-content { 
+    display: flex !important; 
+    flex-wrap: wrap;
+    gap: 40px; 
+    align-items: center; 
+}
+
+.stats-list { flex: 1; min-width: 300px; }
+
 /* Mobile Adjustments */
 @media (max-width: 900px) {
     .dashboard-grid { grid-template-columns: 1fr !important; }
