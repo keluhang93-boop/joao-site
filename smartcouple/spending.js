@@ -159,17 +159,34 @@ function updateCharts(revenu, depenses) {
     const canvas = document.getElementById('chartRevenu');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    
     if (chart1) chart1.destroy();
+
     chart1 = new Chart(ctx, {
         type: 'doughnut',
         data: {
+            labels: ['Dépenses', 'Épargne'], // Labels for the legend
             datasets: [{
                 data: [depenses, Math.max(0, revenu - depenses)],
                 backgroundColor: ['#D4AF37', '#1f4e79'],
                 borderWidth: 0
             }]
         },
-        options: { cutout: '80%', maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        options: { 
+            cutout: '80%', 
+            maintainAspectRatio: false, 
+            plugins: { 
+                legend: { 
+                    display: true, 
+                    position: 'bottom', // Keeps labels neatly centered under the doughnut
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        font: { family: 'Lato', size: 14, weight: 'bold' }
+                    }
+                } 
+            } 
+        }
     });
 }
 
