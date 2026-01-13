@@ -244,26 +244,65 @@ input, button, span, div {
     transform: translateY(-2px);
 }
 
-/* --- MOBILE LIST FIX --- */
+/* --- UPDATED MOBILE LIST FIX --- */
 @media (max-width: 850px) {
+    /* Allow horizontal scrolling so information stays on one line */
+    #spendingGrid, #debtGrid {
+        overflow-x: auto;
+        display: block;
+        padding-bottom: 15px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Force the rows and headers to maintain their width and columns */
+    .expense-list-header, .expense-row {
+        min-width: 600px; /* Adjust this value if you need more space for columns */
+        grid-template-columns: 2.5fr 1.2fr 1.2fr 1.2fr 1fr 0.4fr !important;
+        gap: 10px;
+    }
+
+    /* On mobile, make delete button always visible and prevent overlapping */
+    .btn-delete-hover {
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative;
+        z-index: 10;
+        padding: 5px;
+    }
+
     .expense-row {
-        grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr !important; /* Keep everything on one line */
-        gap: 5px;
-        padding: 10px 5px;
-        font-size: 0.8rem;
+        padding: 10px 15px;
     }
 
-    .expense-row input {
-        font-size: 0.85rem;
+    /* Stack the performance section for better visibility */
+    .performance-container {
+        flex-direction: column !important;
+        padding: 20px;
     }
 
-    .total-cell {
-        font-size: 0.8rem;
-        white-space: nowrap; /* Prevent Euro symbol from jumping */
+    .stats-side, .graph-side {
+        width: 100% !important;
+        min-width: unset;
     }
+}
 
-    /* Make the title smaller so the button fits next to it */
-    .navy-title {
-        font-size: 1.2rem !important;
-    }
+/* --- REVENU TOTAL BOX STYLING --- */
+/* Add this to match your Budget Mensuel Cible boxes */
+.user-stat input {
+    border: none;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1f4e79;
+    text-align: center;
+    width: 100px;
+    transition: 0.3s;
+}
+
+.user-stat input:focus {
+    outline: 2px solid #D4AF37;
+    background: white;
+}
 }
