@@ -79,11 +79,13 @@
 
     <section class="section-wrapper">
         <div class="section-header">
-            <h2 class="navy-title">🏠 Dépenses du Foyer</h2>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <h2>🏠 Dépenses du Foyer</h2>
+                <select id="monthSelector" onchange="changeMonth(this.value)" style="padding: 5px 15px; border-radius: 10px; border: 1px solid #ddd; font-family: 'Lato'; color: #1f4e79; font-weight: bold;">
+                </select>
+            </div>
             <button class="btn-modern-add" onclick="addNewCategory()">+ AJOUTER</button>
         </div>
-        <div id="spendingGrid" class="spending-cards-container">
-            </div>
     </section>
 
     <section class="section-wrapper">
