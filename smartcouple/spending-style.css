@@ -153,36 +153,43 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 }
 
 /* --- MOBILE BUTTONS & HEADER FIX --- */
+/* --- MOBILE BUTTONS FIX --- */
 @media (max-width: 600px) {
+    /* Stack the Title and the Button area */
     .section-header {
-        flex-direction: column !important; /* Stack title and buttons vertically */
-        gap: 15px;
-        text-align: center;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 15px !important;
     }
 
-    /* Group for Selector and Delete link */
+    /* Fix the Title & Selector alignment */
     .section-header > div:first-child {
         flex-direction: column !important;
         gap: 10px !important;
     }
 
-    /* The blue area you drew: Horizontal row of smaller buttons */
-    .section-header div[style*="display: flex"] {
+    /* This is your "Blue Area": 3 buttons side-by-side */
+    .section-header > div:last-child {
+        display: flex !important;
+        flex-direction: row !important; /* Force horizontal */
         justify-content: center;
         width: 100%;
-        gap: 8px !important; /* Tighten space between buttons */
+        gap: 5px !important; /* Very small gap to fit all 3 */
     }
 
+    /* Make buttons smaller to fit the screen width */
     .btn-modern-add {
-        padding: 8px 12px !important; /* Smaller padding */
-        font-size: 0.75rem !important; /* Smaller text */
-        white-space: nowrap; /* Prevent text from wrapping */
-        flex: 1; /* Make buttons equal width */
-        max-width: 110px; /* Ensure they don't get too big */
+        padding: 8px 5px !important;
+        font-size: 10px !important; /* Smaller text */
+        flex: 1; /* Make them equal size */
+        min-width: 0; /* Allow them to shrink */
+        white-space: nowrap;
     }
 
-    #monthSelector {
-        width: 100%; /* Month selector takes full width for easier tapping */
-        max-width: 250px;
+    /* Fix the delete link so it doesn't overlap */
+    button[onclick="deleteCurrentMonth()"] {
+        display: block;
+        margin-top: 5px;
+        font-size: 12px;
     }
 }
