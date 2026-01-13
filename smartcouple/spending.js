@@ -13,25 +13,27 @@ function renderSpending() {
         const total = (parseFloat(cat.jean) + parseFloat(cat.monique)).toFixed(2);
         container.innerHTML += `
             <div class="item-card">
+                <button class="delete-btn" onclick="deleteCat(${cat.id})">&times;</button>
                 <input type="text" class="card-name" value="${cat.name}" onchange="updateCat(${cat.id}, 'name', this.value)">
+                
                 <div class="card-inputs">
                     <div class="input-group">
-                        <label>Jean</label>
+                        <label>JEAN</label>
                         <input type="number" value="${cat.jean}" oninput="updateCat(${cat.id}, 'jean', this.value)">
                     </div>
                     <div class="input-group">
-                        <label>Monique</label>
+                        <label>MONIQUE</label>
                         <input type="number" value="${cat.monique}" oninput="updateCat(${cat.id}, 'monique', this.value)">
                     </div>
                 </div>
+        
                 <div class="card-footer">
-                    <span class="total-tag">${total} €</span>
+                    <div class="total-tag">${total} €</div>
                     <label class="toggle">
                         <input type="checkbox" ${cat.recurring ? 'checked' : ''} onchange="updateCat(${cat.id}, 'recurring', this.checked)">
                         <span class="slider"></span>
                     </label>
                 </div>
-                <button class="delete-btn" onclick="deleteCat(${cat.id})">&times;</button>
             </div>
         `;
     });
