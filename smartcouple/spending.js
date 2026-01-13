@@ -1,22 +1,20 @@
 let chart1;
+// Initial set of examples
+const defaultExamples = [
+    { id: 1, name: "🏠 Loyer", jean: 450, monique: 450, settled: false, recurring: true },
+    { id: 2, name: "⚡ Électricité", jean: 40, monique: 40, settled: false, recurring: true },
+    { id: 3, name: "🔥 Gaz & Eau", jean: 35, monique: 35, settled: false, recurring: true },
+    { id: 4, name: "🌐 Internet & Mobile", jean: 25, monique: 25, settled: false, recurring: true },
+    { id: 5, name: "🛡️ Assurance Habitation", jean: 15, monique: 15, settled: false, recurring: true },
+    { id: 6, name: "🚗 Assurance Auto", jean: 45, monique: 45, settled: false, recurring: true }
+];
+
 let currentMonth = new Date().toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
-
-// 1. Load data from LocalStorage
 let allMonthsData = JSON.parse(localStorage.getItem('smartSpending_history')) || {};
-let debts = JSON.parse(localStorage.getItem('smartSpending_debts')) || [];
 
-// 2. Initialize the first month if history is empty
+// Initialize if empty
 if (Object.keys(allMonthsData).length === 0) {
-    allMonthsData[currentMonth] = [
-        { id: 1, name: "🏠 Loyer", jean: 450, monique: 450, settled: false, recurring: true },
-        { id: 2, name: "⚡ Électricité", jean: 40, monique: 40, settled: false, recurring: true }
-    ];
-} else if (!allMonthsData[currentMonth]) {
-    // If we have history but not for THIS month, default to the most recent month's recurring items
-    const lastMonth = Object.keys(allMonthsData).pop();
-    allMonthsData[currentMonth] = allMonthsData[lastMonth]
-        .filter(cat => cat.recurring)
-        .map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
+    allMonthsData[currentMonth] = defaultExamples;
 }
 
 let categories = allMonthsData[currentMonth];
@@ -24,10 +22,47 @@ let categories = allMonthsData[currentMonth];
 document.addEventListener('DOMContentLoaded', () => {
     initMonthSelector();
     renderSpending();
-    renderDebts();
 });
 
-// --- MONTH NAVIGATION ---
+// --- AUTOMATIC MONTH LOGIC ---
+function startNewMonth() {
+    // Get the name of the last month in history to calculate the next one
+    const monthNames = Object.keys(allMonthsData);
+    const lastMonthString = monthNames[monthNames.length - 1];
+    
+    // Simple trick to get the "Next Month" date object
+    let dateParts = lastMonthString.split(' '); // [janvier, 2026]
+    let tempDate = new Date(); // Start with current
+    
+    // If we have a history, we set the temp date to the last entry and add 1 month
+    if (monthNames.length > 0) {
+        // This is a simplified way to advance the month
+        const nextMonthDate = new Date(tempDate.setMonth(tempDate.getMonth() + 1));
+        const nextMonthName = nextMonthDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+
+        if (allMonthsData[nextMonthName]) {
+            alert("Le mois de " + nextMonthName + " existe déjà.");
+            return;
+        }
+
+        if (confirm("Créer le budget pour " + nextMonthName + " ?")) {
+            // Keep recurring items, reset settled status
+            const newMonthCats = categories
+                .filter(cat => cat.recurring)
+                .map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
+
+            allMonthsData[nextMonthName] = newMonthCats;
+            currentMonth = nextMonthName;
+            categories = allMonthsData[currentMonth];
+            
+            saveData();
+            initMonthSelector();
+            renderSpending();
+        }
+    }
+}
+
+// --- CORE FUNCTIONS ---
 function initMonthSelector() {
     const selector = document.getElementById('monthSelector');
     if (!selector) return;
@@ -42,30 +77,11 @@ function changeMonth(selectedMonth) {
     renderSpending();
 }
 
-function startNewMonth() {
-    const nextMonthName = prompt("Nom du nouveau mois (ex: Février 2026) :");
-    if (!nextMonthName || allMonthsData[nextMonthName]) return;
-
-    const newMonthCats = categories
-        .filter(cat => cat.recurring)
-        .map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
-
-    allMonthsData[nextMonthName] = newMonthCats;
-    currentMonth = nextMonthName;
-    categories = allMonthsData[currentMonth];
-    
-    saveData();
-    initMonthSelector();
-    renderSpending();
-}
-
 function saveData() {
     allMonthsData[currentMonth] = categories;
     localStorage.setItem('smartSpending_history', JSON.stringify(allMonthsData));
-    localStorage.setItem('smartSpending_debts', JSON.stringify(debts));
 }
 
-// --- RENDERING ---
 function renderSpending() {
     const container = document.getElementById('spendingGrid');
     if (!container) return;
@@ -102,7 +118,6 @@ function updateCat(id, field, value) {
         cat[field] = field === 'name' ? value : parseFloat(value || 0);
         saveData();
         calculateTotals();
-        // Update the row total text without refreshing the input
         const rows = document.querySelectorAll('#spendingGrid .expense-row');
         const index = categories.findIndex(c => c.id === id);
         if (rows[index]) {
@@ -111,10 +126,8 @@ function updateCat(id, field, value) {
     }
 }
 
-function updateDashboard() { calculateTotals(); saveData(); }
-
 function addNewCategory() {
-    categories.push({ id: Date.now(), name: "Nouvelle ligne", jean: 0, monique: 0, settled: false, recurring: false });
+    categories.push({ id: Date.now(), name: "Nouvelle dépense", jean: 0, monique: 0, settled: false, recurring: false });
     saveData();
     renderSpending();
 }
@@ -125,45 +138,6 @@ function deleteCat(id) {
     renderSpending();
 }
 
-// --- DEBTS ---
-function renderDebts() {
-    const container = document.getElementById('debtGrid');
-    if (!container) return;
-    let html = `<div class="expense-list-header"><span>Mois</span><span>Jean doit</span><span>Monique doit</span><span>Payé</span><span></span></div>`;
-    html += debts.map(d => `
-        <div class="expense-row ${d.settled ? 'row-settled' : ''}">
-            <input type="text" value="${d.month}" onchange="updateDebt(${d.id}, 'month', this.value)">
-            <input type="number" value="${d.jeanOwes}" oninput="updateDebt(${d.id}, 'jeanOwes', this.value)">
-            <input type="number" value="${d.moniqueOwes}" oninput="updateDebt(${d.id}, 'moniqueOwes', this.value)">
-            <input type="checkbox" ${d.settled ? 'checked' : ''} onchange="updateDebt(${d.id}, 'settled', this.checked)">
-            <button class="btn-delete-hover" onclick="deleteDebt(${d.id})">×</button>
-        </div>
-    `).join('');
-    container.innerHTML = html;
-}
-
-function updateDebt(id, field, value) {
-    const d = debts.find(x => x.id === id);
-    if (d) {
-        d[field] = (field === 'month' || field === 'settled') ? value : parseFloat(value || 0);
-        saveData();
-        if(field === 'settled') renderDebts();
-    }
-}
-
-function addNewDebtMonth() {
-    debts.push({ id: Date.now(), month: "Note de dette", jeanOwes: 0, moniqueOwes: 0, settled: false });
-    saveData();
-    renderDebts();
-}
-
-function deleteDebt(id) {
-    debts = debts.filter(d => d.id !== id);
-    saveData();
-    renderDebts();
-}
-
-// --- TOTALS & CHART ---
 function calculateTotals() {
     let valJean = categories.reduce((sum, c) => sum + parseFloat(c.jean || 0), 0);
     let valMonique = categories.reduce((sum, c) => sum + parseFloat(c.monique || 0), 0);
