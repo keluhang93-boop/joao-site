@@ -73,30 +73,33 @@
         </div>
 </section>
 
-    <div class="glass-card economy-summary">
-        <h2>Performance du Mois</h2>
-        <div class="economy-content">
-            <div class="stats-list">
-                <div class="stat-item">
-                    <span>Revenu Total</span>
-                    <input type="number" id="revenuFoyer" value="4000" oninput="updateDashboard()">
-                </div>
-                <div class="stat-item highlight-blue">
-                    <span>Dépenses Actuelles</span>
-                    <strong id="totalDepensesDisplay">0.00 €</strong>
-                </div>
-                <div class="stat-item highlight-yellow">
-                    <span>Économies</span>
-                    <strong id="economieDisplay">0.00 €</strong>
-                </div>
-            </div>
-            <div class="charts-box">
-                <div class="chart-item"><canvas id="chartRevenu"></canvas></div>
-                <div class="chart-item"><canvas id="chartBudget"></canvas></div>
-            </div>
+<section class="performance-container">
+    <div class="stats-side">
+        <h2 class="navy-title">Performance du Mois</h2>
+        <div class="stat-item">
+            <span>Revenu Total</span>
+            <input type="number" id="revenuFoyer" value="4000" oninput="updateDashboard()">
+        </div>
+        <div class="stat-item highlight">
+            <span>Dépenses Actuelles</span>
+            <strong id="totalDepensesDisplay">0.00 €</strong>
+        </div>
+        <div class="stat-item">
+            <span>Économies</span>
+            <strong id="economieDisplay" style="color: #27ae60;">0.00 €</strong>
         </div>
     </div>
-</div>
+
+    <div class="graph-side">
+        <div class="chart-wrapper">
+            <canvas id="chartRevenu"></canvas>
+        </div>
+        <div class="chart-legend">
+            <div class="legend-item"><span class="dot-gold"></span> Dépenses</div>
+            <div class="legend-item"><span class="dot-navy"></span> Épargne</div>
+        </div>
+    </div>
+</section>
 
 <script src="main.js"></script>
 <script src="spending.js"></script>
