@@ -3,11 +3,10 @@
     box-sizing: border-box;
 }
 
+/* --- UNIFIED BACKGROUND --- */
 body.spending-body {
-    font-family: 'Lato', sans-serif;
-    background-color: #f4f7f9;
+    background-color: #ffffff !important; /* Matches white background of other pages */
     color: #1e293b;
-    margin: 0;
 }
 
 h1, h2, .modern-title, .logo-text, .navy-title {
@@ -58,26 +57,7 @@ input, button, span, div {
     text-transform: uppercase;
 }
 
-/* --- CLEAN MODERN DASHBOARD INPUTS --- */
-.glass-card input {
-    border: none;
-    background: #f8fafc;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1f4e79;
-    text-align: center;
-    width: 100%;
-    max-width: 150px;
-    font-family: 'Lato', sans-serif;
-    transition: 0.3s;
-}
 
-.glass-card input:focus {
-    outline: 2px solid #D4AF37;
-    background: white;
-}
 
 /* Fix for the Euro symbol alignment */
 .input-with-symbol {
@@ -244,6 +224,51 @@ input, button, span, div {
     transform: translateY(-2px);
 }
 
+/* --- UNIFIED DASHBOARD INPUTS (Target, Jean, Monique, & Performance) --- */
+.glass-card input, 
+.modern-stat-input input, 
+#jeanTotalDisplay, 
+#moniqueTotalDisplay,
+.user-stat input {
+    border: none !important;
+    background: #f8fafc !important;
+    border-radius: 12px !important;
+    padding: 10px !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    color: #1f4e79 !important;
+    text-align: center !important; /* Centers the value in the middle */
+    width: 160px !important;      /* Unified width */
+    height: 50px !important;     /* Unified height */
+    transition: 0.3s ease;
+    display: inline-block;
+}
+
+.glass-card input:focus, 
+.modern-stat-input input:focus {
+    outline: 2px solid #D4AF37 !important;
+    background: white !important;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+
+/* --- RECURRING ROW STYLE --- */
+.row-recurring {
+    background-color: #f1f5f9 !important; /* Subtle gray background */
+    border-left: 5px solid #4B0082 !important; /* Purple indicator on the side */
+}
+
+.row-recurring input {
+    color: #64748b; /* Slightly dimmed text */
+}
+
+/* Ensure checkboxes look clean */
+.recur-col, .settle-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* --- UPDATED MOBILE LIST FIX --- */
 @media (max-width: 850px) {
     /* Allow horizontal scrolling so information stays on one line */
@@ -256,10 +281,10 @@ input, button, span, div {
 
     /* Force the rows and headers to maintain their width and columns */
     .expense-list-header, .expense-row {
-        min-width: 600px; /* Adjust this value if you need more space for columns */
-        grid-template-columns: 2.5fr 1.2fr 1.2fr 1.2fr 1fr 0.4fr !important;
-        gap: 10px;
-    }
+            min-width: 750px; /* Increased width to prevent squishing the new column */
+            grid-template-columns: 2fr 1fr 1fr 1fr 0.8fr 0.8fr 0.4fr !important;
+            gap: 10px;
+        }
 
     /* On mobile, make delete button always visible and prevent overlapping */
     .btn-delete-hover {
@@ -269,7 +294,7 @@ input, button, span, div {
         z-index: 10;
         padding: 5px;
     }
-
+}
     .expense-row {
         padding: 10px 15px;
     }
@@ -284,25 +309,4 @@ input, button, span, div {
         width: 100% !important;
         min-width: unset;
     }
-}
-
-/* --- REVENU TOTAL BOX STYLING --- */
-/* Add this to match your Budget Mensuel Cible boxes */
-.user-stat input {
-    border: none;
-    background: #f8fafc;
-    border-radius: 8px;
-    padding: 8px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #1f4e79;
-    text-align: center;
-    width: 100px;
-    transition: 0.3s;
-}
-
-.user-stat input:focus {
-    outline: 2px solid #D4AF37;
-    background: white;
-}
 }
