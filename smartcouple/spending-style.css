@@ -10,7 +10,7 @@ body.spending-body {
     margin: 0;
 }
 
-h1, h2, .modern-title, .logo-text {
+h1, h2, .modern-title, .logo-text, .navy-title {
     font-family: 'Playfair Display', serif;
 }
 
@@ -18,10 +18,90 @@ input, button, span, div {
     font-family: 'Lato', sans-serif;
 }
 
+/* --- FIXED HEADER & MENU --- */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 10px;
+}
+
+.logo-text {
+    font-weight: 700;
+    color: #D4AF37; /* Gold */
+    letter-spacing: 1px;
+}
+
+.logo-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.sketch-nav {
+    display: flex;
+    gap: 15px;
+    margin-left: 30px;
+}
+
+.nav-box {
+    text-decoration: none;
+    color: #4B0082;
+    font-weight: 700;
+    padding: 8px 15px;
+    border: 1px solid #4B0082;
+    border-radius: 4px;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.nav-box:hover {
+    background: #4B0082;
+    color: white;
+}
+
+/* --- PRETTY BUTTONS --- */
+.btn-modern-add, .btn-signup {
+    background: #4B0082 !important; /* Indigo Purple */
+    color: white !important;
+    border: none !important;
+    padding: 12px 25px !important;
+    border-radius: 50px !important;
+    font-weight: bold !important;
+    cursor: pointer;
+    transition: 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.btn-modern-add:hover, .btn-signup:hover {
+    background: #D4AF37 !important; /* Gold */
+    transform: translateY(-2px);
+}
+
+.btn-login {
+    text-decoration: none;
+    color: #4B0082;
+    font-weight: 700;
+    margin-right: 20px;
+}
+
 /* --- CONTAINER FIX --- */
 .spending-container {
     max-width: 1100px !important;
-    margin: 100px auto 50px !important; /* Adjusted for header */
+    margin: 120px auto 50px !important; /* Increased for fixed header */
     padding: 0 20px;
     display: block;
 }
@@ -47,10 +127,23 @@ input, button, span, div {
 .glass-card.yellow { border-top-color: #D4AF37; }
 .glass-card.main-budget { border-top-color: #4B0082; }
 
+.glass-card label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
 /* --- THE EXCEL LIST (Dépenses & Dettes) --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .expense-list-header {
     display: grid;
-    /* 6 columns: Cat, Jean, Mon, Tot, Reg, X */
     grid-template-columns: 2.5fr 1.2fr 1.2fr 1.2fr 1fr 0.4fr;
     padding: 15px 25px;
     font-weight: bold;
@@ -83,7 +176,7 @@ input, button, span, div {
     color: #1f4e79;
 }
 
-/* --- SETTLED & HOVER --- */
+/* --- SETTLED & DELETE --- */
 .row-settled { opacity: 0.5; background: #f8fafc !important; }
 .row-settled input { text-decoration: line-through; }
 
@@ -98,10 +191,10 @@ input, button, span, div {
 
 .expense-row:hover .btn-delete-hover { visibility: visible; }
 
-/* --- PERFORMANCE SECTION (SIDE-BY-SIDE) --- */
+/* --- PERFORMANCE SECTION & GRAPH FIX --- */
 .performance-container {
     display: flex !important;
-    flex-wrap: wrap; /* Important for mobile */
+    flex-wrap: wrap; 
     justify-content: space-between;
     align-items: center;
     background: white;
@@ -112,6 +205,14 @@ input, button, span, div {
 }
 
 .stats-side { flex: 1; min-width: 300px; }
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
 .graph-side { 
     flex: 1; 
     min-width: 300px; 
@@ -127,17 +228,18 @@ input, button, span, div {
 
 /* --- MOBILE VIEW FIXES --- */
 @media (max-width: 850px) {
-    .main-header { position: fixed; top: 0; width: 100%; z-index: 1000; }
+    .main-header { padding: 10px 20px; }
     
-    .expense-list-header { display: none; } /* Hide labels on mobile */
+    .sketch-nav { display: none; } /* Standard behavior: menu hides on mobile */
+    
+    .expense-list-header { display: none; } 
 
     .expense-row {
-        grid-template-columns: 1fr 1fr !important; /* Stack into 2 columns */
+        grid-template-columns: 1fr 1fr !important; 
         gap: 10px;
         padding: 15px;
     }
 
-    /* Make Category Name full width on mobile */
     .expense-row input:first-child {
         grid-column: span 2;
         font-weight: bold;
@@ -148,7 +250,7 @@ input, button, span, div {
 
     .performance-container {
         padding: 20px;
-        flex-direction: column !important; /* Text on top, graph on bottom */
+        flex-direction: column !important; 
     }
 
     .stats-side, .graph-side {
