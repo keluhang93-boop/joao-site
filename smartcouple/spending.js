@@ -1,4 +1,5 @@
-let chart1;
+// Add this at the very top of your file to ensure it's defined
+let chart1 = null;
 
 const defaultExamples = [
     { id: 1, name: "🏠 Loyer", jean: 450, monique: 450, settled: false, recurring: true },
@@ -160,18 +161,28 @@ function deleteCat(id) {
 }
 
 function calculateTotals() {
+    // Only run if categories exists
+    if (!categories) return;
+
     let valJean = categories.reduce((sum, c) => sum + parseFloat(c.jean || 0), 0);
     let valMonique = categories.reduce((sum, c) => sum + parseFloat(c.monique || 0), 0);
+    
     if(document.getElementById('jeanTotalDisplay')) document.getElementById('jeanTotalDisplay').value = valJean.toFixed(2);
     if(document.getElementById('moniqueTotalDisplay')) document.getElementById('moniqueTotalDisplay').value = valMonique.toFixed(2);
+    
     const totalGlobal = valJean + valMonique;
     if(document.getElementById('totalDepensesDisplay')) document.getElementById('totalDepensesDisplay').innerText = totalGlobal.toFixed(2) + " €";
+
     const revInput = document.getElementById('revenuFoyer');
     if(revInput) {
         const revenu = parseFloat(revInput.value || 0);
         const economie = revenu - totalGlobal;
         if(document.getElementById('economieDisplay')) document.getElementById('economieDisplay').innerText = economie.toFixed(2) + " €";
-        updateCharts(revenu, totalGlobal);
+        
+        // Safety check: Only update chart if Chart.js is loaded
+        if (typeof Chart !== 'undefined') {
+            updateCharts(revenu, totalGlobal);
+        }
     }
 }
 
@@ -179,14 +190,28 @@ function updateCharts(revenu, totalDepenses) {
     const canvas = document.getElementById('chartRevenu');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    if (chart1) chart1.destroy();
+    
+    // Destroy previous chart instance safely
+    if (chart1 instanceof Chart) {
+        chart1.destroy();
+    }
+    
     const epargne = Math.max(0, revenu - totalDepenses);
+    
     chart1 = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: ['Dépenses', 'Épargne'],
-            datasets: [{ data: [totalDepenses, epargne], backgroundColor: ['#D4AF37', '#1f4e79'], borderWidth: 0 }]
+            datasets: [{ 
+                data: [totalDepenses, epargne], 
+                backgroundColor: ['#D4AF37', '#1f4e79'], 
+                borderWidth: 0 
+            }]
         },
-        options: { cutout: '80%', maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        options: { 
+            cutout: '80%', 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } } 
+        }
     });
 }
