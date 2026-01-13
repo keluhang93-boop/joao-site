@@ -23,7 +23,7 @@ function renderSpending() {
             <span>Jean (€)</span>
             <span>Monique (€)</span>
             <span>Total</span>
-            <span>Règlement</span>
+            <span>Payé</span>
             <span>Récur.</span>
             <span></span>
         </div>
@@ -35,12 +35,8 @@ function renderSpending() {
             <input type="number" value="${cat.jean}" oninput="updateCat(${cat.id}, 'jean', this.value)">
             <input type="number" value="${cat.monique}" oninput="updateCat(${cat.id}, 'monique', this.value)">
             <span class="total-cell">${(parseFloat(cat.jean||0) + parseFloat(cat.monique||0)).toFixed(2)} €</span>
-            <div class="settle-col">
-                <input type="checkbox" ${cat.settled ? 'checked' : ''} onchange="updateCat(${cat.id}, 'settled', this.checked)">
-            </div>
-            <div class="recur-col">
-                <input type="checkbox" ${cat.recurring ? 'checked' : ''} onchange="updateCat(${cat.id}, 'recurring', this.checked)">
-            </div>
+            <input type="checkbox" ${cat.settled ? 'checked' : ''} onchange="updateCat(${cat.id}, 'settled', this.checked)">
+            <input type="checkbox" ${cat.recurring ? 'checked' : ''} onchange="updateCat(${cat.id}, 'recurring', this.checked)">
             <button class="btn-delete-hover" onclick="deleteCat(${cat.id})">×</button>
         </div>
     `).join('');
@@ -54,16 +50,10 @@ function updateCat(id, field, value) {
     if (cat) {
         cat[field] = (field === 'name' || field === 'settled' || field === 'recurring') ? value : parseFloat(value || 0);
         
+        // If we change a checkbox, we re-render to apply the gray/line-through CSS
         if(field === 'settled' || field === 'recurring') {
             renderSpending(); 
         } else {
-            // Update total cell for this specific row instantly
-            const rows = document.querySelectorAll('#spendingGrid .expense-row');
-            const index = categories.findIndex(c => c.id === id);
-            if (index !== -1 && rows[index]) {
-                const totalCell = rows[index].querySelector('.total-cell');
-                if(totalCell) totalCell.innerText = (parseFloat(cat.jean||0) + parseFloat(cat.monique||0)).toFixed(2) + " €";
-            }
             calculateTotals();
         }
     }
