@@ -69,11 +69,40 @@ body { margin: 0; font-family: 'Lato', sans-serif; color: #333; line-height: 1.6
 .calendar-page-container { max-width: 900px; margin: 120px auto; padding: 20px; }
 .calendar-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
 .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #4B0082; }
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; min-width: 600px; }
-.calendar-overflow-wrapper { width: 100%; overflow-x: auto; margin-bottom: 10px; }
 
-.day { padding: 10px; border-radius: 5px; font-size: 0.9rem; cursor: pointer; transition: 0.2s; }
-.day:hover { background: #f0f0f0; }
+/* The Grid - Removed min-width to prevent horizontal scroll */
+.calendar-grid { 
+    display: grid; 
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 5px; 
+    text-align: center; 
+    width: 100%; /* Changed from min-width: 600px */
+}
+
+/* Remove the overflow wrapper's restriction */
+.calendar-overflow-wrapper { width: 100%; overflow-x: hidden; } 
+
+.day { 
+    padding: 5px; 
+    border-radius: 5px; 
+    font-size: 0.9rem; 
+    cursor: pointer; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+
+/* Circular date container */
+.day span {
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: 0.3s;
+}
+
 .day-name { font-weight: bold; color: #ccc; font-size: 0.7rem; text-transform: uppercase; padding-bottom: 10px; }
 
 .actions { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
@@ -95,8 +124,32 @@ body { margin: 0; font-family: 'Lato', sans-serif; color: #333; line-height: 1.6
 
 .nav-arrow { border:none; background:none; cursor:pointer; font-size:20px; color: #4B0082; }
 
+/* --- MOBILE SPECIFIC CALENDAR FIXES --- */
 @media (max-width: 768px) {
-    .calendar-page-container { margin-top: 100px; padding: 15px; }
+    .calendar-page-container { margin-top: 100px; padding: 10px; }
+    
+    .calendar-card { padding: 15px; }
+
+    /* Make the circles slightly smaller to fit 7 in a row on small phones */
+    .day span {
+        width: 25px; 
+        height: 25px; 
+        font-size: 0.8rem;
+    }
+
+    .day-name { font-size: 0.6rem; }
+
+    /* Weekly view: Stack the items slightly differently for mobile */
+    #weeklyGrid .day {
+        height: auto;
+        padding: 10px 0;
+    }
+    
+    #weeklyGrid .day span {
+        width: 35px;
+        height: 35px;
+    }
+
     .actions { flex-direction: column; gap: 10px; }
     .btn-add-event, .btn-toggle-view { width: 100%; }
 }
