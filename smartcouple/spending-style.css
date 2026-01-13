@@ -270,15 +270,15 @@ input::-webkit-inner-spin-button {
 /* --- RECURRING ROW STYLE --- */
 .row-recurring {
     background-color: #f1f5f9 !important; /* Subtle gray background */
-    border-left: 5px solid #4B0082 !important; /* Purple indicator on the side */
+    border-left: 5px solid #4B0082 !important; /* Purple indicator side-bar */
 }
 
 .row-recurring input {
-    color: #64748b; /* Slightly dimmed text */
+    color: #64748b; /* Dimmed text for recurring items */
 }
 
-/* Ensure checkboxes look clean */
-.recur-col, .settle-col {
+/* New column alignment */
+.recur-col {
     display: flex;
     justify-content: center;
     align-items: center;
