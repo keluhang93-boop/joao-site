@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Spending | Gestion de Couple</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-left-group">
+        <a href="index.html" class="logo-container">
+            <span class="logo-text">SMART COUPLE</span>
+            <img src="https://cdnai.iconscout.com/ai-image/premium/thumb/ai-heart-lightbulb-3d-icon-png-download-jpg-13221459.png" alt="Logo" class="logo-icon">
+        </a>
+        <nav class="sketch-nav">
+            <a href="spending.html" class="nav-box">Smart Dépenses</a>
+            <a href="planning.html" class="nav-box">Smart Planning</a>
+            <a href="union.html" class="nav-box">Smart Union</a>
+        </nav>
+    </div>
+    
+    <div class="header-right-group">
+        <a href="#" class="btn-login">Login</a>
+        <a href="#" class="btn-signup">Sign Up</a>
+        <button class="menu-toggle" id="mobile-menu-btn">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+    </div>
+
+    <div class="mobile-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-nav-links">
+            <a href="spending.html">Smart Dépenses</a>
+            <a href="planning.html">Smart Planning</a>
+            <a href="union.html">Smart Union</a>
+            <hr style="width: 50%; margin: 10px auto; border: 0.5px solid #D4AF37;">
+            <a href="#">Login</a>
+            <a href="#" style="color: #D4AF37;">Sign Up</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container spending-page">
+    <h1 class="navy-title" style="text-align:center;">Dépenses & Budgets</h1>
+
+    <div class="summary-grid">
+        <div class="stat-card">
+            <h3>Budget Ciblé (€)</h3>
+            <input type="number" id="mainBudgetTarget" value="2500" oninput="updateDashboard()">
+        </div>
+        <div class="stat-card">
+            <h3>Jean (€)</h3>
+            <input type="number" id="jeanTotalDisplay" value="1250" readonly>
+        </div>
+        <div class="stat-card">
+            <h3>Monique (€)</h3>
+            <input type="number" id="moniqueTotalDisplay" value="1250" readonly>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Dépenses du Foyer</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Catégorie</th>
+                        <th>Jean (€)</th>
+                        <th>Monique (€)</th>
+                        <th>Total</th>
+                        <th>Récurrent</th>
+                    </tr>
+                </thead>
+                <tbody id="spendingBody">
+                    <tr>
+                        <td><input type="text" class="editable-name" value="🏠 Loyer"></td>
+                        <td><input type="number" class="amount-input" value="450" oninput="calcTotal(this)"></td>
+                        <td><input type="number" class="amount-input" value="450" oninput="calcTotal(this)"></td>
+                        <td><span class="row-total">900</span> €</td>
+                        <td><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn-add" onclick="addRow('spendingBody', true)">+ AJOUTER UNE CATÉGORIE</button>
+    </div>
+
+    <div class="card">
+        <h2>Dettes & Règlements</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mois</th>
+                        <th>Jean doit Monique (€)</th>
+                        <th>Monique doit Jean (€)</th>
+                        <th>Règlement</th>
+                    </tr>
+                </thead>
+                <tbody id="debtsBody">
+                    <tr>
+                        <td><input type="text" class="editable-name" value="Janvier"></td>
+                        <td><input type="number" class="amount-input" value="0"></td>
+                        <td><input type="number" class="amount-input" value="20"></td>
+                        <td style="text-align: center;">
+                            <input type="checkbox" style="transform: scale(1.5); accent-color: #4B0082;">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn-add" onclick="addRow('debtsBody', false, true)">+ AJOUTER UN MOIS</button>
+    </div>
+
+    <div class="card">
+        <h2>Économies & Objectifs</h2>
+        <div class="economy-flex">
+            <div class="economy-table-wrapper">
+                <table class="simple-table">
+                    <tr>
+                        <td><strong>Revenu du Foyer</strong></td>
+                        <td><input type="number" id="revenuFoyer" class="amount-input" value="4000" oninput="updateDashboard()"> €</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Budget Ciblé</strong></td>
+                        <td><span id="budgetCibleDisplay">2500</span> €</td>
+                    </tr>
+                    <tr>
+                        <td>Dépenses Mensuelles</td>
+                        <td><span id="totalDepensesDisplay">900.00</span> €</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Économie Réalisée</td>
+                        <td><span id="economieDisplay">3100.00</span> €</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="charts-wrapper">
+                <div class="chart-container">
+                    <canvas id="chartRevenu"></canvas>
+                    <p>Revenu vs Dépenses</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartBudget"></canvas>
+                    <p>Budget vs Dépenses</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="main.js"></script>
+<script src="spending.js"></script>
+</body>
+</html>
