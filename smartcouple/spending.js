@@ -1,5 +1,6 @@
 let chart1;
-// Initial set of examples
+
+// 1. Updated Examples List
 const defaultExamples = [
     { id: 1, name: "🏠 Loyer", jean: 450, monique: 450, settled: false, recurring: true },
     { id: 2, name: "⚡ Électricité", jean: 40, monique: 40, settled: false, recurring: true },
@@ -9,10 +10,11 @@ const defaultExamples = [
     { id: 6, name: "🚗 Assurance Auto", jean: 45, monique: 45, settled: false, recurring: true }
 ];
 
-let currentMonth = new Date().toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+// 2. Load History
 let allMonthsData = JSON.parse(localStorage.getItem('smartSpending_history')) || {};
+let currentMonth = localStorage.getItem('smartSpending_currentView') || new Date().toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
 
-// Initialize if empty
+// 3. Force initialize if history is empty OR doesn't have the new examples
 if (Object.keys(allMonthsData).length === 0) {
     allMonthsData[currentMonth] = defaultExamples;
 }
@@ -24,48 +26,53 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSpending();
 });
 
-// --- AUTOMATIC MONTH LOGIC ---
+// --- AUTOMATIC MONTH LOGIC (No more typing!) ---
 function startNewMonth() {
-    // Get the name of the last month in history to calculate the next one
+    // Get the keys (months) and find the most recent one
     const monthNames = Object.keys(allMonthsData);
-    const lastMonthString = monthNames[monthNames.length - 1];
     
-    // Simple trick to get the "Next Month" date object
-    let dateParts = lastMonthString.split(' '); // [janvier, 2026]
-    let tempDate = new Date(); // Start with current
+    // We create a date object based on the LAST month in your list
+    // This allows us to jump to the "Next" month mathematically
+    const lastMonthAdded = monthNames[monthNames.length - 1];
     
-    // If we have a history, we set the temp date to the last entry and add 1 month
-    if (monthNames.length > 0) {
-        // This is a simplified way to advance the month
-        const nextMonthDate = new Date(tempDate.setMonth(tempDate.getMonth() + 1));
-        const nextMonthName = nextMonthDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+    // We'll use a hidden trick to parse the French date string "janvier 2026"
+    const monthsFr = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+    let [name, year] = lastMonthAdded.split(' ');
+    let monthIdx = monthsFr.indexOf(name.toLowerCase());
+    
+    // Create a date for the 1st of that month, then add 1 month
+    let date = new Date(year, monthIdx, 1);
+    date.setMonth(date.getMonth() + 1);
+    
+    const nextMonthName = date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
 
-        if (allMonthsData[nextMonthName]) {
-            alert("Le mois de " + nextMonthName + " existe déjà.");
-            return;
-        }
+    if (allMonthsData[nextMonthName]) {
+        alert(`Le mois de ${nextMonthName} existe déjà dans votre historique.`);
+        return;
+    }
 
-        if (confirm("Créer le budget pour " + nextMonthName + " ?")) {
-            // Keep recurring items, reset settled status
-            const newMonthCats = categories
-                .filter(cat => cat.recurring)
-                .map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
+    if (confirm(`Voulez-vous créer le budget pour ${nextMonthName.toUpperCase()} ?`)) {
+        // Carry over recurring items
+        const newMonthCats = categories
+            .filter(cat => cat.recurring)
+            .map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
 
-            allMonthsData[nextMonthName] = newMonthCats;
-            currentMonth = nextMonthName;
-            categories = allMonthsData[currentMonth];
-            
-            saveData();
-            initMonthSelector();
-            renderSpending();
-        }
+        allMonthsData[nextMonthName] = newMonthCats;
+        currentMonth = nextMonthName;
+        categories = allMonthsData[currentMonth];
+        
+        saveData();
+        initMonthSelector();
+        renderSpending();
     }
 }
 
-// --- CORE FUNCTIONS ---
+// --- CORE UTILITIES ---
 function initMonthSelector() {
     const selector = document.getElementById('monthSelector');
     if (!selector) return;
+    
+    // Sort months so they appear in order
     selector.innerHTML = Object.keys(allMonthsData).map(m => 
         `<option value="${m}" ${m === currentMonth ? 'selected' : ''}>${m}</option>`
     ).join('');
@@ -73,6 +80,7 @@ function initMonthSelector() {
 
 function changeMonth(selectedMonth) {
     currentMonth = selectedMonth;
+    localStorage.setItem('smartSpending_currentView', currentMonth);
     categories = allMonthsData[currentMonth];
     renderSpending();
 }
