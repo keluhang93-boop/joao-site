@@ -48,8 +48,18 @@ function renderSpending() {
 function updateCat(id, field, value) {
     const cat = categories.find(c => c.id === id);
     if (cat) {
-        cat[field] = (field === 'name' || field === 'settled') ? value : parseFloat(value || 0);
+        // Logic for checkboxes vs numbers
+        cat[field] = (field === 'name' || field === 'settled' || field === 'recurring') ? value : parseFloat(value || 0);
+        
+        // RE-RENDER is required here to apply the .row-recurring or .row-settled CSS classes
+        if(field === 'settled' || field === 'recurring') {
+            renderSpending(); 
+        } else {
+            // Just update the totals without full re-render for speed
+            calculateTotals();
+        }
     }
+}
     
     // Only update the total cell and dashboard to keep the keyboard open on mobile
     const rows = document.querySelectorAll('#spendingGrid .expense-row');
