@@ -1,0 +1,76 @@
+/* --- PREMIUM FINTECH DASHBOARD --- */
+:root {
+    --navy: #1f4e79;
+    --yellow: #D4AF37;
+    --bg-light: #fdfdfd;
+    --border: #eef2f6;
+}
+
+/* Modern Input Styling - No more Windows 98 */
+input[type="number"], input[type="text"] {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: var(--navy);
+    background: white;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: var(--yellow);
+    outline: none;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+/* The Dashboard "Performance" Section (Stats Left, Graph Right) */
+.performance-container {
+    display: flex;
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    gap: 50px;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.stats-side { flex: 1; }
+.graph-side { 
+    flex: 1; 
+    display: flex; 
+    justify-content: center; 
+    position: relative;
+}
+
+.chart-wrapper {
+    width: 250px;
+    height: 250px;
+}
+
+/* Custom Legend for Graphs */
+.chart-legend {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.dot-navy { width: 10px; height: 10px; background: var(--navy); border-radius: 50%; }
+.dot-gold { width: 10px; height: 10px; background: var(--yellow); border-radius: 50%; }
+
+/* The Modern Add Button */
+.btn-modern-pill {
+    background: var(--navy);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+.btn-modern-pill:hover { background: var(--yellow); transform: scale(1.05); }
