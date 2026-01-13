@@ -77,26 +77,20 @@
     </div>
 </div>
 
-   <section class="section-wrapper">
+<section class="section-wrapper">
     <div class="section-header">
         <div style="display: flex; align-items: center; gap: 20px;">
             <h2>🏠 Dépenses du Foyer</h2>
-            <select id="monthSelector" onchange="changeMonth(this.value)" style="padding: 5px 15px; border-radius: 10px; border: 1px solid #ddd; font-family: 'Lato'; color: #1f4e79; font-weight: bold;">
+            <select id="monthSelector" onchange="changeMonth(this.value)" style="padding: 8px 15px; border-radius: 10px; border: 1px solid #ddd; font-family: 'Lato'; color: #1f4e79; font-weight: bold; cursor: pointer;">
             </select>
         </div>
-        <button class="btn-modern-add" onclick="addNewCategory()">+ AJOUTER</button>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-modern-add" onclick="addNewCategory()">+ AJOUTER</button>
+            <button class="btn-modern-add" onclick="startNewMonth()" style="background: #1f4e79 !important;">+ NOUVEAU MOIS</button>
+        </div>
     </div>
     <div id="spendingGrid"></div> 
 </section>
-
-    <section class="section-wrapper">
-        <div class="section-header">
-            <h2 class="navy-title">🤝 Dettes & Règlements</h2>
-            <button class="btn-modern-add" onclick="startNewMonth()">+ Nouveau Mois</button>
-        </div>
-        <div id="debtGrid" class="debt-cards-container">
-            </div>
-    </section>
 
     <section class="performance-container">
         <div class="stats-side">
