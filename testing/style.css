@@ -160,6 +160,60 @@ body {
 
 .inline-link { color: #4B0082; font-weight: 700; text-decoration: underline; font-size: 0.9rem; }
 
+.quiz-card {
+    background: #ffffff;
+    border: 2px solid #fceef5;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 60px;
+    box-shadow: 0 10px 30px rgba(75, 0, 130, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.quiz-badge {
+    background: #4B0082;
+    color: white;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.quiz-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #1f4e79;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.quiz-instruction {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 25px;
+}
+
+.btn-refresh {
+    background: none;
+    border: 1px solid #4B0082;
+    color: #4B0082;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-refresh:hover {
+    background: #4B0082;
+    color: white;
+}
+
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
     body { padding-top: 100px; } /* Ensure content starts below the header */
