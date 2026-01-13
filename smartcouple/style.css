@@ -1,145 +1,111 @@
-/* --- GLOBAL LAYOUT FIX --- */
-.spending-container {
-    max-width: 1100px !important;
-    margin: 120px auto 50px !important;
-    padding: 20px;
-    display: block;
-}
-
-/* --- DASHBOARD TOP CARDS --- */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    margin: 40px 0;
-}
-
-.glass-card {
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-    text-align: center;
-    border-top: 5px solid #eee;
-}
-
-.glass-card.blue { border-top-color: #1f4e79; }
-.glass-card.yellow { border-top-color: #D4AF37; }
-.glass-card.main-budget { border-top-color: #4B0082; }
-
-.glass-card label {
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: #64748b;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.glass-card input {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #1e293b;
-    width: 100%;
-    text-align: center;
-    border: none !important;
-    background: transparent !important;
-}
-
-/* --- EXCEL-STYLE LIST --- */
-.expense-list-header {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 0.5fr; /* Matches the 6-column row */
-    padding: 15px 25px;
-    font-weight: bold;
-    color: #94a3b8;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    text-align: center;
-}
-
-.expense-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 0.5fr;
-    align-items: center;
-    background: white;
-    margin-bottom: 10px;
-    padding: 15px 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-    border: 1px solid #f1f5f9;
-    transition: all 0.2s;
-}
-
-.expense-row:hover { border-color: #D4AF37; }
-
-.expense-row input {
-    border: none !important;
-    background: transparent !important;
-    font-size: 1rem;
-    color: #1e293b;
-    text-align: center;
-}
-
-/* --- SETTLED STYLING --- */
-.row-settled {
-    background: #f8fafc !important;
-    opacity: 0.6;
-}
-.row-settled input {
-    text-decoration: line-through;
-    color: #94a3b8;
-}
-
-/* --- THE "X" HOVER DELETE --- */
-.btn-delete-hover {
-    background: none;
-    border: none;
-    color: #ef4444;
-    font-size: 1.4rem;
-    font-weight: bold;
-    cursor: pointer;
-    visibility: hidden; /* Hidden but keeps space */
-}
-
-.expense-row:hover .btn-delete-hover {
-    visibility: visible;
-}
-
-/* --- PERFORMANCE SECTION --- */
-.performance-container {
-    display: flex !important;
-    flex-direction: row !important;
+/* --- GLOBAL HEADER --- */
+.main-header {
+    display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 15px 5%;
     background: white;
-    padding: 40px;
-    border-radius: 24px;
-    margin-top: 50px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2000; /* Ensure it stays above everything */
+    height: 80px;
 }
 
-.stats-side { flex: 1.2; }
-.graph-side { flex: 1; display: flex; flex-direction: column; align-items: center; }
-.chart-wrapper { width: 220px !important; height: 220px !important; }
+.header-left-group {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
 
-/* --- MOBILE RESPONSIVE (Strict Fix) --- */
-@media (max-width: 900px) {
-    .expense-list-header { display: none; }
-    
-    .expense-row {
-        grid-template-columns: 1fr 1fr !important; /* Forces 2-column grid on mobile */
+/* --- LOGO --- */
+.logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 10px;
+}
+
+.logo-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: #D4AF37; /* Gold */
+    font-size: 1.2rem;
+}
+
+.logo-icon {
+    width: 35px;
+    height: 35px;
+}
+
+/* --- DESKTOP NAVIGATION --- */
+.sketch-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-box {
+    text-decoration: none;
+    color: #4B0082;
+    font-weight: 700;
+    padding: 8px 15px;
+    border: 1px solid #4B0082;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.nav-box:hover {
+    background: #4B0082;
+    color: white;
+}
+
+/* --- MOBILE MENU TOGGLE --- */
+.menu-toggle {
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #4B0082;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+/* --- RESPONSIVE MOBILE MENU --- */
+@media (max-width: 850px) {
+    .menu-toggle {
+        display: flex; /* Show hamburger */
+    }
+
+    .sketch-nav {
+        display: none; /* Hide standard nav */
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
         padding: 20px;
-        gap: 15px;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        text-align: center;
     }
 
-    .expense-row input:first-child { 
-        grid-column: span 2; /* Category name across top */
-        font-weight: bold;
-        text-align: left;
+    /* When active class is added via JS */
+    .sketch-nav.active {
+        display: flex;
     }
 
-    .performance-container {
-        flex-direction: column !important;
+    .header-right-group .btn-login, 
+    .header-right-group .btn-signup {
+        display: none; /* Hide buttons on mobile to save space, or move them inside nav */
     }
 }
