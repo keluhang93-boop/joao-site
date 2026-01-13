@@ -63,7 +63,7 @@ function startNewMonth() {
     
     // 3. Logic to advance the date
     let date = new Date(parseInt(year), monthIdx, 1);
-    date.setMonth(date.setMonth() + 1); // Mathematically go to next month
+    date.setMonth(date.getMonth() + 1); // Mathematically go to next month
     
     // 4. Create the new string automatically
     const nextMonthName = date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
