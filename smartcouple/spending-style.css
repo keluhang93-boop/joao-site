@@ -159,11 +159,39 @@ input, button, span, div {
 
 .stats-side { flex: 1; min-width: 300px; }
 
+/* --- MODERNIZING THE PERFORMANCE INPUT --- */
+.modern-stat-input input {
+    border: none !important;
+    background: #f1f5f9 !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #1f4e79 !important;
+    text-align: center;
+    width: 100px;
+    font-family: 'Lato', sans-serif;
+    transition: 0.3s ease;
+}
+
+.modern-stat-input input:focus {
+    outline: 2px solid #D4AF37 !important;
+    background: white !important;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.currency-symbol {
+    font-weight: 700;
+    color: #1f4e79;
+    margin-left: 5px;
+}
+
+/* Ensure the item stays aligned */
 .stat-item {
     display: flex;
     justify-content: space-between;
+    align-items: center; /* Vertical alignment */
     padding: 15px 0;
-    border-bottom: 1px solid #f1f5f9;
 }
 
 .graph-side { 
