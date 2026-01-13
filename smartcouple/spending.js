@@ -1,19 +1,26 @@
-/* --- INITIAL DATA --- */
+let chart1;
 let categories = [
-    { id: 1, name: 'Loyer / Hypothèque', jean: 800, monique: 0, settled: false, recurring: true },
-    { id: 2, name: 'Courses Alimentaires', jean: 150, monique: 150, settled: false, recurring: false }
+    { id: 1, name: "🏠 Loyer", jean: 450, monique: 450, settled: false, recurring: true },
+    { id: 2, name: "⚡ Électricité", jean: 40, monique: 40, settled: false, recurring: true },
+    { id: 3, name: "🔥 Gaz & Eau", jean: 30, monique: 30, settled: false, recurring: true },
+    { id: 4, name: "🚗 Assurance Auto", jean: 50, monique: 50, settled: false, recurring: true },
+    { id: 5, name: "🌐 Internet/TV", jean: 20, monique: 20, settled: false, recurring: true }
+];
+
+let debts = [
+    { id: Date.now(), month: "Exemple: Janvier", jeanOwes: 10, moniqueOwes: 0, settled: false }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
     renderSpending();
+    renderDebts();
 });
 
-/* --- RENDER THE LIST --- */
+// --- RENDER SPENDING ---
 function renderSpending() {
     const container = document.getElementById('spendingGrid');
     if (!container) return;
 
-    // Header with 7 columns
     let html = `
         <div class="expense-list-header">
             <span>Catégorie</span>
@@ -26,7 +33,6 @@ function renderSpending() {
         </div>
     `;
 
-    // Rows
     html += categories.map(cat => `
         <div class="expense-row ${cat.settled ? 'row-settled' : ''} ${cat.recurring ? 'row-recurring' : ''}">
             <input type="text" value="${cat.name}" onchange="updateCat(${cat.id}, 'name', this.value)">
@@ -43,44 +49,18 @@ function renderSpending() {
     calculateTotals();
 }
 
-/* --- UPDATE LOGIC --- */
 function updateCat(id, field, value) {
     const cat = categories.find(c => c.id === id);
     if (cat) {
-        // Handle numbers vs booleans vs text
-        if (field === 'settled' || field === 'recurring') {
-            cat[field] = value;
-            renderSpending(); // Refresh to show gray background or line-through
-        } else if (field === 'name') {
-            cat[field] = value;
-        } else {
-            cat[field] = parseFloat(value || 0);
-            calculateTotals(); // Just update numbers for speed
-        }
+        cat[field] = (field === 'settled' || field === 'recurring') ? value : (field === 'name' ? value : parseFloat(value || 0));
+        if(field === 'settled' || field === 'recurring') renderSpending();
+        else calculateTotals();
     }
 }
 
-/* --- CALCULATION LOGIC --- */
-function calculateTotals() {
-    let jeanTotal = 0;
-    let moniqueTotal = 0;
-
-    categories.forEach(cat => {
-        jeanTotal += parseFloat(cat.jean || 0);
-        moniqueTotal += parseFloat(cat.monique || 0);
-    });
-
-    // Update the Dashboard Boxes
-    const jeanDisplay = document.getElementById('jeanTotalDisplay');
-    const moniqueDisplay = document.getElementById('moniqueTotalDisplay');
-    
-    if (jeanDisplay) jeanDisplay.value = jeanTotal.toFixed(2);
-    if (moniqueDisplay) moniqueDisplay.value = moniqueTotal.toFixed(2);
-
-    // Update the Performance Section
-    const totalExpenses = jeanTotal + moniqueTotal;
-    const expenseText = document.querySelector('.stats-side p strong'); // "Dépenses Actuelles"
-    if (expenseText) expenseText.innerText = totalExpenses.toFixed(2) + " €";
+function addNewCategory() {
+    categories.push({ id: Date.now(), name: "Nouvelle ligne", jean: 0, monique: 0, settled: false, recurring: false });
+    renderSpending();
 }
 
 function deleteCat(id) {
@@ -88,8 +68,92 @@ function deleteCat(id) {
     renderSpending();
 }
 
-function addExpense() {
-    const newId = categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1;
-    categories.push({ id: newId, name: 'Nouvelle dépense', jean: 0, monique: 0, settled: false, recurring: false });
-    renderSpending();
+// --- RENDER DEBTS ---
+function renderDebts() {
+    const container = document.getElementById('debtGrid');
+    if (!container) return;
+    let html = `
+        <div class="expense-list-header">
+            <span>Mois</span>
+            <span>Jean doit Monique</span>
+            <span>Monique doit Jean</span>
+            <span>Payé</span>
+            <span></span>
+        </div>
+    `;
+    html += debts.map(d => `
+        <div class="expense-row ${d.settled ? 'row-settled' : ''}">
+            <input type="text" value="${d.month}" onchange="updateDebt(${d.id}, 'month', this.value)">
+            <input type="number" value="${d.jeanOwes}" oninput="updateDebt(${d.id}, 'jeanOwes', this.value)">
+            <input type="number" value="${d.moniqueOwes}" oninput="updateDebt(${d.id}, 'moniqueOwes', this.value)">
+            <input type="checkbox" ${d.settled ? 'checked' : ''} onchange="updateDebt(${d.id}, 'settled', this.checked)">
+            <button class="btn-delete-hover" onclick="deleteDebt(${d.id})">×</button>
+        </div>
+    `).join('');
+    container.innerHTML = html;
+}
+
+function updateDebt(id, field, value) {
+    const d = debts.find(x => x.id === id);
+    if (d) {
+        d[field] = (field === 'month' || field === 'settled') ? value : parseFloat(value || 0);
+        if(field === 'settled') renderDebts();
+    }
+}
+
+function addNewDebtMonth() {
+    debts.push({ id: Date.now(), month: "Nouveau Mois", jeanOwes: 0, moniqueOwes: 0, settled: false });
+    renderDebts();
+}
+
+function deleteDebt(id) {
+    debts = debts.filter(d => d.id !== id);
+    renderDebts();
+}
+
+// --- CALCULATIONS & CHART ---
+function calculateTotals() {
+    let valJean = categories.reduce((sum, c) => sum + parseFloat(c.jean || 0), 0);
+    let valMonique = categories.reduce((sum, c) => sum + parseFloat(c.monique || 0), 0);
+
+    // Update Top Display Boxes
+    const jeanDisp = document.getElementById('jeanTotalDisplay');
+    const moniqueDisp = document.getElementById('moniqueTotalDisplay');
+    if(jeanDisp) jeanDisp.value = valJean.toFixed(2);
+    if(moniqueDisp) moniqueDisp.value = valMonique.toFixed(2);
+
+    // Update Performance Section
+    const totalGlobal = valJean + valMonique;
+    const depDisplay = document.getElementById('totalDepensesDisplay');
+    if(depDisplay) depDisplay.innerText = totalGlobal.toFixed(2) + " €";
+
+    const revInput = document.getElementById('revenuFoyer');
+    const ecoDisp = document.getElementById('economieDisplay');
+    if(revInput && ecoDisp) {
+        const revenu = parseFloat(revInput.value || 0);
+        const economie = revenu - totalGlobal;
+        ecoDisp.innerText = economie.toFixed(2) + " €";
+        updateCharts(revenu, totalGlobal);
+    }
+}
+
+function updateCharts(revenu, totalDepenses) {
+    const canvas = document.getElementById('chartRevenu');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (chart1) chart1.destroy();
+
+    const epargne = Math.max(0, revenu - totalDepenses);
+    chart1 = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Dépenses', 'Épargne'],
+            datasets: [{
+                data: [totalDepenses, epargne],
+                backgroundColor: ['#D4AF37', '#1f4e79'],
+                borderWidth: 0
+            }]
+        },
+        options: { cutout: '80%', maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
 }
