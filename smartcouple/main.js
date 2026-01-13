@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('mobile-menu-overlay');
 
     if (btn && overlay) {
-        btn.onclick = () => {
+        btn.onclick = (e) => {
+            e.preventDefault();
             overlay.classList.toggle('active');
         };
     }
