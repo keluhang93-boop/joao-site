@@ -83,10 +83,12 @@
             <h2>🏠 Dépenses du Foyer</h2>
             <select id="monthSelector" onchange="changeMonth(this.value)" style="padding: 8px 15px; border-radius: 10px; border: 1px solid #ddd; font-family: 'Lato'; color: #1f4e79; font-weight: bold; cursor: pointer;">
             </select>
+            <button onclick="deleteCurrentMonth()" style="background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 0.8rem; text-decoration: underline;">Supprimer ce mois</button>
         </div>
         <div style="display: flex; gap: 10px;">
             <button class="btn-modern-add" onclick="addNewCategory()">+ AJOUTER</button>
             <button class="btn-modern-add" onclick="startNewMonth()" style="background: #1f4e79 !important;">+ NOUVEAU MOIS</button>
+            <button class="btn-modern-add" onclick="resetToDefaults()" style="background: #95a5a6 !important;">RÉINITIALISER</button>
         </div>
     </div>
     <div id="spendingGrid"></div> 
