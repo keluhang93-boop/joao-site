@@ -52,22 +52,31 @@ function deleteCurrentMonth() {
 
 // --- FULLY AUTOMATIC NEXT MONTH ---
 function startNewMonth() {
+    // 1. Get the last month string from history (e.g., "janvier 2026")
     const monthNames = Object.keys(allMonthsData);
     const lastMonthString = monthNames[monthNames.length - 1];
     
+    // 2. Map French names to numbers
     const monthsFr = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
     let [name, year] = lastMonthString.split(' ');
     let monthIdx = monthsFr.indexOf(name.toLowerCase());
     
+    // 3. Logic to advance the date
     let date = new Date(parseInt(year), monthIdx, 1);
-    date.setMonth(date.getMonth() + 1);
+    date.setMonth(date.setMonth() + 1); // Mathematically go to next month
     
+    // 4. Create the new string automatically
     const nextMonthName = date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
 
-    if (confirm(`Créer automatiquement le budget pour ${nextMonthName.toUpperCase()} ?`)) {
+    // 5. JUST A CONFIRMATION - No prompt for text!
+    if (confirm("Passer au mois suivant : " + nextMonthName + " ?")) {
         const newMonthCats = categories
             .filter(cat => cat.recurring)
-            .map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
+            .map(cat => ({ 
+                ...cat, 
+                id: Date.now() + Math.random(), 
+                settled: false 
+            }));
 
         allMonthsData[nextMonthName] = newMonthCats;
         currentMonth = nextMonthName;
