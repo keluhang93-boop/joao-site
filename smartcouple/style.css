@@ -217,24 +217,73 @@ body { margin: 0; font-family: 'Lato', sans-serif; color: #333; line-height: 1.6
 
 .nav-arrow { border:none; background:none; cursor:pointer; font-size:20px; color: #4B0082; }
 
+/* --- 1. THE SMART GLOW EFFECT --- */
 .gold-text {
     color: #D4AF37;
     font-weight: 800;
     text-transform: uppercase;
     position: relative;
     display: inline-block;
+    /* The Glow Animation */
+    background: linear-gradient(90deg, #D4AF37, #f7e08a, #D4AF37);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
 }
 
-/* Optional: Adds a very subtle underline for a premium feel */
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+
+/* Updated Underline for Gold Text */
 .gold-text::after {
     content: '';
     position: absolute;
     width: 100%;
     height: 3px;
     background: #D4AF37;
-    bottom: -5px;
+    bottom: -2px;
     left: 0;
     border-radius: 2px;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* --- 2. UPGRADED CATEGORY TITLES --- */
+.category-box {
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; /* Much larger and more "Title-like" */
+    color: #1f4e79 !important;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 15px;
+    position: relative;
+    text-transform: none; /* Keeps it elegant */
+}
+
+/* Add a small gold dot after the titles */
+.category-box::after {
+    content: ".";
+    color: #D4AF37;
+    font-size: 3rem;
+}
+
+/* Fix the "vous aide à" text below the titles */
+.info-text p strong {
+    font-size: 1rem;
+    color: #64748b !important; /* Muted gray to make the title pop */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* --- 3. MOBILE TWEAKS FOR TITLES --- */
+@media (max-width: 768px) {
+    .category-box {
+        font-size: 1.8rem;
+    }
 }
 
 /* --- MOBILE HEADER SPACING FIX --- */
