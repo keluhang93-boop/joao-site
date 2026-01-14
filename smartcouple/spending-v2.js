@@ -230,3 +230,64 @@ function showView(viewId, btnElement) {
         calculateTotals();
     }
 }
+
+let groceryItems = JSON.parse(localStorage.getItem('smartSpending_groceries')) || [
+    { id: 1, name: "Riz", price: 1.99, unit: "500g", qty: 1 },
+    { id: 2, name: "Bananes (6x)", price: 2.49, unit: "lot", qty: 1 },
+    { id: 3, name: "Thon (boîte)", price: 2.49, unit: "180g", qty: 1 }
+];
+
+// Initialize the view when switching
+function showView(viewId, btnElement) {
+    document.querySelectorAll('.dashboard-view').forEach(v => v.style.display = 'none');
+    document.getElementById(viewId).style.display = 'block';
+    document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+    btnElement.classList.add('active');
+
+    if (viewId === 'view-grocery') renderGroceries();
+    if (viewId === 'view-savings') calculateTotals();
+}
+
+function renderGroceries() {
+    const container = document.getElementById('groceryGrid');
+    if (!container) return;
+
+    let html = `<div class="grocery-header"><span>Produit</span><span>Prix Unitaire</span><span>Unité/Poids</span><span>Quantité</span><span></span></div>`;
+    
+    html += groceryItems.map(item => `
+        <div class="grocery-row">
+            <input type="text" value="${item.name}" onchange="updateGrocery(${item.id}, 'name', this.value)">
+            <input type="number" step="0.01" value="${item.price}" oninput="updateGrocery(${item.id}, 'price', this.value)">
+            <input type="text" value="${item.unit}" placeholder="ex: 500g" onchange="updateGrocery(${item.id}, 'unit', this.value)">
+            <input type="number" value="${item.qty}" oninput="updateGrocery(${item.id}, 'qty', this.value)">
+            <button class="btn-delete-hover" onclick="deleteGrocery(${item.id})">×</button>
+        </div>
+    `).join('');
+
+    container.innerHTML = html;
+    calculateGroceryTotal();
+}
+
+function updateGrocery(id, field, value) {
+    const item = groceryItems.find(i => i.id === id);
+    if (!item) return;
+    item[field] = (field === 'name' || field === 'unit') ? value : parseFloat(value || 0);
+    localStorage.setItem('smartSpending_groceries', JSON.stringify(groceryItems));
+    calculateGroceryTotal();
+}
+
+function addNewGroceryItem() {
+    groceryItems.push({ id: Date.now(), name: "Nouveau produit", price: 0, unit: "unité", qty: 1 });
+    renderGroceries();
+}
+
+function deleteGrocery(id) {
+    groceryItems = groceryItems.filter(i => i.id !== id);
+    localStorage.setItem('smartSpending_groceries', JSON.stringify(groceryItems));
+    renderGroceries();
+}
+
+function calculateGroceryTotal() {
+    const total = groceryItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    document.getElementById('groceryTotal').innerText = total.toFixed(2) + " €";
+}
