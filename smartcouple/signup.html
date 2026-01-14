@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Couple - Inscription</title>
+    <title>Smart Couple - Inscription Couple</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Specific Styles for the Sign-Up Form Card */
         .auth-container {
             display: flex;
             justify-content: center;
@@ -18,77 +17,80 @@
 
         .auth-card {
             width: 100%;
-            max-width: 500px;
+            max-width: 700px; /* Wider to fit both partners side-by-side */
             background: white;
             padding: 40px;
-            border-radius: 20px;
+            border-radius: 24px;
             box-shadow: 0 15px 35px rgba(31, 78, 121, 0.08);
-            border-top: 5px solid #D4AF37;
+            border-top: 6px solid #D4AF37;
             text-align: center;
         }
 
         .auth-card h2 {
             font-family: 'Playfair Display', serif;
             color: #1f4e79;
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: 2.4rem;
+            margin-bottom: 5px;
         }
 
-        .auth-card p {
+        .auth-card p.subtitle {
             color: #64748b;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            font-style: italic;
         }
 
-        .form-row {
+        /* The Double Column Layout */
+        .couple-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .partner-section {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .partner-section h3 {
+            font-family: 'Playfair Display', serif;
+            color: #1f4e79;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #D4AF37;
+            display: inline-block;
         }
 
         .form-group {
-            text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
             font-weight: 700;
             color: #1f4e79;
-            margin-bottom: 8px;
-            font-size: 0.75rem;
+            margin-bottom: 5px;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
             border-radius: 8px;
-            font-size: 1rem;
-            background: #f8fafc;
-            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
         }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: #D4AF37;
-            background: white;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            text-align: left;
-            margin-bottom: 25px;
-            font-size: 0.85rem;
-            color: #64748b;
-        }
-
-        .checkbox-group input {
-            margin-top: 3px;
+        /* Shared Password Area */
+        .shared-auth-zone {
+            max-width: 400px;
+            margin: 0 auto;
+            padding-top: 20px;
+            border-top: 1px dashed #cbd5e1;
         }
 
         .btn-auth-submit {
@@ -101,9 +103,10 @@
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
-            transition: 0.3s;
+            margin-top: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: 0.3s;
         }
 
         .btn-auth-submit:hover {
@@ -111,21 +114,9 @@
             transform: translateY(-2px);
         }
 
-        .auth-footer {
-            margin-top: 25px;
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-
-        .auth-footer a {
-            color: #1f4e79;
-            text-decoration: none;
-            font-weight: 700;
-        }
-
-        @media (max-width: 600px) {
-            .form-row { grid-template-columns: 1fr; }
-            .auth-card { padding: 30px 20px; box-shadow: none; border: 1px solid #f1f5f9; border-top: 5px solid #D4AF37; }
+        @media (max-width: 768px) {
+            .couple-grid { grid-template-columns: 1fr; gap: 20px; }
+            .auth-card { padding: 25px 15px; }
         }
     </style>
 </head>
@@ -137,65 +128,61 @@
             <span class="logo-text">SMART COUPLE</span>
             <img src="https://cdnai.iconscout.com/ai-image/premium/thumb/ai-heart-lightbulb-3d-icon-png-download-jpg-13221459.png" alt="Logo" class="logo-icon">
         </a>
-        <nav class="sketch-nav">
-            <a href="spending-v2.html" class="nav-box">Smart Dépenses</a>
-            <a href="planning.html" class="nav-box">Smart Planning</a>
-            <a href="union.html" class="nav-box">Smart Union</a>
-        </nav>
-    </div>
-    
-    <div class="header-right-group">
-        <a href="login.html" class="btn-login">Login</a>
-        <a href="signup.html" class="btn-signup">Sign Up</a>
-        <button class="menu-toggle" id="mobile-menu-btn">
-            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-        </button>
     </div>
 </header>
 
 <div class="hero">
     <div class="hero-content">
-        <h1>Commencez votre voyage <span class="gold-text">SMART</span> dès aujourd'hui</h1>
+        <h1>Créez votre espace <span class="gold-text">À DEUX</span></h1>
     </div>
 </div>
 
 <main class="auth-container">
     <div class="auth-card">
-        <h2>Créer un compte</h2>
-        <p>Rejoignez la communauté Smart Couple</p>
+        <h2>Inscription Couple</h2>
+        <p class="subtitle">Commencez à gérer votre vie commune intelligemment.</p>
         
         <form onsubmit="event.preventDefault(); window.location.href='index.html';">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Prénom</label>
-                    <input type="text" placeholder="Jean" required>
+            
+            <div class="couple-grid">
+                <div class="partner-section">
+                    <h3>Partenaire 1</h3>
+                    <div class="form-group">
+                        <label>Prénom</label>
+                        <input type="text" placeholder="Ex: Jean" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="jean@email.com" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Nom</label>
-                    <input type="text" placeholder="Dupont" required>
+
+                <div class="partner-section">
+                    <h3>Partenaire 2</h3>
+                    <div class="form-group">
+                        <label>Prénom</label>
+                        <input type="text" placeholder="Ex: Monique" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="monique@email.com" required>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Adresse E-mail</label>
-                <input type="email" placeholder="jean@exemple.com" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Mot de passe</label>
-                <input type="password" placeholder="••••••••••••" required>
-            </div>
+            <div class="shared-auth-zone">
+                <div class="form-group" style="text-align: left;">
+                    <label>Mot de passe commun</label>
+                    <input type="password" placeholder="••••••••••••" required>
+                    <small style="color: #64748b; font-size: 0.7rem;">Ce mot de passe permettra à vos deux comptes d'accéder à votre espace partagé.</small>
+                </div>
 
-            <div class="checkbox-group">
-                <input type="checkbox" id="terms" required>
-                <label for="terms">J'accepte les conditions d'utilisation et la politique de confidentialité.</label>
+                <button type="submit" class="btn-auth-submit">CRÉER NOTRE ESPACE SMART</button>
             </div>
-            
-            <button type="submit" class="btn-auth-submit">CRÉER MON COMPTE</button>
         </form>
 
-        <div class="auth-footer">
-            Vous avez déjà un compte ? <a href="login.html">Connectez-vous</a>
+        <div style="margin-top: 25px; font-size: 0.9rem; color: #64748b;">
+            Déjà inscrits ? <a href="login.html" style="color: #1f4e79; font-weight: 700; text-decoration: none;">Connectez-vous</a>
         </div>
     </div>
 </main>
