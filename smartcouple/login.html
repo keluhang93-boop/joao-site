@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Couple - Connexion</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap">
+    <style>
+        .login-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 100px); /* Adjust for header */
+            background-color: #ffffff;
+            padding: 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(31, 78, 121, 0.1);
+            border-top: 5px solid #D4AF37;
+            text-align: center;
+        }
+
+        .login-card h1 {
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        .login-card p {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: #1f4e79;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f8fafc;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #D4AF37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn-login-submit {
+            width: 100%;
+            background: #1f4e79;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login-submit:hover {
+            background: #D4AF37;
+        }
+
+        .login-footer {
+            margin-top: 25px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .login-footer a {
+            color: #1f4e79;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 30px 20px;
+                box-shadow: none;
+                border: 1px solid #eee;
+                border-top: 5px solid #D4AF37;
+            }
+        }
+    </style>
+</head>
+<body class="union-body">
+
+    <header class="main-header">
+        <div class="header-left-group">
+            <a href="index.html" class="logo-container">
+                <div class="logo-text">SMART<br>COUPLE</div>
+            </a>
+        </div>
+        </header>
+
+    <main class="login-section">
+        <div class="login-card">
+            <h1 class="modern-title">Connexion</h1>
+            <p>Heureux de vous revoir !</p>
+            
+            <form onsubmit="event.preventDefault(); window.location.href='index.html';">
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" placeholder="votre@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" class="btn-login-submit">SE CONNECTER</button>
+            </form>
+
+            <div class="login-footer">
+                Pas encore de compte ? <a href="#">Inscrivez-vous</a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
