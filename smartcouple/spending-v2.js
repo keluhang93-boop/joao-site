@@ -209,3 +209,24 @@ function updateCharts(revenu, totalDepenses) {
         }
     });
 }
+
+function showView(viewId, btnElement) {
+    // Hide all views
+    document.querySelectorAll('.dashboard-view').forEach(view => {
+        view.style.display = 'none';
+    });
+
+    // Show the selected view
+    document.getElementById(viewId).style.display = 'block';
+
+    // Update active button styling
+    document.querySelectorAll('.sub-nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    btnElement.classList.add('active');
+    
+    // If showing savings, refresh the chart to ensure it renders correctly
+    if(viewId === 'view-savings') {
+        calculateTotals();
+    }
+}
