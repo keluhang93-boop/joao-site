@@ -250,44 +250,86 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     font-size: 1rem;
 }
 
-/* --- GROCERY LIST STYLING --- */
-#groceryGrid {
-    margin-top: 20px;
-}
+/* --- ENHANCED GROCERY LIST STYLING --- */
 
-.grocery-header, .grocery-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 0.4fr;
-    gap: 15px;
-    padding: 12px 20px;
-    align-items: center;
-}
-
+/* The header row */
 .grocery-header {
-    font-weight: bold;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.2fr 1fr 40px;
+    gap: 12px;
+    padding: 15px 20px;
+    font-weight: 700;
     color: #1f4e79;
-    border-bottom: 2px solid #f1f5f9;
-}
-
-.grocery-row {
-    background: white;
-    margin-bottom: 8px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-}
-
-.grocery-summary {
-    margin-top: 30px;
-    text-align: right;
-    padding: 20px;
-    background: #f8fafc;
-    border-radius: 15px;
-    color: #1f4e79;
-}
-
-.unit-label {
+    text-transform: uppercase;
     font-size: 0.8rem;
-    color: #64748b;
+    letter-spacing: 0.05em;
+}
+
+/* The item boxes (similar to Dépenses rows) */
+.grocery-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.2fr 1fr 40px;
+    gap: 12px;
+    padding: 15px 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border-left: 4px solid #1f4e79;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+/* Styled Inputs inside Grocery Rows */
+.grocery-row input {
+    background: #f1f5f9;
+    border: 1px solid transparent;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #334155;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.grocery-row input:focus {
+    background: white;
+    border-color: #1f4e79;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.1);
+}
+
+/* Fix for the +AJOUTER PRODUIT button on mobile */
+@media (max-width: 850px) {
+    .grocery-header {
+        display: none; /* Hide headers on mobile for space */
+    }
+
+    .grocery-row {
+        grid-template-columns: 1fr 1fr; /* Two columns on mobile */
+        padding: 15px;
+        gap: 8px;
+    }
+
+    .grocery-row input:first-child {
+        grid-column: span 2; /* Product name takes full width */
+        font-weight: bold;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* Fixing the Section Header for Grocery */
+    #view-grocery .section-header {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center;
+    }
+
+    #view-grocery .btn-modern-add {
+        width: 100% !important;
+        margin-top: 10px;
+        padding: 12px !important;
+    }
 }
 
 /* Mobile Adjustments */
