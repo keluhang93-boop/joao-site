@@ -250,6 +250,46 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     font-size: 1rem;
 }
 
+/* --- GROCERY LIST STYLING --- */
+#groceryGrid {
+    margin-top: 20px;
+}
+
+.grocery-header, .grocery-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 0.4fr;
+    gap: 15px;
+    padding: 12px 20px;
+    align-items: center;
+}
+
+.grocery-header {
+    font-weight: bold;
+    color: #1f4e79;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.grocery-row {
+    background: white;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.grocery-summary {
+    margin-top: 30px;
+    text-align: right;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 15px;
+    color: #1f4e79;
+}
+
+.unit-label {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 850px) {
     .month-controls-row {
