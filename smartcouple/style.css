@@ -295,3 +295,27 @@ body {
     0% { background-color: #fff9c4; transform: scale(1.02); }
     100% { background-color: #ffffff; transform: scale(1); }
 }
+
+/* --- UNIFIED MOBILE TITLE ALIGNMENT --- */
+@media (max-width: 850px) {
+    /* Reduce the massive gap at the top for container-based pages */
+    .spending-container, 
+    .calendar-page-container, 
+    .main-content-wrapper {
+        margin-top: 80px !important; /* Adjusted for smaller mobile headers */
+        padding-top: 10px !important;
+    }
+
+    /* Ensure the titles themselves don't have extra top margin */
+    .modern-title, 
+    h1.navy-title {
+        margin-top: 0 !important;
+        padding-top: 10px !important;
+        font-size: 1.8rem !important; /* Makes title fit better on small screens */
+    }
+    
+    /* If index.html title is pushed too far down */
+    .hero-section {
+        padding-top: 60px !important;
+    }
+}
