@@ -288,6 +288,14 @@ function deleteGrocery(id) {
 }
 
 function calculateGroceryTotal() {
-    const total = groceryItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    document.getElementById('groceryTotal').innerText = total.toFixed(2) + " €";
+    const total = groceryItems.reduce((sum, item) => {
+        const price = parseFloat(String(item.price).replace(',', '.')) || 0;
+        const qty = parseFloat(item.qty) || 0;
+        return sum + (price * qty);
+    }, 0);
+    
+    const display = document.getElementById('groceryTotal');
+    if (display) {
+        display.innerText = total.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + " €";
+    }
 }
