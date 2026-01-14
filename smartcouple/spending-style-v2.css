@@ -176,6 +176,93 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     animation: fadeIn 0.4s ease;
 }
 
+/* --- MODERN MONTH SELECTOR & DELETE BUTTON --- */
+
+/* Align title and controls vertically */
+.header-main-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.month-controls-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Styled Select Box */
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#monthSelector {
+    appearance: none; /* Removes default arrow */
+    -webkit-appearance: none;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 35px 8px 15px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1f4e79;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 160px;
+}
+
+#monthSelector:hover {
+    border-color: #1f4e79;
+    background: #fff;
+}
+
+.select-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    color: #1f4e79;
+    pointer-events: none;
+}
+
+/* Minimalist Delete Button */
+.btn-delete-minimal {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s ease;
+    padding: 5px;
+}
+
+.btn-delete-minimal:hover {
+    color: #ef4444;
+}
+
+.btn-delete-minimal .icon {
+    font-size: 1rem;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 850px) {
+    .month-controls-row {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    #monthSelector {
+        flex: 1;
+        max-width: 200px;
+    }
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
