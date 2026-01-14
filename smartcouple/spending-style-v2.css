@@ -252,83 +252,102 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 
 /* --- ENHANCED GROCERY LIST STYLING --- */
 
-/* The header row */
-.grocery-header {
+/* Desktop Grid: 5 columns + 1 small column for the X */
+.grocery-header, .grocery-row {
     display: grid;
-    grid-template-columns: 2fr 1fr 1.2fr 1fr 40px;
-    gap: 12px;
-    padding: 15px 20px;
-    font-weight: 700;
+    grid-template-columns: 2.5fr 1fr 1fr 0.8fr 50px; 
+    gap: 15px;
+    padding: 12px 20px;
+    align-items: center;
+}
+
+.grocery-header {
+    font-weight: bold;
     color: #1f4e79;
     text-transform: uppercase;
     font-size: 0.8rem;
-    letter-spacing: 0.05em;
+    border-bottom: 2px solid #f1f5f9;
 }
 
-/* The item boxes (similar to Dépenses rows) */
 .grocery-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1.2fr 1fr 40px;
-    gap: 12px;
-    padding: 15px 20px;
-    background: #ffffff;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-    border-left: 4px solid #1f4e79;
-    align-items: center;
-    transition: transform 0.2s ease;
-}
-
-/* Styled Inputs inside Grocery Rows */
-.grocery-row input {
-    background: #f1f5f9;
-    border: 1px solid transparent;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    color: #334155;
-    width: 100%;
-    transition: all 0.2s ease;
-}
-
-.grocery-row input:focus {
     background: white;
-    border-color: #1f4e79;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.1);
+    margin-bottom: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border-left: 4px solid #1f4e79;
 }
 
-/* Fix for the +AJOUTER PRODUIT button on mobile */
+/* Styled Inputs */
+.grocery-row input {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+/* Delete Button Styling (Desktop & Mobile) */
+.btn-delete-grocery {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn-delete-grocery:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* --- MOBILE OPTIMIZATION --- */
 @media (max-width: 850px) {
     .grocery-header {
-        display: none; /* Hide headers on mobile for space */
+        display: none; /* Hide top headers */
     }
 
     .grocery-row {
-        grid-template-columns: 1fr 1fr; /* Two columns on mobile */
+        grid-template-columns: 1fr 1fr; /* 2 columns on mobile */
+        gap: 10px;
         padding: 15px;
-        gap: 8px;
     }
 
-    .grocery-row input:first-child {
-        grid-column: span 2; /* Product name takes full width */
+    /* Product Name takes full width */
+    .grocery-row input:nth-child(1) {
+        grid-column: span 2;
         font-weight: bold;
-        background: #fff;
-        border-bottom: 1px solid #e2e8f0;
+        font-size: 1rem;
+        border-bottom: 2px solid #1f4e79;
     }
 
-    /* Fixing the Section Header for Grocery */
-    #view-grocery .section-header {
-        flex-direction: column !important;
-        align-items: center !important;
-        text-align: center;
+    /* Logic to show labels on mobile so numbers make sense */
+    .grocery-row div.mobile-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
     }
 
-    #view-grocery .btn-modern-add {
-        width: 100% !important;
-        margin-top: 10px;
-        padding: 12px !important;
+    .grocery-row div.mobile-input-group label {
+        display: block;
+        font-size: 0.7rem;
+        color: #64748b;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /* Position the delete button at the top right on mobile */
+    .btn-delete-grocery {
+        grid-row: 1;
+        grid-column: 2;
+        justify-self: end;
     }
 }
 
