@@ -251,22 +251,19 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 }
 
 /* --- ENHANCED GROCERY LIST STYLING --- */
+/* --- FINAL REFINED GROCERY STYLING --- */
 
-/* Desktop Grid: 5 columns + 1 small column for the X */
+/* Desktop Grid Alignment */
 .grocery-header, .grocery-row {
     display: grid;
     grid-template-columns: 2.5fr 1fr 1fr 0.8fr 50px; 
     gap: 15px;
     padding: 12px 20px;
-    align-items: center;
+    align-items: center; /* Forces all items to be on the same horizontal level */
 }
 
-.grocery-header {
-    font-weight: bold;
-    color: #1f4e79;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    border-bottom: 2px solid #f1f5f9;
+.grocery-header span {
+    align-self: center;
 }
 
 .grocery-row {
@@ -275,79 +272,82 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     border-left: 4px solid #1f4e79;
+    min-height: 60px; /* Ensures consistent row height */
 }
 
-/* Styled Inputs */
+/* Ensure all input groups (even the one for Produit) use the same wrapper logic */
+.input-wrapper-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
 .grocery-row input {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-radius: 8px;
     width: 100%;
     font-size: 0.9rem;
+    height: 40px; /* Fixed height for all inputs to keep them level */
 }
 
-/* Delete Button Styling (Desktop & Mobile) */
-.btn-delete-grocery {
-    background: #fee2e2;
-    color: #ef4444;
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    transition: all 0.2s;
+/* Label logic: Hidden on Desktop, Visible on Mobile */
+.mobile-only-label {
+    display: none; 
 }
 
-.btn-delete-grocery:hover {
-    background: #ef4444;
-    color: white;
-}
-
-/* --- MOBILE OPTIMIZATION --- */
+/* --- MOBILE REFINEMENT (850px) --- */
 @media (max-width: 850px) {
-    .grocery-header {
-        display: none; /* Hide top headers */
-    }
-
     .grocery-row {
-        grid-template-columns: 1fr 1fr; /* 2 columns on mobile */
+        grid-template-columns: 1fr 1fr; /* 2 Column Grid */
+        grid-template-rows: auto auto auto;
         gap: 10px;
         padding: 15px;
     }
 
-    /* Product Name takes full width */
-    .grocery-row input:nth-child(1) {
+    /* Produit: Top Row, spans full width */
+    .grocery-row .input-wrapper-group:nth-child(1) {
         grid-column: span 2;
-        font-weight: bold;
-        font-size: 1rem;
-        border-bottom: 2px solid #1f4e79;
     }
 
-    /* Logic to show labels on mobile so numbers make sense */
-    .grocery-row div.mobile-input-group {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+    /* Prix: Middle Row, Left side */
+    .grocery-row .input-wrapper-group:nth-child(2) {
+        grid-column: 1;
+        grid-row: 2;
     }
 
-    .grocery-row div.mobile-input-group label {
+    /* Unité/Poids: Middle Row, Right side */
+    .grocery-row .input-wrapper-group:nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    /* Quantité: Bottom Row, Left side */
+    .grocery-row .input-wrapper-group:nth-child(4) {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    /* Delete Button (X): Bottom Row, Right side (next to Quantité) */
+    .btn-delete-grocery {
+        grid-column: 2;
+        grid-row: 3;
+        align-self: end;
+        justify-self: end;
+        margin-bottom: 5px;
+        width: 100% !important; /* Make it easier to tap on mobile */
+        max-width: 50px;
+    }
+
+    .mobile-only-label {
         display: block;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         color: #64748b;
         font-weight: bold;
         text-transform: uppercase;
-    }
-
-    /* Position the delete button at the top right on mobile */
-    .btn-delete-grocery {
-        grid-row: 1;
-        grid-column: 2;
-        justify-self: end;
+        margin-bottom: 4px;
     }
 }
 
