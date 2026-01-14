@@ -257,6 +257,65 @@ body {
     margin-bottom: 10px;
 }
 
+/* --- THE ULTIMATE TOP SPACING ALIGNMENT --- */
+
+/* 1. Reset the main containers across all pages */
+.calendar-page-container, 
+.spending-container, 
+main.container, 
+.hero {
+    margin-top: 100px !important; /* Matches your header height */
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* 2. Standardize the Header/Hero sections inside those containers */
+.union-header, 
+.spending-hero, 
+.hero-content {
+    padding-top: 40px !important;   /* This is the "breathable" space above the title */
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+    text-align: center !important;
+}
+
+/* 3. MOBILE SPECIFIC (The actual fix for your visual jump) */
+@media (max-width: 768px) {
+    /* Standardize the start point for all pages */
+    .calendar-page-container, 
+    .spending-container, 
+    main.container, 
+    .hero {
+        margin-top: 100px !important; /* Forces all pages to start exactly at header edge */
+    }
+
+    /* Standardize the spacing INSIDE the header of each page */
+    .union-header, 
+    .spending-hero, 
+    .hero-content,
+    .calendar-page-container h1.modern-title {
+        padding-top: 30px !important; /* Exactly 30px gap from menu on every page */
+        margin-top: 0 !important;
+    }
+
+    /* Fix index.html hero specifically because .hero has its own flex centering */
+    .hero {
+        height: auto !important;
+        min-height: 200px !important;
+        display: block !important; /* Removes flex centering which causes the jumping */
+    }
+
+    /* Standardize Title sizes so they don't wrap differently */
+    .modern-title, 
+    .union-header h1, 
+    .hero-content h1 {
+        font-size: 1.8rem !important;
+        line-height: 1.2 !important;
+        margin: 0 auto !important;
+        width: 90% !important;
+    }
+}
+
 /* --- MOBILE TWEAKS --- */
 @media (max-width: 768px) {
     .category-box { font-size: 1.8rem; }
