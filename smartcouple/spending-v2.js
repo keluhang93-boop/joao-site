@@ -252,15 +252,35 @@ function renderGroceries() {
     const container = document.getElementById('groceryGrid');
     if (!container) return;
 
-    let html = `<div class="grocery-header"><span>Produit</span><span>Prix Unitaire</span><span>Unité/Poids</span><span>Quantité</span><span></span></div>`;
+    let html = `
+        <div class="grocery-header">
+            <span>Produit</span>
+            <span>Prix (€)</span>
+            <span>Unité/Poids</span>
+            <span>Quantité</span>
+            <span></span>
+        </div>`;
     
     html += groceryItems.map(item => `
         <div class="grocery-row">
-            <input type="text" value="${item.name}" onchange="updateGrocery(${item.id}, 'name', this.value)">
-            <input type="number" step="0.01" value="${item.price}" oninput="updateGrocery(${item.id}, 'price', this.value)">
-            <input type="text" value="${item.unit}" placeholder="ex: 500g" onchange="updateGrocery(${item.id}, 'unit', this.value)">
-            <input type="number" value="${item.qty}" oninput="updateGrocery(${item.id}, 'qty', this.value)">
-            <button class="btn-delete-hover" onclick="deleteGrocery(${item.id})">×</button>
+            <input type="text" value="${item.name}" placeholder="Nom du produit" onchange="updateGrocery(${item.id}, 'name', this.value)">
+            
+            <div class="mobile-input-group">
+                <label class="mobile-only-label">Prix (€)</label>
+                <input type="number" step="0.01" value="${item.price}" oninput="updateGrocery(${item.id}, 'price', this.value)">
+            </div>
+
+            <div class="mobile-input-group">
+                <label class="mobile-only-label">Unité/Poids</label>
+                <input type="text" value="${item.unit}" placeholder="ex: 500g" onchange="updateGrocery(${item.id}, 'unit', this.value)">
+            </div>
+
+            <div class="mobile-input-group">
+                <label class="mobile-only-label">Quantité</label>
+                <input type="number" value="${item.qty}" oninput="updateGrocery(${item.id}, 'qty', this.value)">
+            </div>
+
+            <button class="btn-delete-grocery" onclick="deleteGrocery(${item.id})" title="Supprimer">×</button>
         </div>
     `).join('');
 
