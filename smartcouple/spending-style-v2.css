@@ -414,6 +414,100 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     line-height: 1;
 }
 
+/* --- UNIFIED ELEGANT CONTROLS --- */
+
+.month-controls-row {
+    display: flex;
+    align-items: center; /* This keeps everything perfectly level */
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.elegant-action-bar {
+    display: flex;
+    gap: 8px;
+    height: 40px; /* Same height as the select box */
+}
+
+/* Base button style */
+.btn-elegant {
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+/* Specific Colors */
+.btn-elegant.blue {
+    background-color: #1f4e79;
+    color: white;
+}
+
+.btn-elegant.red {
+    background-color: #fef2f2;
+    border: 1px solid #fee2e2;
+    color: #ef4444;
+}
+
+.btn-elegant.gray {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+}
+
+/* Hover States */
+.btn-elegant.blue:hover { background-color: #163a5a; }
+.btn-elegant.red:hover { background-color: #ef4444; color: white; }
+.btn-elegant.gray:hover { background-color: #e2e8f0; color: #1e293b; }
+
+/* Mobile View for Elegant Controls */
+@media (max-width: 850px) {
+    .month-controls-row {
+        flex-direction: column;
+        align-items: stretch; /* Full width on mobile */
+    }
+    
+    .elegant-action-bar {
+        width: 100%;
+    }
+    
+    .btn-elegant {
+        flex: 1; /* Each button takes 33% of the width */
+        padding: 0;
+        height: 45px;
+    }
+}
+
+.btn-large-add {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    border: 1px solid #1f4e79; /* Solid line is more elegant than dashed */
+    color: #1f4e79;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(31, 78, 121, 0.05);
+}
+
+.btn-large-add:hover {
+    background: #1f4e79;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(31, 78, 121, 0.15);
+}
+
 /* --- MOBILE VIEW REPAIR --- */
 @media (max-width: 850px) {
     .month-controls-row {
