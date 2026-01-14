@@ -3,15 +3,11 @@
 
 body.spending-body {
     background-color: #ffffff !important; 
-    color: #334155;
+    color: #1e293b;
     margin: 0;
 }
 
-h1, h2, .modern-title, .logo-text, .navy-title { 
-    font-family: 'Playfair Display', serif; 
-    color: #1f4e79 !important;
-}
-
+h1, h2, .modern-title, .logo-text, .navy-title { font-family: 'Playfair Display', serif; color: #1f4e79; }
 input, button, span, div { font-family: 'Lato', sans-serif; }
 
 .spending-container {
@@ -33,17 +29,16 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     background: white;
     padding: 25px;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(31, 78, 121, 0.05); /* Blue-tinted shadow */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
     text-align: center;
-    border-top: 5px solid #f1f5f9;
+    border-top: 5px solid #eee;
 }
 
-/* Unified Colors for Cards */
 .glass-card.blue { border-top-color: #1f4e79; }
 .glass-card.yellow { border-top-color: #D4AF37; }
-.glass-card.main-budget { border-top-color: #1f4e79; } /* Replaced purple with Navy */
+.glass-card.main-budget { border-top-color: #1f4e79; } /* Swapped Purple to Navy */
 
-/* --- THE UNIFIED BOX FIX --- */
+/* --- THE UNIFIED BOX FIX (Centers everything) --- */
 .glass-card input, 
 .modern-stat-input input, 
 #jeanTotalDisplay, 
@@ -57,7 +52,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     line-height: 50px !important;
     font-size: 1.3rem !important;
     font-weight: 700 !important;
-    color: #1f4e79 !important; /* Brand Blue for numbers */
+    color: #1f4e79 !important;
     width: 160px !important;      
     height: 50px !important;      
     display: inline-block;
@@ -65,14 +60,6 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 }
 
 /* --- THE LISTS (Dépenses & Dettes) --- */
-.expense-list-header {
-    color: #64748b;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-}
-
 .expense-list-header, .expense-row {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr 0.6fr 0.6fr 0.4fr;
@@ -89,22 +76,11 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     border: 1px solid #f1f5f9;
 }
 
-.expense-row input { 
-    border: none !important; 
-    background: transparent !important; 
-    font-size: 1rem; 
-    width: 100%; 
-    color: #334155;
-}
-
+.expense-row input { border: none !important; background: transparent !important; font-size: 1rem; width: 100%; }
 .total-cell { font-weight: bold; color: #1f4e79; }
 
 /* --- ROW STATES --- */
-.row-recurring { 
-    background-color: #f8fafc !important; 
-    border-left: 5px solid #D4AF37 !important; /* Gold for recurring items */
-}
-
+.row-recurring { background-color: #f1f5f9 !important; border-left: 5px solid #1f4e79 !important; } /* Swapped Purple to Navy */
 .row-settled { opacity: 0.5; background: #f8fafc !important; }
 .row-settled input { text-decoration: line-through; }
 
@@ -122,10 +98,19 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     padding: 40px;
     border-radius: 24px;
     margin-top: 50px;
-    box-shadow: 0 15px 35px rgba(31, 78, 121, 0.08);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
 }
 
 .chart-wrapper { width: 250px !important; height: 250px !important; }
+
+/* --- SECTION SPACING --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
 
 /* --- CUSTOM GRAPH LEGEND --- */
 .chart-legend {
@@ -140,13 +125,13 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     align-items: center;
     gap: 10px;
     font-size: 0.95rem;
-    font-weight: 700;
+    font-weight: 600;
     color: #1f4e79;
 }
 
 .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-.dot-depenses { background-color: #D4AF37; } /* Matches Gold */
-.dot-epargne { background-color: #1f4e79; }  /* Matches Blue */
+.dot-depenses { background-color: #D4AF37; }
+.dot-epargne { background-color: #1f4e79; }
 
 /* --- NAVIGATION --- */
 .spending-sub-nav {
@@ -159,7 +144,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 
 .sub-nav-btn {
     background: white;
-    border: 1px solid #D4AF37;
+    border: 1px solid #D4AF37; /* Swapped Blue to Gold Border */
     color: #1f4e79;
     padding: 10px 20px;
     font-weight: 700;
@@ -169,26 +154,23 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     text-transform: uppercase;
 }
 
-.sub-nav-btn.active { 
-    background: #1f4e79; 
-    color: white; 
-    border-color: #1f4e79;
+.sub-nav-btn.active { background: #1f4e79; color: white; border-color: #1f4e79; }
+
+/* --- ELEGANT CONTROLS (Month Selector Area) --- */
+.month-controls-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-/* --- ELEGANT CONTROLS --- */
-#monthSelector {
-    appearance: none;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 8px 35px 8px 15px;
-    font-weight: 700;
-    color: #1f4e79;
-    cursor: pointer;
-    min-width: 160px;
+.elegant-action-bar {
+    display: flex;
+    gap: 8px;
+    height: 40px;
 }
 
 .btn-elegant {
+    border: 1px solid transparent;
     border-radius: 8px;
     padding: 0 16px;
     font-size: 0.75rem;
@@ -197,55 +179,106 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     display: flex;
     align-items: center;
     text-transform: uppercase;
-    transition: 0.2s;
 }
-.btn-elegant.blue { background-color: #1f4e79; color: white; border: none; }
-.btn-elegant.blue:hover { background-color: #D4AF37; }
+.btn-elegant.blue { background-color: #1f4e79; color: white; }
 .btn-elegant.red { background-color: #fef2f2; border: 1px solid #fee2e2; color: #ef4444; }
 .btn-elegant.gray { background-color: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; }
 
+/* Styled Select Box */
+#monthSelector {
+    appearance: none;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 35px 8px 15px;
+    font-weight: 600;
+    color: #1f4e79;
+    cursor: pointer;
+    min-width: 160px;
+}
+
 /* --- GROCERY LIST STYLING --- */
+.grocery-header, .grocery-row {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr 1fr 0.8fr 50px; 
+    gap: 15px;
+    padding: 12px 20px;
+    align-items: center;
+}
+
 .grocery-row {
     background: white;
     margin-bottom: 10px;
     border-radius: 12px;
-    border-left: 4px solid #D4AF37; /* Gold left border for list items */
+    border-left: 4px solid #D4AF37; /* Swapped Blue to Gold */
+}
+
+.input-wrapper-group { display: flex; flex-direction: column; justify-content: center; height: 100%; }
+
+.grocery-row input {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    height: 40px;
+}
+
+.btn-delete-grocery {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 /* --- LARGE ADD BUTTON --- */
+.bottom-add-container { margin-top: 20px; display: flex; justify-content: center; }
 .btn-large-add {
     width: 100%;
     max-width: 450px;
     background: #ffffff;
-    border: 2px solid #D4AF37;
+    border: 2px solid #D4AF37; /* Swapped Blue to Gold Border */
     color: #1f4e79;
     padding: 18px;
     border-radius: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-weight: 700;
     cursor: pointer;
     transition: 0.3s;
 }
+.btn-large-add:hover { background: #1f4e79; color: white; }
 
-.btn-large-add:hover {
-    background: #1f4e79;
-    color: white;
-    border-color: #1f4e79;
+.select-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    color: #1f4e79;
+    pointer-events: none; 
+    opacity: 0.6; 
 }
 
-/* --- MOBILE FIXES --- */
+/* --- CONSOLIDATED MOBILE FIXES --- */
 @media (max-width: 850px) {
-    .btn-large-add { 
-        position: sticky; 
-        bottom: 20px; 
-        box-shadow: 0 10px 20px rgba(31, 78, 121, 0.2); 
-        background: #1f4e79; 
-        color: white;
-        border: none;
-    }
-    
-    .glass-card { margin-bottom: 10px; }
+    .month-controls-row { flex-direction: column; align-items: stretch; gap: 10px; }
+    .elegant-action-bar { width: 100%; }
+    .btn-elegant { flex: 1; height: 45px; justify-content: center; }
+
+    #spendingGrid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .expense-list-header, .expense-row { min-width: 750px; }
+
+    .grocery-header { display: none !important; }
+    .grocery-row { grid-template-columns: 1fr 1fr; padding: 15px; }
+    .grocery-row .input-wrapper-group:nth-child(1) { grid-column: span 2; }
+    .mobile-only-label { display: block; font-size: 0.65rem; color: #64748b; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
+    .btn-delete-grocery { grid-column: 2; grid-row: 3; justify-self: end; }
+
+    .performance-container { flex-direction: column !important; padding: 20px; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+
+    .btn-large-add { position: sticky; bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #1f4e79; color: white; border: none; }
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
