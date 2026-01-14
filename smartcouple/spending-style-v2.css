@@ -246,6 +246,21 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     cursor: pointer;
 }
 
+.select-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    color: #1f4e79;
+    
+    /* THE FIX: */
+    pointer-events: none; 
+    
+    /* THE STYLE: */
+    opacity: 0.6; /* Makes it look more subtle and elegant */
+}
+
 /* --- CONSOLIDATED MOBILE FIXES (Single Block) --- */
 @media (max-width: 850px) {
     /* 1. Month Controls */
