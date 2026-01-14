@@ -87,31 +87,33 @@
             </div>
         </div>
 
-        <section class="section-wrapper">
-           <div class="section-header">
-    <div class="header-main-info">
-        <h2 class="navy-title" style="margin:0;">🏠 Dépenses du Foyer</h2>
-        
-        <div class="month-controls-row">
-            <div class="custom-select-wrapper">
-                <select id="monthSelector" onchange="changeMonth(this.value)"></select>
-                <span class="select-icon">▼</span>
+<section class="section-wrapper">
+    <div class="section-header">
+        <div class="header-main-info">
+            <h2 class="navy-title" style="margin:0;">🏠 Dépenses du Foyer</h2>
+            
+            <div class="month-controls-row">
+                <div class="custom-select-wrapper">
+                    <select id="monthSelector" onchange="changeMonth(this.value)"></select>
+                    <span class="select-icon">▼</span>
+                </div>
+                <div class="month-actions">
+                    <button onclick="startNewMonth()" class="btn-action-small blue">+ MOIS</button>
+                    <button onclick="resetToDefaults()" class="btn-action-small gray">RESET</button>
+                    <button onclick="deleteCurrentMonth()" class="btn-delete-minimal">🗑</button>
+                </div>
             </div>
-            <button onclick="deleteCurrentMonth()" class="btn-delete-minimal">
-                <span class="icon">🗑</span> Supprimer ce mois
-            </button>
         </div>
     </div>
+    
+    <div id="spendingGrid"></div> 
 
-    <div class="action-buttons-group">
-        <button class="btn-modern-add" onclick="addNewCategory()">+ AJOUTER</button>
-        <button class="btn-modern-add" onclick="startNewMonth()" style="background: #1f4e79 !important;">+ MOIS</button>
-        <button class="btn-modern-add" onclick="resetToDefaults()" style="background: #95a5a6 !important;">RESET</button>
+    <div class="bottom-add-container">
+        <button class="btn-large-add" onclick="addNewCategory()">
+            <span class="plus-icon">+</span> Ajouter une dépense
+        </button>
     </div>
-</div>
-            
-            <div id="spendingGrid"></div> 
-        </section>
+</section>
     </div>
 
     <div id="view-savings" class="dashboard-view" style="display:none;">
