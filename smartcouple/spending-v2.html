@@ -56,7 +56,7 @@
     <nav class="spending-sub-nav">
         <button class="sub-nav-btn active" onclick="showView('view-spending', this)">DÉPENSES</button>
         <button class="sub-nav-btn" onclick="showView('view-savings', this)">ÉCONOMIES & OBJECTIFS</button>
-        <button class="sub-nav-btn" disabled title="Bientôt disponible">LISTE DE COURSES</button>
+        <button class="sub-nav-btn" onclick="showView('view-grocery', this)">LISTE DE COURSES</button>
         <button class="sub-nav-btn" disabled title="Bientôt disponible">DETTES</button>
         <button class="sub-nav-btn" disabled title="Bientôt disponible">ANALYSE</button>
         <button class="sub-nav-btn" disabled title="Bientôt disponible">PARAMÈTRES</button>
@@ -153,6 +153,24 @@
         </section>
     </div>
 
+<div id="view-grocery" class="dashboard-view" style="display:none;">
+    <section class="section-wrapper">
+        <div class="section-header">
+            <div class="header-main-info">
+                <h2 class="navy-title" style="margin:0;">🛒 Liste de Courses & Prix</h2>
+                <p style="color: #64748b; margin:0;">Estimez vos courses selon vos produits habituels.</p>
+            </div>
+            <button class="btn-modern-add" onclick="addNewGroceryItem()">+ AJOUTER PRODUIT</button>
+        </div>
+        
+        <div id="groceryGrid"></div>
+
+        <div class="grocery-summary">
+            <h3>Estimation Total: <span id="groceryTotal">0.00 €</span></h3>
+        </div>
+    </section>
+</div>
+    
 </main> 
 
 <script src="main.js"></script>
