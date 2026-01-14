@@ -260,6 +260,22 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     opacity: 0.6; 
 }
 
+/* --- LOCKED / INACTIVE BUTTONS --- */
+.sub-nav-btn:not(.active):not([onclick]) {
+    opacity: 0.5;
+    background: #f1f5f9;
+    border-color: #cbd5e1; /* Gray instead of Gold */
+    color: #64748b;        /* Muted gray-blue instead of Navy */
+    cursor: not-allowed;   /* Shows a "stop" icon on hover */
+}
+
+/* Optional: remove hover effect for locked buttons */
+.sub-nav-btn:not(.active):not([onclick]):hover {
+    background: #f1f5f9;
+    color: #64748b;
+    transform: none;
+}
+
 /* --- CONSOLIDATED MOBILE FIXES --- */
 @media (max-width: 850px) {
     .month-controls-row { flex-direction: column; align-items: stretch; gap: 10px; }
