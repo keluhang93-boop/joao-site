@@ -19,37 +19,14 @@ function shuffleQuestion() {
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Run once immediately
     shuffleQuestion();
     
+    // 2. Setup the button click
     const refreshBtn = document.getElementById('refresh-btn');
     if (refreshBtn) {
-        refreshBtn.addEventListener('click', shuffleQuestion);
+        refreshBtn.addEventListener('click', () => {
+            shuffleQuestion();
+        });
     }
 });
-    // Category Filter Simulation
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // UI Toggle
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const category = btn.getAttribute('data-category');
-            console.log("Filtrage par catégorie:", category);
-            // Here you would normally filter the articles display
-        });
-    });
-});
-
-function shuffleQuestion() {
-    const textElement = document.getElementById('daily-question');
-    if (!textElement) return;
-
-    // Smooth fade effect
-    textElement.style.opacity = 0;
-    
-    setTimeout(() => {
-        const randomIndex = Math.floor(Math.random() * connectionQuestions.length);
-        textElement.innerText = connectionQuestions[randomIndex];
-        textElement.style.opacity = 1;
-    }, 300);
-}
