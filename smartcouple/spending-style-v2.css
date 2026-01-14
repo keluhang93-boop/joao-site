@@ -1,38 +1,275 @@
-/* --- BASE DASHBOARD --- */
-.spending-container { max-width: 1100px; margin: 120px auto 50px; padding: 0 20px; }
-.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 40px 0; }
-.glass-card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.03); text-align: center; border-top: 5px solid #eee; }
+/* --- GLOBAL RESET & FONTS --- */
+* { box-sizing: border-box; }
+
+body.spending-body {
+    background-color: #ffffff !important; 
+    color: #1e293b;
+    margin: 0;
+}
+
+h1, h2, .modern-title, .logo-text, .navy-title { font-family: 'Playfair Display', serif; }
+input, button, span, div { font-family: 'Lato', sans-serif; }
+
+.spending-container {
+    max-width: 1100px !important;
+    margin: 120px auto 50px !important;
+    padding: 0 20px;
+    display: block;
+}
+
+/* --- DASHBOARD TOP CARDS --- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin: 40px 0;
+}
+
+.glass-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    text-align: center;
+    border-top: 5px solid #eee;
+}
+
 .glass-card.blue { border-top-color: #1f4e79; }
 .glass-card.yellow { border-top-color: #D4AF37; }
+.glass-card.main-budget { border-top-color: #4B0082; }
+
+/* --- THE UNIFIED BOX FIX (Centers everything) --- */
+.glass-card input, 
+.modern-stat-input input, 
+#jeanTotalDisplay, 
+#moniqueTotalDisplay,
+.user-stat input {
+    border: none !important;
+    background: #f8fafc !important;
+    border-radius: 12px !important;
+    text-align: center !important; 
+    padding: 0 !important; 
+    line-height: 50px !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    color: #1f4e79 !important;
+    width: 160px !important;      
+    height: 50px !important;      
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* --- THE LISTS (Dépenses & Dettes) --- */
+.expense-list-header, .expense-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 0.6fr 0.6fr 0.4fr;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+}
+
+.expense-row {
+    background: white;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    border: 1px solid #f1f5f9;
+}
+
+.expense-row input { border: none !important; background: transparent !important; font-size: 1rem; width: 100%; }
+.total-cell { font-weight: bold; color: #1f4e79; }
+
+/* --- ROW STATES --- */
+.row-recurring { background-color: #f1f5f9 !important; border-left: 5px solid #4B0082 !important; }
+.row-settled { opacity: 0.5; background: #f8fafc !important; }
+.row-settled input { text-decoration: line-through; }
+
+.btn-delete-hover {
+    background: none; border: none; color: #ef4444; font-size: 1.4rem; cursor: pointer; visibility: hidden;
+}
+.expense-row:hover .btn-delete-hover { visibility: visible; }
+
+/* --- PERFORMANCE & GRAPH --- */
+.performance-container {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    margin-top: 50px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+.chart-wrapper { width: 250px !important; height: 250px !important; }
+
+/* --- SECTION SPACING --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+
+/* --- CUSTOM GRAPH LEGEND --- */
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1f4e79;
+}
+
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot-depenses { background-color: #D4AF37; }
+.dot-epargne { background-color: #1f4e79; }
 
 /* --- NAVIGATION --- */
-.spending-sub-nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-.sub-nav-btn { background: white; border: 1px solid #1f4e79; padding: 10px 20px; font-weight: 700; cursor: pointer; text-transform: uppercase; border-radius: 8px; }
+.spending-sub-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.sub-nav-btn {
+    background: white;
+    border: 1px solid #1f4e79;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
 .sub-nav-btn.active { background: #1f4e79; color: white; }
 
-/* --- ELEGANT CONTROLS --- */
-.month-controls-row { display: flex; align-items: center; gap: 12px; }
-.elegant-action-bar { display: flex; gap: 8px; height: 40px; }
-.btn-elegant { border-radius: 8px; padding: 0 16px; font-size: 0.75rem; font-weight: 700; cursor: pointer; text-transform: uppercase; display: flex; align-items: center; }
-.btn-elegant.blue { background: #1f4e79; color: white; }
-.btn-elegant.red { background: #fef2f2; color: #ef4444; border: 1px solid #fee2e2; }
-.btn-elegant.gray { background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; }
-
-/* --- GRIDS (Expenses & Groceries) --- */
-.expense-list-header, .expense-row, .grocery-header, .grocery-row { 
-    display: grid; gap: 15px; padding: 12px 20px; align-items: center; background: white; border-radius: 12px; margin-bottom: 10px;
+/* --- ELEGANT CONTROLS (Month Selector Area) --- */
+.month-controls-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
-.expense-row { grid-template-columns: 2fr 1fr 1fr 1fr 0.6fr 0.6fr 0.4fr; border-left: 4px solid #1f4e79; }
-.grocery-row { grid-template-columns: 2.5fr 1fr 1fr 0.8fr 50px; border-left: 4px solid #D4AF37; }
 
-/* --- MOBILE OPTIMIZATION --- */
+.elegant-action-bar {
+    display: flex;
+    gap: 8px;
+    height: 40px;
+}
+
+.btn-elegant {
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+}
+.btn-elegant.blue { background-color: #1f4e79; color: white; }
+.btn-elegant.red { background-color: #fef2f2; border: 1px solid #fee2e2; color: #ef4444; }
+.btn-elegant.gray { background-color: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; }
+
+/* Styled Select Box */
+#monthSelector {
+    appearance: none;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 35px 8px 15px;
+    font-weight: 600;
+    color: #1f4e79;
+    cursor: pointer;
+    min-width: 160px;
+}
+
+/* --- GROCERY LIST STYLING --- */
+.grocery-header, .grocery-row {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr 1fr 0.8fr 50px; 
+    gap: 15px;
+    padding: 12px 20px;
+    align-items: center;
+}
+
+.grocery-row {
+    background: white;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border-left: 4px solid #1f4e79;
+}
+
+.input-wrapper-group { display: flex; flex-direction: column; justify-content: center; height: 100%; }
+
+.grocery-row input {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    height: 40px;
+}
+
+.btn-delete-grocery {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* --- LARGE ADD BUTTON --- */
+.bottom-add-container { margin-top: 20px; display: flex; justify-content: center; }
+.btn-large-add {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    border: 1px solid #1f4e79;
+    color: #1f4e79;
+    padding: 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* --- CONSOLIDATED MOBILE FIXES (Single Block) --- */
 @media (max-width: 850px) {
-    .month-controls-row { flex-direction: column; align-items: stretch; }
+    /* 1. Month Controls */
+    .month-controls-row { flex-direction: column; align-items: stretch; gap: 10px; }
     .elegant-action-bar { width: 100%; }
-    .btn-elegant { flex: 1; height: 45px; }
-    .grocery-header { display: none; }
-    .grocery-row { grid-template-columns: 1fr 1fr; }
-    .grocery-row .input-wrapper-group:first-child { grid-column: span 2; }
-    .mobile-only-label { display: block; font-size: 0.6rem; font-weight: bold; color: #64748b; margin-bottom: 2px; }
-    .expense-row { overflow-x: auto; min-width: 700px; }
+    .btn-elegant { flex: 1; height: 45px; justify-content: center; }
+
+    /* 2. Expense List (Scrollable) */
+    #spendingGrid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .expense-list-header, .expense-row { min-width: 750px; }
+
+    /* 3. Grocery List (Card View) */
+    .grocery-header { display: none !important; }
+    .grocery-row { grid-template-columns: 1fr 1fr; padding: 15px; }
+    .grocery-row .input-wrapper-group:nth-child(1) { grid-column: span 2; }
+    .mobile-only-label { display: block; font-size: 0.65rem; color: #64748b; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
+    .btn-delete-grocery { grid-column: 2; grid-row: 3; justify-self: end; }
+
+    /* 4. General Performance */
+    .performance-container { flex-direction: column !important; padding: 20px; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+
+    /* 5. Sticky Add Button */
+    .btn-large-add { position: sticky; bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #1f4e79; color: white; }
 }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
