@@ -53,6 +53,23 @@
     <p style="color: #64748b; font-size: 1.2rem;">Gérez votre budget avec style.</p>
 </div>
 
+<div class="spending-sub-nav">
+    <button class="sub-nav-btn active" onclick="showView('view-spending', this)">DÉPENSES</button>
+    <button class="sub-nav-btn" onclick="showView('view-savings', this)">ÉCONOMIES & OBJECTIFS</button>
+    <button class="sub-nav-btn" disabled title="Bientôt disponible">DETTES</button>
+    <button class="sub-nav-btn" disabled title="Bientôt disponible">ANALYSE</button>
+</div>
+
+<div id="view-spending" class="dashboard-view">
+    <section class="section-wrapper">
+        </section>
+</div>
+
+<div id="view-savings" class="dashboard-view" style="display:none;">
+    <section class="performance-container">
+        </section>
+</div>
+    
 <div class="dashboard-grid">
     <div class="glass-card main-budget">
         <label>BUDGET MENSUEL CIBLE</label>
