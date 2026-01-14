@@ -263,19 +263,22 @@ function renderGroceries() {
     
     html += groceryItems.map(item => `
         <div class="grocery-row">
-            <input type="text" value="${item.name}" placeholder="Nom du produit" onchange="updateGrocery(${item.id}, 'name', this.value)">
+            <div class="input-wrapper-group">
+                <label class="mobile-only-label">Produit</label>
+                <input type="text" value="${item.name}" placeholder="Nom du produit" onchange="updateGrocery(${item.id}, 'name', this.value)">
+            </div>
             
-            <div class="mobile-input-group">
+            <div class="input-wrapper-group">
                 <label class="mobile-only-label">Prix (€)</label>
                 <input type="number" step="0.01" value="${item.price}" oninput="updateGrocery(${item.id}, 'price', this.value)">
             </div>
 
-            <div class="mobile-input-group">
+            <div class="input-wrapper-group">
                 <label class="mobile-only-label">Unité/Poids</label>
                 <input type="text" value="${item.unit}" placeholder="ex: 500g" onchange="updateGrocery(${item.id}, 'unit', this.value)">
             </div>
 
-            <div class="mobile-input-group">
+            <div class="input-wrapper-group">
                 <label class="mobile-only-label">Quantité</label>
                 <input type="number" value="${item.qty}" oninput="updateGrocery(${item.id}, 'qty', this.value)">
             </div>
