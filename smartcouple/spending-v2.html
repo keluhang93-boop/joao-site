@@ -157,16 +157,19 @@
     <section class="section-wrapper">
         <div class="section-header">
             <div class="header-main-info">
-                <h2 class="navy-title" style="margin:0;">🛒 Liste de Courses & Prix</h2>
-                <p style="color: #64748b; margin:0;">Estimez vos courses selon vos produits habituels.</p>
+                <h2 class="navy-title" style="margin:0;">🛒 Liste de Courses</h2>
+                <p style="color: #64748b; margin:0;">Gérez vos produits et prix habituels.</p>
             </div>
-            <button class="btn-modern-add" onclick="addNewGroceryItem()">+ AJOUTER PRODUIT</button>
+            
+            <div class="action-buttons-group" style="width: auto;">
+                <button class="btn-modern-add" onclick="addNewGroceryItem()">+ AJOUTER PRODUIT</button>
+            </div>
         </div>
         
         <div id="groceryGrid"></div>
 
         <div class="grocery-summary">
-            <h3>Estimation Total: <span id="groceryTotal">0.00 €</span></h3>
+            <h3 style="margin:0;">Estimation Totale : <span id="groceryTotal">0.00 €</span></h3>
         </div>
     </section>
 </div>
