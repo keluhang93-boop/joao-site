@@ -305,8 +305,14 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
         grid-template-rows: auto auto auto;
         gap: 10px;
         padding: 15px;
+        margin-top: 10px; /* Give some space between items */
     }
 
+    /* Hide the desktop header row completely on mobile */
+    .grocery-header {
+        display: none !important;
+    }
+    
     /* Produit: Top Row, spans full width */
     .grocery-row .input-wrapper-group:nth-child(1) {
         grid-column: span 2;
