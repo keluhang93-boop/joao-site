@@ -5,14 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (menuBtn && overlay) {
         menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents the click from immediately closing
+            e.stopPropagation();
             overlay.classList.toggle('active');
-            
-            // Optional: Toggle a class on the button for animation
             menuBtn.classList.toggle('open');
         });
 
-        // Close menu if clicking outside the links
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) {
                 overlay.classList.remove('active');
