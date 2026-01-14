@@ -141,6 +141,46 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 .dot-depenses { background-color: #D4AF37; } /* Gold */
 .dot-epargne { background-color: #1f4e79; }  /* Navy Blue */
 
+.spending-sub-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.sub-nav-btn {
+    background: white;
+    border: 1px solid #1f4e79;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.sub-nav-btn.active {
+    background: #1f4e79;
+    color: white;
+}
+
+.sub-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #ccc;
+}
+
+/* Ensure the views fill the space correctly */
+.dashboard-view {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* --- MOBILE FIX --- */
 @media (max-width: 850px) {
     #spendingGrid, #debtGrid { overflow-x: auto; display: block; padding-bottom: 15px; }
