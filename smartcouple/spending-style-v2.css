@@ -357,6 +357,92 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     }
 }
 
+/* --- MONTH ACTION BUTTONS (Small) --- */
+.month-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn-action-small {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    transition: opacity 0.2s;
+}
+
+.btn-action-small.blue { background-color: #1f4e79; }
+.btn-action-small.gray { background-color: #94a3b8; }
+.btn-action-small:hover { opacity: 0.8; }
+
+/* --- LARGE BOTTOM ADD BUTTON --- */
+.bottom-add-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-large-add {
+    width: 100%;
+    max-width: 400px;
+    background: #ffffff;
+    border: 2px dashed #cbd5e1;
+    padding: 15px;
+    border-radius: 12px;
+    color: #64748b;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-large-add:hover {
+    background: #f8fafc;
+    border-color: #1f4e79;
+    color: #1f4e79;
+}
+
+.plus-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* --- MOBILE VIEW REPAIR --- */
+@media (max-width: 850px) {
+    .month-controls-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .month-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .btn-action-small {
+        flex: 1; /* Make buttons equal width on mobile */
+        padding: 10px;
+    }
+
+    .btn-large-add {
+        position: sticky;
+        bottom: 20px; /* Floats slightly above the bottom on mobile */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-style: solid;
+        border-color: #1f4e79;
+        color: #1f4e79;
+    }
+}
+
 /* Mobile Adjustments */
 @media (max-width: 850px) {
     .month-controls-row {
@@ -444,3 +530,4 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
         -webkit-overflow-scrolling: touch;
     }
 }
+
