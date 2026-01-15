@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prática de Português - Aula de Moda</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; color: #333; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; width: 100%; }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .question { margin-bottom: 25px; display: none; }
+        .question.active { display: block; }
+        .options { list-style: none; padding: 0; }
+        .options li { margin: 10px 0; }
+        button { background: #3498db; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; transition: background 0.3s; }
+        button:hover { background: #2980b9; }
+        .feedback { font-weight: bold; margin-top: 15px; text-align: center; height: 20px; }
+        #score-board { text-align: center; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Prática de Português 🇵🇹</h1>
+    <div id="quiz">
+        </div>
+    <div class="feedback" id="feedback"></div>
+    <div id="score-board">
+        <h2>Parabéns!</h2>
+        <p id="final-score"></p>
+        <button onclick="location.reload()">Recomeçar</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        // Vocabulário de Roupas e Acessórios 
+        { q: "Como se chama a peça que vestes quando está frio?", a: "o casaco", options: ["a saia", "o casaco", "os calções"] },
+        { q: "Onde guardas o telemóvel e a carteira?", a: "a mala", options: ["o cinto", "os óculos", "a mala"] },
+        { q: "O que usas nos olhos quando está sol?", a: "os óculos", options: ["os óculos", "o relógio", "os brincos"] },
+        { q: "Qual destas peças é tipicamente masculina para ocasiões formais?", a: "a camisa", options: ["o vestido", "a camisa", "a saia"] },
+        
+        // Verbos (Vestir, Usar, Calçar) [cite: 2, 4, 7, 8]
+        { q: "Ontem, eu ______ os chinelos em casa. (Passado)", a: "calcei", options: ["calço", "calcei", "calçarei"] },
+        { q: "Amanhã, a Monique ______ um vestido branco. (Futuro)", a: "vestirá", options: ["vestiu", "veste", "vestirá"] },
+        { q: "Nós ______ pulseiras de prata todos os dias. (Presente)", a: "usamos", options: ["usamos", "usámos", "usaremos"] },
+        { q: "Tu ______ a camisa vermelha amanhã? (Ir + Infinitivo)", a: "vais vestir", options: ["vou vestir", "vais vestir", "vão vestir"] },
+        { q: "Eles ______ os ténis da Nike agora. (Presente)", a: "calçam", options: ["calçaram", "calçam", "calçarão"] }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        const quizDiv = document.getElementById('quiz');
+        const qData = questions[currentQ];
+        
+        let html = `<div class="question active">
+            <p><strong>Pergunta ${currentQ + 1}:</strong> ${qData.q}</p>
+            <ul class="options">`;
+        
+        qData.options.sort(() => Math.random() - 0.5).forEach(opt => {
+            html += `<li><button onclick="checkAnswer('${opt}')">${opt}</button></li>`;
+        });
+
+        html += `</ul></div>`;
+        quizDiv.innerHTML = html;
+        document.getElementById('feedback').innerText = "";
+    }
+
+    function checkAnswer(answer) {
+        const feedback = document.getElementById('feedback');
+        if (answer === questions[currentQ].a) {
+            score++;
+            feedback.style.color = "green";
+            feedback.innerText = "Correto! ✨";
+        } else {
+            feedback.style.color = "red";
+            feedback.innerText = `Incorreto. A resposta era: ${questions[currentQ].a}`;
+        }
+
+        setTimeout(() => {
+            currentQ++;
+            if (currentQ < questions.length) {
+                loadQuestion();
+            } else {
+                showScore();
+            }
+        }, 1500);
+    }
+
+    function showScore() {
+        document.getElementById('quiz').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        const board = document.getElementById('score-board');
+        board.style.display = 'block';
+        document.getElementById('final-score').innerText = `Acertaste ${score} de ${questions.length} perguntas!`;
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
