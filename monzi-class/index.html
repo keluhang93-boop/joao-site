@@ -3,161 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula de Português: Moda</title>
+    <title>Desafio de Português: Moda & Verbos</title>
     <style>
         :root {
             --primary: #6c5ce7;
+            --secondary: #a29bfe;
             --success: #00b894;
             --error: #d63031;
-            --bg: #f0f2f5;
+            --text: #2d3436;
+            --bg: #f9f9fb;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; }
-        .quiz-container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 700px; width: 100%; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); padding: 20px; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         
-        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; }
+        h1 { text-align: center; color: var(--primary); font-size: 2.2rem; margin-bottom: 10px; }
+        h2 { border-left: 5px solid var(--primary); padding-left: 15px; margin-top: 40px; color: #444; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+
+        .question-card { border: 1px solid #eee; border-radius: 15px; padding: 20px; margin-bottom: 20px; background: #fff; transition: 0.3s; }
+        .question-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .correct { border: 2px solid var(--success) !important; background-color: #f0fff4 !important; }
+        .wrong { border: 2px solid var(--error) !important; background-color: #fff5f5 !important; }
+
+        .img-box { text-align: center; margin-bottom: 15px; }
+        .img-box img { height: 120px; border-radius: 10px; object-fit: cover; }
+
+        select { padding: 8px; border-radius: 6px; border: 2px solid var(--secondary); font-size: 1rem; cursor: pointer; outline: none; }
         
-        .question-card { background: #fff; border: 2px solid #eee; border-radius: 15px; padding: 20px; margin-bottom: 20px; transition: 0.3s; }
-        .question-card.correct { border-color: var(--success); background-color: #f7fffb; }
-        .question-card.wrong { border-color: var(--error); background-color: #fffafa; }
-
-        .image-container { text-align: center; margin-bottom: 15px; }
-        .image-container img { max-width: 150px; border-radius: 10px; border: 1px solid #ddd; }
-
-        .sentence { font-size: 1.2rem; line-height: 2; color: #2d3436; }
+        .feedback { font-weight: bold; font-size: 0.9rem; margin-top: 10px; display: block; }
         
-        /* Estilo do Dropdown */
-        select {
-            padding: 8px 12px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 2px solid var(--primary);
-            background: white;
-            cursor: pointer;
-            outline: none;
-            margin: 0 5px;
-        }
+        #check-btn { background: var(--primary); color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        #check-btn:hover { background: #5649c0; }
 
-        .feedback-text { margin-top: 10px; font-weight: bold; font-size: 0.9rem; }
-        
-        #btn-check {
-            background: var(--primary);
-            color: white; border: none; padding: 15px 30px;
-            border-radius: 10px; cursor: pointer; width: 100%;
-            font-size: 1.1rem; font-weight: bold; margin-top: 20px;
-        }
-
-        #result-area {
-            text-align: center; margin-top: 20px; font-size: 1.5rem; font-weight: bold; display: none;
-        }
+        #score-final { display: none; text-align: center; padding: 20px; background: var(--primary); color: white; border-radius: 15px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<div class="quiz-container">
-    <h1>Prática de Português: Moda 👗</h1>
-    
-    <div id="quiz-body">
-        </div>
+<div class="container">
+    <h1>Aula da Monique: Moda 🇵🇹</h1>
+    <p class="subtitle">Completa as frases escolhendo a opção correta.</p>
 
-    <button id="btn-check" onclick="checkAll()">Verificar Respostas</button>
-    
-    <div id="result-area"></div>
+    <h2>1. Vocabulário (Roupas e Acessórios)</h2>
+    <div id="vocab-section"></div>
+
+    <h2>2. Gramática (Verbos: Vestir, Usar, Calçar)</h2>
+    <div id="verb-section"></div>
+
+    <button id="check-btn" onclick="checkQuiz()">Verificar todos os resultados</button>
+
+    <div id="score-final"></div>
 </div>
 
 <script>
-    const quizData = [
-        {
-            img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300",
-            textBefore: "Quando está frio, eu visto um",
-            options: ["sapato", "casaco", "cinto", "brinco"],
-            answer: "casaco",
-            textAfter: "azul."
-        },
-        {
-            img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300",
-            textBefore: "Para proteger os olhos do sol, ela usa",
-            options: ["os óculos", "a saia", "o relógio", "as calças"],
-            answer: "os óculos",
-            textAfter: "."
-        },
-        {
-            img: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=300",
-            textBefore: "Ontem, a Monique",
-            options: ["veste", "vestiram", "vestiu", "visto"],
-            answer: "vestiu",
-            textAfter: "um vestido elegante."
-        },
-        {
-            img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300",
-            textBefore: "Onde está a minha",
-            options: ["mala", "chapéu", "colar", "pulseira"],
-            answer: "mala",
-            textAfter: "? Preciso de guardar a carteira."
-        },
-        {
-            img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300",
-            textBefore: "Tu",
-            options: ["calço", "calças", "calçamos", "calçam"],
-            answer: "calças",
-            textAfter: "os ténis para ir correr?"
-        }
+    const vocabData = [
+        { img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200", pre: "Para o frio, levo um", post: "grosso.", opts: ["casaco", "vestido", "colar"], ans: "casaco" },
+        { img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=200", pre: "Ele veste uma", post: "branca na reunião.", opts: ["saia", "camisa", "mala"], ans: "camisa" },
+        { img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200", pre: "Estes", post: "são ótimos para correr.", opts: ["ténis", "óculos", "brincos"], ans: "ténis" },
+        { img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200", pre: "Não vejo nada sem os meus", post: ".", opts: ["cintos", "óculos", "chapéus"], ans: "óculos" },
+        { img: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=200", pre: "Ela comprou um", post: "para o pescoço.", opts: ["colar", "relógio", "sapato"], ans: "colar" },
+        { img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200", pre: "Guardei a carteira na", post: ".", opts: ["mala", "camisola", "pulseira"], ans: "mala" },
+        { img: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=200", pre: "O", post: "está muito elegante no noivo.", opts: ["fato", "pijama", "blusão"], ans: "fato" },
+        { img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=200", pre: "No verão, uso", post: "porque faz calor.", opts: ["calções", "botas", "luvas"], ans: "calções" },
+        { img: "https://images.unsplash.com/photo-1583484963886-ccd2fab4a097?w=200", pre: "A Monique adora aquela", post: "verde.", opts: ["saia", "cinto", "relógio"], ans: "saia" },
+        { img: "https://images.unsplash.com/photo-1511499767390-a7335958bbe7?w=200", pre: "Vou pôr um", post: "pois está sol.", opts: ["chapéu", "pijama", "casaco"], ans: "chapéu" }
     ];
 
-    function initQuiz() {
-        const container = document.getElementById('quiz-body');
-        quizData.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.id = `card-${index}`;
+    const verbData = [
+        { pre: "Ontem, eu", post: "um vestido azul.", opts: ["visto", "vestiu", "vesti"], ans: "vesti" },
+        { pre: "Nós", post: "sempre relógio.", opts: ["usam", "usamos", "usais"], ans: "usamos" },
+        { pre: "Amanhã, tu", post: "os chinelos?", opts: ["calçaste", "calças", "vais calçar"], ans: "vais calçar" },
+        { pre: "Eles", post: "as botas agora.", opts: ["calçam", "calçaram", "calçaria"], ans: "calçam" },
+        { pre: "A Monique", post: "muitos acessórios.", opts: ["usa", "usam", "uso"], ans: "usa" },
+        { pre: "No próximo sábado, eu", post: "um fato.", opts: ["vesti", "vestirei", "visto"], ans: "vestirei" },
+        { pre: "Tu", post: "a camisola ontem?", opts: ["vestiste", "vestes", "vestirá"], ans: "vestiste" },
+        { pre: "Nós", post: "as sapatilhas para o ginásio.", opts: ["calçamos", "calçaram", "calço"], ans: "calçamos" },
+        { pre: "Ele", post: "um blusão de cabedal amanhã.", opts: ["vestiu", "vai vestir", "veste"], ans: "vai vestir" },
+        { pre: "Eu nunca", post: "brincos grandes.", opts: ["usa", "uso", "usam"], ans: "uso" }
+    ];
 
-            // Embaralhar opções
-            const shuffledOptions = [...item.options].sort(() => Math.random() - 0.5);
-
-            card.innerHTML = `
-                <div class="image-container">
-                    <img src="${item.img}" alt="Imagem da pergunta">
-                </div>
+    function renderQuestions(data, targetId, hasImage) {
+        const target = document.getElementById(targetId);
+        data.forEach((item, i) => {
+            const div = document.createElement('div');
+            div.className = 'question-card';
+            div.id = `${targetId}-card-${i}`;
+            
+            let imgHtml = hasImage ? `<div class="img-box"><img src="${item.img}"></div>` : '';
+            
+            div.innerHTML = `
+                ${imgHtml}
                 <div class="sentence">
-                    ${item.textBefore}
-                    <select id="select-${index}">
+                    ${item.pre} 
+                    <select id="${targetId}-ans-${i}">
                         <option value="">...</option>
-                        ${shuffledOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                        ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
                     </select>
-                    ${item.textAfter}
+                    ${item.post}
                 </div>
-                <div id="feedback-${index}" class="feedback-text"></div>
+                <span id="${targetId}-feedback-${i}" class="feedback"></span>
             `;
-            container.appendChild(card);
+            target.appendChild(div);
         });
     }
 
-    function checkAll() {
-        let score = 0;
-        quizData.forEach((item, index) => {
-            const select = document.getElementById(`select-${index}`);
-            const feedback = document.getElementById(`feedback-${index}`);
-            const card = document.getElementById(`card-${index}`);
+    function checkQuiz() {
+        let total = 0;
+        let correct = 0;
 
-            if (select.value === item.answer) {
-                score++;
-                card.className = 'question-card correct';
-                feedback.innerHTML = "Correto! ✅";
-                feedback.style.color = "var(--success)";
-            } else {
-                card.className = 'question-card wrong';
-                feedback.innerHTML = `Errado. A resposta é: ${item.answer}`;
-                feedback.style.color = "var(--error)";
-            }
-        });
+        function validate(data, targetId) {
+            data.forEach((item, i) => {
+                total++;
+                const sel = document.getElementById(`${targetId}-ans-${i}`);
+                const card = document.getElementById(`${targetId}-card-${i}`);
+                const feed = document.getElementById(`${targetId}-feedback-${i}`);
 
-        const resultArea = document.getElementById('result-area');
-        resultArea.style.display = "block";
-        resultArea.innerHTML = `Resultado: ${score} / ${quizData.length}`;
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                if (sel.value === item.ans) {
+                    correct++;
+                    card.className = 'question-card correct';
+                    feed.innerText = "Correto!";
+                    feed.style.color = "var(--success)";
+                } else {
+                    card.className = 'question-card wrong';
+                    feed.innerText = `Incorreto (Resposta: ${item.ans})`;
+                    feed.style.color = "var(--error)";
+                }
+            });
+        }
+
+        validate(vocabData, 'vocab-section');
+        validate(verbData, 'verb-section');
+
+        const final = document.getElementById('score-final');
+        final.style.display = "block";
+        final.innerHTML = `<h3>Resultado Final: ${correct} / ${total}</h3>
+        <p>${correct > 15 ? "Incrível! Estás uma expert em moda portuguesa! 🥂" : "Bom trabalho! Vamos praticar mais um pouco? 💪"}</p>`;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    initQuiz();
+    renderQuestions(vocabData, 'vocab-section', true);
+    renderQuestions(verbData, 'verb-section', false);
 </script>
 
 </body>
