@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafio de Português: Moda & Verbos</title>
+    <title>Desafio de Português: Moda & Audição</title>
     <style>
         :root {
             --primary: #6c5ce7;
@@ -12,50 +12,43 @@
             --bg: #f4f7f6;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); padding: 20px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); padding: 20px; padding-bottom: 100px; }
         .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
         h1 { text-align: center; color: var(--primary); margin-bottom: 40px; }
         h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 50px; color: #444; }
 
-        /* Layout em duas colunas para vocabulário */
         .question-card { 
             display: flex; align-items: center; gap: 20px;
             background: #fff; border: 1px solid #eee; border-radius: 15px; 
             padding: 15px; margin-bottom: 20px; transition: 0.3s; 
         }
-        .question-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         
-        /* Imagem à direita */
-        .img-box { flex: 0 0 150px; order: 2; }
-        .img-box img { width: 100%; height: 120px; border-radius: 10px; object-fit: cover; border: 1px solid #ddd; }
+        .img-box { flex: 0 0 120px; order: 2; }
+        .img-box img { width: 100%; height: 100px; border-radius: 10px; object-fit: cover; border: 1px solid #ddd; }
         
         .content-box { flex: 1; order: 1; }
+        .sentence { font-size: 1.1rem; line-height: 1.6; }
 
-        .sentence { font-size: 1.15rem; line-height: 1.6; }
+        select { padding: 6px 10px; border-radius: 6px; border: 2px solid var(--primary); font-size: 1rem; cursor: pointer; }
 
-        /* Estilo Dropdown */
-        select {
-            padding: 6px 10px; border-radius: 6px; border: 2px solid var(--primary);
-            font-size: 1rem; cursor: pointer; background: #fdfdfd;
-        }
-
-        /* Botão de Áudio */
+        /* Botão de Áudio Estilizado */
         .audio-btn {
-            background: none; border: none; cursor: pointer; font-size: 1.4rem;
-            margin-right: 10px; vertical-align: middle; transition: 0.2s;
+            background: var(--primary); color: white; border: none; 
+            padding: 10px 15px; border-radius: 50px; cursor: pointer; 
+            font-size: 1rem; margin-bottom: 10px; transition: 0.2s;
         }
-        .audio-btn:hover { transform: scale(1.2); }
+        .audio-btn:hover { background: #5649c0; transform: scale(1.05); }
 
         .feedback { display: block; margin-top: 8px; font-weight: bold; font-size: 0.9rem; }
         .correct { border: 2px solid var(--success) !important; background: #f0fff4 !important; }
         .wrong { border: 2px solid var(--error) !important; background: #fff5f5 !important; }
 
         #check-btn {
-            position: fixed; bottom: 20px; right: 20px; width: 250px;
-            background: var(--primary); color: white; border: none; 
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 300px; background: #2d3436; color: white; border: none; 
             padding: 20px; border-radius: 50px; font-size: 1.1rem; 
-            font-weight: bold; cursor: pointer; box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+            font-weight: bold; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 100;
         }
 
         #score-display { text-align: center; font-size: 2rem; font-weight: bold; color: var(--primary); margin-top: 20px; display: none; }
@@ -64,30 +57,43 @@
 <body>
 
 <div class="container">
-    <h1>Aula da Monique: Moda & Estilo 👗</h1>
+    <h1>Aula da Monique: Moda & Estilo 🇵🇹</h1>
     
     <div id="score-display"></div>
 
-    <h2>1. Vocabulário (O que é isto?)</h2>
+    <h2>1. Vocabulário (Imagens)</h2>
     <div id="vocab-section"></div>
 
-    <h2>2. Verbos (Vestir, Usar e Calçar)</h2>
+    <h2>2. Verbos (Gramática)</h2>
     <div id="verb-section"></div>
 
-    <button id="check-btn" onclick="checkQuiz()">Verificar Respostas</button>
+    <h2>3. Compreensão Oral (Ouve e Escolhe)</h2>
+    <p><i>Carrega no botão, ouve com atenção e escolhe a frase correta.</i></p>
+    <div id="audio-section"></div>
+
+    <button id="check-btn" onclick="checkQuiz()">Verificar Todas as Respostas</button>
 </div>
 
 <script>
+    // Configuração da voz de Portugal
+    function speak(text) {
+        window.speechSynthesis.cancel(); // Para o áudio anterior
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'pt-PT';
+        utterance.rate = 0.9; // Um pouco mais devagar para facilitar
+        window.speechSynthesis.speak(utterance);
+    }
+
     const vocabData = [
         { img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200", pre: "Para o frio, levo um", post: "grosso.", opts: ["casaco", "vestido", "colar"], ans: "casaco" },
         { img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=200", pre: "Ele veste uma", post: "branca.", opts: ["saia", "camisa", "mala"], ans: "camisa" },
         { img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200", pre: "Estes", post: "são ótimos para correr.", opts: ["ténis", "óculos", "brincos"], ans: "ténis" },
         { img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200", pre: "Ela usa os", post: "porque está sol.", opts: ["cintos", "óculos", "chapéus"], ans: "óculos" },
-        { img: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=200", pre: "Que", post: "tão bonito tens no pescoço!", opts: ["colar", "relógio", "sapato"], ans: "colar" },
-        { img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200", pre: "A", post: "da Monique é de pele.", opts: ["mala", "camisola", "pulseira"], ans: "mala" },
-        { img: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=200", pre: "O noivo veste um", post: "azul escuro.", opts: ["fato", "pijama", "blusão"], ans: "fato" },
+        { img: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=200", pre: "Que", post: "tão bonito!", opts: ["colar", "relógio", "sapato"], ans: "colar" },
+        { img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200", pre: "A", post: "da Monique é cara.", opts: ["mala", "camisola", "pulseira"], ans: "mala" },
+        { img: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=200", pre: "O noivo veste um", post: "azul.", opts: ["fato", "pijama", "blusão"], ans: "fato" },
         { img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=200", pre: "No verão visto", post: ".", opts: ["calções", "botas", "luvas"], ans: "calções" },
-        { img: "https://images.unsplash.com/photo-1583484963886-ccd2fab4a097?w=200", pre: "A", post: "é muito curta.", opts: ["saia", "cinto", "relógio"], ans: "saia" },
+        { img: "https://images.unsplash.com/photo-1583484963886-ccd2fab4a097?w=200", pre: "A Monique usa uma", post: "verde.", opts: ["saia", "cinto", "relógio"], ans: "saia" },
         { img: "https://images.unsplash.com/photo-1511499767390-a7335958bbe7?w=200", pre: "Põe o", post: "na cabeça.", opts: ["chapéu", "pijama", "casaco"], ans: "chapéu" }
     ];
 
@@ -96,73 +102,116 @@
         { pre: "Nós", post: "sempre relógio.", opts: ["usam", "usamos", "usais"], ans: "usamos" },
         { pre: "Amanhã, tu", post: "os chinelos?", opts: ["calçaste", "calças", "vais calçar"], ans: "vais calçar" },
         { pre: "Eles", post: "as botas agora.", opts: ["calçam", "calçaram", "calçaria"], ans: "calçam" },
-        { pre: "A Monique", post: "muitos acessórios.", opts: ["usa", "usam", "uso"], ans: "usa" },
-        { pre: "No próximo sábado, eu", post: "um fato.", opts: ["vesti", "vestirei", "visto"], ans: "vestirei" },
+        { pre: "A Monique", post: "acessórios.", opts: ["usa", "usam", "uso"], ans: "usa" },
+        { pre: "No sábado, eu", post: "um fato.", opts: ["vesti", "vestirei", "visto"], ans: "vestirei" },
         { pre: "Tu", post: "a camisola ontem?", opts: ["vestiste", "vestes", "vestirá"], ans: "vestiste" },
         { pre: "Nós", post: "as sapatilhas.", opts: ["calçamos", "calçaram", "calço"], ans: "calçamos" },
         { pre: "Ele", post: "um blusão amanhã.", opts: ["vestiu", "vai vestir", "veste"], ans: "vai vestir" },
-        { pre: "Eu nunca", post: "brincos grandes.", opts: ["usa", "uso", "usam"], ans: "uso" }
+        { pre: "Eu nunca", post: "brincos.", opts: ["usa", "uso", "usam"], ans: "uso" }
     ];
 
-    function speak(text) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'pt-PT';
-        window.speechSynthesis.speak(utterance);
+    const audioData = [
+        { text: "A Inês prefere escolher roupas de algodão orgânico.", opts: ["A Inês prefere escolher roupas de algodão orgânico.", "A Inês comprou roupas de algodão usado.", "A Inês prefere colares de ouro orgânico."], ans: "A Inês prefere escolher roupas de algodão orgânico." },
+        { text: "O mais importante é sentir-se bem com aquilo que veste.", opts: ["O importante é comprar muito para vestir.", "O mais importante é sentir-se bem com aquilo que veste.", "É importante vestir o que está na moda."], ans: "O mais importante é sentir-se bem com aquilo que veste." },
+        { text: "A Joana acha que o vestido da Constança é lindíssimo.", opts: ["A Joana acha que o vestido é feio.", "A Joana comprou um vestido lindíssimo.", "A Joana acha que o vestido da Constança é lindíssimo."], ans: "A Joana acha que o vestido da Constança é lindíssimo." },
+        { text: "Este casaco era da minha avó.", opts: ["Este casaco era da minha avó.", "Este casaco é da minha mãe.", "Este casaco é novo."], ans: "Este casaco era da minha avó." },
+        { text: "A mala da Joana é cor de rosa.", opts: ["A mala da Joana é vermelha.", "A mala da Joana é cor de rosa.", "A mala da Joana é de pele."], ans: "A mala da Joana é cor de rosa." },
+        { text: "A Inês costuma vestir calças de ganga no dia a dia.", opts: ["A Inês veste saias no dia a dia.", "A Inês costuma vestir calças de ganga no dia a dia.", "A Inês veste calções de ganga."], ans: "A Inês costuma vestir calças de ganga no dia a dia." },
+        { text: "Não é preciso comprar muita roupa.", opts: ["É preciso comprar muita roupa.", "Não é preciso comprar muita roupa.", "Ela precisa de comprar roupa."], ans: "Não é preciso comprar muita roupa." },
+        { text: "A Constança vai a um encontro hoje.", opts: ["A Constança vai a um encontro hoje.", "A Constança vai ao centro hoje.", "A Constança vai a um concerto hoje."], ans: "A Constança vai a um encontro hoje." },
+        { text: "Ela opta por uma camisa clássica e sapatos elegantes.", opts: ["Ela usa uma camisola clássica e sapatos.", "Ela opta por uma camisa clássica e sapatos elegantes.", "Ela veste uma saia clássica."], ans: "Ela opta por uma camisa clássica e sapatos elegantes." },
+        { text: "A forma como nos vestimos influencia a nossa confiança.", opts: ["A forma como nos vestimos influencia a nossa confiança.", "Vestir bem não ajuda a confiança.", "O estilo pessoal não é importante."], ans: "A forma como nos vestimos influencia a nossa confiança." }
+    ];
+
+    function renderVocab() {
+        const target = document.getElementById('vocab-section');
+        vocabData.forEach((item, i) => {
+            target.innerHTML += `
+                <div class="question-card" id="vocab-card-${i}">
+                    <div class="img-box"><img src="${item.img}"></div>
+                    <div class="content-box">
+                        <div class="sentence">
+                            <button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Ouvir</button><br>
+                            ${item.pre} 
+                            <select id="vocab-ans-${i}">
+                                <option value="">-- escolha --</option>
+                                ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
+                            </select>
+                            ${item.post}
+                        </div>
+                        <span id="vocab-feed-${i}" class="feedback"></span>
+                    </div>
+                </div>`;
+        });
     }
 
-    function render(data, targetId, hasImage) {
-        const target = document.getElementById(targetId);
-        data.forEach((item, i) => {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.id = `${targetId}-card-${i}`;
-            
-            const fullSentence = `${item.pre} ${item.ans} ${item.post}`;
-
-            card.innerHTML = `
-                ${hasImage ? `<div class="img-box"><img src="${item.img}"></div>` : ''}
-                <div class="content-box">
-                    <div class="sentence">
-                        <button class="audio-btn" onclick="speak('${fullSentence}')">🔊</button>
-                        ${item.pre} 
-                        <select id="${targetId}-ans-${i}">
-                            <option value="">-- escolha --</option>
-                            ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
-                        </select>
-                        ${item.post}
+    function renderVerbs() {
+        const target = document.getElementById('verb-section');
+        verbData.forEach((item, i) => {
+            target.innerHTML += `
+                <div class="question-card" id="verb-card-${i}">
+                    <div class="content-box">
+                        <div class="sentence">
+                            <button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Ouvir</button><br>
+                            ${item.pre} 
+                            <select id="verb-ans-${i}">
+                                <option value="">-- escolha --</option>
+                                ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
+                            </select>
+                            ${item.post}
+                        </div>
+                        <span id="verb-feed-${i}" class="feedback"></span>
                     </div>
-                    <span id="${targetId}-feedback-${i}" class="feedback"></span>
-                </div>
-            `;
-            target.appendChild(card);
+                </div>`;
+        });
+    }
+
+    function renderAudio() {
+        const target = document.getElementById('audio-section');
+        audioData.forEach((item, i) => {
+            target.innerHTML += `
+                <div class="question-card" id="audio-card-${i}">
+                    <div class="content-box">
+                        <button class="audio-btn" onclick="speak('${item.text}')">🔊 Ouvir Frase</button>
+                        <div class="sentence">
+                            <select id="audio-ans-${i}" style="width: 100%; margin-top: 10px;">
+                                <option value="">-- O que ouviu? --</option>
+                                ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
+                            </select>
+                        </div>
+                        <span id="audio-feed-${i}" class="feedback"></span>
+                    </div>
+                </div>`;
         });
     }
 
     function checkQuiz() {
         let score = 0;
-        const validate = (data, id) => {
+        const validate = (data, prefix) => {
             data.forEach((item, i) => {
-                const sel = document.getElementById(`${id}-ans-${i}`);
-                const card = document.getElementById(`${id}-card-${i}`);
-                const feed = document.getElementById(`${id}-feedback-${i}`);
-                if(sel.value === item.ans) { 
-                    score++; card.className = 'question-card correct'; feed.innerText = "Correto!"; 
-                } else { 
-                    card.className = 'question-card wrong'; feed.innerText = `Resposta: ${item.ans}`; 
+                const sel = document.getElementById(`${prefix}-ans-${i}`);
+                const card = document.getElementById(`${prefix}-card-${i}`);
+                const feed = document.getElementById(`${prefix}-feed-${i}`);
+                if(sel.value === item.ans) {
+                    score++; card.className = 'question-card correct'; feed.innerText = "Correto! ✨";
+                } else {
+                    card.className = 'question-card wrong'; feed.innerText = `Resposta: ${item.ans}`;
                 }
             });
         };
-        validate(vocabData, 'vocab-section');
-        validate(verbData, 'verb-section');
-        
+        validate(vocabData, 'vocab');
+        validate(verbData, 'verb');
+        validate(audioData, 'audio');
+
         const display = document.getElementById('score-display');
         display.style.display = "block";
-        display.innerText = `Pontuação: ${score} / 20`;
+        display.innerText = `Pontuação: ${score} / 30`;
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    render(vocabData, 'vocab-section', true);
-    render(verbData, 'verb-section', false);
+    renderVocab();
+    renderVerbs();
+    renderAudio();
 </script>
 
 </body>
