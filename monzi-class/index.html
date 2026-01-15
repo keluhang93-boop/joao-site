@@ -3,101 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prática de Português - Aula de Moda</title>
+    <title>Aula de Português: Moda</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; color: #333; display: flex; justify-content: center; padding: 20px; }
-        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; width: 100%; }
-        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-        .question { margin-bottom: 25px; display: none; }
-        .question.active { display: block; }
-        .options { list-style: none; padding: 0; }
-        .options li { margin: 10px 0; }
-        button { background: #3498db; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; transition: background 0.3s; }
-        button:hover { background: #2980b9; }
-        .feedback { font-weight: bold; margin-top: 15px; text-align: center; height: 20px; }
-        #score-board { text-align: center; display: none; }
+        :root {
+            --primary: #6c5ce7;
+            --success: #00b894;
+            --error: #d63031;
+            --bg: #f0f2f5;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .quiz-container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 700px; width: 100%; }
+        
+        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; }
+        
+        .question-card { background: #fff; border: 2px solid #eee; border-radius: 15px; padding: 20px; margin-bottom: 20px; transition: 0.3s; }
+        .question-card.correct { border-color: var(--success); background-color: #f7fffb; }
+        .question-card.wrong { border-color: var(--error); background-color: #fffafa; }
+
+        .image-container { text-align: center; margin-bottom: 15px; }
+        .image-container img { max-width: 150px; border-radius: 10px; border: 1px solid #ddd; }
+
+        .sentence { font-size: 1.2rem; line-height: 2; color: #2d3436; }
+        
+        /* Estilo do Dropdown */
+        select {
+            padding: 8px 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            background: white;
+            cursor: pointer;
+            outline: none;
+            margin: 0 5px;
+        }
+
+        .feedback-text { margin-top: 10px; font-weight: bold; font-size: 0.9rem; }
+        
+        #btn-check {
+            background: var(--primary);
+            color: white; border: none; padding: 15px 30px;
+            border-radius: 10px; cursor: pointer; width: 100%;
+            font-size: 1.1rem; font-weight: bold; margin-top: 20px;
+        }
+
+        #result-area {
+            text-align: center; margin-top: 20px; font-size: 1.5rem; font-weight: bold; display: none;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Prática de Português 🇵🇹</h1>
-    <div id="quiz">
+<div class="quiz-container">
+    <h1>Prática de Português: Moda 👗</h1>
+    
+    <div id="quiz-body">
         </div>
-    <div class="feedback" id="feedback"></div>
-    <div id="score-board">
-        <h2>Parabéns!</h2>
-        <p id="final-score"></p>
-        <button onclick="location.reload()">Recomeçar</button>
-    </div>
+
+    <button id="btn-check" onclick="checkAll()">Verificar Respostas</button>
+    
+    <div id="result-area"></div>
 </div>
 
 <script>
-    const questions = [
-        // Vocabulário de Roupas e Acessórios 
-        { q: "Como se chama a peça que vestes quando está frio?", a: "o casaco", options: ["a saia", "o casaco", "os calções"] },
-        { q: "Onde guardas o telemóvel e a carteira?", a: "a mala", options: ["o cinto", "os óculos", "a mala"] },
-        { q: "O que usas nos olhos quando está sol?", a: "os óculos", options: ["os óculos", "o relógio", "os brincos"] },
-        { q: "Qual destas peças é tipicamente masculina para ocasiões formais?", a: "a camisa", options: ["o vestido", "a camisa", "a saia"] },
-        
-        // Verbos (Vestir, Usar, Calçar) [cite: 2, 4, 7, 8]
-        { q: "Ontem, eu ______ os chinelos em casa. (Passado)", a: "calcei", options: ["calço", "calcei", "calçarei"] },
-        { q: "Amanhã, a Monique ______ um vestido branco. (Futuro)", a: "vestirá", options: ["vestiu", "veste", "vestirá"] },
-        { q: "Nós ______ pulseiras de prata todos os dias. (Presente)", a: "usamos", options: ["usamos", "usámos", "usaremos"] },
-        { q: "Tu ______ a camisa vermelha amanhã? (Ir + Infinitivo)", a: "vais vestir", options: ["vou vestir", "vais vestir", "vão vestir"] },
-        { q: "Eles ______ os ténis da Nike agora. (Presente)", a: "calçam", options: ["calçaram", "calçam", "calçarão"] }
+    const quizData = [
+        {
+            img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300",
+            textBefore: "Quando está frio, eu visto um",
+            options: ["sapato", "casaco", "cinto", "brinco"],
+            answer: "casaco",
+            textAfter: "azul."
+        },
+        {
+            img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300",
+            textBefore: "Para proteger os olhos do sol, ela usa",
+            options: ["os óculos", "a saia", "o relógio", "as calças"],
+            answer: "os óculos",
+            textAfter: "."
+        },
+        {
+            img: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=300",
+            textBefore: "Ontem, a Monique",
+            options: ["veste", "vestiram", "vestiu", "visto"],
+            answer: "vestiu",
+            textAfter: "um vestido elegante."
+        },
+        {
+            img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300",
+            textBefore: "Onde está a minha",
+            options: ["mala", "chapéu", "colar", "pulseira"],
+            answer: "mala",
+            textAfter: "? Preciso de guardar a carteira."
+        },
+        {
+            img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300",
+            textBefore: "Tu",
+            options: ["calço", "calças", "calçamos", "calçam"],
+            answer: "calças",
+            textAfter: "os ténis para ir correr?"
+        }
     ];
 
-    let currentQ = 0;
-    let score = 0;
+    function initQuiz() {
+        const container = document.getElementById('quiz-body');
+        quizData.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `card-${index}`;
 
-    function loadQuestion() {
-        const quizDiv = document.getElementById('quiz');
-        const qData = questions[currentQ];
-        
-        let html = `<div class="question active">
-            <p><strong>Pergunta ${currentQ + 1}:</strong> ${qData.q}</p>
-            <ul class="options">`;
-        
-        qData.options.sort(() => Math.random() - 0.5).forEach(opt => {
-            html += `<li><button onclick="checkAnswer('${opt}')">${opt}</button></li>`;
+            // Embaralhar opções
+            const shuffledOptions = [...item.options].sort(() => Math.random() - 0.5);
+
+            card.innerHTML = `
+                <div class="image-container">
+                    <img src="${item.img}" alt="Imagem da pergunta">
+                </div>
+                <div class="sentence">
+                    ${item.textBefore}
+                    <select id="select-${index}">
+                        <option value="">...</option>
+                        ${shuffledOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                    </select>
+                    ${item.textAfter}
+                </div>
+                <div id="feedback-${index}" class="feedback-text"></div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function checkAll() {
+        let score = 0;
+        quizData.forEach((item, index) => {
+            const select = document.getElementById(`select-${index}`);
+            const feedback = document.getElementById(`feedback-${index}`);
+            const card = document.getElementById(`card-${index}`);
+
+            if (select.value === item.answer) {
+                score++;
+                card.className = 'question-card correct';
+                feedback.innerHTML = "Correto! ✅";
+                feedback.style.color = "var(--success)";
+            } else {
+                card.className = 'question-card wrong';
+                feedback.innerHTML = `Errado. A resposta é: ${item.answer}`;
+                feedback.style.color = "var(--error)";
+            }
         });
 
-        html += `</ul></div>`;
-        quizDiv.innerHTML = html;
-        document.getElementById('feedback').innerText = "";
+        const resultArea = document.getElementById('result-area');
+        resultArea.style.display = "block";
+        resultArea.innerHTML = `Resultado: ${score} / ${quizData.length}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    function checkAnswer(answer) {
-        const feedback = document.getElementById('feedback');
-        if (answer === questions[currentQ].a) {
-            score++;
-            feedback.style.color = "green";
-            feedback.innerText = "Correto! ✨";
-        } else {
-            feedback.style.color = "red";
-            feedback.innerText = `Incorreto. A resposta era: ${questions[currentQ].a}`;
-        }
-
-        setTimeout(() => {
-            currentQ++;
-            if (currentQ < questions.length) {
-                loadQuestion();
-            } else {
-                showScore();
-            }
-        }, 1500);
-    }
-
-    function showScore() {
-        document.getElementById('quiz').style.display = 'none';
-        document.getElementById('feedback').style.display = 'none';
-        const board = document.getElementById('score-board');
-        board.style.display = 'block';
-        document.getElementById('final-score').innerText = `Acertaste ${score} de ${questions.length} perguntas!`;
-    }
-
-    loadQuestion();
+    initQuiz();
 </script>
 
 </body>
