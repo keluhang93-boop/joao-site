@@ -10,12 +10,19 @@
             --success: #00b894;
             --error: #d63031;
             --bg: #f4f7f6;
+            --dark: #2d3436;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); padding: 20px; padding-bottom: 120px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); padding: 20px; padding-bottom: 150px; }
         .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
-        h1 { text-align: center; color: var(--primary); margin-bottom: 40px; }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; }
+
+        /* Resumo Global */
+        #global-score { 
+            display: none; text-align: center; background: var(--primary); 
+            color: white; padding: 20px; border-radius: 15px; margin-bottom: 30px; 
+        }
 
         /* Estilo do Acordeão */
         .accordion-item { border: 1px solid #ddd; border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
@@ -23,89 +30,92 @@
         .accordion-header {
             background: #f8f9fa; padding: 20px; cursor: pointer;
             display: flex; justify-content: space-between; align-items: center;
-            font-size: 1.3rem; font-weight: bold; color: #444; transition: 0.3s;
+            font-size: 1.2rem; font-weight: bold; color: #444;
         }
-        .accordion-header:hover { background: #eee; }
-        .accordion-header::after { content: '▼'; font-size: 0.8rem; transition: 0.3s; }
-        .active .accordion-header::after { transform: rotate(180deg); }
+        .section-score { font-size: 0.9rem; color: var(--primary); background: #eee; padding: 4px 10px; border-radius: 20px; margin-left: 10px; display: none; }
 
         .accordion-content { display: none; padding: 20px; background: #fff; }
         .active .accordion-content { display: block; }
 
-        /* Estilo dos Cartões de Pergunta */
+        /* Cartões */
         .question-card { 
             display: flex; align-items: center; gap: 20px;
             background: #fff; border: 1px solid #eee; border-radius: 15px; 
-            padding: 15px; margin-bottom: 20px; 
+            padding: 15px; margin-bottom: 15px; 
         }
         
-        .img-box { flex: 0 0 120px; order: 2; }
-        .img-box img { width: 100%; height: 100px; border-radius: 10px; object-fit: cover; border: 1px solid #ddd; }
+        .img-box { flex: 0 0 110px; order: 2; }
+        .img-box img { width: 100%; height: 90px; border-radius: 8px; object-fit: cover; border: 1px solid #ddd; }
         
         .content-box { flex: 1; order: 1; }
-        .sentence { font-size: 1.1rem; line-height: 1.6; }
+        .sentence { font-size: 1.1rem; }
 
-        select { padding: 6px 10px; border-radius: 6px; border: 2px solid var(--primary); font-size: 1rem; cursor: pointer; max-width: 100%; }
+        select { padding: 6px; border-radius: 6px; border: 2px solid var(--primary); cursor: pointer; }
 
         .audio-btn {
             background: var(--primary); color: white; border: none; 
-            padding: 8px 12px; border-radius: 50px; cursor: pointer; 
-            font-size: 0.9rem; margin-bottom: 10px; transition: 0.2s;
+            padding: 6px 12px; border-radius: 50px; cursor: pointer; font-size: 0.8rem;
         }
 
-        .feedback { display: block; margin-top: 8px; font-weight: bold; font-size: 0.9rem; }
+        .feedback { display: block; margin-top: 5px; font-weight: bold; font-size: 0.85rem; }
         .correct { border: 2px solid var(--success) !important; background: #f0fff4 !important; }
         .wrong { border: 2px solid var(--error) !important; background: #fff5f5 !important; }
 
-        #check-btn {
+        /* Botões Flutuantes */
+        .controls {
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 300px; background: #2d3436; color: white; border: none; 
-            padding: 20px; border-radius: 50px; font-size: 1.1rem; 
-            font-weight: bold; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 100;
+            display: flex; gap: 10px; z-index: 1000;
         }
 
-        #score-display { text-align: center; font-size: 2rem; font-weight: bold; color: var(--primary); margin-bottom: 20px; display: none; }
+        .btn {
+            padding: 15px 25px; border-radius: 50px; border: none; 
+            font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 1rem;
+        }
+        #check-btn { background: var(--dark); color: white; }
+        #reset-btn { background: #b2bec3; color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Aula da Monique: Moda & Estilo 🇵🇹</h1>
+    <h1>Aula da Monique: Moda 🇵🇹</h1>
     
-    <div id="score-display"></div>
+    <div id="global-score"></div>
 
     <div class="accordion-item" id="sec-vocab">
-        <div class="accordion-header" onclick="toggleSection('sec-vocab')">1. Vocabulário (Imagens)</div>
+        <div class="accordion-header" onclick="toggleSection('sec-vocab')">
+            1. Vocabulário <span id="score-vocab" class="section-score"></span>
+        </div>
         <div class="accordion-content" id="vocab-section"></div>
     </div>
 
     <div class="accordion-item" id="sec-verb">
-        <div class="accordion-header" onclick="toggleSection('sec-verb')">2. Verbos (Gramática)</div>
+        <div class="accordion-header" onclick="toggleSection('sec-verb')">
+            2. Verbos <span id="score-verb" class="section-score"></span>
+        </div>
         <div class="accordion-content" id="verb-section"></div>
     </div>
 
     <div class="accordion-item" id="sec-audio">
-        <div class="accordion-header" onclick="toggleSection('sec-audio')">3. Compreensão Oral (Audição)</div>
-        <div class="accordion-content">
-            <p style="margin-bottom: 20px;"><i>Ouve a frase e escolhe a opção correta.</i></p>
-            <div id="audio-section"></div>
+        <div class="accordion-header" onclick="toggleSection('sec-audio')">
+            3. Audição <span id="score-audio" class="section-score"></span>
         </div>
+        <div class="accordion-content" id="audio-section"></div>
     </div>
 
-    <button id="check-btn" onclick="checkQuiz()">Verificar Todas as Respostas</button>
+    <div class="controls">
+        <button class="btn" id="check-btn" onclick="checkQuiz()">Verificar Respostas</button>
+        <button class="btn" id="reset-btn" onclick="resetQuiz()">Recomeçar</button>
+    </div>
 </div>
 
 <script>
     function toggleSection(id) {
         const item = document.getElementById(id);
         const isActive = item.classList.contains('active');
-        
-        // Fechar todas antes de abrir a nova (opcional, se quiseres apenas uma aberta)
         document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
-        
-        if (!isActive) {
-            item.classList.add('active');
-        }
+        if (!isActive) item.classList.add('active');
     }
 
     function speak(text) {
@@ -116,6 +126,7 @@
         window.speechSynthesis.speak(utterance);
     }
 
+    // Dados das questões
     const vocabData = [
         { img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200", pre: "Para o frio, levo um", post: "grosso.", opts: ["casaco", "vestido", "colar"], ans: "casaco" },
         { img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=200", pre: "Ele veste uma", post: "branca.", opts: ["saia", "camisa", "mala"], ans: "camisa" },
@@ -155,18 +166,15 @@
         { text: "A forma como nos vestimos influencia a nossa confiança.", opts: ["A forma como nos vestimos influencia a nossa confiança.", "Vestir bem não ajuda a confiança.", "O estilo pessoal não é importante."], ans: "A forma como nos vestimos influencia a nossa confiança." }
     ];
 
-    function renderAll() {
-        // Render Vocab
+    function render() {
         const vT = document.getElementById('vocab-section');
         vocabData.forEach((item, i) => {
-            vT.innerHTML += `<div class="question-card" id="vocab-card-${i}"><div class="img-box"><img src="${item.img}"></div><div class="content-box"><div class="sentence"><button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Som</button><br>${item.pre} <select id="vocab-ans-${i}"><option value="">-- escolha --</option>${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}</select> ${item.post}</div><span id="vocab-feed-${i}" class="feedback"></span></div></div>`;
+            vT.innerHTML += `<div class="question-card" id="vocab-card-${i}"><div class="img-box"><img src="${item.img}"></div><div class="content-box"><div class="sentence"><button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Som</button> ${item.pre} <select id="vocab-ans-${i}"><option value="">--</option>${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}</select> ${item.post}</div><span id="vocab-feed-${i}" class="feedback"></span></div></div>`;
         });
-        // Render Verbs
         const vbT = document.getElementById('verb-section');
         verbData.forEach((item, i) => {
-            vbT.innerHTML += `<div class="question-card" id="verb-card-${i}"><div class="content-box"><div class="sentence"><button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Som</button><br>${item.pre} <select id="verb-ans-${i}"><option value="">-- escolha --</option>${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}</select> ${item.post}</div><span id="verb-feed-${i}" class="feedback"></span></div></div>`;
+            vbT.innerHTML += `<div class="question-card" id="verb-card-${i}"><div class="content-box"><div class="sentence"><button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Som</button> ${item.pre} <select id="verb-ans-${i}"><option value="">--</option>${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}</select> ${item.post}</div><span id="verb-feed-${i}" class="feedback"></span></div></div>`;
         });
-        // Render Audio
         const aT = document.getElementById('audio-section');
         audioData.forEach((item, i) => {
             aT.innerHTML += `<div class="question-card" id="audio-card-${i}"><div class="content-box"><button class="audio-btn" onclick="speak('${item.text}')">🔊 Ouvir Frase</button><div class="sentence"><select id="audio-ans-${i}" style="width:100%;"><option value="">-- O que ouviu? --</option>${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}</select></div><span id="audio-feed-${i}" class="feedback"></span></div></div>`;
@@ -174,27 +182,49 @@
     }
 
     function checkQuiz() {
-        let score = 0;
-        const validate = (data, prefix) => {
+        let globalScore = 0;
+        
+        const validate = (data, prefix, scoreId) => {
+            let sectionScore = 0;
             data.forEach((item, i) => {
                 const sel = document.getElementById(`${prefix}-ans-${i}`);
                 const card = document.getElementById(`${prefix}-card-${i}`);
                 const feed = document.getElementById(`${prefix}-feed-${i}`);
-                if(sel.value === item.ans) { score++; card.className = 'question-card correct'; feed.innerText = "Correto!"; }
-                else { card.className = 'question-card wrong'; feed.innerText = `Resposta: ${item.ans}`; }
+                if(sel.value === item.ans) {
+                    sectionScore++; card.className = 'question-card correct'; feed.innerText = "Correto!";
+                } else {
+                    card.className = 'question-card wrong'; feed.innerText = `Resposta: ${item.ans}`;
+                }
             });
+            const sEl = document.getElementById(scoreId);
+            sEl.style.display = "inline";
+            sEl.innerText = `${sectionScore} / ${data.length}`;
+            return sectionScore;
         };
-        validate(vocabData, 'vocab'); validate(verbData, 'verb'); validate(audioData, 'audio');
-        const display = document.getElementById('score-display');
-        display.style.display = "block";
-        display.innerText = `Pontuação Final: ${score} / 30`;
-        window.scrollTo({top: 0, behavior: 'smooth'});
-        // Abrir todas as secções para ela ver os erros
+
+        globalScore += validate(vocabData, 'vocab', 'score-vocab');
+        globalScore += validate(verbData, 'verb', 'score-verb');
+        globalScore += validate(audioData, 'audio', 'score-audio');
+
+        const gDisplay = document.getElementById('global-score');
+        gDisplay.style.display = "block";
+        gDisplay.innerHTML = `<h2>Pontuação Global: ${globalScore} / 30</h2><p>${globalScore > 25 ? "Incrível! Estás de parabéns! 🎉" : "Bom esforço! Continua a praticar! 💪"}</p>`;
         document.querySelectorAll('.accordion-item').forEach(el => el.classList.add('active'));
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    renderAll();
-    // Abrir a primeira por defeito
+    function resetQuiz() {
+        document.querySelectorAll('select').forEach(s => s.value = "");
+        document.querySelectorAll('.question-card').forEach(c => c.className = 'question-card');
+        document.querySelectorAll('.feedback').forEach(f => f.innerText = "");
+        document.querySelectorAll('.section-score').forEach(s => s.style.display = "none");
+        document.getElementById('global-score').style.display = "none";
+        document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
+        toggleSection('sec-vocab');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    render();
     toggleSection('sec-vocab');
 </script>
 
