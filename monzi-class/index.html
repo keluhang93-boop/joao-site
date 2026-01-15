@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafio de Português: Moda & Audição</title>
+    <title>Desafio de Português: Moda & Estilo</title>
     <style>
         :root {
             --primary: #6c5ce7;
@@ -12,16 +12,31 @@
             --bg: #f4f7f6;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); padding: 20px; padding-bottom: 100px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); padding: 20px; padding-bottom: 120px; }
         .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
         h1 { text-align: center; color: var(--primary); margin-bottom: 40px; }
-        h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 50px; color: #444; }
 
+        /* Estilo do Acordeão */
+        .accordion-item { border: 1px solid #ddd; border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
+        
+        .accordion-header {
+            background: #f8f9fa; padding: 20px; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 1.3rem; font-weight: bold; color: #444; transition: 0.3s;
+        }
+        .accordion-header:hover { background: #eee; }
+        .accordion-header::after { content: '▼'; font-size: 0.8rem; transition: 0.3s; }
+        .active .accordion-header::after { transform: rotate(180deg); }
+
+        .accordion-content { display: none; padding: 20px; background: #fff; }
+        .active .accordion-content { display: block; }
+
+        /* Estilo dos Cartões de Pergunta */
         .question-card { 
             display: flex; align-items: center; gap: 20px;
             background: #fff; border: 1px solid #eee; border-radius: 15px; 
-            padding: 15px; margin-bottom: 20px; transition: 0.3s; 
+            padding: 15px; margin-bottom: 20px; 
         }
         
         .img-box { flex: 0 0 120px; order: 2; }
@@ -30,15 +45,13 @@
         .content-box { flex: 1; order: 1; }
         .sentence { font-size: 1.1rem; line-height: 1.6; }
 
-        select { padding: 6px 10px; border-radius: 6px; border: 2px solid var(--primary); font-size: 1rem; cursor: pointer; }
+        select { padding: 6px 10px; border-radius: 6px; border: 2px solid var(--primary); font-size: 1rem; cursor: pointer; max-width: 100%; }
 
-        /* Botão de Áudio Estilizado */
         .audio-btn {
             background: var(--primary); color: white; border: none; 
-            padding: 10px 15px; border-radius: 50px; cursor: pointer; 
-            font-size: 1rem; margin-bottom: 10px; transition: 0.2s;
+            padding: 8px 12px; border-radius: 50px; cursor: pointer; 
+            font-size: 0.9rem; margin-bottom: 10px; transition: 0.2s;
         }
-        .audio-btn:hover { background: #5649c0; transform: scale(1.05); }
 
         .feedback { display: block; margin-top: 8px; font-weight: bold; font-size: 0.9rem; }
         .correct { border: 2px solid var(--success) !important; background: #f0fff4 !important; }
@@ -51,7 +64,7 @@
             font-weight: bold; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 100;
         }
 
-        #score-display { text-align: center; font-size: 2rem; font-weight: bold; color: var(--primary); margin-top: 20px; display: none; }
+        #score-display { text-align: center; font-size: 2rem; font-weight: bold; color: var(--primary); margin-bottom: 20px; display: none; }
     </style>
 </head>
 <body>
@@ -61,26 +74,45 @@
     
     <div id="score-display"></div>
 
-    <h2>1. Vocabulário (Imagens)</h2>
-    <div id="vocab-section"></div>
+    <div class="accordion-item" id="sec-vocab">
+        <div class="accordion-header" onclick="toggleSection('sec-vocab')">1. Vocabulário (Imagens)</div>
+        <div class="accordion-content" id="vocab-section"></div>
+    </div>
 
-    <h2>2. Verbos (Gramática)</h2>
-    <div id="verb-section"></div>
+    <div class="accordion-item" id="sec-verb">
+        <div class="accordion-header" onclick="toggleSection('sec-verb')">2. Verbos (Gramática)</div>
+        <div class="accordion-content" id="verb-section"></div>
+    </div>
 
-    <h2>3. Compreensão Oral (Ouve e Escolhe)</h2>
-    <p><i>Carrega no botão, ouve com atenção e escolhe a frase correta.</i></p>
-    <div id="audio-section"></div>
+    <div class="accordion-item" id="sec-audio">
+        <div class="accordion-header" onclick="toggleSection('sec-audio')">3. Compreensão Oral (Audição)</div>
+        <div class="accordion-content">
+            <p style="margin-bottom: 20px;"><i>Ouve a frase e escolhe a opção correta.</i></p>
+            <div id="audio-section"></div>
+        </div>
+    </div>
 
     <button id="check-btn" onclick="checkQuiz()">Verificar Todas as Respostas</button>
 </div>
 
 <script>
-    // Configuração da voz de Portugal
+    function toggleSection(id) {
+        const item = document.getElementById(id);
+        const isActive = item.classList.contains('active');
+        
+        // Fechar todas antes de abrir a nova (opcional, se quiseres apenas uma aberta)
+        document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
+        
+        if (!isActive) {
+            item.classList.add('active');
+        }
+    }
+
     function speak(text) {
-        window.speechSynthesis.cancel(); // Para o áudio anterior
+        window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'pt-PT';
-        utterance.rate = 0.9; // Um pouco mais devagar para facilitar
+        utterance.rate = 0.85; 
         window.speechSynthesis.speak(utterance);
     }
 
@@ -123,65 +155,21 @@
         { text: "A forma como nos vestimos influencia a nossa confiança.", opts: ["A forma como nos vestimos influencia a nossa confiança.", "Vestir bem não ajuda a confiança.", "O estilo pessoal não é importante."], ans: "A forma como nos vestimos influencia a nossa confiança." }
     ];
 
-    function renderVocab() {
-        const target = document.getElementById('vocab-section');
+    function renderAll() {
+        // Render Vocab
+        const vT = document.getElementById('vocab-section');
         vocabData.forEach((item, i) => {
-            target.innerHTML += `
-                <div class="question-card" id="vocab-card-${i}">
-                    <div class="img-box"><img src="${item.img}"></div>
-                    <div class="content-box">
-                        <div class="sentence">
-                            <button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Ouvir</button><br>
-                            ${item.pre} 
-                            <select id="vocab-ans-${i}">
-                                <option value="">-- escolha --</option>
-                                ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
-                            </select>
-                            ${item.post}
-                        </div>
-                        <span id="vocab-feed-${i}" class="feedback"></span>
-                    </div>
-                </div>`;
+            vT.innerHTML += `<div class="question-card" id="vocab-card-${i}"><div class="img-box"><img src="${item.img}"></div><div class="content-box"><div class="sentence"><button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Som</button><br>${item.pre} <select id="vocab-ans-${i}"><option value="">-- escolha --</option>${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}</select> ${item.post}</div><span id="vocab-feed-${i}" class="feedback"></span></div></div>`;
         });
-    }
-
-    function renderVerbs() {
-        const target = document.getElementById('verb-section');
+        // Render Verbs
+        const vbT = document.getElementById('verb-section');
         verbData.forEach((item, i) => {
-            target.innerHTML += `
-                <div class="question-card" id="verb-card-${i}">
-                    <div class="content-box">
-                        <div class="sentence">
-                            <button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Ouvir</button><br>
-                            ${item.pre} 
-                            <select id="verb-ans-${i}">
-                                <option value="">-- escolha --</option>
-                                ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
-                            </select>
-                            ${item.post}
-                        </div>
-                        <span id="verb-feed-${i}" class="feedback"></span>
-                    </div>
-                </div>`;
+            vbT.innerHTML += `<div class="question-card" id="verb-card-${i}"><div class="content-box"><div class="sentence"><button class="audio-btn" onclick="speak('${item.pre} ${item.ans} ${item.post}')">🔊 Som</button><br>${item.pre} <select id="verb-ans-${i}"><option value="">-- escolha --</option>${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}</select> ${item.post}</div><span id="verb-feed-${i}" class="feedback"></span></div></div>`;
         });
-    }
-
-    function renderAudio() {
-        const target = document.getElementById('audio-section');
+        // Render Audio
+        const aT = document.getElementById('audio-section');
         audioData.forEach((item, i) => {
-            target.innerHTML += `
-                <div class="question-card" id="audio-card-${i}">
-                    <div class="content-box">
-                        <button class="audio-btn" onclick="speak('${item.text}')">🔊 Ouvir Frase</button>
-                        <div class="sentence">
-                            <select id="audio-ans-${i}" style="width: 100%; margin-top: 10px;">
-                                <option value="">-- O que ouviu? --</option>
-                                ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
-                            </select>
-                        </div>
-                        <span id="audio-feed-${i}" class="feedback"></span>
-                    </div>
-                </div>`;
+            aT.innerHTML += `<div class="question-card" id="audio-card-${i}"><div class="content-box"><button class="audio-btn" onclick="speak('${item.text}')">🔊 Ouvir Frase</button><div class="sentence"><select id="audio-ans-${i}" style="width:100%;"><option value="">-- O que ouviu? --</option>${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}</select></div><span id="audio-feed-${i}" class="feedback"></span></div></div>`;
         });
     }
 
@@ -192,26 +180,22 @@
                 const sel = document.getElementById(`${prefix}-ans-${i}`);
                 const card = document.getElementById(`${prefix}-card-${i}`);
                 const feed = document.getElementById(`${prefix}-feed-${i}`);
-                if(sel.value === item.ans) {
-                    score++; card.className = 'question-card correct'; feed.innerText = "Correto! ✨";
-                } else {
-                    card.className = 'question-card wrong'; feed.innerText = `Resposta: ${item.ans}`;
-                }
+                if(sel.value === item.ans) { score++; card.className = 'question-card correct'; feed.innerText = "Correto!"; }
+                else { card.className = 'question-card wrong'; feed.innerText = `Resposta: ${item.ans}`; }
             });
         };
-        validate(vocabData, 'vocab');
-        validate(verbData, 'verb');
-        validate(audioData, 'audio');
-
+        validate(vocabData, 'vocab'); validate(verbData, 'verb'); validate(audioData, 'audio');
         const display = document.getElementById('score-display');
         display.style.display = "block";
-        display.innerText = `Pontuação: ${score} / 30`;
+        display.innerText = `Pontuação Final: ${score} / 30`;
         window.scrollTo({top: 0, behavior: 'smooth'});
+        // Abrir todas as secções para ela ver os erros
+        document.querySelectorAll('.accordion-item').forEach(el => el.classList.add('active'));
     }
 
-    renderVocab();
-    renderVerbs();
-    renderAudio();
+    renderAll();
+    // Abrir a primeira por defeito
+    toggleSection('sec-vocab');
 </script>
 
 </body>
