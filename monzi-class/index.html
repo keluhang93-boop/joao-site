@@ -7,143 +7,162 @@
     <style>
         :root {
             --primary: #6c5ce7;
-            --secondary: #a29bfe;
             --success: #00b894;
             --error: #d63031;
-            --text: #2d3436;
-            --bg: #f9f9fb;
+            --bg: #f4f7f6;
         }
 
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); padding: 20px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
-        h1 { text-align: center; color: var(--primary); font-size: 2.2rem; margin-bottom: 10px; }
-        h2 { border-left: 5px solid var(--primary); padding-left: 15px; margin-top: 40px; color: #444; }
-        p.subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 40px; }
+        h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 50px; color: #444; }
 
-        .question-card { border: 1px solid #eee; border-radius: 15px; padding: 20px; margin-bottom: 20px; background: #fff; transition: 0.3s; }
-        .question-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .correct { border: 2px solid var(--success) !important; background-color: #f0fff4 !important; }
-        .wrong { border: 2px solid var(--error) !important; background-color: #fff5f5 !important; }
-
-        .img-box { text-align: center; margin-bottom: 15px; }
-        .img-box img { height: 120px; border-radius: 10px; object-fit: cover; }
-
-        select { padding: 8px; border-radius: 6px; border: 2px solid var(--secondary); font-size: 1rem; cursor: pointer; outline: none; }
+        /* Layout em duas colunas para vocabulário */
+        .question-card { 
+            display: flex; align-items: center; gap: 20px;
+            background: #fff; border: 1px solid #eee; border-radius: 15px; 
+            padding: 15px; margin-bottom: 20px; transition: 0.3s; 
+        }
+        .question-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         
-        .feedback { font-weight: bold; font-size: 0.9rem; margin-top: 10px; display: block; }
+        /* Imagem à direita */
+        .img-box { flex: 0 0 150px; order: 2; }
+        .img-box img { width: 100%; height: 120px; border-radius: 10px; object-fit: cover; border: 1px solid #ddd; }
         
-        #check-btn { background: var(--primary); color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 30px; transition: 0.3s; }
-        #check-btn:hover { background: #5649c0; }
+        .content-box { flex: 1; order: 1; }
 
-        #score-final { display: none; text-align: center; padding: 20px; background: var(--primary); color: white; border-radius: 15px; margin-top: 20px; }
+        .sentence { font-size: 1.15rem; line-height: 1.6; }
+
+        /* Estilo Dropdown */
+        select {
+            padding: 6px 10px; border-radius: 6px; border: 2px solid var(--primary);
+            font-size: 1rem; cursor: pointer; background: #fdfdfd;
+        }
+
+        /* Botão de Áudio */
+        .audio-btn {
+            background: none; border: none; cursor: pointer; font-size: 1.4rem;
+            margin-right: 10px; vertical-align: middle; transition: 0.2s;
+        }
+        .audio-btn:hover { transform: scale(1.2); }
+
+        .feedback { display: block; margin-top: 8px; font-weight: bold; font-size: 0.9rem; }
+        .correct { border: 2px solid var(--success) !important; background: #f0fff4 !important; }
+        .wrong { border: 2px solid var(--error) !important; background: #fff5f5 !important; }
+
+        #check-btn {
+            position: fixed; bottom: 20px; right: 20px; width: 250px;
+            background: var(--primary); color: white; border: none; 
+            padding: 20px; border-radius: 50px; font-size: 1.1rem; 
+            font-weight: bold; cursor: pointer; box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        #score-display { text-align: center; font-size: 2rem; font-weight: bold; color: var(--primary); margin-top: 20px; display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Aula da Monique: Moda 🇵🇹</h1>
-    <p class="subtitle">Completa as frases escolhendo a opção correta.</p>
+    <h1>Aula da Monique: Moda & Estilo 👗</h1>
+    
+    <div id="score-display"></div>
 
-    <h2>1. Vocabulário (Roupas e Acessórios)</h2>
+    <h2>1. Vocabulário (O que é isto?)</h2>
     <div id="vocab-section"></div>
 
-    <h2>2. Gramática (Verbos: Vestir, Usar, Calçar)</h2>
+    <h2>2. Verbos (Vestir, Usar e Calçar)</h2>
     <div id="verb-section"></div>
 
-    <button id="check-btn" onclick="checkQuiz()">Verificar todos os resultados</button>
-
-    <div id="score-final"></div>
+    <button id="check-btn" onclick="checkQuiz()">Verificar Respostas</button>
 </div>
 
 <script>
     const vocabData = [
         { img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200", pre: "Para o frio, levo um", post: "grosso.", opts: ["casaco", "vestido", "colar"], ans: "casaco" },
-        { img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=200", pre: "Ele veste uma", post: "branca na reunião.", opts: ["saia", "camisa", "mala"], ans: "camisa" },
+        { img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=200", pre: "Ele veste uma", post: "branca.", opts: ["saia", "camisa", "mala"], ans: "camisa" },
         { img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200", pre: "Estes", post: "são ótimos para correr.", opts: ["ténis", "óculos", "brincos"], ans: "ténis" },
-        { img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200", pre: "Não vejo nada sem os meus", post: ".", opts: ["cintos", "óculos", "chapéus"], ans: "óculos" },
-        { img: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=200", pre: "Ela comprou um", post: "para o pescoço.", opts: ["colar", "relógio", "sapato"], ans: "colar" },
-        { img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200", pre: "Guardei a carteira na", post: ".", opts: ["mala", "camisola", "pulseira"], ans: "mala" },
-        { img: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=200", pre: "O", post: "está muito elegante no noivo.", opts: ["fato", "pijama", "blusão"], ans: "fato" },
-        { img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=200", pre: "No verão, uso", post: "porque faz calor.", opts: ["calções", "botas", "luvas"], ans: "calções" },
-        { img: "https://images.unsplash.com/photo-1583484963886-ccd2fab4a097?w=200", pre: "A Monique adora aquela", post: "verde.", opts: ["saia", "cinto", "relógio"], ans: "saia" },
-        { img: "https://images.unsplash.com/photo-1511499767390-a7335958bbe7?w=200", pre: "Vou pôr um", post: "pois está sol.", opts: ["chapéu", "pijama", "casaco"], ans: "chapéu" }
+        { img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200", pre: "Ela usa os", post: "porque está sol.", opts: ["cintos", "óculos", "chapéus"], ans: "óculos" },
+        { img: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=200", pre: "Que", post: "tão bonito tens no pescoço!", opts: ["colar", "relógio", "sapato"], ans: "colar" },
+        { img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200", pre: "A", post: "da Monique é de pele.", opts: ["mala", "camisola", "pulseira"], ans: "mala" },
+        { img: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=200", pre: "O noivo veste um", post: "azul escuro.", opts: ["fato", "pijama", "blusão"], ans: "fato" },
+        { img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=200", pre: "No verão visto", post: ".", opts: ["calções", "botas", "luvas"], ans: "calções" },
+        { img: "https://images.unsplash.com/photo-1583484963886-ccd2fab4a097?w=200", pre: "A", post: "é muito curta.", opts: ["saia", "cinto", "relógio"], ans: "saia" },
+        { img: "https://images.unsplash.com/photo-1511499767390-a7335958bbe7?w=200", pre: "Põe o", post: "na cabeça.", opts: ["chapéu", "pijama", "casaco"], ans: "chapéu" }
     ];
 
     const verbData = [
-        { pre: "Ontem, eu", post: "um vestido azul.", opts: ["visto", "vestiu", "vesti"], ans: "vesti" },
+        { pre: "Ontem, eu", post: "um vestido.", opts: ["visto", "vestiu", "vesti"], ans: "vesti" },
         { pre: "Nós", post: "sempre relógio.", opts: ["usam", "usamos", "usais"], ans: "usamos" },
         { pre: "Amanhã, tu", post: "os chinelos?", opts: ["calçaste", "calças", "vais calçar"], ans: "vais calçar" },
         { pre: "Eles", post: "as botas agora.", opts: ["calçam", "calçaram", "calçaria"], ans: "calçam" },
         { pre: "A Monique", post: "muitos acessórios.", opts: ["usa", "usam", "uso"], ans: "usa" },
         { pre: "No próximo sábado, eu", post: "um fato.", opts: ["vesti", "vestirei", "visto"], ans: "vestirei" },
         { pre: "Tu", post: "a camisola ontem?", opts: ["vestiste", "vestes", "vestirá"], ans: "vestiste" },
-        { pre: "Nós", post: "as sapatilhas para o ginásio.", opts: ["calçamos", "calçaram", "calço"], ans: "calçamos" },
-        { pre: "Ele", post: "um blusão de cabedal amanhã.", opts: ["vestiu", "vai vestir", "veste"], ans: "vai vestir" },
+        { pre: "Nós", post: "as sapatilhas.", opts: ["calçamos", "calçaram", "calço"], ans: "calçamos" },
+        { pre: "Ele", post: "um blusão amanhã.", opts: ["vestiu", "vai vestir", "veste"], ans: "vai vestir" },
         { pre: "Eu nunca", post: "brincos grandes.", opts: ["usa", "uso", "usam"], ans: "uso" }
     ];
 
-    function renderQuestions(data, targetId, hasImage) {
+    function speak(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'pt-PT';
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function render(data, targetId, hasImage) {
         const target = document.getElementById(targetId);
         data.forEach((item, i) => {
-            const div = document.createElement('div');
-            div.className = 'question-card';
-            div.id = `${targetId}-card-${i}`;
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `${targetId}-card-${i}`;
             
-            let imgHtml = hasImage ? `<div class="img-box"><img src="${item.img}"></div>` : '';
-            
-            div.innerHTML = `
-                ${imgHtml}
-                <div class="sentence">
-                    ${item.pre} 
-                    <select id="${targetId}-ans-${i}">
-                        <option value="">...</option>
-                        ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
-                    </select>
-                    ${item.post}
+            const fullSentence = `${item.pre} ${item.ans} ${item.post}`;
+
+            card.innerHTML = `
+                ${hasImage ? `<div class="img-box"><img src="${item.img}"></div>` : ''}
+                <div class="content-box">
+                    <div class="sentence">
+                        <button class="audio-btn" onclick="speak('${fullSentence}')">🔊</button>
+                        ${item.pre} 
+                        <select id="${targetId}-ans-${i}">
+                            <option value="">-- escolha --</option>
+                            ${item.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
+                        </select>
+                        ${item.post}
+                    </div>
+                    <span id="${targetId}-feedback-${i}" class="feedback"></span>
                 </div>
-                <span id="${targetId}-feedback-${i}" class="feedback"></span>
             `;
-            target.appendChild(div);
+            target.appendChild(card);
         });
     }
 
     function checkQuiz() {
-        let total = 0;
-        let correct = 0;
-
-        function validate(data, targetId) {
+        let score = 0;
+        const validate = (data, id) => {
             data.forEach((item, i) => {
-                total++;
-                const sel = document.getElementById(`${targetId}-ans-${i}`);
-                const card = document.getElementById(`${targetId}-card-${i}`);
-                const feed = document.getElementById(`${targetId}-feedback-${i}`);
-
-                if (sel.value === item.ans) {
-                    correct++;
-                    card.className = 'question-card correct';
-                    feed.innerText = "Correto!";
-                    feed.style.color = "var(--success)";
-                } else {
-                    card.className = 'question-card wrong';
-                    feed.innerText = `Incorreto (Resposta: ${item.ans})`;
-                    feed.style.color = "var(--error)";
+                const sel = document.getElementById(`${id}-ans-${i}`);
+                const card = document.getElementById(`${id}-card-${i}`);
+                const feed = document.getElementById(`${id}-feedback-${i}`);
+                if(sel.value === item.ans) { 
+                    score++; card.className = 'question-card correct'; feed.innerText = "Correto!"; 
+                } else { 
+                    card.className = 'question-card wrong'; feed.innerText = `Resposta: ${item.ans}`; 
                 }
             });
-        }
-
+        };
         validate(vocabData, 'vocab-section');
         validate(verbData, 'verb-section');
-
-        const final = document.getElementById('score-final');
-        final.style.display = "block";
-        final.innerHTML = `<h3>Resultado Final: ${correct} / ${total}</h3>
-        <p>${correct > 15 ? "Incrível! Estás uma expert em moda portuguesa! 🥂" : "Bom trabalho! Vamos praticar mais um pouco? 💪"}</p>`;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        const display = document.getElementById('score-display');
+        display.style.display = "block";
+        display.innerText = `Pontuação: ${score} / 20`;
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    renderQuestions(vocabData, 'vocab-section', true);
-    renderQuestions(verbData, 'verb-section', false);
+    render(vocabData, 'vocab-section', true);
+    render(verbData, 'verb-section', false);
 </script>
 
 </body>
