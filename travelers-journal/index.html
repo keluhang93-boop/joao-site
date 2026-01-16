@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My LEGO Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="module">
+        // 1. We import our LEGO pieces
+        import { Header } from './components/Header.js';
+        import { Hero } from './components/Hero.js';
+        import { Footer } from './components/Footer.js';
+
+        // 2. We grab our "stage"
+        const stage = document.getElementById('root');
+
+        // 3. We assemble them! 
+        stage.innerHTML = `
+            ${Header()}
+            ${Hero()}
+            ${Footer()}
+        `;
+    </script>
+</body>
+</html>
