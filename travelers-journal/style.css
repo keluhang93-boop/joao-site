@@ -1,0 +1,11 @@
+:root {
+  --primary-color: #3498db; /* Change this to change everything! */
+  --font-main: 'Helvetica', sans-serif;
+  --spacing: 20px;
+}
+
+.main-btn {
+  background-color: var(--primary-color);
+  padding: var(--spacing);
+  font-family: var(--font-main);
+}
