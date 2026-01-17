@@ -328,68 +328,92 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     font-style: normal;
 }
 
-/* --- MOBILE CARDS FOR DEBTS --- */
+/* --- PERFECT MOBILE CARDS FOR DEBTS --- */
 @media (max-width: 600px) {
-    /* 1. Hide the table header completely on mobile */
-    #debtsGrid .expense-list-header {
-        display: none !important;
+    /* 1. Reset the grid container so it doesn't allow horizontal scrolling */
+    #debtsRowsContainer {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow-x: hidden !important;
     }
 
-    /* 2. Turn the row into a 'Rectangle' (Card) */
+    /* 2. Style each Month as a full-width Rectangle */
     #debtsGrid .expense-row {
         display: flex !important;
         flex-direction: column !important;
+        width: 100% !important; /* Forces it to stay in screen */
+        box-sizing: border-box !important; /* Includes padding in width */
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 20px; /* Space between months */
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 15px !important;
+        margin-bottom: 20px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         position: relative;
     }
 
-    /* 3. Style the labels inside the card */
-    #debtsGrid .mobile-only-label {
-        display: block !important; /* Show them only here */
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        color: #1f4e79;
-        font-weight: bold;
-        margin-bottom: 4px;
-        margin-top: 10px;
+    /* 3. Ensure the inner groups take up the full card width */
+    #debtsGrid .input-wrapper-group {
+        width: 100% !important;
+        text-align: left !important; /* Keep text to the left */
+        margin-bottom: 12px;
     }
 
-    /* 4. Make inputs look good inside the card */
+    /* 4. Labels styling */
+    #debtsGrid .mobile-only-label {
+        display: block !important;
+        font-size: 0.8rem;
+        color: #1f4e79;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    /* 5. Inputs styling - 100% width is key here */
     #debtsGrid .expense-row input[type="text"],
     #debtsGrid .expense-row input[type="number"] {
         width: 100% !important;
-        padding: 10px !important;
+        box-sizing: border-box !important;
+        padding: 12px !important;
         border: 1px solid #cbd5e1 !important;
-        border-radius: 6px !important;
-        font-size: 1rem !important;
+        border-radius: 8px !important;
+        font-size: 16px !important; /* Prevents auto-zoom on iPhone */
     }
 
-    /* 5. Center the checkbox section */
+    /* 6. Status Section Background */
     #debtsGrid .input-wrapper-group[style*="text-align:center"] {
-        background: #f1f5f9;
-        padding: 10px;
+        background: #f8fafc;
+        padding: 15px !important;
         border-radius: 8px;
-        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left !important;
+    }
+    
+    #debtsGrid .input-wrapper-group[style*="text-align:center"] .mobile-only-label {
+        margin: 0;
     }
 
-    /* 6. Move the delete (X) button to the top right of the card */
+    /* 7. Position the Delete button safely */
     #debtsGrid .btn-delete-hover {
         position: absolute;
-        top: 10px;
-        right: 10px;
-        background: #fee2e2;
-        color: #dc2626;
+        top: -10px;
+        right: -5px;
+        background: #ef4444 !important;
+        color: white !important;
         border-radius: 50%;
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 }
-
 /* --- DESKTOP VIEW HIDE LABELS --- */
 @media (min-width: 601px) {
     .mobile-only-label {
