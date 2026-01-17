@@ -1,9 +1,9 @@
-// Add this at the very top of your file to ensure it's defined
-// Use the existing chart1 or initialize it if it doesn't exist
+// Ensure chart instance is defined globally
 if (typeof chart1 === 'undefined') {
     var chart1 = null; 
 }
 
+// --- DATA INITIALIZATION ---
 const defaultExamples = [
     { id: 1, name: "🏠 Loyer", jean: 450, monique: 450, settled: false, recurring: true },
     { id: 2, name: "⚡ Électricité", jean: 40, monique: 40, settled: false, recurring: true },
@@ -22,88 +22,45 @@ if (Object.keys(allMonthsData).length === 0) {
 
 let categories = allMonthsData[currentMonth];
 
+let groceryItems = JSON.parse(localStorage.getItem('smartSpending_groceries')) || [
+    { id: 1, name: "Riz", price: 1.99, unit: "500g", qty: 1 },
+    { id: 2, name: "Bananes (6x)", price: 2.49, unit: "lot", qty: 1 },
+    { id: 3, name: "Thon (boîte)", price: 2.49, unit: "180g", qty: 1 }
+];
+
+let debtsHistory = JSON.parse(localStorage.getItem('smartSpending_debts')) || [];
+
+// --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
     initMonthSelector();
     renderSpending();
 });
 
-// --- RESET TO DEFAULTS ---
-function resetToDefaults() {
-    if(confirm("Voulez-vous réinitialiser ce mois avec les exemples par défaut ? (Cela effacera vos données actuelles)")) {
-        categories = JSON.parse(JSON.stringify(defaultExamples)); // Deep copy
-        saveData();
-        renderSpending();
-    }
-}
+// --- NAVIGATION & VIEW CONTROL ---
+function showView(viewId, btnElement) {
+    // Hide all views
+    document.querySelectorAll('.dashboard-view').forEach(view => {
+        view.style.display = 'none';
+    });
 
-// --- DELETE CURRENT MONTH ---
-function deleteCurrentMonth() {
-    const months = Object.keys(allMonthsData);
-    if (months.length <= 1) {
-        alert("Vous ne pouvez pas supprimer le seul mois restant.");
-        return;
-    }
-    if (confirm(`Supprimer définitivement le mois de ${currentMonth} ?`)) {
-        delete allMonthsData[currentMonth];
-        currentMonth = Object.keys(allMonthsData)[0];
-        categories = allMonthsData[currentMonth];
-        localStorage.setItem('smartSpending_currentView', currentMonth);
-        saveData();
-        initMonthSelector();
-        renderSpending();
-    }
-}
+    // Show the selected view
+    const targetView = document.getElementById(viewId);
+    if(targetView) targetView.style.display = 'block';
 
-// --- FULLY AUTOMATIC NEXT MONTH ---
-// Corrected Date Logic (fixed the getMonth typo)
-function startNewMonth() {
-    const monthNames = Object.keys(allMonthsData);
-    const lastMonthString = monthNames[monthNames.length - 1];
+    // Update active button styling
+    document.querySelectorAll('.sub-nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    btnElement.classList.add('active');
     
-    const monthsFr = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-    let [name, year] = lastMonthString.split(' ');
-    let monthIdx = monthsFr.indexOf(name.toLowerCase());
-    
-    let date = new Date(parseInt(year), monthIdx, 1);
-    date.setMonth(date.getMonth() + 1); // FIXED: getMonth()
-    
-    const nextMonthName = date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
-
-    if (confirm("Passer au mois suivant : " + nextMonthName + " ?")) {
-        const newMonthCats = categories
-            .filter(cat => cat.recurring)
-            .map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
-
-        allMonthsData[nextMonthName] = newMonthCats;
-        currentMonth = nextMonthName;
-        categories = allMonthsData[currentMonth];
-        saveData();
-        initMonthSelector();
-        renderSpending();
-    }
+    // Refresh specific view data
+    if(viewId === 'view-spending') renderSpending();
+    if(viewId === 'view-savings') calculateTotals();
+    if(viewId === 'view-grocery') renderGroceries();
+    if(viewId === 'view-debts') renderDebts();
 }
 
-// --- REUSE PREVIOUS RENDER/UPDATE FUNCTIONS ---
-function initMonthSelector() {
-    const selector = document.getElementById('monthSelector');
-    if (!selector) return;
-    selector.innerHTML = Object.keys(allMonthsData).map(m => 
-        `<option value="${m}" ${m === currentMonth ? 'selected' : ''}>${m}</option>`
-    ).join('');
-}
-
-function changeMonth(selectedMonth) {
-    currentMonth = selectedMonth;
-    localStorage.setItem('smartSpending_currentView', currentMonth);
-    categories = allMonthsData[currentMonth];
-    renderSpending();
-}
-
-function saveData() {
-    allMonthsData[currentMonth] = categories;
-    localStorage.setItem('smartSpending_history', JSON.stringify(allMonthsData));
-}
-
+// --- SPENDING (DÉPENSES) LOGIC ---
 function renderSpending() {
     const container = document.getElementById('spendingGrid');
     if (!container) return;
@@ -142,22 +99,8 @@ function updateCat(id, field, value) {
     }
 }
 
-function addNewCategory() {
-    categories.push({ id: Date.now(), name: "Nouvelle dépense", jean: 0, monique: 0, settled: false, recurring: false });
-    saveData();
-    renderSpending();
-}
-
-function deleteCat(id) {
-    categories = categories.filter(c => c.id !== id);
-    saveData();
-    renderSpending();
-}
-
 function calculateTotals() {
-    // Only run if categories exists
     if (!categories) return;
-
     let valJean = categories.reduce((sum, c) => sum + parseFloat(c.jean || 0), 0);
     let valMonique = categories.reduce((sum, c) => sum + parseFloat(c.monique || 0), 0);
     
@@ -172,121 +115,114 @@ function calculateTotals() {
         const revenu = parseFloat(revInput.value || 0);
         const economie = revenu - totalGlobal;
         if(document.getElementById('economieDisplay')) document.getElementById('economieDisplay').innerText = economie.toFixed(2) + " €";
-        
-        // Safety check: Only update chart if Chart.js is loaded
-        if (typeof Chart !== 'undefined') {
-            updateCharts(revenu, totalGlobal);
+        if (typeof Chart !== 'undefined') updateCharts(revenu, totalGlobal);
+    }
+}
+
+// --- DEBTS (DETTES) LOGIC ---
+function renderDebts() {
+    const container = document.getElementById('debtsRowsContainer');
+    if (!container) return;
+
+    container.innerHTML = debtsHistory.map(debt => `
+        <div class="expense-row ${debt.settled ? 'row-settled' : ''}">
+            <input type="text" value="${debt.month}" onchange="updateDebt(${debt.id}, 'month', this.value)">
+            <input type="number" value="${debt.jeanOwes}" oninput="updateDebt(${debt.id}, 'jeanOwes', this.value)">
+            <input type="number" value="${debt.moniqueOwes}" oninput="updateDebt(${debt.id}, 'moniqueOwes', this.value)">
+            <div style="text-align:center;">
+                <input type="checkbox" ${debt.settled ? 'checked' : ''} onchange="updateDebt(${debt.id}, 'settled', this.checked)">
+            </div>
+            <button class="btn-delete-hover" onclick="deleteDebt(${debt.id})">×</button>
+        </div>
+    `).join('');
+
+    calculateGlobalDebt();
+}
+
+function calculateGlobalDebt() {
+    // 1. Current Month Live Debt
+    const totalJean = parseFloat(document.getElementById('jeanTotalDisplay').value || 0);
+    const totalMonique = parseFloat(document.getElementById('moniqueTotalDisplay').value || 0);
+    const diff = totalJean - totalMonique;
+    
+    let liveJeanOwes = 0;
+    let liveMoniqueOwes = 0;
+
+    if (diff > 0) liveMoniqueOwes = diff / 2;
+    else if (diff < 0) liveJeanOwes = Math.abs(diff) / 2;
+
+    // 2. Combine with Unsettled History
+    let totalJeanOwes = liveJeanOwes;
+    let totalMoniqueOwes = liveMoniqueOwes;
+
+    debtsHistory.forEach(d => {
+        if (!d.settled) {
+            totalJeanOwes += parseFloat(d.jeanOwes || 0);
+            totalMoniqueOwes += parseFloat(d.moniqueOwes || 0);
         }
+    });
+
+    const textEl = document.getElementById('settlementText');
+    const detailEl = document.getElementById('settlementDetail');
+
+    if (Math.abs(totalJeanOwes - totalMoniqueOwes) < 0.01) {
+        textEl.innerText = `Tout est équilibré !`;
+        detailEl.innerText = `Vous avez payé exactement la même chose ce mois-ci et toutes les dettes passées sont réglées.`;
+    } else if (totalJeanOwes > totalMoniqueOwes) {
+        textEl.innerText = `Jean doit ${(totalJeanOwes - totalMoniqueOwes).toFixed(2)} € à Monique`;
+        detailEl.innerText = `Dette totale calculée (Mois en cours + Historique non réglé)`;
+    } else {
+        textEl.innerText = `Monique doit ${(totalMoniqueOwes - totalJeanOwes).toFixed(2)} € à Jean`;
+        detailEl.innerText = `Dette totale calculée (Mois en cours + Historique non réglé)`;
     }
 }
 
-function updateCharts(revenu, totalDepenses) {
-    const canvas = document.getElementById('chartRevenu');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    
-    // Destroy previous chart instance safely
-    if (chart1 instanceof Chart) {
-        chart1.destroy();
-    }
-    
-    const epargne = Math.max(0, revenu - totalDepenses);
-    
-    chart1 = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Dépenses', 'Épargne'],
-            datasets: [{ 
-                data: [totalDepenses, epargne], 
-                backgroundColor: ['#D4AF37', '#1f4e79'], 
-                borderWidth: 0 
-            }]
-        },
-        options: { 
-            cutout: '80%', 
-            maintainAspectRatio: false, 
-            plugins: { legend: { display: false } } 
-        }
-    });
+function updateDebt(id, field, value) {
+    const debt = debtsHistory.find(d => d.id === id);
+    if (!debt) return;
+    debt[field] = (field === 'month' || field === 'settled') ? value : parseFloat(value || 0);
+    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
+    renderDebts();
 }
 
-function showView(viewId, btnElement) {
-    // Hide all views
-    document.querySelectorAll('.dashboard-view').forEach(view => {
-        view.style.display = 'none';
-    });
-
-    // Show the selected view
-    document.getElementById(viewId).style.display = 'block';
-
-    // Update active button styling
-    document.querySelectorAll('.sub-nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    btnElement.classList.add('active');
-    
-    // If showing savings, refresh the chart to ensure it renders correctly
-    if(viewId === 'view-savings') {
-        calculateTotals();
-    }
+function addNewDebtRow() {
+    debtsHistory.push({ id: Date.now(), month: "Nouveau Mois", jeanOwes: 0, moniqueOwes: 0, settled: false });
+    renderDebts();
 }
 
-let groceryItems = JSON.parse(localStorage.getItem('smartSpending_groceries')) || [
-    { id: 1, name: "Riz", price: 1.99, unit: "500g", qty: 1 },
-    { id: 2, name: "Bananes (6x)", price: 2.49, unit: "lot", qty: 1 },
-    { id: 3, name: "Thon (boîte)", price: 2.49, unit: "180g", qty: 1 }
-];
-
-// Initialize the view when switching
-function showView(viewId, btnElement) {
-    document.querySelectorAll('.dashboard-view').forEach(v => v.style.display = 'none');
-    document.getElementById(viewId).style.display = 'block';
-    document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
-    btnElement.classList.add('active');
-
-    if (viewId === 'view-grocery') renderGroceries();
-    if (viewId === 'view-savings') calculateTotals();
+function deleteDebt(id) {
+    debtsHistory = debtsHistory.filter(d => d.id !== id);
+    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
+    renderDebts();
 }
 
+// --- GROCERY (COURSES) LOGIC ---
 function renderGroceries() {
     const container = document.getElementById('groceryGrid');
     if (!container) return;
 
-    let html = `
-        <div class="grocery-header">
-            <span>Produit</span>
-            <span>Prix (€)</span>
-            <span>Unité/Poids</span>
-            <span>Quantité</span>
-            <span></span>
-        </div>`;
-    
+    let html = `<div class="grocery-header"><span>Produit</span><span>Prix (€)</span><span>Unité/Poids</span><span>Quantité</span><span></span></div>`;
     html += groceryItems.map(item => `
         <div class="grocery-row">
             <div class="input-wrapper-group">
                 <label class="mobile-only-label">Produit</label>
-                <input type="text" value="${item.name}" placeholder="Nom du produit" onchange="updateGrocery(${item.id}, 'name', this.value)">
+                <input type="text" value="${item.name}" placeholder="Nom" onchange="updateGrocery(${item.id}, 'name', this.value)">
             </div>
-            
             <div class="input-wrapper-group">
                 <label class="mobile-only-label">Prix (€)</label>
                 <input type="number" step="0.01" value="${item.price}" oninput="updateGrocery(${item.id}, 'price', this.value)">
             </div>
-
             <div class="input-wrapper-group">
-                <label class="mobile-only-label">Unité/Poids</label>
-                <input type="text" value="${item.unit}" placeholder="ex: 500g" onchange="updateGrocery(${item.id}, 'unit', this.value)">
+                <label class="mobile-only-label">Unité</label>
+                <input type="text" value="${item.unit}" onchange="updateGrocery(${item.id}, 'unit', this.value)">
             </div>
-
             <div class="input-wrapper-group">
-                <label class="mobile-only-label">Quantité</label>
+                <label class="mobile-only-label">Qté</label>
                 <input type="number" value="${item.qty}" oninput="updateGrocery(${item.id}, 'qty', this.value)">
             </div>
-
-            <button class="btn-delete-grocery" onclick="deleteGrocery(${item.id})" title="Supprimer">×</button>
+            <button class="btn-delete-grocery" onclick="deleteGrocery(${item.id})">×</button>
         </div>
     `).join('');
-
     container.innerHTML = html;
     calculateGroceryTotal();
 }
@@ -297,6 +233,12 @@ function updateGrocery(id, field, value) {
     item[field] = (field === 'name' || field === 'unit') ? value : parseFloat(value || 0);
     localStorage.setItem('smartSpending_groceries', JSON.stringify(groceryItems));
     calculateGroceryTotal();
+}
+
+function calculateGroceryTotal() {
+    const total = groceryItems.reduce((sum, item) => sum + (parseFloat(item.price || 0) * parseFloat(item.qty || 0)), 0);
+    const display = document.getElementById('groceryTotal');
+    if (display) display.innerText = total.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + " €";
 }
 
 function addNewGroceryItem() {
@@ -310,95 +252,92 @@ function deleteGrocery(id) {
     renderGroceries();
 }
 
-function calculateGroceryTotal() {
-    const total = groceryItems.reduce((sum, item) => {
-        const price = parseFloat(String(item.price).replace(',', '.')) || 0;
-        const qty = parseFloat(item.qty) || 0;
-        return sum + (price * qty);
-    }, 0);
-    
-    const display = document.getElementById('groceryTotal');
-    if (display) {
-        display.innerText = total.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + " €";
+// --- UTILITIES (MONTHS/CHARTS/SAVE) ---
+function initMonthSelector() {
+    const selector = document.getElementById('monthSelector');
+    if (!selector) return;
+    selector.innerHTML = Object.keys(allMonthsData).map(m => 
+        `<option value="${m}" ${m === currentMonth ? 'selected' : ''}>${m}</option>`
+    ).join('');
+}
+
+function changeMonth(selectedMonth) {
+    currentMonth = selectedMonth;
+    localStorage.setItem('smartSpending_currentView', currentMonth);
+    categories = allMonthsData[currentMonth];
+    renderSpending();
+}
+
+function saveData() {
+    allMonthsData[currentMonth] = categories;
+    localStorage.setItem('smartSpending_history', JSON.stringify(allMonthsData));
+}
+
+function updateCharts(revenu, totalDepenses) {
+    const canvas = document.getElementById('chartRevenu');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (chart1 instanceof Chart) chart1.destroy();
+    const epargne = Math.max(0, revenu - totalDepenses);
+    chart1 = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Dépenses', 'Épargne'],
+            datasets: [{ data: [totalDepenses, epargne], backgroundColor: ['#D4AF37', '#1f4e79'], borderWidth: 0 }]
+        },
+        options: { cutout: '80%', maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
+}
+
+function startNewMonth() {
+    const monthNames = Object.keys(allMonthsData);
+    const lastMonthString = monthNames[monthNames.length - 1];
+    const monthsFr = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+    let [name, year] = lastMonthString.split(' ');
+    let monthIdx = monthsFr.indexOf(name.toLowerCase());
+    let date = new Date(parseInt(year), monthIdx, 1);
+    date.setMonth(date.getMonth() + 1);
+    const nextMonthName = date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+
+    if (confirm("Passer au mois suivant : " + nextMonthName + " ?")) {
+        allMonthsData[nextMonthName] = categories.filter(cat => cat.recurring).map(cat => ({ ...cat, id: Date.now() + Math.random(), settled: false }));
+        currentMonth = nextMonthName;
+        categories = allMonthsData[currentMonth];
+        saveData();
+        initMonthSelector();
+        renderSpending();
     }
 }
 
-// 1. Initialize data for debts
-let debtsHistory = JSON.parse(localStorage.getItem('smartSpending_debts')) || [
-    { id: 1, month: "Janvier 2024", jeanOwes: 0, moniqueOwes: 20, settled: false }
-];
-
-// 2. Update showView to handle debts
-function showView(viewId, btnElement) {
-    document.querySelectorAll('.dashboard-view').forEach(v => v.style.display = 'none');
-    document.getElementById(viewId).style.display = 'block';
-    document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
-    btnElement.classList.add('active');
-
-    if (viewId === 'view-grocery') renderGroceries();
-    if (viewId === 'view-savings') calculateTotals();
-    if (viewId === 'view-debts') renderDebts();
-}
-
-// 3. Render and Calculate Debts
-function renderDebts() {
-    const container = document.getElementById('debtsRowsContainer');
-    if (!container) return;
-
-    // First, calculate the "Live" debt based on current month's spending
-    calculateLiveSettlement();
-
-    container.innerHTML = debtsHistory.map(debt => `
-        <div class="expense-row ${debt.settled ? 'row-settled' : ''}">
-            <input type="text" value="${debt.month}" onchange="updateDebt(${debt.id}, 'month', this.value)">
-            <input type="number" value="${debt.jeanOwes}" oninput="updateDebt(${debt.id}, 'jeanOwes', this.value)">
-            <input type="number" value="${debt.moniqueOwes}" oninput="updateDebt(${debt.id}, 'moniqueOwes', this.value)">
-            <div style="text-align:center;">
-                <input type="checkbox" ${debt.settled ? 'checked' : ''} onchange="updateDebt(${debt.id}, 'settled', this.checked)">
-            </div>
-            <button class="btn-delete-hover" onclick="deleteDebt(${debt.id})">×</button>
-        </div>
-    `).join('');
-}
-
-function calculateLiveSettlement() {
-    // Logic: Compare current totals. Difference / 2 = what one owes the other to be 50/50
-    const totalJean = parseFloat(document.getElementById('jeanTotalDisplay').value || 0);
-    const totalMonique = parseFloat(document.getElementById('moniqueTotalDisplay').value || 0);
-    
-    const diff = Math.abs(totalJean - totalMonique);
-    const oweAmount = (diff / 2).toFixed(2);
-    
-    const textEl = document.getElementById('settlementText');
-    const detailEl = document.getElementById('settlementDetail');
-
-    if (totalJean > totalMonique) {
-        textEl.innerText = `Monique doit ${oweAmount} € à Jean`;
-        detailEl.innerText = `Pour équilibrer les dépenses de ${currentMonth} (Total: ${(totalJean + totalMonique).toFixed(2)} €)`;
-    } else if (totalMonique > totalJean) {
-        textEl.innerText = `Jean doit ${oweAmount} € à Monique`;
-        detailEl.innerText = `Pour équilibrer les dépenses de ${currentMonth} (Total: ${(totalJean + totalMonique).toFixed(2)} €)`;
-    } else {
-        textEl.innerText = `Tout est équilibré !`;
-        detailEl.innerText = `Vous avez payé exactement la même chose ce mois-ci.`;
+function deleteCurrentMonth() {
+    if (Object.keys(allMonthsData).length <= 1) return alert("Impossible de supprimer le seul mois.");
+    if (confirm(`Supprimer ${currentMonth} ?`)) {
+        delete allMonthsData[currentMonth];
+        currentMonth = Object.keys(allMonthsData)[0];
+        categories = allMonthsData[currentMonth];
+        localStorage.setItem('smartSpending_currentView', currentMonth);
+        saveData();
+        initMonthSelector();
+        renderSpending();
     }
 }
 
-function updateDebt(id, field, value) {
-    const debt = debtsHistory.find(d => d.id === id);
-    if (!debt) return;
-    debt[field] = (field === 'month' || field === 'settled') ? value : parseFloat(value || 0);
-    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
-    if (field === 'settled') renderDebts();
+function resetToDefaults() {
+    if(confirm("Réinitialiser ce mois ?")) {
+        categories = JSON.parse(JSON.stringify(defaultExamples));
+        saveData();
+        renderSpending();
+    }
 }
 
-function addNewDebtRow() {
-    debtsHistory.push({ id: Date.now(), month: "Nouveau Mois", jeanOwes: 0, moniqueOwes: 0, settled: false });
-    renderDebts();
+function addNewCategory() {
+    categories.push({ id: Date.now(), name: "Nouvelle dépense", jean: 0, monique: 0, settled: false, recurring: false });
+    saveData();
+    renderSpending();
 }
 
-function deleteDebt(id) {
-    debtsHistory = debtsHistory.filter(d => d.id !== id);
-    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
-    renderDebts();
+function deleteCat(id) {
+    categories = categories.filter(c => c.id !== id);
+    saveData();
+    renderSpending();
 }
