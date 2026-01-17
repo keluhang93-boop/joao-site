@@ -268,6 +268,28 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     cursor: pointer;
 }
 
+/* --- TAB VISIBILITY --- */
+/* This hides the sections by default so they don't stack on top of each other */
+#view-dashboard, #view-grocery, #view-debts {
+    display: none;
+}
+
+/* --- UNBLOCKING SUB-NAV BUTTONS --- */
+/* This ensures all buttons in the sub-nav look active and clickable */
+.sub-nav-btn {
+    opacity: 1 !important;
+    background: white !important;
+    border: 1px solid #D4AF37 !important;
+    color: #1f4e79 !important;
+    cursor: pointer !important;
+}
+
+.sub-nav-btn.active {
+    background: #1f4e79 !important;
+    color: white !important;
+    border-color: #1f4e79 !important;
+}
+
 /* --- FINAL DEBT MOBILE STYLING --- */
 @media (max-width: 600px) {
     #debtsGrid .expense-list-header, 
