@@ -8,7 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="spending-style-v2.css?v=3.0">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%2232%22%20height=%2232%22><text%20y=%220.9em%22%20font-size=%2228%22>💖</text></svg>">
 </head>
 <body class="spending-body">
 
@@ -58,7 +57,7 @@
         <button class="sub-nav-btn active" onclick="showView('view-spending', this)">DÉPENSES</button>
         <button class="sub-nav-btn" onclick="showView('view-savings', this)">ÉCONOMIES & OBJECTIFS</button>
         <button class="sub-nav-btn" onclick="showView('view-grocery', this)">LISTE DE COURSES</button>
-        <button class="sub-nav-btn" onclick="showView('view-debts', this)">DETTES</button>
+        <button class="sub-nav-btn" disabled title="Bientôt disponible">DETTES</button>
         <button class="sub-nav-btn" disabled title="Bientôt disponible">ANALYSE</button>
         <button class="sub-nav-btn" disabled title="Bientôt disponible">PARAMÈTRES</button>
     </nav>
@@ -176,47 +175,6 @@
             <h3 style="margin:0;">Estimation Totale : <span id="groceryTotal">0.00 €</span></h3>
         </div>
     </section>
-</div>
-
-<div id="view-debts" class="dashboard-view" style="display:none;">
-    <section class="section-wrapper">
-        <div class="section-header">
-            <div class="header-main-info">
-                <h2 class="navy-title" style="margin:0;">💸 Dettes & Règlements</h2>
-                <p style="color: #64748b; margin:0;">Équilibrez vos comptes du mois.</p>
-            </div>
-        </div>
-
-        <div class="glass-card settlement-summary" style="margin-bottom: 30px; border-top: 5px solid #D4AF37;">
-            <h3 id="settlementText" style="font-family: 'Playfair Display', serif; color: #1f4e79; font-size: 1.5rem;">
-                Calcul en cours...
-            </h3>
-            <p id="settlementDetail" style="color: #64748b;"></p>
-        </div>
-
-        <div id="debtsGrid">
-            <div class="expense-list-header">
-                <span>Mois</span>
-                <span>Jean doit Monique</span>
-                <span>Monique doit Jean</span>
-                <span>Statut</span>
-                <span></span>
-            </div>
-            <div id="debtsRowsContainer"></div>
-        </div>
-
-        <div class="bottom-add-container">
-            <button class="btn-large-add" onclick="addNewDebtRow()">
-                <span class="plus-icon">+</span> Ajouter un historique
-            </button>
-        </div>
-    </section>
-    <div class="debt-disclaimer">
-    <p><strong>Ceci est un outil pour vous aider à gérer vos dépenses individuelles.</strong></p>
-    <p>Nous voulons que vous réussissiez votre gestion financière. Cependant, la relation entre vous et votre partenaire a plus de valeur que l'argent. Une relation saine et durable apporte bien plus de bien-être que la richesse matérielle. Les humains ne sont pas que des êtres économiques ; nous sommes des êtres sociaux qui ont besoin d'aimer et d'être aimés.</p>
-    <p><em>L'amour, et non l'argent, est inscrit dans notre ADN !</em></p>
-    <p>Soyez donc flexible avec votre partenaire. La gestion de l'argent est indispensable dans un monde économique, mais la vie est bien plus belle avec l'amour.</p>
-    </div>
 </div>
     
 </main> 
