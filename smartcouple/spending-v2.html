@@ -59,7 +59,7 @@
         <button class="sub-nav-btn" onclick="showView('view-grocery', this)">LISTE DE COURSES</button>
         <button class="sub-nav-btn" onclick="showView('view-debts', this)">DETTES</button>
         <button class="sub-nav-btn" onclick="showView('view-analysis', this)">ANALYSE</button>
-        <button class="sub-nav-btn" disabled title="Bientôt disponible">PARAMÈTRES</button>
+        <button class="sub-nav-btn" onclick="showView('view-settings', this)">PARAMÈTRES</button>
     </nav>
 
     <div id="view-spending" class="dashboard-view">
@@ -72,14 +72,14 @@
                 </div>
             </div>
             <div class="glass-card user-stat blue">
-                <label>TOTAL JEAN</label>
+                <label>TOTAL <span class="p1-name">Jean</span></label>
                 <div class="input-with-symbol">
                     <input type="number" id="jeanTotalDisplay" readonly> 
                     <span>€</span>
                 </div>
             </div>
             <div class="glass-card user-stat yellow">
-                <label>TOTAL MONIQUE</label>
+                <label>TOTAL <span class="p2-name">Monique</span></label>
                 <div class="input-with-symbol">
                     <input type="number" id="moniqueTotalDisplay" readonly> 
                     <span>€</span>
@@ -188,11 +188,11 @@
 
             <div class="form-row">
                 <div>
-                    <label>Part Jean /mois</label>
+                    <label>Part <span class="p1-name">Jean</span> /mois</label>
                     <input type="number" id="objPartJean" placeholder="€">
                 </div>
                 <div>
-                    <label>Part Monique /mois</label>
+                    <label>Part <span class="p2-name">Monique</span> /mois</label>
                     <input type="number" id="objPartMonique" placeholder="€">
                 </div>
             </div>
@@ -252,8 +252,8 @@
         <div id="debtsGrid">
             <div class="expense-list-header debt-header">
                 <span>Mois / Description</span>
-                <span>Jean doit Monique</span>
-                <span>Monique doit Jean</span>
+                <span><span class="p1-name">Jean</span> doit <span class="p2-name">Monique</span></span>
+                <span><span class="p2-name">Monique</span> doit <span class="p1-name">Jean</span></span>
                 <span>Statut</span>
                 <span></span>
             </div>
@@ -280,7 +280,7 @@
 
             <div class="glass-card chart-card">
                 <h3>CONTRIBUTION MENSUELLE</h3>
-                <p>Jean vs Monique</p>
+                <p><span class="p1-name">Jean</span> vs <span class="p2-name">Monique</span></p>
                 <div class="canvas-container">
                     <canvas id="chartPartners"></canvas>
                 </div>
@@ -294,6 +294,37 @@
                 <div class="economy-badge">
                     ÉCONOMIE : <span id="economyPercent">0</span>%
                 </div>
+            </div>
+        </div>
+    </section>
+</div>
+ 
+ <div id="view-settings" class="dashboard-view" style="display:none;">
+    <section class="section-wrapper">
+        <h2 class="navy-title">Paramètres</h2>
+        
+        <div class="glass-card" style="text-align: left; padding: 30px; margin-top: 20px;">
+            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Noms des Partenaires</h3>
+            <div class="form-row">
+                <div>
+                    <label>Nom Partenaire 1</label>
+                    <input type="text" id="settingP1" placeholder="Ex: Jean">
+                </div>
+                <div>
+                    <label>Nom Partenaire 2</label>
+                    <input type="text" id="settingP2" placeholder="Ex: Monique">
+                </div>
+            </div>
+
+            <h3 style="color: var(--primary-color); margin-top: 30px; margin-bottom: 15px;">Thème de l'Application</h3>
+            <div style="display: flex; gap: 15px;">
+				<button class="btn-theme-selector pink" onclick="applyTheme('pink'); saveSettings();">Thème Rose</button>
+				<button class="btn-theme-selector classic" onclick="applyTheme('classic'); saveSettings();">Thème Classique</button>
+				<button class="btn-theme-selector" style="background:#1a1c23; color:#D4AF37; border:none; font-weight:bold; padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="applyTheme('dark'); saveSettings();">Theme LUXE</button>
+            </div>
+            
+            <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+                <button class="btn-modern-add" onclick="saveSettings()">ENREGISTRER LES MODIFICATIONS</button>
             </div>
         </div>
     </section>
