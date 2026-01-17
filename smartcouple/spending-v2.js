@@ -180,16 +180,37 @@ function calculateTotals() {
     }
 }
 
+// Function to get the theme colors safely
+function getThemeColors() {
+    const isPink = (appSettings.theme === 'pink');
+    return {
+        primary: isPink ? '#db2777' : '#1f4e79',   // Pink or Navy
+        secondary: isPink ? '#f472b6' : '#D4AF37'  // Light Pink or Gold
+    };
+}
+
 function updateCharts(revenu, totalDepenses) {
     const canvas = document.getElementById('chartRevenu');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     
-    // Destroy previous chart instance safely
-    if (chart1 instanceof Chart) {
-        chart1.destroy();
-    }
+    if (chart1 instanceof Chart) chart1.destroy();
     
+    // THE FIX: Check for Pink, Dark, or Default (Blue)
+    let colorPrimary, colorSecondary;
+    const bodyClass = document.body.classList;
+
+    if (bodyClass.contains('theme-pink')) {
+        colorPrimary = '#db2777';   // Pink
+        colorSecondary = '#f472b6'; // Light Pink
+    } else if (bodyClass.contains('theme-dark')) {
+        colorPrimary = '#1a1c23';   // Charcoal (Noir Luxe)
+        colorSecondary = '#D4AF37'; // Gold
+    } else {
+        colorPrimary = '#1f4e79';   // Navy Blue (Classic)
+        colorSecondary = '#D4AF37'; // Gold
+    }
+
     const epargne = Math.max(0, revenu - totalDepenses);
     
     chart1 = new Chart(ctx, {
@@ -198,7 +219,7 @@ function updateCharts(revenu, totalDepenses) {
             labels: ['Dépenses', 'Épargne'],
             datasets: [{ 
                 data: [totalDepenses, epargne], 
-                backgroundColor: ['#D4AF37', '#1f4e79'], 
+                backgroundColor: [colorSecondary, colorPrimary], 
                 borderWidth: 0 
             }]
         },
@@ -400,61 +421,70 @@ let charts = {}; // Objet pour stocker les instances des graphiques
 let chartsInstance = {}; // Pour éviter les bugs de superposition au clic
 
 function renderAnalysis() {
-    // ÉTAPE A : Vérifier si Chart.js est bien chargé
-    if (typeof Chart === 'undefined') {
-        console.warn("Chart.js n'est pas encore chargé.");
-        return;
-    }
+    if (typeof Chart === 'undefined') return;
 
     try {
-        // ÉTAPE B : Récupérer les éléments HTML
         const ctxCat = document.getElementById('chartCategories');
         const ctxPart = document.getElementById('chartPartners');
         const ctxComp = document.getElementById('chartComparison');
-        
-        // Si les canvas n'existent pas, on ne fait rien
         if (!ctxCat || !ctxPart || !ctxComp) return;
 
-        // ÉTAPE C : Récupérer les données réelles de Jean et Monique
-        // On récupère les valeurs directement depuis les inputs du haut
+        // --- BULLETPROOF THEME CHECK ---
+        let themePrimary, themeSecondary;
+        const bodyClass = document.body.classList;
+
+        if (bodyClass.contains('theme-pink')) {
+            // PINK THEME
+            themePrimary = '#db2777';
+            themeSecondary = '#f472b6';
+        } else if (bodyClass.contains('theme-dark')) {
+            // NOIR LUXE THEME
+            themePrimary = '#1a1c23'; // Charcoal
+            themeSecondary = '#D4AF37'; // Gold
+        } else {
+            // CLASSIC THEME (Default)
+            themePrimary = '#1f4e79'; // Navy Blue
+            themeSecondary = '#D4AF37'; // Gold
+        }
+
         const valJean = parseFloat(document.getElementById('jeanTotalDisplay')?.value || 0);
         const valMonique = parseFloat(document.getElementById('moniqueTotalDisplay')?.value || 0);
         const totalDepenses = valJean + valMonique;
         const revenu = parseFloat(document.getElementById('revenuFoyer')?.value || 4000);
 
-        // ÉTAPE D : Nettoyage des anciens graphiques pour éviter les bugs
+        // Clear old charts
         if (chartsInstance.categories instanceof Chart) chartsInstance.categories.destroy();
         if (chartsInstance.partners instanceof Chart) chartsInstance.partners.destroy();
         if (chartsInstance.comparison instanceof Chart) chartsInstance.comparison.destroy();
 
-        // 1. Graphique Catégories (Répartition réelle)
+        // 1. Categories Pie
         chartsInstance.categories = new Chart(ctxCat.getContext('2d'), {
             type: 'pie',
             data: {
                 labels: categories.map(c => c.name),
                 datasets: [{
                     data: categories.map(c => parseFloat(c.jean || 0) + parseFloat(c.monique || 0)),
-                    backgroundColor: ['#1f4e79', '#D4AF37', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'],
+                    backgroundColor: [themePrimary, themeSecondary, '#4b5563', '#9ca3af', '#64748b', '#cbd5e1'],
                     borderWidth: 2
                 }]
             },
             options: { responsive: true, maintainAspectRatio: false }
         });
 
-        // 2. Graphique Jean vs Monique (Contribution)
+        // 2. Partners Doughnut
         chartsInstance.partners = new Chart(ctxPart.getContext('2d'), {
             type: 'doughnut',
             data: {
-                labels: ['Jean', 'Monique'],
+                labels: [appSettings.p1Name, appSettings.p2Name], 
                 datasets: [{
                     data: [valJean, valMonique],
-                    backgroundColor: ['#1f4e79', '#D4AF37']
+                    backgroundColor: [themePrimary, themeSecondary]
                 }]
             },
             options: { cutout: '70%', responsive: true, maintainAspectRatio: false }
         });
 
-        // 3. Graphique Revenu vs Dépenses
+        // 3. Comparison Bar
         chartsInstance.comparison = new Chart(ctxComp.getContext('2d'), {
             type: 'bar',
             data: {
@@ -462,23 +492,15 @@ function renderAnalysis() {
                 datasets: [{
                     label: 'Montant (€)',
                     data: [revenu, totalDepenses],
-                    backgroundColor: ['#10b981', '#ef4444'],
+                    backgroundColor: [themeSecondary, themePrimary], 
                     borderRadius: 8
                 }]
             },
             options: { responsive: true, maintainAspectRatio: false }
         });
 
-        // ÉTAPE E : Calcul de l'économie
-        const economyDisplay = document.getElementById('economyPercent');
-        if (economyDisplay && revenu > 0) {
-            const ecoPourcent = ((revenu - totalDepenses) / revenu) * 100;
-            economyDisplay.innerText = Math.max(0, ecoPourcent).toFixed(1);
-        }
-
     } catch (err) {
-        // En cas d'erreur, on l'affiche en console mais on ne bloque pas l'appli
-        console.error("Erreur dans renderAnalysis:", err);
+        console.error("Analysis Error:", err);
     }
 }
 
@@ -619,3 +641,77 @@ function deleteObjective(id) {
         renderObjectives();
     }
 }
+
+// Load or Init Settings
+let appSettings = JSON.parse(localStorage.getItem('smartSpending_settings')) || {
+    p1Name: "Jean",
+    p2Name: "Monique",
+    theme: "classic"
+};
+
+function applyTheme(themeName) {
+    const root = document.documentElement;
+    const body = document.body;
+
+    body.classList.remove('theme-pink', 'theme-dark');
+
+    if (themeName === 'pink') {
+        body.classList.add('theme-pink');
+        root.style.setProperty('--primary-color', '#db2777');
+        root.style.setProperty('--secondary-color', '#f472b6');
+    } 
+    else if (themeName === 'dark') {
+        body.classList.add('theme-dark');
+        // Primary is now the Dark Charcoal, Secondary is the Gold
+        root.style.setProperty('--primary-color', '#1a1c23'); 
+        root.style.setProperty('--secondary-color', '#C5A028');
+    } 
+    else {
+        root.style.setProperty('--primary-color', '#1f4e79'); 
+        root.style.setProperty('--secondary-color', '#D4AF37');
+    }
+
+    appSettings.theme = themeName;
+    
+    if (typeof calculateTotals === 'function') calculateTotals();
+    if (typeof renderAnalysis === 'function') renderAnalysis();
+    if (typeof renderSpending === 'function') renderSpending();
+}
+
+function saveSettings() {
+    const newP1 = document.getElementById('settingP1').value;
+    const newP2 = document.getElementById('settingP2').value;
+    
+    if(newP1) appSettings.p1Name = newP1;
+    if(newP2) appSettings.p2Name = newP2;
+    
+	localStorage.setItem('smartSpending_settings', JSON.stringify(appSettings));
+    
+    applyTheme(appSettings.theme);
+    updateUINames();
+    
+    // REDRAW EVERYTHING IMMEDIATELY
+    calculateTotals(); // This refreshes the dashboard chart
+    renderAnalysis();  // This refreshes the analysis charts
+    renderSpending();  // This refreshes buttons/colors in the grid
+    
+    alert("Paramètres enregistrés !");
+}
+
+function updateUINames() {
+    // This looks for any element with the class 'p1-name' and updates the text
+    document.querySelectorAll('.p1-name').forEach(el => el.innerText = appSettings.p1Name);
+    document.querySelectorAll('.p2-name').forEach(el => el.innerText = appSettings.p2Name);
+}
+
+// Call this in your initial load function
+document.addEventListener('DOMContentLoaded', () => {
+    applyTheme(appSettings.theme);
+    updateUINames();
+    
+    // Fill the inputs in settings view if they exist
+    if(document.getElementById('settingP1')) {
+        document.getElementById('settingP1').value = appSettings.p1Name;
+        document.getElementById('settingP2').value = appSettings.p2Name;
+    }
+});
