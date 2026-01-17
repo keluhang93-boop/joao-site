@@ -376,3 +376,27 @@ function deleteCat(id) {
     saveData();
     renderSpending();
 }
+
+function showSection(sectionId) {
+    // 1. Hide ALL sections first
+    document.getElementById('view-dashboard').style.display = 'none';
+    document.getElementById('view-grocery').style.display = 'none';
+    document.getElementById('view-debts').style.display = 'none';
+
+    // 2. Show ONLY the one we clicked
+    document.getElementById(sectionId).style.display = 'block';
+
+    // 3. Update the button colors (the "active" class)
+    const buttons = document.querySelectorAll('.sub-nav-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    
+    // Find the button that was clicked and make it active
+    event.currentTarget.classList.add('active');
+
+    // 4. Run the specific render for that section
+    if (sectionId === 'view-debts') {
+        renderDebts();
+    } else if (sectionId === 'view-grocery') {
+        renderGroceryList();
+    }
+}
