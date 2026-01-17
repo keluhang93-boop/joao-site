@@ -364,27 +364,24 @@ function deleteCat(id) {
 }
 
 function showView(viewId, btn) {
-    // 1. Find all sections with the class 'dashboard-view'
+    // Hide ALL views that have the dashboard-view class
     const views = document.querySelectorAll('.dashboard-view');
-    
-    // 2. Hide every single one of them
-    views.forEach(view => {
-        view.style.setProperty('display', 'none', 'important');
+    views.forEach(v => {
+        v.style.display = 'none'; 
     });
 
-    // 3. Show only the requested one
-    const targetView = document.getElementById(viewId);
-    if (targetView) {
-        targetView.style.setProperty('display', 'block', 'important');
+    // Show ONLY the target view
+    const target = document.getElementById(viewId);
+    if (target) {
+        target.style.display = 'block';
     }
 
-    // 4. Update button highlighting
+    // Handle button classes
     const buttons = document.querySelectorAll('.sub-nav-btn');
     buttons.forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
-    // 5. Special trigger for Dettes
-    if (viewId === 'view-debts') {
-        renderDebts();
-    }
+    // Only render the specific data needed for that view
+    if (viewId === 'view-debts') renderDebts();
+    if (viewId === 'view-grocery') renderGroceryList();
 }
