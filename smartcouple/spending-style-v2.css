@@ -328,92 +328,96 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     font-style: normal;
 }
 
-/* --- PERFECT MOBILE CARDS FOR DEBTS --- */
+/* --- FINAL DEBT MOBILE STYLING --- */
 @media (max-width: 600px) {
-    /* 1. Reset the grid container so it doesn't allow horizontal scrolling */
-    #debtsRowsContainer {
-        display: block !important;
-        width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        overflow-x: hidden !important;
+    /* 1. COMPLETELY hide desktop headers and side-swipe */
+    #debtsGrid .expense-list-header, 
+    .debt-header-row {
+        display: none !important;
     }
 
-    /* 2. Style each Month as a full-width Rectangle */
+    #view-debts, #debtsGrid, #debtsRowsContainer {
+        width: 100% !important;
+        max-width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden !important; /* Prevents swiping right */
+        display: block !important;
+    }
+
+    /* 2. The Rectangle (Card) */
     #debtsGrid .expense-row {
         display: flex !important;
         flex-direction: column !important;
-        width: 100% !important; /* Forces it to stay in screen */
-        box-sizing: border-box !important; /* Includes padding in width */
+        width: calc(100% - 20px) !important; /* Fits within screen with small gap */
+        margin: 10px auto 20px auto !important; /* Centered, no side scroll */
+        padding: 15px !important;
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 12px;
-        padding: 15px !important;
-        margin-bottom: 20px !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+        box-sizing: border-box !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         position: relative;
+        align-items: flex-start !important; /* Keeps everything left */
     }
 
-    /* 3. Ensure the inner groups take up the full card width */
+    /* 3. Each data row inside the card */
     #debtsGrid .input-wrapper-group {
         width: 100% !important;
-        text-align: left !important; /* Keep text to the left */
-        margin-bottom: 12px;
+        margin-bottom: 15px;
+        display: block !important;
     }
 
-    /* 4. Labels styling */
     #debtsGrid .mobile-only-label {
         display: block !important;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         color: #1f4e79;
-        font-weight: 700;
+        font-weight: 800;
+        text-transform: uppercase;
         margin-bottom: 5px;
+        text-align: left;
     }
 
-    /* 5. Inputs styling - 100% width is key here */
-    #debtsGrid .expense-row input[type="text"],
-    #debtsGrid .expense-row input[type="number"] {
+    #debtsGrid input[type="text"], 
+    #debtsGrid input[type="number"] {
         width: 100% !important;
-        box-sizing: border-box !important;
+        max-width: 100% !important;
         padding: 12px !important;
+        font-size: 16px !important;
         border: 1px solid #cbd5e1 !important;
         border-radius: 8px !important;
-        font-size: 16px !important; /* Prevents auto-zoom on iPhone */
+        box-sizing: border-box !important;
     }
 
-    /* 6. Status Section Background */
+    /* 4. The Status Bar at the bottom of the card */
     #debtsGrid .input-wrapper-group[style*="text-align:center"] {
         background: #f8fafc;
-        padding: 15px !important;
+        padding: 12px !important;
+        margin: 0 !important;
         border-radius: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        text-align: left !important;
-    }
-    
-    #debtsGrid .input-wrapper-group[style*="text-align:center"] .mobile-only-label {
-        margin: 0;
+        display: flex !important;
+        flex-direction: row !important; /* Label and Checkbox side by side */
+        justify-content: space-between !important;
+        align-items: center !important;
     }
 
-    /* 7. Position the Delete button safely */
+    #debtsGrid .input-wrapper-group[style*="text-align:center"] .mobile-only-label {
+        margin: 0 !important;
+    }
+
+    /* 5. Floating Delete Button */
     #debtsGrid .btn-delete-hover {
         position: absolute;
-        top: -10px;
-        right: -5px;
-        background: #ef4444 !important;
-        color: white !important;
-        border-radius: 50%;
-        width: 28px;
-        height: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        top: 10px;
+        right: 10px;
+        width: 25px;
+        height: 25px;
+        background: #fee2e2 !important;
+        color: #ef4444 !important;
+        border-radius: 50% !important;
     }
 }
+
 /* --- DESKTOP VIEW HIDE LABELS --- */
 @media (min-width: 601px) {
     .mobile-only-label {
