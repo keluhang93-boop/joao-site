@@ -341,3 +341,164 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- DETTES DESKTOP GRID --- */
+.debt-header, 
+#debtsRowsContainer .expense-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1.5fr 1fr 40px;
+    gap: 15px;
+    align-items: center;
+}
+
+/* --- CRITICAL: STOP THE RIGHT-SIDE SCROLLING --- */
+html, body {
+    overflow-x: hidden !important; /* This prevents the right-side gap */
+    width: 100% !important;
+    position: relative;
+}
+
+/* 1. Hide mobile labels by default (Desktop) */
+.mobile-only-label {
+    display: none !important;
+}
+
+/* 2. Adjust your existing Mobile Query */
+@media (max-width: 600px) {
+    /* ... existing mobile code ... */
+
+    /* Show the labels only here */
+    #debtsRowsContainer .mobile-only-label {
+        display: block !important;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #1f4e79;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    /* Keep the desktop header hidden on mobile */
+    .debt-header {
+        display: none !important;
+    }
+}
+
+.relationship-notice {
+    background: linear-gradient(135deg, #fffcf5 0%, #fff8e6 100%);
+    border-left: 5px solid #D4AF37;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+    color: #1f4e79;
+    line-height: 1.6;
+    font-family: 'Lato', sans-serif;
+	position: relative; /* Pour positionner la croix par rapport au bandeau */
+    display: none;      /* Masqué par défaut au chargement */
+}
+
+.relationship-notice p {
+    margin-bottom: 15px; /* Un peu plus d'espace entre les paragraphes */
+    font-size: 1rem;     /* Taille légèrement augmentée pour le confort */
+}
+
+.relationship-notice p:last-child {
+    margin-bottom: 0;
+}
+
+.relationship-notice strong {
+    color: #1f4e79;
+    font-weight: 700;
+}
+
+.close-notice {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f4e79;
+    cursor: pointer;
+    line-height: 1;
+    transition: 0.2s;
+}
+
+.close-notice:hover {
+    color: #ef4444; /* Change en rouge au survol */
+    transform: scale(1.1);
+}
+
+/* Mobile adjustment for the notice */
+@media (max-width: 600px) {
+    .relationship-notice {
+        padding: 15px;
+        font-size: 0.85rem;
+        margin: 0 10px 20px 10px;
+    }
+}
+
+/* --- DETTES MOBILE CARD FIX --- */
+@media (max-width: 600px) {
+    /* 1. Force the Dettes container to stay inside the screen */
+    #view-debts, #debtsGrid, #debtsRowsContainer {
+        min-width: 0 !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    /* 2. The Rectangle Card */
+    #debtsRowsContainer .expense-row {
+        display: flex !important; /* Overrides the grid */
+        flex-direction: column !important;
+        
+        width: 90% !important;        /* Leaves 5% gap on each side */
+        max-width: 320px !important;  /* Stops it from being too wide */
+        min-width: 0 !important;      /* KILLS THE GHOST SCROLL */
+        
+        margin: 0 auto 20px auto !important; /* Centers the card */
+        padding: 15px !important;
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important; /* Visible line */
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        box-sizing: border-box !important;
+        position: relative;
+    }
+
+    /* 3. Left-aligned inputs */
+    #debtsRowsContainer .input-wrapper-group {
+        width: 100% !important;
+        margin-bottom: 10px;
+        text-align: left !important;
+    }
+
+    #debtsRowsContainer .mobile-only-label {
+        display: block !important;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #1f4e79;
+        margin-bottom: 4px;
+    }
+
+    /* 4. STATUS & CHECKBOX ON THE RIGHT */
+    #debtsRowsContainer .input-wrapper-group[style*="text-align:center"] {
+        flex-direction: row !important;
+        justify-content: flex-end !important; /* Pushes to the right */
+        align-items: center !important;
+        background: #f8fafc;
+        padding: 8px 12px !important;
+        border-radius: 8px;
+        margin-top: 5px;
+        gap: 10px;
+    }
+
+    /* 5. Close the inputs */
+    #debtsRowsContainer input[type="text"], 
+    #debtsRowsContainer input[type="number"] {
+        width: 100% !important;
+        height: 38px !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 6px !important;
+        padding-left: 10px !important;
+    }
+}
