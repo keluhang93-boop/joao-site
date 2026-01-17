@@ -268,65 +268,13 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     cursor: pointer;
 }
 
-/* --- 1. THE TAB ISOLATION FIX --- */
-/* This ensures that if you are not on the Dettes tab, the debt section is INVISIBLE */
-#view-dashboard, #view-grocery, #view-debts {
-    display: none; 
-}
-
-/* --- 2. THE BUTTON LOGIC --- */
-/* Normal active/clickable buttons */
-.sub-nav-btn {
-    opacity: 1 !important;
-    cursor: pointer !important;
-    background: white;
-    border: 1px solid #D4AF37;
-    color: #1f4e79;
-}
-
-.sub-nav-btn.active {
-    background: #1f4e79 !important;
-    color: white !important;
-    border-color: #1f4e79 !important;
-}
-
-/* RESTORED: The Gray "Not Working" look for specific buttons */
-/* This targets buttons that have NO 'onclick' attribute */
-.sub-nav-btn:not([onclick]) {
-    opacity: 0.5 !important;
-    background: #f1f5f9 !important;
-    border-color: #cbd5e1 !important;
-    color: #64748b !important;
-    cursor: not-allowed !important;
-    pointer-events: none !important;
-}
-
-/* 2. TAB ISOLATION (Prevents Dettes from showing everywhere) */
-#view-debts {
-    display: none; /* Hidden by default */
-}
-
-/* This forces all views to hide unless they are the ONE chosen */
-.dashboard-view {
-    display: none !important;
-}
-
-/* This targets the specific view being shown by your JS */
-#view-spending[style*="display: block"], 
-#view-savings[style*="display: block"], 
-#view-grocery[style*="display: block"], 
-#view-debts[style*="display: block"] {
-    display: block !important;
-}
-
-/* Final mobile cleanup for the debt header leakage */
+/* --- FINAL DEBT MOBILE STYLING --- */
 @media (max-width: 600px) {
-    #debtsGrid .expense-list-header {
+    #debtsGrid .expense-list-header, 
+    .debt-header-row {
         display: none !important;
     }
-}
 
-/* 3. MOBILE DUPLICATION FIX */
     #view-debts, #debtsGrid, #debtsRowsContainer {
         width: 100% !important;
         margin: 0 !important;
@@ -342,13 +290,13 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
         margin: 10px auto 20px auto !important;
         padding: 15px !important;
         background: #ffffff;
-        border: 1px solid #e2e8f0 !important; /* Forces the rectangle to close */
+        border: 1px solid #e2e8f0 !important;
         border-radius: 12px;
         box-sizing: border-box !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         position: relative;
         align-items: flex-start !important;
-        overflow: hidden !important; /* Clips infinite overflow */
+        overflow: hidden !important;
     }
 
     #debtsGrid .input-wrapper-group {
@@ -403,7 +351,6 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     .elegant-action-bar { width: 100%; }
     .btn-elegant { flex: 1; height: 45px; justify-content: center; }
 
-    /* Fix for Dépenses horizontal scroll */
     #spendingGrid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     #spendingGrid .expense-list-header, 
     #spendingGrid .expense-row { min-width: 750px; }
@@ -417,3 +364,20 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- SURGICAL ADDITIONS (TAB ISOLATION & GRAY BUTTONS) --- */
+
+/* Ensures views do not stack on each other */
+.dashboard-view {
+    display: none;
+}
+
+/* Forces disabled buttons to look gray and locked */
+.sub-nav-btn[disabled] {
+    opacity: 0.5 !important;
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #64748b !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
