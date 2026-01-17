@@ -322,3 +322,83 @@ function calculateGroceryTotal() {
         display.innerText = total.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + " €";
     }
 }
+
+// 1. Initialize data for debts
+let debtsHistory = JSON.parse(localStorage.getItem('smartSpending_debts')) || [
+    { id: 1, month: "Janvier 2024", jeanOwes: 0, moniqueOwes: 20, settled: false }
+];
+
+// 2. Update showView to handle debts
+function showView(viewId, btnElement) {
+    document.querySelectorAll('.dashboard-view').forEach(v => v.style.display = 'none');
+    document.getElementById(viewId).style.display = 'block';
+    document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+    btnElement.classList.add('active');
+
+    if (viewId === 'view-grocery') renderGroceries();
+    if (viewId === 'view-savings') calculateTotals();
+    if (viewId === 'view-debts') renderDebts();
+}
+
+// 3. Render and Calculate Debts
+function renderDebts() {
+    const container = document.getElementById('debtsRowsContainer');
+    if (!container) return;
+
+    // First, calculate the "Live" debt based on current month's spending
+    calculateLiveSettlement();
+
+    container.innerHTML = debtsHistory.map(debt => `
+        <div class="expense-row ${debt.settled ? 'row-settled' : ''}">
+            <input type="text" value="${debt.month}" onchange="updateDebt(${debt.id}, 'month', this.value)">
+            <input type="number" value="${debt.jeanOwes}" oninput="updateDebt(${debt.id}, 'jeanOwes', this.value)">
+            <input type="number" value="${debt.moniqueOwes}" oninput="updateDebt(${debt.id}, 'moniqueOwes', this.value)">
+            <div style="text-align:center;">
+                <input type="checkbox" ${debt.settled ? 'checked' : ''} onchange="updateDebt(${debt.id}, 'settled', this.checked)">
+            </div>
+            <button class="btn-delete-hover" onclick="deleteDebt(${debt.id})">×</button>
+        </div>
+    `).join('');
+}
+
+function calculateLiveSettlement() {
+    // Logic: Compare current totals. Difference / 2 = what one owes the other to be 50/50
+    const totalJean = parseFloat(document.getElementById('jeanTotalDisplay').value || 0);
+    const totalMonique = parseFloat(document.getElementById('moniqueTotalDisplay').value || 0);
+    
+    const diff = Math.abs(totalJean - totalMonique);
+    const oweAmount = (diff / 2).toFixed(2);
+    
+    const textEl = document.getElementById('settlementText');
+    const detailEl = document.getElementById('settlementDetail');
+
+    if (totalJean > totalMonique) {
+        textEl.innerText = `Monique doit ${oweAmount} € à Jean`;
+        detailEl.innerText = `Pour équilibrer les dépenses de ${currentMonth} (Total: ${(totalJean + totalMonique).toFixed(2)} €)`;
+    } else if (totalMonique > totalJean) {
+        textEl.innerText = `Jean doit ${oweAmount} € à Monique`;
+        detailEl.innerText = `Pour équilibrer les dépenses de ${currentMonth} (Total: ${(totalJean + totalMonique).toFixed(2)} €)`;
+    } else {
+        textEl.innerText = `Tout est équilibré !`;
+        detailEl.innerText = `Vous avez payé exactement la même chose ce mois-ci.`;
+    }
+}
+
+function updateDebt(id, field, value) {
+    const debt = debtsHistory.find(d => d.id === id);
+    if (!debt) return;
+    debt[field] = (field === 'month' || field === 'settled') ? value : parseFloat(value || 0);
+    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
+    if (field === 'settled') renderDebts();
+}
+
+function addNewDebtRow() {
+    debtsHistory.push({ id: Date.now(), month: "Nouveau Mois", jeanOwes: 0, moniqueOwes: 0, settled: false });
+    renderDebts();
+}
+
+function deleteDebt(id) {
+    debtsHistory = debtsHistory.filter(d => d.id !== id);
+    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
+    renderDebts();
+}
