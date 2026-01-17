@@ -5,12 +5,12 @@ if (typeof chart1 === 'undefined') {
 }
 
 const defaultExamples = [
-    { id: 1, name: "🏠 Loyer", jean: 450, monique: 450, settled: false, recurring: true },
-    { id: 2, name: "⚡ Électricité", jean: 40, monique: 40, settled: false, recurring: true },
-    { id: 3, name: "🔥 Gaz & Eau", jean: 35, monique: 35, settled: false, recurring: true },
-    { id: 4, name: "🌐 Internet & Mobile", jean: 25, monique: 25, settled: false, recurring: true },
-    { id: 5, name: "🛡️ Assurance Habitation", jean: 15, monique: 15, settled: false, recurring: true },
-    { id: 6, name: "🚗 Assurance Auto", jean: 45, monique: 45, settled: false, recurring: true }
+    { id: 1, name: "Loyer", jean: 450, monique: 450, settled: false, recurring: true },
+    { id: 2, name: "Électricité", jean: 40, monique: 40, settled: false, recurring: true },
+    { id: 3, name: "Gaz & Eau", jean: 35, monique: 35, settled: false, recurring: true },
+    { id: 4, name: "Internet & Mobile", jean: 25, monique: 25, settled: false, recurring: true },
+    { id: 5, name: "Assurance Habitation", jean: 15, monique: 15, settled: false, recurring: true },
+    { id: 6, name: "Assurance Auto", jean: 45, monique: 45, settled: false, recurring: true }
 ];
 
 let allMonthsData = JSON.parse(localStorage.getItem('smartSpending_history')) || {};
@@ -291,43 +291,44 @@ function calculateGroceryTotal() {
     }
 }
 
-// --- THE ONLY SHOWVIEW FUNCTION YOU NEED ---
 function showView(viewId, btnElement) {
-    // 1. Masquer toutes les sections
-    document.querySelectorAll('.dashboard-view').forEach(v => {
-        v.style.display = 'none';
-    });
+    // Masquer tout
+    document.querySelectorAll('.dashboard-view').forEach(v => v.style.display = 'none');
 
-    // 2. Afficher la section demandée
+    // Afficher la cible
     const target = document.getElementById(viewId);
-    if (target) {
-        target.style.display = 'block';
-    }
+    if (target) target.style.display = 'block';
 
-    // 3. Gérer l'affichage du message de bienveillance pour les Dettes
-    const notice = document.getElementById('relationshipNotice');
-    if (viewId === 'view-debts') {
-        if (notice) notice.style.display = 'block'; // Réapparaît à chaque clic
-    }
-
-    // 4. Mettre à jour l'état des boutons (couleurs)
+    // Boutons actifs
     document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
-    if (btnElement) {
-        btnElement.classList.add('active');
-    }
+    if (btnElement) btnElement.classList.add('active');
 
-    // 5. IMPORTANT : Relancer les scripts spécifiques à chaque page
+    // --- LOGIQUE DE CHARGEMENT ---
     if (viewId === 'view-spending') renderSpending();
-    if (viewId === 'view-grocery') renderGroceries(); // Ne pas supprimer !
-    if (viewId === 'view-savings') calculateTotals();
-    if (viewId === 'view-debts') renderDebts();       // Ne pas supprimer !
+    if (viewId === 'view-grocery') renderGroceries();
+    if (viewId === 'view-debts') renderDebts();
+    
+    // C'EST CETTE LIGNE QUI DÉBLOQUE L'AFFICHAGE :
+    if (viewId === 'view-analysis') renderAnalysis(); 
 }
 
 // Fonction pour fermer la notice avec la croix
 function closeRelationshipNotice() {
     const notice = document.getElementById('relationshipNotice');
     if (notice) {
+        // Option A: On cache simplement
         notice.style.display = 'none';
+        
+        // Option B (Mieux): On enregistre qu'elle a été fermée pour la session
+        sessionStorage.setItem('noticeClosed', 'true');
+    }
+}
+
+// Ajoutez ceci dans votre showView ou DOMContentLoaded pour qu'elle ne réapparaisse pas
+function checkNoticeStatus() {
+    if (sessionStorage.getItem('noticeClosed') === 'true') {
+        const notice = document.getElementById('relationshipNotice');
+        if (notice) notice.style.display = 'none';
     }
 }
 
@@ -392,4 +393,229 @@ function calculateGlobalDebt() {
     if (diff > 0) display.innerText = `Jean doit ${diff.toFixed(2)} € à Monique`;
     else if (diff < 0) display.innerText = `Monique doit ${Math.abs(diff).toFixed(2)} € à Jean`;
     else display.innerText = "Les comptes sont équilibrés !";
+}
+
+let charts = {}; // Objet pour stocker les instances des graphiques
+
+let chartsInstance = {}; // Pour éviter les bugs de superposition au clic
+
+function renderAnalysis() {
+    // ÉTAPE A : Vérifier si Chart.js est bien chargé
+    if (typeof Chart === 'undefined') {
+        console.warn("Chart.js n'est pas encore chargé.");
+        return;
+    }
+
+    try {
+        // ÉTAPE B : Récupérer les éléments HTML
+        const ctxCat = document.getElementById('chartCategories');
+        const ctxPart = document.getElementById('chartPartners');
+        const ctxComp = document.getElementById('chartComparison');
+        
+        // Si les canvas n'existent pas, on ne fait rien
+        if (!ctxCat || !ctxPart || !ctxComp) return;
+
+        // ÉTAPE C : Récupérer les données réelles de Jean et Monique
+        // On récupère les valeurs directement depuis les inputs du haut
+        const valJean = parseFloat(document.getElementById('jeanTotalDisplay')?.value || 0);
+        const valMonique = parseFloat(document.getElementById('moniqueTotalDisplay')?.value || 0);
+        const totalDepenses = valJean + valMonique;
+        const revenu = parseFloat(document.getElementById('revenuFoyer')?.value || 4000);
+
+        // ÉTAPE D : Nettoyage des anciens graphiques pour éviter les bugs
+        if (chartsInstance.categories instanceof Chart) chartsInstance.categories.destroy();
+        if (chartsInstance.partners instanceof Chart) chartsInstance.partners.destroy();
+        if (chartsInstance.comparison instanceof Chart) chartsInstance.comparison.destroy();
+
+        // 1. Graphique Catégories (Répartition réelle)
+        chartsInstance.categories = new Chart(ctxCat.getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: categories.map(c => c.name),
+                datasets: [{
+                    data: categories.map(c => parseFloat(c.jean || 0) + parseFloat(c.monique || 0)),
+                    backgroundColor: ['#1f4e79', '#D4AF37', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'],
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // 2. Graphique Jean vs Monique (Contribution)
+        chartsInstance.partners = new Chart(ctxPart.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Jean', 'Monique'],
+                datasets: [{
+                    data: [valJean, valMonique],
+                    backgroundColor: ['#1f4e79', '#D4AF37']
+                }]
+            },
+            options: { cutout: '70%', responsive: true, maintainAspectRatio: false }
+        });
+
+        // 3. Graphique Revenu vs Dépenses
+        chartsInstance.comparison = new Chart(ctxComp.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Revenu', 'Dépenses'],
+                datasets: [{
+                    label: 'Montant (€)',
+                    data: [revenu, totalDepenses],
+                    backgroundColor: ['#10b981', '#ef4444'],
+                    borderRadius: 8
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // ÉTAPE E : Calcul de l'économie
+        const economyDisplay = document.getElementById('economyPercent');
+        if (economyDisplay && revenu > 0) {
+            const ecoPourcent = ((revenu - totalDepenses) / revenu) * 100;
+            economyDisplay.innerText = Math.max(0, ecoPourcent).toFixed(1);
+        }
+
+    } catch (err) {
+        // En cas d'erreur, on l'affiche en console mais on ne bloque pas l'appli
+        console.error("Erreur dans renderAnalysis:", err);
+    }
+}
+
+let objectives = JSON.parse(localStorage.getItem('smartSpending_objectives')) || [];
+
+function openObjectiveModal() {
+    document.getElementById('objectiveModal').style.display = 'flex';
+}
+
+function closeObjectiveModal() {
+    document.getElementById('objectiveModal').style.display = 'none';
+}
+
+function saveObjective() {
+    const name = document.getElementById('objName').value;
+    const total = parseFloat(document.getElementById('objTotal').value);
+    const start = document.getElementById('objStart').value;
+    const end = document.getElementById('objEnd').value;
+    const partJ = parseFloat(document.getElementById('objPartJean').value) || 0;
+    const partM = parseFloat(document.getElementById('objPartMonique').value) || 0;
+
+    // 1. Vérification des champs obligatoires
+    if (!name || !total || !start || !end) {
+        alert("Veuillez remplir les champs obligatoires.");
+        return;
+    }
+
+    // 2. NOUVELLE RÈGLE : Vérification chronologique des dates
+    // En JS, comparer "2026-10" > "2025-01" fonctionne directement
+    if (start > end) {
+        alert("Erreur : La date de début ne peut pas être après la date de fin !");
+        return;
+    }
+
+    // 3. Création de l'objet
+    const newObj = {
+        id: Date.now(),
+        name, 
+        total, 
+        start, 
+        end, 
+        partJ, 
+        partM,
+        currentSaved: 0 
+    };
+
+    objectives.push(newObj);
+    localStorage.setItem('smartSpending_objectives', JSON.stringify(objectives));
+    
+    // 4. Mise à jour de l'interface et fermeture
+    renderObjectives();
+    closeObjectiveModal();
+
+    // Effacer les champs pour le prochain objectif
+    document.getElementById('objName').value = "";
+    document.getElementById('objTotal').value = "";
+}
+
+function renderObjectives() {
+    const container = document.getElementById('objectivesGrid');
+    if (!container) return;
+
+    container.innerHTML = objectives.map(obj => {
+        const percent = Math.min(100, (obj.currentSaved / obj.total) * 100);
+        const mensualite = (parseFloat(obj.partJ) || 0) + (parseFloat(obj.partM) || 0);
+
+        return `
+            <div class="objective-card">
+                <div class="obj-header">
+                    <span class="obj-name">${obj.name}</span>
+                    <button class="btn-delete-obj" onclick="deleteObjective(${obj.id})" title="Supprimer">×</button>
+                </div>
+                
+                <div class="obj-details">
+                    <span>${obj.currentSaved.toFixed(0)} € sur ${obj.total} €</span>
+                    <span>${Math.round(percent)}%</span>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: ${percent}%"></div>
+                </div>
+
+                <div class="obj-actions-row">
+                    <div class="obj-mini-info">
+                        <strong>+${mensualite}€</strong> /mois
+                    </div>
+                    <button class="btn-feed" onclick="feedObjective(${obj.id})">
+                        ALIMENTER
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function deleteObjective(id) {
+    if(confirm("Supprimer cet objectif ?")) {
+        objectives = objectives.filter(o => o.id !== id);
+        localStorage.setItem('smartSpending_objectives', JSON.stringify(objectives));
+        renderObjectives();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initMonthSelector();
+    renderSpending();
+    renderObjectives(); // <--- Ajoutez cette ligne ici
+});
+
+// Ajouter l'appel au rendu dans votre fonction showView existante
+// if (viewId === 'view-savings') { renderObjectives(); }
+
+// Fonction pour ajouter l'épargne mensuelle
+function feedObjective(id) {
+    const obj = objectives.find(o => o.id === id);
+    if (!obj) return;
+
+    // On ajoute la somme des deux partenaires
+    const montantAAjouter = (parseFloat(obj.partJ) || 0) + (parseFloat(obj.partM) || 0);
+    
+    if (obj.currentSaved >= obj.total) {
+        alert("Objectif déjà atteint ! Félicitations !");
+        return;
+    }
+
+    obj.currentSaved += montantAAjouter;
+    
+    // Sauvegarde et mise à jour visuelle
+    localStorage.setItem('smartSpending_objectives', JSON.stringify(objectives));
+    renderObjectives();
+}
+
+// Fonction pour supprimer
+function deleteObjective(id) {
+    if (confirm("Voulez-vous vraiment supprimer cet objectif ?")) {
+        objectives = objectives.filter(o => o.id !== id);
+        localStorage.setItem('smartSpending_objectives', JSON.stringify(objectives));
+        renderObjectives();
+    }
 }
