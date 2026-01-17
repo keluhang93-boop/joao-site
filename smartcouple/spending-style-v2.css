@@ -36,9 +36,9 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 
 .glass-card.blue { border-top-color: #1f4e79; }
 .glass-card.yellow { border-top-color: #D4AF37; }
-.glass-card.main-budget { border-top-color: #1f4e79; } /* Swapped Purple to Navy */
+.glass-card.main-budget { border-top-color: #1f4e79; }
 
-/* --- THE UNIFIED BOX FIX (Centers everything) --- */
+/* --- THE UNIFIED BOX FIX --- */
 .glass-card input, 
 .modern-stat-input input, 
 #jeanTotalDisplay, 
@@ -80,7 +80,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 .total-cell { font-weight: bold; color: #1f4e79; }
 
 /* --- ROW STATES --- */
-.row-recurring { background-color: #f1f5f9 !important; border-left: 5px solid #1f4e79 !important; } /* Swapped Purple to Navy */
+.row-recurring { background-color: #f1f5f9 !important; border-left: 5px solid #1f4e79 !important; } 
 .row-settled { opacity: 0.5; background: #f8fafc !important; }
 .row-settled input { text-decoration: line-through; }
 
@@ -144,7 +144,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 
 .sub-nav-btn {
     background: white;
-    border: 1px solid #D4AF37; /* Swapped Blue to Gold Border */
+    border: 1px solid #D4AF37;
     color: #1f4e79;
     padding: 10px 20px;
     font-weight: 700;
@@ -156,7 +156,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 
 .sub-nav-btn.active { background: #1f4e79; color: white; border-color: #1f4e79; }
 
-/* --- ELEGANT CONTROLS (Month Selector Area) --- */
+/* --- ELEGANT CONTROLS --- */
 .month-controls-row {
     display: flex;
     align-items: center;
@@ -184,7 +184,6 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 .btn-elegant.red { background-color: #fef2f2; border: 1px solid #fee2e2; color: #ef4444; }
 .btn-elegant.gray { background-color: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; }
 
-/* Styled Select Box */
 #monthSelector {
     appearance: none;
     background: #f8fafc;
@@ -210,7 +209,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     background: white;
     margin-bottom: 10px;
     border-radius: 12px;
-    border-left: 4px solid #D4AF37; /* Swapped Blue to Gold */
+    border-left: 4px solid #D4AF37;
 }
 
 .input-wrapper-group { display: flex; flex-direction: column; justify-content: center; height: 100%; }
@@ -239,7 +238,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     width: 100%;
     max-width: 450px;
     background: #ffffff;
-    border: 2px solid #D4AF37; /* Swapped Blue to Gold Border */
+    border: 2px solid #D4AF37;
     color: #1f4e79;
     padding: 18px;
     border-radius: 12px;
@@ -248,33 +247,6 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     transition: 0.3s;
 }
 .btn-large-add:hover { background: #1f4e79; color: white; }
-
-.select-icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.7rem;
-    color: #1f4e79;
-    pointer-events: none; 
-    opacity: 0.6; 
-}
-
-/* --- LOCKED / INACTIVE BUTTONS --- */
-.sub-nav-btn:not(.active):not([onclick]) {
-    opacity: 0.5;
-    background: #f1f5f9;
-    border-color: #cbd5e1; /* Gray instead of Gold */
-    color: #64748b;        /* Muted gray-blue instead of Navy */
-    cursor: not-allowed;   /* Shows a "stop" icon on hover */
-}
-
-/* Optional: remove hover effect for locked buttons */
-.sub-nav-btn:not(.active):not([onclick]):hover {
-    background: #f1f5f9;
-    color: #64748b;
-    transform: none;
-}
 
 /* --- DEBTS SPECIFIC STYLING --- */
 .settlement-summary {
@@ -286,7 +258,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 
 #debtsGrid .expense-list-header, 
 #debtsGrid .expense-row {
-    grid-template-columns: 2fr 1.5fr 1.5fr 1fr 0.4fr; /* Adjusted for debt columns */
+    grid-template-columns: 2fr 1.5fr 1.5fr 1fr 0.4fr;
 }
 
 #debtsGrid input[type="checkbox"] {
@@ -296,41 +268,8 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     cursor: pointer;
 }
 
-/* --- DEBT DISCLAIMER --- */
-.debt-disclaimer {
-    margin-top: 60px;
-    padding: 30px;
-    background-color: #f8fafc;
-    border-radius: 15px;
-    border-left: 4px solid #1f4e79;
-    text-align: center;
-    line-height: 1.6;
-}
-
-.debt-disclaimer p {
-    color: #64748b;
-    font-size: 0.95rem;
-    margin-bottom: 15px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.debt-disclaimer strong {
-    color: #1f4e79;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.debt-disclaimer em {
-    color: #D4AF37;
-    font-weight: 700;
-    font-style: normal;
-}
-
 /* --- FINAL DEBT MOBILE STYLING --- */
 @media (max-width: 600px) {
-    /* 1. COMPLETELY hide desktop headers and side-swipe */
     #debtsGrid .expense-list-header, 
     .debt-header-row {
         display: none !important;
@@ -338,37 +277,35 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 
     #view-debts, #debtsGrid, #debtsRowsContainer {
         width: 100% !important;
-        max-width: 100vw !important;
         margin: 0 !important;
         padding: 0 !important;
-        overflow-x: hidden !important; /* Prevents swiping right */
+        overflow-x: hidden !important;
         display: block !important;
     }
 
-    /* 2. The Rectangle (Card) */
     #debtsGrid .expense-row {
         display: flex !important;
         flex-direction: column !important;
-        width: calc(100% - 20px) !important; /* Fits within screen with small gap */
-        margin: 10px auto 20px auto !important; /* Centered, no side scroll */
+        width: calc(100% - 20px) !important;
+        margin: 10px auto 20px auto !important;
         padding: 15px !important;
         background: #ffffff;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #e2e8f0 !important; /* Forces the rectangle to close */
         border-radius: 12px;
         box-sizing: border-box !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         position: relative;
-        align-items: flex-start !important; /* Keeps everything left */
+        align-items: flex-start !important;
+        overflow: hidden !important; /* Clips infinite overflow */
     }
 
-    /* 3. Each data row inside the card */
     #debtsGrid .input-wrapper-group {
         width: 100% !important;
         margin-bottom: 15px;
         display: block !important;
     }
 
-    #debtsGrid .mobile-only-label {
+    .mobile-only-label {
         display: block !important;
         font-size: 0.75rem;
         color: #1f4e79;
@@ -381,40 +318,21 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     #debtsGrid input[type="text"], 
     #debtsGrid input[type="number"] {
         width: 100% !important;
-        max-width: 100% !important;
+        box-sizing: border-box !important;
         padding: 12px !important;
         font-size: 16px !important;
         border: 1px solid #cbd5e1 !important;
         border-radius: 8px !important;
-        box-sizing: border-box !important;
     }
 
-    /* 4. The Status Bar at the bottom of the card */
     #debtsGrid .input-wrapper-group[style*="text-align:center"] {
         background: #f8fafc;
         padding: 12px !important;
-        margin: 0 !important;
         border-radius: 8px;
         display: flex !important;
-        flex-direction: row !important; /* Label and Checkbox side by side */
+        flex-direction: row !important;
         justify-content: space-between !important;
         align-items: center !important;
-    }
-
-    #debtsGrid .input-wrapper-group[style*="text-align:center"] .mobile-only-label {
-        margin: 0 !important;
-    }
-
-    /* 5. Floating Delete Button */
-    #debtsGrid .btn-delete-hover {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 25px;
-        height: 25px;
-        background: #fee2e2 !important;
-        color: #ef4444 !important;
-        border-radius: 50% !important;
     }
 }
 
@@ -425,65 +343,24 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     }
 }
 
-/* 1. Desktop Standard (Screen width > 850px) */
-@media (min-width: 851px) {
-    .spending-container, 
-    .calendar-page-container, 
-    .union-page-container,
-    .main-content {
-        margin-top: 100px !important; /* Standard gap for desktop */
-        padding-top: 20px !important;
-    }
-}
-
-/* 2. Mobile Standard (Screen width < 850px) */
+/* --- RESPONSIVE LAYOUTS --- */
 @media (max-width: 850px) {
-    /* Target ALL container types across all pages */
-    .spending-container, 
-    .calendar-page-container, 
-    .union-page-container,
-    .hero-section,
-    .main-content {
-        margin-top: 70px !important;  /* Reduced gap to sit right below mobile menu */
-        padding-top: 15px !important;
-        display: block !important;
-    }
-
-    /* Standardize the Page Titles (h1) */
-    .modern-title, 
-    .navy-title, 
-    h1 {
-        margin-top: 10px !important;
-        margin-bottom: 20px !important;
-        font-size: 1.8rem !important; /* Ensures titles don't wrap awkwardly */
-        text-align: center;
-    }
-
-    /* Specific fix for Index.html hero text */
-    .hero-content {
-        padding-top: 20px !important;
-        margin-top: 0 !important;
-    }
-}
-
-/* --- CONSOLIDATED MOBILE FIXES --- */
-@media (max-width: 850px) {
+    .spending-container { margin-top: 70px !important; padding-top: 15px !important; }
+    
     .month-controls-row { flex-direction: column; align-items: stretch; gap: 10px; }
     .elegant-action-bar { width: 100%; }
     .btn-elegant { flex: 1; height: 45px; justify-content: center; }
 
+    /* Fix for Dépenses horizontal scroll */
     #spendingGrid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .expense-list-header, .expense-row { min-width: 750px; }
+    #spendingGrid .expense-list-header, 
+    #spendingGrid .expense-row { min-width: 750px; }
 
     .grocery-header { display: none !important; }
     .grocery-row { grid-template-columns: 1fr 1fr; padding: 15px; }
     .grocery-row .input-wrapper-group:nth-child(1) { grid-column: span 2; }
-    .mobile-only-label { display: block; font-size: 0.65rem; color: #64748b; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
-    .btn-delete-grocery { grid-column: 2; grid-row: 3; justify-self: end; }
-
+    
     .performance-container { flex-direction: column !important; padding: 20px; }
-    .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
-
     .btn-large-add { position: sticky; bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #1f4e79; color: white; border: none; }
 }
 
