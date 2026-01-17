@@ -119,17 +119,26 @@ function calculateTotals() {
     }
 }
 
-// --- DEBTS (DETTES) LOGIC ---
 function renderDebts() {
     const container = document.getElementById('debtsRowsContainer');
     if (!container) return;
 
     container.innerHTML = debtsHistory.map(debt => `
         <div class="expense-row ${debt.settled ? 'row-settled' : ''}">
-            <input type="text" value="${debt.month}" onchange="updateDebt(${debt.id}, 'month', this.value)">
-            <input type="number" value="${debt.jeanOwes}" oninput="updateDebt(${debt.id}, 'jeanOwes', this.value)">
-            <input type="number" value="${debt.moniqueOwes}" oninput="updateDebt(${debt.id}, 'moniqueOwes', this.value)">
-            <div style="text-align:center;">
+            <div class="input-wrapper-group">
+                <label class="mobile-only-label">Mois / Description</label>
+                <input type="text" value="${debt.month}" onchange="updateDebt(${debt.id}, 'month', this.value)">
+            </div>
+            <div class="input-wrapper-group">
+                <label class="mobile-only-label">Jean doit Monique (€)</label>
+                <input type="number" value="${debt.jeanOwes}" onchange="updateDebt(${debt.id}, 'jeanOwes', this.value)">
+            </div>
+            <div class="input-wrapper-group">
+                <label class="mobile-only-label">Monique doit Jean (€)</label>
+                <input type="number" value="${debt.moniqueOwes}" onchange="updateDebt(${debt.id}, 'moniqueOwes', this.value)">
+            </div>
+            <div class="input-wrapper-group" style="text-align:center;">
+                <label class="mobile-only-label">Statut (Réglé)</label>
                 <input type="checkbox" ${debt.settled ? 'checked' : ''} onchange="updateDebt(${debt.id}, 'settled', this.checked)">
             </div>
             <button class="btn-delete-hover" onclick="deleteDebt(${debt.id})">×</button>
@@ -180,13 +189,23 @@ function calculateGlobalDebt() {
 function updateDebt(id, field, value) {
     const debt = debtsHistory.find(d => d.id === id);
     if (!debt) return;
+    
+    // Update the value
     debt[field] = (field === 'month' || field === 'settled') ? value : parseFloat(value || 0);
     localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
-    renderDebts();
+    
+    // If we changed a number or checkbox, we update the Global Summary
+    // But we DON'T re-render the whole list unless it's a checkbox (to show the greyed out effect)
+    if (field === 'settled') {
+        renderDebts(); 
+    } else {
+        calculateGlobalDebt();
+    }
 }
 
 function addNewDebtRow() {
-    debtsHistory.push({ id: Date.now(), month: "Nouveau Mois", jeanOwes: 0, moniqueOwes: 0, settled: false });
+    debtsHistory.push({ id: Date.now(), month: "Nouveau", jeanOwes: 0, moniqueOwes: 0, settled: false });
+    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
     renderDebts();
 }
 
