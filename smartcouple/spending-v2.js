@@ -377,28 +377,28 @@ function deleteCat(id) {
     renderSpending();
 }
 
-function showSection(sectionId) {
-    // 1. Hide every possible view first
-    const allViews = ['view-dashboard', 'view-grocery', 'view-debts'];
-    allViews.forEach(id => {
-        const view = document.getElementById(id);
-        if (view) view.style.display = 'none';
+function showView(viewId, btn) {
+    // 1. Find all sections with the class 'dashboard-view'
+    const views = document.querySelectorAll('.dashboard-view');
+    
+    // 2. Hide every single one of them
+    views.forEach(view => {
+        view.style.setProperty('display', 'none', 'important');
     });
 
-    // 2. Show the one we want
-    const targetView = document.getElementById(sectionId);
+    // 3. Show only the requested one
+    const targetView = document.getElementById(viewId);
     if (targetView) {
-        targetView.style.display = 'block';
+        targetView.style.setProperty('display', 'block', 'important');
     }
 
-    // 3. Update Button Styles
-    document.querySelectorAll('.sub-nav-btn').forEach(btn => btn.classList.remove('active'));
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-    }
+    // 4. Update button highlighting
+    const buttons = document.querySelectorAll('.sub-nav-btn');
+    buttons.forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
 
-    // 4. Special render for Debts
-    if (sectionId === 'view-debts') {
+    // 5. Special trigger for Dettes
+    if (viewId === 'view-debts') {
         renderDebts();
     }
 }
