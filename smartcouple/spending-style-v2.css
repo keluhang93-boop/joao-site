@@ -296,6 +296,38 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     cursor: pointer;
 }
 
+/* --- DEBT DISCLAIMER --- */
+.debt-disclaimer {
+    margin-top: 60px;
+    padding: 30px;
+    background-color: #f8fafc;
+    border-radius: 15px;
+    border-left: 4px solid #1f4e79;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.debt-disclaimer p {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.debt-disclaimer strong {
+    color: #1f4e79;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.debt-disclaimer em {
+    color: #D4AF37;
+    font-weight: 700;
+    font-style: normal;
+}
+
 /* 1. Desktop Standard (Screen width > 850px) */
 @media (min-width: 851px) {
     .spending-container, 
