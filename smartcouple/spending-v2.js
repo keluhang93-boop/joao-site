@@ -123,14 +123,16 @@ function renderDebts() {
     const container = document.getElementById('debtsRowsContainer');
     if (!container) return;
 
-    // We only show this div so we can target it in CSS to hide on mobile
-    let html = `<div class="expense-list-header debt-header-row">
-                    <span>Mois</span>
-                    <span>Jean doit Monique</span>
-                    <span>Monique doit Jean</span>
-                    <span>Statut</span>
-                    <span></span>
-                </div>`;
+    // We use 'debt-header-row' so the CSS knows to hide this on mobile devices
+    let html = `
+        <div class="expense-list-header debt-header-row">
+            <span>Mois</span>
+            <span>Jean doit Monique</span>
+            <span>Monique doit Jean</span>
+            <span style="text-align:center;">Statut</span>
+            <span></span>
+        </div>
+    `;
 
     html += debtsHistory.map(debt => `
         <div class="expense-row ${debt.settled ? 'row-settled' : ''}">
@@ -138,18 +140,22 @@ function renderDebts() {
                 <label class="mobile-only-label">Mois / Description</label>
                 <input type="text" value="${debt.month}" onchange="updateDebt(${debt.id}, 'month', this.value)">
             </div>
+            
             <div class="input-wrapper-group">
                 <label class="mobile-only-label">Jean doit à Monique (€)</label>
                 <input type="number" value="${debt.jeanOwes}" onchange="updateDebt(${debt.id}, 'jeanOwes', this.value)">
             </div>
+            
             <div class="input-wrapper-group">
                 <label class="mobile-only-label">Monique doit à Jean (€)</label>
                 <input type="number" value="${debt.moniqueOwes}" onchange="updateDebt(${debt.id}, 'moniqueOwes', this.value)">
             </div>
+            
             <div class="input-wrapper-group" style="text-align:center;">
                 <label class="mobile-only-label">Statut (Réglé)</label>
                 <input type="checkbox" ${debt.settled ? 'checked' : ''} onchange="updateDebt(${debt.id}, 'settled', this.checked)">
             </div>
+            
             <button class="btn-delete-hover" onclick="deleteDebt(${debt.id})">×</button>
         </div>
     `).join('');
