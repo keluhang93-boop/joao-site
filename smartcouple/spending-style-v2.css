@@ -290,6 +290,31 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     border-color: #1f4e79 !important;
 }
 
+/* 1. FORCE UNBLOCK ALL BUTTONS */
+.sub-nav-btn, 
+.sub-nav-btn:not(.active):not([onclick]) {
+    opacity: 1 !important;
+    background: white !important;
+    border: 1px solid #D4AF37 !important;
+    color: #1f4e79 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+/* 2. TAB ISOLATION (Prevents Dettes from showing everywhere) */
+#view-debts {
+    display: none; /* Hidden by default */
+}
+
+/* 3. MOBILE DUPLICATION FIX */
+/* This ensures that on mobile, only the "Cards" show and the table header is deleted */
+@media (max-width: 600px) {
+    .debt-header-row, 
+    #debtsGrid .expense-list-header {
+        display: none !important;
+    }
+}
+
 /* --- FINAL DEBT MOBILE STYLING --- */
 @media (max-width: 600px) {
     #debtsGrid .expense-list-header, 
