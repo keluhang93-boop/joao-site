@@ -176,6 +176,37 @@
         </div>
     </section>
 </div>
+
+<div id="view-debts" class="dashboard-view" style="display:none;">
+    <section class="section-wrapper">
+        <div class="section-header">
+            <div class="header-main-info">
+                <h2 class="navy-title" style="margin:0;">📊 Dettes & Règlements</h2>
+                <p style="color: #64748b; margin:0;">Équilibrez vos comptes du mois.</p>
+            </div>
+        </div>
+
+        <div class="settlement-summary glass-card" style="margin-bottom: 30px;">
+            <h2 id="globalDebtStatus">Calcul en cours...</h2>
+            <p>Dette totale calculée (Mois en cours + Historique non réglé)</p>
+        </div>
+
+        <div id="debtsGrid">
+            <div class="expense-list-header debt-header-row">
+                <span>Mois / Description</span>
+                <span>Jean doit Monique</span>
+                <span>Monique doit Jean</span>
+                <span>Statut</span>
+                <span></span>
+            </div>
+            <div id="debtsRowsContainer"></div>
+        </div>
+
+        <div class="bottom-add-container">
+            <button class="btn-large-add" onclick="addNewDebt()">+ Ajouter un historique</button>
+        </div>
+    </section>
+</div>
     
 </main> 
 
