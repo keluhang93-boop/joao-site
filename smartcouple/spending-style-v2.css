@@ -276,7 +276,25 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     transform: none;
 }
 
-/* --- UNIFIED MOBILE TOP SPACING FIX --- */
+/* --- DEBTS SPECIFIC STYLING --- */
+.settlement-summary {
+    background: linear-gradient(to right, #ffffff, #fcfaf2);
+    padding: 30px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+#debtsGrid .expense-list-header, 
+#debtsGrid .expense-row {
+    grid-template-columns: 2fr 1.5fr 1.5fr 1fr 0.4fr; /* Adjusted for debt columns */
+}
+
+#debtsGrid input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #D4AF37;
+    cursor: pointer;
+}
 
 /* 1. Desktop Standard (Screen width > 850px) */
 @media (min-width: 851px) {
