@@ -58,7 +58,7 @@
         <button class="sub-nav-btn" onclick="showView('view-savings', this)">ÉCONOMIES & OBJECTIFS</button>
         <button class="sub-nav-btn" onclick="showView('view-grocery', this)">LISTE DE COURSES</button>
         <button class="sub-nav-btn" onclick="showView('view-debts', this)">DETTES</button>
-        <button class="sub-nav-btn" disabled title="Bientôt disponible">ANALYSE</button>
+        <button class="sub-nav-btn" onclick="showView('view-analysis', this)">ANALYSE</button>
         <button class="sub-nav-btn" disabled title="Bientôt disponible">PARAMÈTRES</button>
     </nav>
 
@@ -90,7 +90,7 @@
 <section class="section-wrapper">
     <div class="section-header">
         <div class="header-main-info">
-            <h2 class="navy-title" style="margin:0;">🏠 Dépenses du Foyer</h2>
+            <h2 class="navy-title" style="margin:0;">Dépenses du Foyer</h2>
             
             <div class="month-controls-row">
                 <div class="custom-select-wrapper">
@@ -154,13 +154,64 @@
                 </div>
             </div>
         </section>
+		
+		<section class="section-wrapper" style="margin-top: 40px;">
+    <div class="section-header">
+        <div class="header-main-info">
+            <h2 class="navy-title" style="margin:0;">Nos Objectifs</h2>
+            <p style="color: #64748b; margin:0;">Planifiez vos grands projets ensemble.</p>
+        </div>
+        <button class="btn-modern-add" onclick="openObjectiveModal()">+ CRÉER OBJECTIF</button>
+    </div>
+
+    <div id="objectivesGrid" class="objectives-grid">
+        </div>
+</section>
+
+<div id="objectiveModal" class="modal-overlay" style="display:none;">
+    <div class="glass-card modal-content">
+        <h3 class="navy-title">Nouvel Objectif</h3>
+        <div class="modal-form">
+            <input type="text" id="objName" placeholder="Nom (ex: Nouvelle Maison)">
+            <input type="number" id="objTotal" placeholder="Montant total ciblé (€)">
+            
+            <div class="form-row">
+                <div>
+                    <label>Début</label>
+                    <input type="month" id="objStart">
+                </div>
+                <div>
+                    <label>Fin</label>
+                    <input type="month" id="objEnd">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label>Part Jean /mois</label>
+                    <input type="number" id="objPartJean" placeholder="€">
+                </div>
+                <div>
+                    <label>Part Monique /mois</label>
+                    <input type="number" id="objPartMonique" placeholder="€">
+                </div>
+            </div>
+            
+			<div class="modal-actions">
+				<button class="btn-elegant gray" onclick="closeObjectiveModal()">Annuler</button>
+				<button class="btn-elegant blue" onclick="saveObjective()">Enregistrer</button>
+			</div>
+        </div>
+    </div>
+</div>
+		
     </div>
 
 <div id="view-grocery" class="dashboard-view" style="display:none;">
     <section class="section-wrapper">
         <div class="section-header">
             <div class="header-main-info">
-                <h2 class="navy-title" style="margin:0;">🛒 Liste de Courses</h2>
+                <h2 class="navy-title" style="margin:0;">Liste de Courses</h2>
                 <p style="color: #64748b; margin:0;">Gérez vos produits et prix habituels.</p>
             </div>
             
@@ -181,10 +232,11 @@
     <section class="section-wrapper">
         <div class="section-header">
             <div class="header-main-info">
-                <h2 class="navy-title" style="margin:0;">📊 Dettes & Règlements</h2>
+                <h2 class="navy-title" style="margin:0;">Dettes & Règlements</h2>
 				<div class="relationship-notice" id="relationshipNotice">
 					<span class="close-notice" onclick="closeRelationshipNotice()">&times;</span>
-						<p><strong>CET OUTIL EST CONÇU POUR VOUS AIDER À GÉRER VOS DÉPENSES INDIVIDUELLES.</strong> Notre objectif est de vous accompagner vers une gestion financière saine et efficace. Cependant, n'oubliez jamais que la relation avec votre partenaire a bien plus de valeur que l'argent. Une relation épanouie et durable apporte un bien-être que l'argent ne pourra jamais acheter. L'être humain n'est pas qu'un agent économique ; c'est un être social qui a besoin d'aimer et d'être aimé.</p>
+						<p><strong>CET OUTIL EST CONÇU POUR VOUS AIDER À GÉRER VOS DÉPENSES INDIVIDUELLES.</strong></p>
+						<p>Notre objectif est de vous accompagner vers une gestion financière saine et efficace. Cependant, n'oubliez jamais que la relation avec votre partenaire a bien plus de valeur que l'argent. Une relation épanouie et durable apporte un bien-être que l'argent ne pourra jamais acheter. L'être humain n'est pas qu'un agent économique ; c'est un être social qui a besoin d'aimer et d'être aimé.</p>
 						<p><strong>L'AMOUR, ET NON L'ARGENT, EST INSCRIT DANS NOTRE ADN !</strong></p>
 						<p>C'est pourquoi nous vous encourageons à faire preuve de flexibilité dans la gestion des comptes avec votre partenaire. Si la maîtrise du budget est indispensable pour avancer dans ce monde économique, la vie n'est réellement belle que lorsqu'elle est vécue avec amour.</p>
 				</div>	
@@ -210,6 +262,39 @@
 
         <div class="bottom-add-container">
             <button class="btn-large-add" onclick="addNewDebtRow()">+ Ajouter un historique</button>
+        </div>
+    </section>
+</div>
+ 
+ <div id="view-analysis" class="dashboard-view" style="display:none;">
+    <section class="section-wrapper">
+        <h2 class="navy-title">Analyse des Finances</h2>
+        
+        <div class="analysis-grid">
+            <div class="glass-card chart-card">
+                <h3>POURCENTAGE DES DÉPENSES</h3>
+                <div class="canvas-container">
+                    <canvas id="chartCategories"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card chart-card">
+                <h3>CONTRIBUTION MENSUELLE</h3>
+                <p>Jean vs Monique</p>
+                <div class="canvas-container">
+                    <canvas id="chartPartners"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card chart-card full-width">
+                <h3>REVENU DU FOYER VS DÉPENSES MENSUELLES</h3>
+                <div class="canvas-container-bar">
+                    <canvas id="chartComparison"></canvas>
+                </div>
+                <div class="economy-badge">
+                    ÉCONOMIE : <span id="economyPercent">0</span>%
+                </div>
+            </div>
         </div>
     </section>
 </div>
