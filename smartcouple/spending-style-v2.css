@@ -306,15 +306,27 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     display: none; /* Hidden by default */
 }
 
-/* 3. MOBILE DUPLICATION FIX */
-/* This ensures that on mobile, only the "Cards" show and the table header is deleted */
+/* This forces all views to hide unless they are the ONE chosen */
+.dashboard-view {
+    display: none !important;
+}
+
+/* This targets the specific view being shown by your JS */
+#view-spending[style*="display: block"], 
+#view-savings[style*="display: block"], 
+#view-grocery[style*="display: block"], 
+#view-debts[style*="display: block"] {
+    display: block !important;
+}
+
+/* Final mobile cleanup for the debt header leakage */
 @media (max-width: 600px) {
-    .debt-header-row, 
     #debtsGrid .expense-list-header {
         display: none !important;
     }
 }
 
+/* 3. MOBILE DUPLICATION FIX */
     #view-debts, #debtsGrid, #debtsRowsContainer {
         width: 100% !important;
         margin: 0 !important;
