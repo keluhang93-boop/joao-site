@@ -210,43 +210,11 @@ function updateCharts(revenu, totalDepenses) {
     });
 }
 
-function showView(viewId, btnElement) {
-    // Hide all views
-    document.querySelectorAll('.dashboard-view').forEach(view => {
-        view.style.display = 'none';
-    });
-
-    // Show the selected view
-    document.getElementById(viewId).style.display = 'block';
-
-    // Update active button styling
-    document.querySelectorAll('.sub-nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    btnElement.classList.add('active');
-    
-    // If showing savings, refresh the chart to ensure it renders correctly
-    if(viewId === 'view-savings') {
-        calculateTotals();
-    }
-}
-
 let groceryItems = JSON.parse(localStorage.getItem('smartSpending_groceries')) || [
     { id: 1, name: "Riz", price: 1.99, unit: "500g", qty: 1 },
     { id: 2, name: "Bananes (6x)", price: 2.49, unit: "lot", qty: 1 },
     { id: 3, name: "Thon (boîte)", price: 2.49, unit: "180g", qty: 1 }
 ];
-
-// Initialize the view when switching
-function showView(viewId, btnElement) {
-    document.querySelectorAll('.dashboard-view').forEach(v => v.style.display = 'none');
-    document.getElementById(viewId).style.display = 'block';
-    document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
-    btnElement.classList.add('active');
-
-    if (viewId === 'view-grocery') renderGroceries();
-    if (viewId === 'view-savings') calculateTotals();
-}
 
 function renderGroceries() {
     const container = document.getElementById('groceryGrid');
@@ -321,4 +289,107 @@ function calculateGroceryTotal() {
     if (display) {
         display.innerText = total.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + " €";
     }
+}
+
+// --- THE ONLY SHOWVIEW FUNCTION YOU NEED ---
+function showView(viewId, btnElement) {
+    // 1. Masquer toutes les sections
+    document.querySelectorAll('.dashboard-view').forEach(v => {
+        v.style.display = 'none';
+    });
+
+    // 2. Afficher la section demandée
+    const target = document.getElementById(viewId);
+    if (target) {
+        target.style.display = 'block';
+    }
+
+    // 3. Gérer l'affichage du message de bienveillance pour les Dettes
+    const notice = document.getElementById('relationshipNotice');
+    if (viewId === 'view-debts') {
+        if (notice) notice.style.display = 'block'; // Réapparaît à chaque clic
+    }
+
+    // 4. Mettre à jour l'état des boutons (couleurs)
+    document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+    if (btnElement) {
+        btnElement.classList.add('active');
+    }
+
+    // 5. IMPORTANT : Relancer les scripts spécifiques à chaque page
+    if (viewId === 'view-spending') renderSpending();
+    if (viewId === 'view-grocery') renderGroceries(); // Ne pas supprimer !
+    if (viewId === 'view-savings') calculateTotals();
+    if (viewId === 'view-debts') renderDebts();       // Ne pas supprimer !
+}
+
+// Fonction pour fermer la notice avec la croix
+function closeRelationshipNotice() {
+    const notice = document.getElementById('relationshipNotice');
+    if (notice) {
+        notice.style.display = 'none';
+    }
+}
+
+// --- DETTES LOGIC ---
+let debtsHistory = JSON.parse(localStorage.getItem('smartSpending_debts')) || [];
+
+function renderDebts() {
+    const container = document.getElementById('debtsRowsContainer');
+    if (!container) return;
+
+    container.innerHTML = debtsHistory.map(debt => `
+        <div class="expense-row ${debt.settled ? 'row-settled' : ''}">
+            <div class="input-wrapper-group">
+                <label class="mobile-only-label">Mois / Description</label>
+                <input type="text" value="${debt.month}" onchange="updateDebt(${debt.id}, 'month', this.value)">
+            </div>
+            <div class="input-wrapper-group">
+                <label class="mobile-only-label">Jean doit Monique (€)</label>
+                <input type="number" value="${debt.jeanOwes}" oninput="updateDebt(${debt.id}, 'jeanOwes', this.value)">
+            </div>
+            <div class="input-wrapper-group">
+                <label class="mobile-only-label">Monique doit Jean (€)</label>
+                <input type="number" value="${debt.moniqueOwes}" oninput="updateDebt(${debt.id}, 'moniqueOwes', this.value)">
+            </div>
+            <div class="input-wrapper-group" style="text-align:center;">
+                <label class="mobile-only-label">Statut (Réglé)</label>
+                <input type="checkbox" ${debt.settled ? 'checked' : ''} onchange="updateDebt(${debt.id}, 'settled', this.checked)">
+            </div>
+            <button class="btn-delete-hover" onclick="deleteDebt(${debt.id})">×</button>
+        </div>
+    `).join('');
+    calculateGlobalDebt();
+}
+
+function updateDebt(id, field, value) {
+    const debt = debtsHistory.find(d => d.id === id);
+    if (!debt) return;
+    debt[field] = (field === 'month' || field === 'settled') ? value : parseFloat(value || 0);
+    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
+    if (field === 'settled') renderDebts(); else calculateGlobalDebt();
+}
+
+function addNewDebtRow() {
+    debtsHistory.push({ id: Date.now(), month: "Nouveau mois", jeanOwes: 0, moniqueOwes: 0, settled: false });
+    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
+    renderDebts();
+}
+
+function deleteDebt(id) {
+    debtsHistory = debtsHistory.filter(d => d.id !== id);
+    localStorage.setItem('smartSpending_debts', JSON.stringify(debtsHistory));
+    renderDebts();
+}
+
+function calculateGlobalDebt() {
+    let jeanTotal = debtsHistory.filter(d => !d.settled).reduce((sum, d) => sum + d.jeanOwes, 0);
+    let moniqueTotal = debtsHistory.filter(d => !d.settled).reduce((sum, d) => sum + d.moniqueOwes, 0);
+    const diff = jeanTotal - moniqueTotal;
+    const display = document.getElementById('globalDebtStatus');
+    if (!display) return;
+
+    if (diff > 0) display.innerText = `Jean doit ${diff.toFixed(2)} € à Monique`;
+    else if (diff < 0) display.innerText = `Monique doit ${Math.abs(diff).toFixed(2)} € à Jean`;
+    else display.innerText = "Les comptes sont équilibrés !";
 }
