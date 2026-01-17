@@ -378,30 +378,26 @@ function deleteCat(id) {
 }
 
 function showSection(sectionId) {
-    // List of all your main section IDs
-    const sections = ['view-dashboard', 'view-grocery', 'view-debts'];
-    
-    // Hide every section
-    sections.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.style.display = 'none';
+    // 1. Hide every possible view first
+    const allViews = ['view-dashboard', 'view-grocery', 'view-debts'];
+    allViews.forEach(id => {
+        const view = document.getElementById(id);
+        if (view) view.style.display = 'none';
     });
 
-    // Show the specific section clicked
-    const target = document.getElementById(sectionId);
-    if (target) {
-        target.style.display = 'block';
+    // 2. Show the one we want
+    const targetView = document.getElementById(sectionId);
+    if (targetView) {
+        targetView.style.display = 'block';
     }
 
-    // Update button "active" state
-    const buttons = document.querySelectorAll('.sub-nav-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    
+    // 3. Update Button Styles
+    document.querySelectorAll('.sub-nav-btn').forEach(btn => btn.classList.remove('active'));
     if (event && event.currentTarget) {
         event.currentTarget.classList.add('active');
     }
 
-    // Run the specific render for Dettes if selected
+    // 4. Special render for Debts
     if (sectionId === 'view-debts') {
         renderDebts();
     }
