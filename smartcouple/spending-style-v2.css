@@ -1,4 +1,82 @@
 /* --- GLOBAL RESET & FONTS --- */
+
+:root {
+    /* Define these so the browser has a starting point */
+    --primary-color: #1f4e79;
+    --secondary-color: #D4AF37;
+    
+    /* Keep your existing ones if you use them elsewhere */
+    --primary-navy: #1f4e79;
+    --secondary-gold: #D4AF37;
+    --accent-yellow: #fffcf0;
+    --text-main: #334155;
+}
+
+/* --- LUXURY LIGHT THEME (White Background, Dark/Gold Accents) --- */
+body.theme-dark {
+    background-color: #ffffff !important; /* Back to white */
+    color: #1a1c23 !important; /* Dark text */
+}
+
+/* The Main Titles & Logo in Gold */
+body.theme-dark h1, 
+body.theme-dark h2, 
+body.theme-dark .navy-title,
+body.theme-dark .logo-text {
+    color: #C5A028 !important; /* Burnished Gold */
+    font-family: 'Playfair Display', serif;
+}
+
+/* Make the Cards look premium with a dark header or border */
+body.theme-dark .glass-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-top: 4px solid #1a1c23 !important; /* Dark accent top border */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+/* High Contrast Dark Buttons */
+body.theme-dark .btn-large-add,
+body.theme-dark .btn-modern-add {
+    background: #1a1c23 !important; /* Deep Charcoal */
+    color: #D4AF37 !important; /* Gold Text */
+    border: none !important;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Navigation Buttons */
+body.theme-dark .sub-nav-btn {
+    background: #f8fafc;
+    color: #1a1c23;
+    border: 1px solid #1a1c23;
+}
+
+body.theme-dark .sub-nav-btn.active {
+    background: #1a1c23 !important;
+    color: #D4AF37 !important;
+}
+
+/* Rows and Inputs */
+body.theme-dark .expense-row, 
+body.theme-dark .grocery-row {
+    background: #ffffff !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+body.theme-dark input {
+    border: 1px solid #1a1c23 !important;
+    border-radius: 4px;
+    color: #1a1c23 !important;
+}
+
+body.theme-dark label {
+    color: #1a1c23 !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
 * { box-sizing: border-box; }
 
 body.spending-body {
@@ -7,7 +85,12 @@ body.spending-body {
     margin: 0;
 }
 
-h1, h2, .modern-title, .logo-text, .navy-title { font-family: 'Playfair Display', serif; color: #1f4e79; }
+.logo-text{font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: bold; color: #D4AF37 !important; line-height: 0.9; text-align: center;}
+
+/* 4. Fix the Main Titles */
+h1, h2, .modern-title, .navy-title { 
+    color: var(--primary-color) !important; 
+}
 input, button, span, div { font-family: 'Lato', sans-serif; }
 
 .spending-container {
@@ -34,9 +117,9 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     border-top: 5px solid #eee;
 }
 
-.glass-card.blue { border-top-color: #1f4e79; }
-.glass-card.yellow { border-top-color: #D4AF37; }
-.glass-card.main-budget { border-top-color: #1f4e79; } /* Swapped Purple to Navy */
+.glass-card.blue { border-top-color: var(--primary-color); }
+.glass-card.yellow { border-top-color: var(--secondary-color); }
+.glass-card.main-budget { border-top-color: var(--primary-color); } /* Swapped Purple to Navy */
 
 /* --- THE UNIFIED BOX FIX (Centers everything) --- */
 .glass-card input, 
@@ -52,7 +135,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     line-height: 50px !important;
     font-size: 1.3rem !important;
     font-weight: 700 !important;
-    color: #1f4e79 !important;
+    color: var(--primary-color) !important;
     width: 160px !important;      
     height: 50px !important;      
     display: inline-block;
@@ -77,10 +160,10 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 }
 
 .expense-row input { border: none !important; background: transparent !important; font-size: 1rem; width: 100%; }
-.total-cell { font-weight: bold; color: #1f4e79; }
+.total-cell { font-weight: bold; color: var(--primary-color); }
 
 /* --- ROW STATES --- */
-.row-recurring { background-color: #f1f5f9 !important; border-left: 5px solid #1f4e79 !important; } /* Swapped Purple to Navy */
+.row-recurring { background-color: #f1f5f9 !important; border-left: 5px solid var(--primary-color) !important; } /* Swapped Purple to Navy */
 .row-settled { opacity: 0.5; background: #f8fafc !important; }
 .row-settled input { text-decoration: line-through; }
 
@@ -126,12 +209,12 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     gap: 10px;
     font-size: 0.95rem;
     font-weight: 600;
-    color: #1f4e79;
+    color: var(--primary-color);
 }
 
 .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-.dot-depenses { background-color: #D4AF37; }
-.dot-epargne { background-color: #1f4e79; }
+.dot-epargne { background-color: var(--primary-color) !important; }
+.dot-depenses { background-color: var(--secondary-color) !important; }
 
 /* --- NAVIGATION --- */
 .spending-sub-nav {
@@ -142,10 +225,11 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     flex-wrap: wrap;
 }
 
+/* 1. Fix the Navigation Buttons */
 .sub-nav-btn {
     background: white;
-    border: 1px solid #D4AF37; /* Swapped Blue to Gold Border */
-    color: #1f4e79;
+    border: 1px solid var(--secondary-color); /* Swapped Blue to Gold Border */
+    color: var(--primary-color);
     padding: 10px 20px;
     font-weight: 700;
     font-size: 0.9rem;
@@ -154,7 +238,11 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     text-transform: uppercase;
 }
 
-.sub-nav-btn.active { background: #1f4e79; color: white; border-color: #1f4e79; }
+.sub-nav-btn.active { 
+    background: var(--primary-color) !important; 
+    border-color: var(--primary-color) !important; 
+    color: white !important;
+}
 
 /* --- ELEGANT CONTROLS (Month Selector Area) --- */
 .month-controls-row {
@@ -169,6 +257,12 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     height: 40px;
 }
 
+/* --------------------------------------------------------------
+   BUTTONS SECTION - FIXED DUPLICATES & MISSING CLASSES
+   --------------------------------------------------------------
+*/
+
+/* Base Elegant Button */
 .btn-elegant {
     border: 1px solid transparent;
     border-radius: 8px;
@@ -178,11 +272,126 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center; /* Added centering */
     text-transform: uppercase;
+    transition: all 0.2s;
 }
-.btn-elegant.blue { background-color: #1f4e79; color: white; }
-.btn-elegant.red { background-color: #fef2f2; border: 1px solid #fee2e2; color: #ef4444; }
-.btn-elegant.gray { background-color: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; }
+
+/* Colors for Elegant Buttons */
+.btn-elegant.blue { 
+    background-color: var(--primary-color) !important; 
+    color: white !important; 
+    border-radius: 50px !important; /* Rounded style */
+    border: none !important;
+}
+
+.btn-elegant.red { 
+    background-color: #fef2f2; 
+    border: 1px solid #fee2e2; 
+    color: #ef4444; 
+}
+
+.btn-elegant.gray { 
+    background-color: #f8fafc; 
+    border: 1px solid #e2e8f0; 
+    color: #64748b; 
+}
+
+/* HOVER STATES - Uses Variables to prevent Yellow/Blue flash */
+.btn-elegant.blue:hover {
+    background-color: var(--secondary-color) !important; /* Changes to Gold or Pink on hover */
+    color: white !important;
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* THIS WAS MISSING: The + Ajouter Produit / + Créer Objectif button class */
+.btn-modern-add {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn-modern-add:hover {
+    background-color: var(--secondary-color) !important;
+    transform: translateY(-2px);
+}
+
+/* Large Add Button (Bottom of lists) */
+.btn-large-add {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff !important;
+    border: 2px solid var(--secondary-color) !important; 
+    color: var(--primary-color) !important;
+    padding: 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-large-add:hover { 
+    background: var(--primary-color) !important; 
+    color: white !important; 
+}
+
+/* Theme Selector Buttons (Fixed Colors) */
+.btn-theme-selector {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn-theme-selector.pink {
+    background-color: #db2777 !important;
+    color: white !important;
+}
+
+.btn-theme-selector.classic {
+    background-color: #1f4e79 !important;
+    color: white !important;
+}
+
+.btn-theme-selector:active {
+    transform: scale(0.95);
+}
+
+/* Feed Button (Alimenter) */
+.btn-feed {
+    background: #10b981; 
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-feed:hover { background: #059669; transform: scale(1.05); }
+
+/* Delete Object Button */
+.btn-delete-obj {
+    background: #fee2e2; color: #ef4444; border: none;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; line-height: 1; cursor: pointer; transition: all 0.2s;
+}
+.btn-delete-obj:hover { background: #ef4444; color: white; }
+
+/* -------------------------------------------------------------- */
 
 /* Styled Select Box */
 #monthSelector {
@@ -192,7 +401,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     border-radius: 8px;
     padding: 8px 35px 8px 15px;
     font-weight: 600;
-    color: #1f4e79;
+    color: var(--primary-color);
     cursor: pointer;
     min-width: 160px;
 }
@@ -210,7 +419,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     background: white;
     margin-bottom: 10px;
     border-radius: 12px;
-    border-left: 4px solid #D4AF37; /* Swapped Blue to Gold */
+    border-left: 4px solid var(--secondary-color); /* Swapped Blue to Gold */
 }
 
 .input-wrapper-group { display: flex; flex-direction: column; justify-content: center; height: 100%; }
@@ -233,21 +442,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     cursor: pointer;
 }
 
-/* --- LARGE ADD BUTTON --- */
 .bottom-add-container { margin-top: 20px; display: flex; justify-content: center; }
-.btn-large-add {
-    width: 100%;
-    max-width: 450px;
-    background: #ffffff;
-    border: 2px solid #D4AF37; /* Swapped Blue to Gold Border */
-    color: #1f4e79;
-    padding: 18px;
-    border-radius: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.btn-large-add:hover { background: #1f4e79; color: white; }
 
 .select-icon {
     position: absolute;
@@ -255,7 +450,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     top: 50%;
     transform: translateY(-50%);
     font-size: 0.7rem;
-    color: #1f4e79;
+    color: var(--primary-color);
     pointer-events: none; 
     opacity: 0.6; 
 }
@@ -274,70 +469,6 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     background: #f1f5f9;
     color: #64748b;
     transform: none;
-}
-
-/* --- UNIFIED MOBILE TOP SPACING FIX --- */
-
-/* 1. Desktop Standard (Screen width > 850px) */
-@media (min-width: 851px) {
-    .spending-container, 
-    .calendar-page-container, 
-    .union-page-container,
-    .main-content {
-        margin-top: 100px !important; /* Standard gap for desktop */
-        padding-top: 20px !important;
-    }
-}
-
-/* 2. Mobile Standard (Screen width < 850px) */
-@media (max-width: 850px) {
-    /* Target ALL container types across all pages */
-    .spending-container, 
-    .calendar-page-container, 
-    .union-page-container,
-    .hero-section,
-    .main-content {
-        margin-top: 70px !important;  /* Reduced gap to sit right below mobile menu */
-        padding-top: 15px !important;
-        display: block !important;
-    }
-
-    /* Standardize the Page Titles (h1) */
-    .modern-title, 
-    .navy-title, 
-    h1 {
-        margin-top: 10px !important;
-        margin-bottom: 20px !important;
-        font-size: 1.8rem !important; /* Ensures titles don't wrap awkwardly */
-        text-align: center;
-    }
-
-    /* Specific fix for Index.html hero text */
-    .hero-content {
-        padding-top: 20px !important;
-        margin-top: 0 !important;
-    }
-}
-
-/* --- CONSOLIDATED MOBILE FIXES --- */
-@media (max-width: 850px) {
-    .month-controls-row { flex-direction: column; align-items: stretch; gap: 10px; }
-    .elegant-action-bar { width: 100%; }
-    .btn-elegant { flex: 1; height: 45px; justify-content: center; }
-
-    #spendingGrid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .expense-list-header, .expense-row { min-width: 750px; }
-
-    .grocery-header { display: none !important; }
-    .grocery-row { grid-template-columns: 1fr 1fr; padding: 15px; }
-    .grocery-row .input-wrapper-group:nth-child(1) { grid-column: span 2; }
-    .mobile-only-label { display: block; font-size: 0.65rem; color: #64748b; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
-    .btn-delete-grocery { grid-column: 2; grid-row: 3; justify-self: end; }
-
-    .performance-container { flex-direction: column !important; padding: 20px; }
-    .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
-
-    .btn-large-add { position: sticky; bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #1f4e79; color: white; border: none; }
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -363,32 +494,12 @@ html, body {
     display: none !important;
 }
 
-/* 2. Adjust your existing Mobile Query */
-@media (max-width: 600px) {
-    /* ... existing mobile code ... */
-
-    /* Show the labels only here */
-    #debtsRowsContainer .mobile-only-label {
-        display: block !important;
-        font-size: 0.7rem;
-        font-weight: 800;
-        color: #1f4e79;
-        margin-bottom: 4px;
-        text-transform: uppercase;
-    }
-
-    /* Keep the desktop header hidden on mobile */
-    .debt-header {
-        display: none !important;
-    }
-}
-
 .relationship-notice {
     position: relative;
     /* On augmente le padding-top à 35px pour laisser de la place à la croix */
     padding: 35px 25px 20px 20px; 
     background: #fffcf0; 
-    border-left: 5px solid #d4af37; 
+    border-left: 5px solid var(--secondary-color); 
     border-radius: 15px;
     margin: 25px 0;
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.12);
@@ -405,7 +516,7 @@ html, body {
 }
 
 .relationship-notice strong {
-    color: #1f4e79; /* On garde le bleu navy pour les points clés */
+    color: var(--primary-color); /* On garde le bleu navy pour les points clés */
 }
 
 .close-notice {
@@ -415,7 +526,7 @@ html, body {
     right: 12px;
     font-size: 28px;
     font-weight: bold;
-    color: #d4af37;
+    color: var(--secondary-color);
     cursor: pointer;
     transition: all 0.2s;
     z-index: 10;
@@ -429,18 +540,6 @@ html, body {
 .close-notice:hover {
     color: #ef4444;
     transform: scale(1.2);
-}
-
-/* Ajustement spécifique pour les petits écrans */
-@media (max-width: 600px) {
-    .relationship-notice {
-        padding: 40px 15px 15px 15px; /* Encore plus d'espace en haut sur mobile */
-    }
-    
-    .close-notice {
-        top: 5px;
-        right: 10px;
-    }
 }
 
 /* --- FIX ANALYSE MOBILE --- */
@@ -461,7 +560,7 @@ html, body {
     font-size: 1rem;
     margin-bottom: 15px;
     text-transform: uppercase;
-    color: #1f4e79;
+    color: var(--primary-color);
 }
 
 .chart-card.full-width {
@@ -484,11 +583,11 @@ html, body {
     margin-top: 20px;
     padding: 10px 25px;
     background: #f8fafc;
-    border: 2px solid #1f4e79;
+    border: 2px solid var(--primary-color);
     border-radius: 10px;
     font-weight: 800;
     font-size: 1.2rem;
-    color: #1f4e79;
+    color: var(--primary-color);
 }
 
 /* --- OBJECTIFS STYLING --- */
@@ -504,11 +603,11 @@ html, body {
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    border-left: 5px solid #D4AF37;
+    border-left: 5px solid var(--secondary-color);
 }
 
 .obj-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
-.obj-name { font-weight: 700; color: #1f4e79; font-size: 1.1rem; }
+.obj-name { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; }
 
 .progress-container {
     background: #f1f5f9;
@@ -519,7 +618,7 @@ html, body {
 }
 
 .progress-bar {
-    background: linear-gradient(90deg, #1f4e79, #3b82f6);
+    background: linear-gradient(90deg, var(--primary-color), #3b82f6);
     height: 100%;
     transition: width 0.5s ease;
 }
@@ -612,32 +711,8 @@ html, body {
     margin-top: 10px;
 }
 
-.btn-elegant {
-    padding: 14px 20px; /* Plus haut pour un meilleur clic */
-    font-size: 0.95rem;
-    font-weight: 700;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: none;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.btn-elegant.gray {
-    background: #f1f5f9;
-    color: #64748b;
-}
-
-.btn-elegant.blue {
-    background: #1f4e79;
-    color: white;
-    box-shadow: 0 4px 12px rgba(31, 78, 121, 0.2);
-}
-
-.btn-elegant:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
+.modal-actions .btn-elegant.blue {
+    background-color: var(--primary-color) !important;
 }
 
 .obj-actions-row {
@@ -654,59 +729,67 @@ html, body {
     color: #475569;
 }
 
-.btn-feed {
-    background: #10b981; /* Vert pour l'aspect positif */
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
-}
+/* ========================================================================
+   MEDIA QUERIES (CONSOLIDATED AT THE BOTTOM)
+========================================================================
+*/
 
-.btn-feed:hover {
-    background: #059669;
-    transform: scale(1.05);
-}
-
-.btn-feed:active {
-    transform: scale(0.95);
-}
-
-/* Style pour le bouton supprimer (la petite croix) */
-.btn-delete-obj {
-    background: #fee2e2; /* Fond rouge clair */
-    color: #ef4444;      /* Texte rouge */
-    border: none;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%; /* Cercle parfait */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    line-height: 1;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-delete-obj:hover {
-    background: #ef4444;
-    color: white;
-}
-
-/* Ajustement Mobile pour les boutons */
-@media (max-width: 600px) {
-    .btn-elegant {
-        padding: 12px 15px;
-        font-size: 0.85rem;
+/* 1. Desktop Standard (Screen width > 850px) */
+@media (min-width: 851px) {
+    .spending-container, 
+    .calendar-page-container, 
+    .union-page-container,
+    .main-content {
+        margin-top: 100px !important; /* Standard gap for desktop */
+        padding-top: 20px !important;
     }
 }
 
-/* --- MEDIA QUERY MOBILE (< 850px) --- */
+/* 2. Mobile Standard (Screen width < 850px) */
 @media (max-width: 850px) {
+    /* Target ALL container types across all pages */
+    .spending-container, 
+    .calendar-page-container, 
+    .union-page-container,
+    .hero-section,
+    .main-content {
+        margin-top: 70px !important;  /* Reduced gap to sit right below mobile menu */
+        padding-top: 15px !important;
+        display: block !important;
+    }
+
+    /* Standardize the Page Titles (h1) */
+    .modern-title, 
+    .navy-title, 
+    h1 {
+        margin-top: 10px !important;
+        margin-bottom: 20px !important;
+        font-size: 1.8rem !important; /* Ensures titles don't wrap awkwardly */
+        text-align: center;
+    }
+
+    /* Specific fix for Index.html hero text */
+    .hero-content {
+        padding-top: 20px !important;
+        margin-top: 0 !important;
+    }
+
+    .month-controls-row { flex-direction: column; align-items: stretch; gap: 10px; }
+    .elegant-action-bar { width: 100%; }
+    .btn-elegant { flex: 1; height: 45px; justify-content: center; }
+
+    #spendingGrid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .expense-list-header, .expense-row { min-width: 750px; }
+
+    .grocery-header { display: none !important; }
+    .grocery-row { grid-template-columns: 1fr 1fr; padding: 15px; }
+    .grocery-row .input-wrapper-group:nth-child(1) { grid-column: span 2; }
+    .mobile-only-label { display: block; font-size: 0.65rem; color: #64748b; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
+    .btn-delete-grocery { grid-column: 2; grid-row: 3; justify-self: end; }
+
+    .performance-container { flex-direction: column !important; padding: 20px; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+
     .analysis-grid {
         grid-template-columns: 1fr !important; /* 1 seule colonne sur mobile */
         gap: 15px;
@@ -724,24 +807,40 @@ html, body {
         font-size: 1rem;
         padding: 8px 15px;
     }
+    
+    /* Make the large add button sticky on mobile */
+    .btn-large-add { 
+        position: sticky; 
+        bottom: 20px; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        background: var(--primary-color) !important; 
+        color: white !important; 
+        border: none !important; 
+    }
 }
 
-@media (max-width: 850px) {
-    .analysis-grid { grid-template-columns: 1fr; }
-    .chart-card.full-width { grid-column: span 1; }
-}
-
-/* Mobile adjustment for the notice */
+/* 3. Small Mobile (< 600px) */
 @media (max-width: 600px) {
+    .btn-elegant {
+        padding: 12px 15px;
+        font-size: 0.85rem;
+    }
+
     .relationship-notice {
         padding: 15px;
         font-size: 0.85rem;
         margin: 0 10px 20px 10px;
     }
-}
 
-/* --- DETTES MOBILE CARD FIX --- */
-@media (max-width: 600px) {
+    .relationship-notice {
+        padding: 40px 15px 15px 15px; /* Encore plus d'espace en haut sur mobile */
+    }
+    
+    .close-notice {
+        top: 5px;
+        right: 10px;
+    }
+
     /* 1. Force the Dettes container to stay inside the screen */
     #view-debts, #debtsGrid, #debtsRowsContainer {
         min-width: 0 !important;
@@ -779,8 +878,9 @@ html, body {
         display: block !important;
         font-size: 0.7rem;
         font-weight: 800;
-        color: #1f4e79;
+        color: var(--primary-color);
         margin-bottom: 4px;
+        text-transform: uppercase;
     }
 
     /* 4. STATUS & CHECKBOX ON THE RIGHT */
@@ -803,5 +903,10 @@ html, body {
         border: 1px solid #cbd5e1 !important;
         border-radius: 6px !important;
         padding-left: 10px !important;
+    }
+
+    /* Keep the desktop header hidden on mobile */
+    .debt-header {
+        display: none !important;
     }
 }
