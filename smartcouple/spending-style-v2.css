@@ -17,12 +17,6 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     display: block;
 }
 
-/* --- TAB VISIBILITY LOGIC --- */
-/* This ensures only one section shows at a time */
-#view-dashboard, #view-grocery, #view-debts {
-    display: none;
-}
-
 /* --- DASHBOARD TOP CARDS --- */
 .dashboard-grid {
     display: grid;
@@ -44,6 +38,7 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 .glass-card.yellow { border-top-color: #D4AF37; }
 .glass-card.main-budget { border-top-color: #1f4e79; }
 
+/* --- THE UNIFIED BOX FIX --- */
 .glass-card input, 
 .modern-stat-input input, 
 #jeanTotalDisplay, 
@@ -61,9 +56,10 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     width: 160px !important;      
     height: 50px !important;      
     display: inline-block;
+    vertical-align: middle;
 }
 
-/* --- THE LISTS (Dépenses & Dettes Desktop) --- */
+/* --- THE LISTS (Dépenses & Dettes) --- */
 .expense-list-header, .expense-row {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr 0.6fr 0.6fr 0.4fr;
@@ -81,7 +77,10 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
 }
 
 .expense-row input { border: none !important; background: transparent !important; font-size: 1rem; width: 100%; }
-.row-recurring { background-color: #f1f5f9 !important; border-left: 5px solid #1f4e79 !important; }
+.total-cell { font-weight: bold; color: #1f4e79; }
+
+/* --- ROW STATES --- */
+.row-recurring { background-color: #f1f5f9 !important; border-left: 5px solid #1f4e79 !important; } 
 .row-settled { opacity: 0.5; background: #f8fafc !important; }
 .row-settled input { text-decoration: line-through; }
 
@@ -101,53 +100,187 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     margin-top: 50px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.05);
 }
+
 .chart-wrapper { width: 250px !important; height: 250px !important; }
 
-/* --- NAVIGATION --- */
-.spending-sub-nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-.sub-nav-btn {
-    background: white; border: 1px solid #D4AF37; color: #1f4e79;
-    padding: 10px 20px; font-weight: 700; cursor: pointer; text-transform: uppercase;
+/* --- SECTION SPACING --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 25px;
 }
+
+/* --- CUSTOM GRAPH LEGEND --- */
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1f4e79;
+}
+
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot-depenses { background-color: #D4AF37; }
+.dot-epargne { background-color: #1f4e79; }
+
+/* --- NAVIGATION --- */
+.spending-sub-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.sub-nav-btn {
+    background: white;
+    border: 1px solid #D4AF37;
+    color: #1f4e79;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
 .sub-nav-btn.active { background: #1f4e79; color: white; border-color: #1f4e79; }
 
-/* LOCKED BUTTONS */
-.sub-nav-btn:not(.active):not([onclick]) {
-    opacity: 0.5; background: #f1f5f9; border-color: #cbd5e1; color: #64748b; cursor: not-allowed;
+/* --- ELEGANT CONTROLS --- */
+.month-controls-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-/* --- GROCERY LIST --- */
-.grocery-header, .grocery-row { display: grid; grid-template-columns: 2.5fr 1fr 1fr 0.8fr 50px; gap: 15px; padding: 12px 20px; align-items: center; }
-.grocery-row { background: white; margin-bottom: 10px; border-radius: 12px; border-left: 4px solid #D4AF37; }
-.grocery-row input { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 12px; border-radius: 8px; height: 40px; }
+.elegant-action-bar {
+    display: flex;
+    gap: 8px;
+    height: 40px;
+}
 
-/* --- DEBTS (DETTES) SPECIFIC --- */
+.btn-elegant {
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+}
+.btn-elegant.blue { background-color: #1f4e79; color: white; }
+.btn-elegant.red { background-color: #fef2f2; border: 1px solid #fee2e2; color: #ef4444; }
+.btn-elegant.gray { background-color: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; }
+
+#monthSelector {
+    appearance: none;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 35px 8px 15px;
+    font-weight: 600;
+    color: #1f4e79;
+    cursor: pointer;
+    min-width: 160px;
+}
+
+/* --- GROCERY LIST STYLING --- */
+.grocery-header, .grocery-row {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr 1fr 0.8fr 50px; 
+    gap: 15px;
+    padding: 12px 20px;
+    align-items: center;
+}
+
+.grocery-row {
+    background: white;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border-left: 4px solid #D4AF37;
+}
+
+.input-wrapper-group { display: flex; flex-direction: column; justify-content: center; height: 100%; }
+
+.grocery-row input {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    height: 40px;
+}
+
+.btn-delete-grocery {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* --- LARGE ADD BUTTON --- */
+.bottom-add-container { margin-top: 20px; display: flex; justify-content: center; }
+.btn-large-add {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    border: 2px solid #D4AF37;
+    color: #1f4e79;
+    padding: 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-large-add:hover { background: #1f4e79; color: white; }
+
+/* --- DEBTS SPECIFIC STYLING --- */
+.settlement-summary {
+    background: linear-gradient(to right, #ffffff, #fcfaf2);
+    padding: 30px;
+    text-align: center;
+    border-radius: 20px;
+}
+
 #debtsGrid .expense-list-header, 
 #debtsGrid .expense-row {
-    grid-template-columns: 2fr 1.5fr 1.5fr 1fr 0.4fr !important;
+    grid-template-columns: 2fr 1.5fr 1.5fr 1fr 0.4fr;
 }
 
-.debt-disclaimer {
-    margin-top: 60px; padding: 30px; background-color: #f8fafc; border-radius: 15px; border-left: 4px solid #1f4e79; text-align: center;
+#debtsGrid input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #D4AF37;
+    cursor: pointer;
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
-@media (max-width: 850px) {
-    .spending-container { margin-top: 70px !important; }
-    .performance-container { flex-direction: column !important; padding: 20px; }
-    
-    /* Grocery Mobile Stack */
-    .grocery-header { display: none !important; }
-    .grocery-row { grid-template-columns: 1fr 1fr; padding: 15px; }
-    .grocery-row .input-wrapper-group:nth-child(1) { grid-column: span 2; }
-}
-
+/* --- FINAL DEBT MOBILE STYLING --- */
 @media (max-width: 600px) {
-    /* DEBT CARD FIX */
-    #debtsGrid .expense-list-header, .debt-header-row { display: none !important; }
-    
+    #debtsGrid .expense-list-header, 
+    .debt-header-row {
+        display: none !important;
+    }
+
     #view-debts, #debtsGrid, #debtsRowsContainer {
-        width: 100% !important; overflow-x: hidden !important; display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden !important;
+        display: block !important;
     }
 
     #debtsGrid .expense-row {
@@ -156,26 +289,79 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
         width: calc(100% - 20px) !important;
         margin: 10px auto 20px auto !important;
         padding: 15px !important;
-        border: 1px solid #e2e8f0 !important;
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important; /* Forces the rectangle to close */
         border-radius: 12px;
         box-sizing: border-box !important;
-        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         position: relative;
+        align-items: flex-start !important;
+        overflow: hidden !important; /* Clips infinite overflow */
     }
 
-    .mobile-only-label { display: block !important; font-size: 0.7rem; font-weight: 800; color: #1f4e79; margin-bottom: 4px; text-transform: uppercase; }
-    
+    #debtsGrid .input-wrapper-group {
+        width: 100% !important;
+        margin-bottom: 15px;
+        display: block !important;
+    }
+
+    .mobile-only-label {
+        display: block !important;
+        font-size: 0.75rem;
+        color: #1f4e79;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        text-align: left;
+    }
+
     #debtsGrid input[type="text"], 
     #debtsGrid input[type="number"] {
-        width: 100% !important; border: 1px solid #cbd5e1 !important; padding: 12px !important; border-radius: 8px !important; font-size: 16px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 12px !important;
+        font-size: 16px !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
     }
 
     #debtsGrid .input-wrapper-group[style*="text-align:center"] {
-        background: #f8fafc; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; width: 100%;
+        background: #f8fafc;
+        padding: 12px !important;
+        border-radius: 8px;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
     }
 }
 
-/* Desktop Hide Mobile Labels */
+/* --- DESKTOP VIEW HIDE LABELS --- */
 @media (min-width: 601px) {
-    .mobile-only-label { display: none !important; }
+    .mobile-only-label {
+        display: none !important;
+    }
 }
+
+/* --- RESPONSIVE LAYOUTS --- */
+@media (max-width: 850px) {
+    .spending-container { margin-top: 70px !important; padding-top: 15px !important; }
+    
+    .month-controls-row { flex-direction: column; align-items: stretch; gap: 10px; }
+    .elegant-action-bar { width: 100%; }
+    .btn-elegant { flex: 1; height: 45px; justify-content: center; }
+
+    /* Fix for Dépenses horizontal scroll */
+    #spendingGrid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    #spendingGrid .expense-list-header, 
+    #spendingGrid .expense-row { min-width: 750px; }
+
+    .grocery-header { display: none !important; }
+    .grocery-row { grid-template-columns: 1fr 1fr; padding: 15px; }
+    .grocery-row .input-wrapper-group:nth-child(1) { grid-column: span 2; }
+    
+    .performance-container { flex-direction: column !important; padding: 20px; }
+    .btn-large-add { position: sticky; bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #1f4e79; color: white; border: none; }
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
