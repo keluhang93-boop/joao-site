@@ -328,29 +328,72 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     font-style: normal;
 }
 
-/* --- MOBILE FIX FOR DEBTS GRID --- */
-@media (max-width: 850px) {
+/* --- MOBILE CARDS FOR DEBTS --- */
+@media (max-width: 600px) {
+    /* 1. Hide the table header completely on mobile */
     #debtsGrid .expense-list-header {
-        display: none !important; /* Hide headers on mobile */
+        display: none !important;
     }
 
+    /* 2. Turn the row into a 'Rectangle' (Card) */
     #debtsGrid .expense-row {
-        grid-template-columns: 1fr 1fr !important; /* Two columns on mobile */
-        gap: 10px;
+        display: flex !important;
+        flex-direction: column !important;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
         padding: 15px;
+        margin-bottom: 20px; /* Space between months */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        position: relative;
     }
 
-    #debtsGrid .expense-row .input-wrapper-group:nth-child(1) {
-        grid-column: span 2; /* Month description takes full width */
+    /* 3. Style the labels inside the card */
+    #debtsGrid .mobile-only-label {
+        display: block !important; /* Show them only here */
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #1f4e79;
+        font-weight: bold;
+        margin-bottom: 4px;
+        margin-top: 10px;
     }
-    
+
+    /* 4. Make inputs look good inside the card */
     #debtsGrid .expense-row input[type="text"],
     #debtsGrid .expense-row input[type="number"] {
-        background: #f8fafc !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 8px;
-        padding: 8px !important;
         width: 100% !important;
+        padding: 10px !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 6px !important;
+        font-size: 1rem !important;
+    }
+
+    /* 5. Center the checkbox section */
+    #debtsGrid .input-wrapper-group[style*="text-align:center"] {
+        background: #f1f5f9;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 15px;
+    }
+
+    /* 6. Move the delete (X) button to the top right of the card */
+    #debtsGrid .btn-delete-hover {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #fee2e2;
+        color: #dc2626;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* --- DESKTOP VIEW HIDE LABELS --- */
+@media (min-width: 601px) {
+    .mobile-only-label {
+        display: none !important;
     }
 }
 
