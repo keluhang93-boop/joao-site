@@ -328,6 +328,32 @@ input, button, span, div { font-family: 'Lato', sans-serif; }
     font-style: normal;
 }
 
+/* --- MOBILE FIX FOR DEBTS GRID --- */
+@media (max-width: 850px) {
+    #debtsGrid .expense-list-header {
+        display: none !important; /* Hide headers on mobile */
+    }
+
+    #debtsGrid .expense-row {
+        grid-template-columns: 1fr 1fr !important; /* Two columns on mobile */
+        gap: 10px;
+        padding: 15px;
+    }
+
+    #debtsGrid .expense-row .input-wrapper-group:nth-child(1) {
+        grid-column: span 2; /* Month description takes full width */
+    }
+    
+    #debtsGrid .expense-row input[type="text"],
+    #debtsGrid .expense-row input[type="number"] {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px;
+        padding: 8px !important;
+        width: 100% !important;
+    }
+}
+
 /* 1. Desktop Standard (Screen width > 850px) */
 @media (min-width: 851px) {
     .spending-container, 
