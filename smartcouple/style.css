@@ -179,6 +179,197 @@ body {
     text-align: center;           /* Center it to match the Hero style */
 }
 
+.spending-sub-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.sub-nav-btn {
+    background: white;
+    border: 1px solid #D4AF37;
+    color: #1f4e79;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.sub-nav-btn.active { 
+    background: #1f4e79 !important; 
+    border-color: #1f4e79 !important; 
+    color: white !important;
+}
+
+
+/* --- PRETTY MODAL STYLING --- */
+#modal {
+    display: none;
+    position: fixed;
+    z-index: 20000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(31, 78, 121, 0.4); /* Navy overlay */
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    border-top: 5px solid #D4AF37; /* Gold accent */
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+#modalTitle {
+    font-family: 'Playfair Display', serif;
+    color: #1f4e79;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Stylish Inputs & Select */
+.modal-content input, 
+.modal-content textarea, 
+.modal-content select {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-family: 'Lato', sans-serif;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.modal-content input:focus, 
+.modal-content select:focus {
+    outline: none;
+    border-color: #D4AF37;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Pretty Buttons */
+.btn-save-event {
+    width: 100%;
+    background: #1f4e79;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 10px;
+}
+
+.btn-save-event:hover { background: #2c6aa3; }
+
+.btn-cancel {
+    width: 100%;
+    background: transparent;
+    color: #94a3b8;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: underline;
+}
+
+.home-weekly-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    padding: 20px;
+    background: #fff;
+}
+
+.home-day-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid #f0f0f0;
+    min-height: 180px;
+    padding: 5px;
+}
+
+.home-day-col:last-child { border-right: none; }
+
+.home-date-circle {
+    width: 32px;
+    height: 32px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #1f4e79;
+    margin: 5px 0;
+}
+
+.home-event-block {
+    width: 100%;
+    margin-top: 4px;
+    padding: 6px;
+    border-radius: 6px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    line-height: 1.1;
+}
+
+.home-weekly-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    padding: 15px;
+}
+.home-day-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid #f0f0f0;
+    min-height: 150px;
+}
+.home-day-col:last-child { border-right: none; }
+.home-event-block {
+    width: 100%;
+    margin-top: 4px;
+    padding: 5px;
+    border-radius: 4px;
+    color: white;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.btn-locked {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    filter: grayscale(1);
+}
+
+.btn-locked:hover {
+    background: transparent !important;
+    color: inherit !important;
+}
+
 /* Adjust for mobile so it doesn't break */
 @media (max-width: 768px) {
     .modern-title, 
