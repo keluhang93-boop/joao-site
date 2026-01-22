@@ -47,55 +47,87 @@
 <div class="container calendar-page-container">
     <h1 class="modern-title">Calendrier 2026</h1>
 
+<nav class="spending-sub-nav">
+    <button class="sub-nav-btn active" onclick="switchPlanningTab('ACCUEIL', this)">ACCUEIL</button>
+    
+    <button class="sub-nav-btn" onclick="switchPlanningTab('ALL', this)">CALENDRIER</button>
+    
+    <button class="sub-nav-btn" onclick="switchPlanningTab('TO-DO', this)">À-FAIRE</button>
+    <button class="sub-nav-btn" onclick="switchPlanningTab('PARTNER-TIME', this)">MOMENTS ENSEMBLE</button>
+    <button class="sub-nav-btn" onclick="switchPlanningTab('SPECIAL-DAYS', this)">JOURS IMPORTANTS</button>
+	<button class="sub-nav-btn btn-locked" onclick="alert('Cette section sera bientôt disponible !')">PARAMÈTRES</button>
+</nav>
+
     <div class="actions">
-        <button onclick="openModal()" class="btn-add-event">
-            + Ajouter un nouvel événement
+        <button id="dynamicAddBtn" onclick="openModalWithCategory()" class="btn-add-event">
+            + Ajouter un événement
         </button>
         <button id="viewToggle" onclick="toggleView()" class="btn-toggle-view">
             Voir par Semaine
         </button>
     </div>
 
-    <div id="modal">
-        <div class="modal-content">
-            <h3 id="modalTitle">Nouvel Événement</h3>
-            <input type="hidden" id="editIndex" value="-1">
-            <label style="font-size: 0.8rem;">Catégorie :</label>
-            <select id="eventCategory">
-                <option value="DEFAULT">Par défaut (Violet)</option>
-                <option value="ENSEMBLE">MOMENTS ENSEMBLE (Jaune)</option>
-                <option value="IMPORTANT">IMPORTANT (Rouge)</option>
-                <option value="FAMILLE">FAMILLE (Vert)</option>
-            </select>
-            <label style="font-size: 0.8rem;">Date (JJ/MM/AAAA) :</label>
-            <input type="text" id="eventFullDate" placeholder="31/12/2026" maxlength="10">
-            <input type="text" id="eventTitle" placeholder="Titre">
-            <textarea id="eventDesc" placeholder="Description"></textarea>
-            <button onclick="saveEvent()" class="btn-save-event">Enregistrer</button>
-            <button onclick="closeModal()" class="btn-cancel">Annuler</button>
-        </div>
+<div id="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle">Nouvel Événement</h3>
+        <input type="hidden" id="editIndex" value="-1">
+        
+        <label style="font-size: 0.7rem; font-weight: bold; color: #1f4e79; text-transform: uppercase;">Catégorie</label>
+        <select id="eventCategory">
+            <option value="TO-DO">À-FAIRE</option>
+            <option value="PARTNER-TIME">MOMENTS ENSEMBLE</option>
+            <option value="SPECIAL-DAYS">JOURS IMPORTANTS</option>
+            <option value="DEFAULT">AUTRE</option>
+        </select>
+        
+        <label style="font-size: 0.7rem; font-weight: bold; color: #1f4e79; text-transform: uppercase;">Date</label>
+        <input type="text" id="eventFullDate" placeholder="JJ/MM/AAAA" maxlength="10">
+        
+        <label style="font-size: 0.7rem; font-weight: bold; color: #1f4e79; text-transform: uppercase;">Titre</label>
+        <input type="text" id="eventTitle" placeholder="Ex: Dîner aux chandelles">
+        
+        <label style="font-size: 0.7rem; font-weight: bold; color: #1f4e79; text-transform: uppercase;">Description</label>
+        <textarea id="eventDesc" rows="3" placeholder="Détails de l'événement..."></textarea>
+        
+        <button onclick="saveEvent()" class="btn-save-event">Enregistrer</button>
+        <button onclick="closeModal()" class="btn-cancel">Annuler</button>
     </div>
+</div>
 
-    <div class="calendar-card" id="monthlyViewCard">
-        <div class="calendar-header">
-            <button onclick="changeMonth(-1)" class="nav-arrow">❮</button>
-            <h2 id="monthTitle">Janvier 2026</h2>
-            <button onclick="changeMonth(1)" class="nav-arrow">❯</button>
+    <div id="calendarContainer">
+        <div class="calendar-card" id="monthlyViewCard">
+            <div class="calendar-header">
+                <button onclick="changeMonth(-1)" class="nav-arrow">❮</button>
+                <h2 id="monthTitle">Janvier 2026</h2>
+                <button onclick="changeMonth(1)" class="nav-arrow">❯</button>
+            </div>
+            <div class="calendar-overflow-wrapper">
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
         </div>
-        <div class="calendar-overflow-wrapper">
-            <div class="calendar-grid" id="calendarGrid"></div>
-        </div>
-    </div>
 
-    <div class="calendar-card" id="weeklyViewCard" style="display: none;">
-        <div class="calendar-header">
-            <button onclick="changeWeek(-1)" class="nav-arrow">❮</button>
-            <h2 id="weekTitle">Semaine</h2>
-            <button onclick="changeWeek(1)" class="nav-arrow">❯</button>
+        <div class="calendar-card" id="weeklyViewCard" style="display: none;">
+            <div class="calendar-header">
+                <button onclick="changeWeek(-1)" class="nav-arrow">❮</button>
+                <h2 id="weekTitle">Semaine</h2>
+                <button onclick="changeWeek(1)" class="nav-arrow">❯</button>
+            </div>
+            <div class="calendar-overflow-wrapper">
+                <div class="calendar-grid" id="weeklyGrid"></div>
+            </div>
         </div>
-        <div class="calendar-overflow-wrapper">
-            <div class="calendar-grid" id="weeklyGrid"></div>
-        </div>
+		
+		<div class="calendar-card" id="homeWeeklyViewCard" style="display: none;">
+			<div class="calendar-header">
+				<button onclick="changeHomeWeek(-1)" class="nav-arrow">❮</button>
+				<h2 id="homeWeekTitle">Ma Semaine</h2>
+				<button onclick="changeHomeWeek(1)" class="nav-arrow">❯</button>
+			</div>
+			<div class="calendar-overflow-wrapper">
+				<div class="home-weekly-grid" id="homeWeeklyGrid"></div>
+			</div>
+		</div>
+		
     </div>
 
     <div class="timeline" id="timelineList"></div>
