@@ -48,14 +48,23 @@
             margin-bottom: 50px;
         }
 
+        /* UPDATED GRID */
         .version-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr; /* Keep the 2-column layout */
             gap: 30px;
+            justify-items: center;
+        }
+
+        /* This makes the 3rd item (Mobile) sit in the middle of the second row */
+        .version-grid a:nth-child(3) {
+            grid-column: 1 / span 2;
+            max-width: 400px; /* Limits width so it doesn't stretch too wide */
         }
 
         @media (max-width: 600px) {
             .version-grid { grid-template-columns: 1fr; }
+            .version-grid a:nth-child(3) { grid-column: auto; }
         }
 
         .version-card {
@@ -70,6 +79,8 @@
             flex-direction: column;
             align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .version-card:hover {
@@ -140,6 +151,13 @@
                 <div class="version-title">La Nouvelle Ère</div>
                 <p class="version-desc">Une application moderne, plus rapide et intelligente pour une gestion de couple optimisée.</p>
                 <div class="btn-select">Découvrir V3</div>
+            </a>
+
+            <a href="https://smartcouple.joaocarlos.org" class="version-card">
+                <span class="version-number">MOBILE APP</span>
+                <div class="version-title">Version Smartphone</div>
+                <p class="version-desc">L'expérience optimisée pour mobile, développée avec TypeScript pour plus de fluidité.</p>
+                <div class="btn-select">Ouvrir l'App</div>
             </a>
         </div>
 
